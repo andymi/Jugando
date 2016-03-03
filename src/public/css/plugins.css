@@ -474,3 +474,12 @@ html[xmlns] .slides {display: block;}
 	font-weight:700;
 	color:#43b9b8;
 }
+.centerdiv{
+	padding: 1em 3em;
+ 	margin: 1em 27%;
+ 	position: relative;
+ 	right: 90px;
+}
+h1{
+	text-align: right;
+}
