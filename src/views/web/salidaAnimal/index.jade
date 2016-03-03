@@ -1,0 +1,23 @@
+extends ../../layout 
+block content
+  br
+  br
+  div(class="container-fluid")
+    form(action='/web/salidaAnimal/add' method="POST")
+      div(class="form-group") 
+        label(for="fechaSalida")  Fecha de la Salida
+        input(type="text" class="form-control" id="fechaSalida" name='fechaSalida' value='salidaAnimal.fechaSalida' placeholder="Ingrese el RP")
+
+      div(class="form-group") 
+        label(for="horaSalida") Hora de la Salida 
+        input(type="text" class="form-control" id="horaSalida" name='horaSalida' value='salidaAnimal.horaSalida' placeholder="Ingrese la Raza")
+
+      div(class="form-group") 
+        label(for="cantidadSalida") Cantidad de Animales Sacados 
+        input(type="text"  class="form-control" id="cantidadSalida" name='cantidadSalida' value='salidaAnimal.cantidadSalida' placeholder="Ingrese el Peso") 
+
+      div(class="form-group") 
+        label(for="observacion")   Observacion
+        input(type="text"  class="form-control" id="observacion" name='observacion' value='salidaAnimal.observacion' placeholder="Ingrese el Cuerno")
+
+      button(type="submit" value="submit") Agregar Salida Animal

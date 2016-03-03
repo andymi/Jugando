@@ -1,0 +1,45 @@
+form(id="topicForm" method="post" action="/web/ingresoCorral/#{ingresoCorral.idIngresoCorral}")
+  input(type="hidden" name="_method" value="put")
+  input(type="hidden" name="idIngresoCorral" value='#{ingresoCorral.idIngresoCorral}')
+  table(class="table table-bordred table-striped")
+    thead
+      tr
+        th(class="cell-stat text-center") idIngresoCorral
+        th(class="cell-stat text-center") fechaIngreso
+        th(class="cell-stat text-center") horaIngreso
+        th(class="cell-stat text-center") observacionIngreso
+        th(class="cell-stat text-center") idEmpleado
+        th(class="cell-stat text-center") nombreEmpleado
+        th(class="cell-stat text-center") fechaCreacion
+        th(class="cell-stat text-center") fechaModificacion
+        th(class="cell-stat text-center") fechaBorrado
+        th(class="cell-stat text-center") Accion
+        th(class="cell-stat text-center") Accion
+    tbody
+        tr
+          td(class="text-center")=ingresoCorral.idIngresoCorral
+          
+          td(class="text-center")
+            input(type="text" class="form-control" id='fechaIngreso' name='fechaIngreso' value='#{ingresoCorral.fechaIngreso}' required="true")
+
+          td(class="text-center")
+            input(type="text" class="form-control" id='horaIngreso' name='horaIngreso' value='#{ingresoCorral.horaIngreso}' required="true")
+
+          td(class="text-center")
+            input(type="text" class="form-control" id='observacionIngreso' name='observacionIngreso' value='#{ingresoCorral.observacionIngreso}' required="true")
+
+          td(class="text-center")
+            select(name="empleadoSele")
+              -for (var j=0; j < select.length; j++) {
+                if ingresoCorral.EmpleadoIdEmpleado == select[j].idEmpleado
+                 option(value="#{select[j].idEmpleado}" selected) #{select[j].nombreEmpleado} 
+                else 
+                 option(value="#{select[j].idEmpleado}") #{select[j].nombreEmpleado}
+              -}
+          td(class="text-center")=ingresoCorral.fechaCreacion
+          td(class="text-center")=ingresoCorral.fechaModificacion
+          td(class="text-center")=ingresoCorral.fechaBorrado
+          td
+            button(type="submit" name="commit" value="Form" class="btn btn-success btn-block") Editar Ingreso Corral
+
+      

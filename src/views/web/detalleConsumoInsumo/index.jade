@@ -1,0 +1,16 @@
+form(action='/web/detalleConsumoInsumo/cargar' method="POST")
+  for consumos in consumoJ
+    input(type="hidden" name='id' value='#{consumos.idDetalleConsumo}')
+  div(class="form-group")
+    label(for="cantidad") Cantidad Insumo
+    input(type="text" class="form-control" id="cantidad" name='cantidad' value='detalleConsumoInsumo.cantidad' placeholder="Ingrese la cantidad")  
+  div(class="form-group")
+    label(class="control-label col-sm-2" for="email") Nombre Insumo: 
+    div(class="col-sm-10")  
+      select(name='selectJ')
+        option(value="-1" selected) Seleccione Insumo
+        -for(var j=0; j < selectJ.length; j++) {
+          option(value="#{selectJ[j].idInsumo}") #{selectJ[j].nombreInsumo}
+        -}  	       
+  
+  button(type="submit" value="submit") Agregar Detalle Consumo Insumo

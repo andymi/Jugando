@@ -1,0 +1,39 @@
+table(class="table table-bordred table-striped")
+  thead
+    tr
+      th(class="cell-stat text-center") idRaza
+      th(class="cell-stat text-center") raza 
+      th(class="cell-stat text-center") fechaCreacion
+      th(class="cell-stat text-center") fechaModificacion
+      th(class="cell-stat text-center") fechaBorrado
+      th(class="cell-stat text-center") Accion
+      th(class="cell-stat text-center") Accion
+  
+  tbody
+    for raza in razas
+      tr
+        td(class="text-center")=raza.idRaza
+        td(class="text-center")=raza.raza
+        td(class="text-center")=raza.fechaCreacion 
+        td(class="text-center")=raza.fechaModificacion
+        td(class="text-center")=raza.fechaBorrado 
+        td
+          a(href="/web/raza/#{raza.idRaza}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Editar Raza 
+              
+        form(id="topicForm" method="post" action="/web/raza/#{raza.idRaza}")
+          input(type="hidden" name="_method" value="delete")
+          input(type="hidden" name="idRaza" value='#{raza.idRaza}')               
+          td
+            a(href="/web/raza/#{raza.idRaza}" class="btn btn-info" role="button")
+              p(data-placement="top" data-toggle="tooltip" title="Delete")
+                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Raza
+
+
+a(href="/web/raza/cargar" class="btn btn-info" role="button")
+  p(data-placement="top" data-toggle="tooltip" title="Add")
+    button(type="button" class="btn btn-info") Agregar Raza
+
+
+          

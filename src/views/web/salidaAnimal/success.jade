@@ -1,0 +1,54 @@
+table(class="table table-bordred table-striped")
+  thead
+    tr
+      th(class="cell-stat text-center") idSalidaAnimal
+      th(class="cell-stat text-center") fechaSalida
+      th(class="cell-stat text-center") horaSalida
+      th(class="cell-stat text-center") cantidadSalida
+      th(class="cell-stat text-center") observacion 
+      th(class="cell-stat text-center") fechaCreacion
+      th(class="cell-stat text-center") fechaModificacion
+      th(class="cell-stat text-center") fechaBorrado
+      th(class="cell-stat text-center") Accion
+      th(class="cell-stat text-center") Accion
+  
+  tbody
+    for salidaAnimal in salidaAnimales
+      tr
+        td(class="text-center")=salidaAnimal.idSalidaAnimal        
+        td(class="text-center")=salidaAnimal.fechaSalida
+        td(class="text-center")=salidaAnimal.horaSalida
+        td(class="text-center")=salidaAnimal.cantidadSalida 
+        td(class="text-center")=salidaAnimal.observacion
+        td(class="text-center")=salidaAnimal.fechaCreacion 
+        td(class="text-center")=salidaAnimal.fechaModificacion
+        td(class="text-center")=salidaAnimal.fechaBorrado 
+        td          
+          a(href="/web/detalleSalidaAnimal/add/#{salidaAnimal.idSalidaAnimal}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Add")
+              button(type="button" class="btn btn-info") Agregar Detalle Salida
+
+        td
+          a(href="/web/detalleSalidaAnimal/#{salidaAnimal.idSalidaAnimal}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="View")
+              button(type="button" class="btn btn-info") Ver Detalle
+        td
+          a(href="/web/salidaAnimal/#{salidaAnimal.idSalidaAnimal}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Editar Salida Animal 
+              
+        form(id="topicForm" method="post" action="/web/salidaAnimal/#{salidaAnimal.idSalidaAnimal}")
+          input(type="hidden" name="_method" value="delete")
+          input(type="hidden" name="idSalidaAnimal" value='#{salidaAnimal.idSalidaAnimal}')               
+          td
+            a(href="/web/salidaAnimal/#{salidaAnimal.idSalidaAnimal}" class="btn btn-info" role="button")
+              p(data-placement="top" data-toggle="tooltip" title="Delete")
+                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Salida Animal
+
+
+a(href="/web/salidaAnimal/cargar" class="btn btn-info" role="button")
+  p(data-placement="top" data-toggle="tooltip" title="Add")
+    button(type="button" class="btn btn-info") Agregar Salida Animal
+
+
+          

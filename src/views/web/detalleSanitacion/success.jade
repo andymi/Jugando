@@ -1,0 +1,48 @@
+table(class="table table-bordred table-striped")
+  thead
+    tr
+      th(class="cell-stat text-center") idDetalleSanitacion
+      th(class="cell-stat text-center") observacionSanitacion          
+      th(class="cell-stat text-center") idAnimal
+      th(class="cell-stat text-center") rpAnimal
+      th(class="cell-stat text-center") fechaCreacion
+      th(class="cell-stat text-center") fechaModificacion
+      th(class="cell-stat text-center") fechaBorrado
+      th(class="cell-stat text-center") Accion
+      th(class="cell-stat text-center") Accion
+  
+  tbody
+    for detalleSanitacion in detalleSanitaciones
+      tr
+        td(class="text-center")=detalleSanitacion.idDetalleSanitacion
+        td(class="text-center")=detalleSanitacion.observacionSanitacion     
+        td(class="text-center")=detalleSanitacion.Animal.idAnimal
+        if detalleSanitacion.Animal == null  
+          td(class="text-center") sin Animal
+        else 
+          td(class="text-center")=detalleSanitacion.Animal.rpAnimal        
+        td(class="text-center")=detalleSanitacion.fechaCreacion 
+        td(class="text-center")=detalleSanitacion.fechaModificacion
+        td(class="text-center")=detalleSanitacion.fechaBorrado 
+        td
+          a(href="/web/detalleSanitacionInsumo/add/#{detalleSanitacion.idDetalleSanitacion}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Add")
+              button(type="button" class="btn btn-info") Agregar Detalle Sanitacion Insumo 
+        td
+          a(href="/web/detalleSanitacionInsumo/insumo/#{detalleSanitacion.idDetalleSanitacion}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Ver Detalle Insumo
+        td
+          a(href="/web/detalleSanitacion/editar/#{detalleSanitacion.idDetalleSanitacion}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Editar Detalle Sanitacion 
+              
+        form(id="topicForm" method="post" action="/web/detalleSanitacion/#{detalleSanitacion.idDetalleSanitacion}")
+          input(type="hidden" name="_method" value="delete")
+          input(type="hidden" name="idSanitacion" value='#{detalleSanitacion.idDetalleSanitacion}')               
+          td
+            a(href="/web/detalleSanitacion/#{detalleSanitacion.idDetalleSanitacion}" class="btn btn-info" role="button")
+              p(data-placement="top" data-toggle="tooltip" title="Delete")
+                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Detalle Sanitacion
+
+

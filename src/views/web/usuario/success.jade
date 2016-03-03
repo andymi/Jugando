@@ -1,0 +1,53 @@
+table(class="table table-bordred table-striped")
+  thead
+    tr
+      th(class="cell-stat text-center") idUsuario
+      th(class="cell-stat text-center") usuario
+      th(class="cell-stat text-center") pass      
+      th(class="cell-stat text-center") nivel
+
+      th(class="cell-stat text-center") nombreEmpleado
+      th(class="cell-stat text-center") fechaCreacion
+      th(class="cell-stat text-center") fechaModificacion
+      th(class="cell-stat text-center") fechaBorrado
+      th(class="cell-stat text-center") Accion
+      th(class="cell-stat text-center") Accion
+  
+  tbody
+    for usuario in usuarios
+      tr
+        td(class="text-center")=usuario.idUsuario
+        td(class="text-center")=usuario.usuario
+        td(class="text-center")=usuario.pass
+        if usuario.Nivel == null  
+          td(class="text-center") sin usuario
+        else 
+          td(class="text-center")=usuario.Nivel.nivel
+
+        if usuario.Empleado == null  
+          td(class="text-center") sin usuario
+        else 
+          td(class="text-center")=usuario.Empleado.nombreEmpleado
+        td(class="text-center")=usuario.fechaCreacion 
+        td(class="text-center")=usuario.fechaModificacion
+        td(class="text-center")=usuario.fechaBorrado 
+        td
+          a(href="/web/usuario/#{usuario.idUsuario}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Editar Usuario 
+              
+        form(id="topicForm" method="post" action="/web/usuario/#{usuario.idUsuario}")
+          input(type="hidden" name="_method" value="delete")
+          input(type="hidden" name="idUsuario" value='#{usuario.idUsuario}')               
+          td
+            a(href="/web/usuario/#{usuario.idUsuario}" class="btn btn-info" role="button")
+              p(data-placement="top" data-toggle="tooltip" title="Delete")
+                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Usuario
+
+
+a(href="/web/usuario/cargar" class="btn btn-info" role="button")
+  p(data-placement="top" data-toggle="tooltip" title="Add")
+    button(type="button" class="btn btn-info") Agregar Usuario
+
+
+          

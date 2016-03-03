@@ -1,0 +1,47 @@
+form(id="topicForm" method="post" action="/web/extraviado/#{extraviado.idExtraviado}")
+  input(type="hidden" name="_method" value="put")
+  input(type="hidden" name="idExtraviado" value='#{extraviado.idExtraviado}')
+  table(class="table table-bordred table-striped")
+    thead
+      tr
+        th(class="cell-stat text-center") idExtraviado
+        th(class="cell-stat text-center") fechaExtraviado
+        th(class="cell-stat text-center") horaExtraviado
+        th(class="cell-stat text-center") lugarExtraviado
+        th(class="cell-stat text-center") idEmpleado
+        th(class="cell-stat text-center") nombreEmpleado
+        th(class="cell-stat text-center") fechaCreacion
+        th(class="cell-stat text-center") fechaModificacion
+        th(class="cell-stat text-center") fechaBorrado
+        th(class="cell-stat text-center") Accion
+        th(class="cell-stat text-center") Accion
+    tbody
+        tr
+          td(class="text-center")=extraviado.idExtraviado
+          
+          td(class="text-center")
+            //label(for="fechaExtraviado" class="control-label") Fecha Extraviado
+            input(type="text" class="form-control" id='fechaExtraviado' name='fechaExtraviado' value='#{extraviado.fechaExtraviado}' required="true")
+          
+          td(class="text-center")
+            //label(for="horaExtraviado" class="control-label") Hora Extraviado
+            input(type="text" class="form-control" id="horaExtraviado" name='horaExtraviado' value='#{extraviado.horaExtraviado}' required="true")
+
+          td(class="text-center")
+            //label(for="lugarExtraviado" class="control-label") Lugar Extraviado
+            input(type="text" class="form-control" id='lugarExtraviado' name='lugarExtraviado' value='#{extraviado.lugarExtraviado}' required="true")
+
+          td(class="text-center")
+            select(name="empleadoSele")
+              -for (var j=0; j < select.length; j++) {
+                if extraviado.EmpleadoIdEmpleado == select[j].idEmpleado 
+                 option(value="#{select[j].idEmpleado}" selected) #{select[j].nombreEmpleado} 
+                else 
+                 option(value="#{select[j].idEmpleado}") #{select[j].nombreEmpleado}
+              -}
+
+          td(class="text-center")=extraviado.fechaCreacion
+          td(class="text-center")=extraviado.fechaModificacion
+          td(class="text-center")=extraviado.fechaBorrado
+          td
+            button(type="submit" name="commit" value="Form" class="btn btn-success btn-block") Editar Extraviado 

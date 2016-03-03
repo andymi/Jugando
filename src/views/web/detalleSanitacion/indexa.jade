@@ -1,0 +1,17 @@
+form(action='/web/detalleSanitacion/add' method="POST")
+  input(type="hidden" name='id' value='#{sanitacionJ}')
+  div(class="form-group")
+    label(for="observacionSanitacion") Observacion
+    input(type="text"  class="form-control" id="observacionSanitacion" name='observacionSanitacion' value='detalleSanitacionJ.observacionSanitacion' placeholder="Ingrese la Observacion") 
+    //detalle del pesaje
+  div(class="form-group")
+    label(class="control-label col-sm-2" for="email") Rp Animal: 
+    div(class="col-sm-10")  
+      select(name='selectJ')
+        option(value="-1" selected) Seleccione Rp
+        -for(var j=0; j < selectJ.length; j++) {
+          option(value="#{selectJ[j].idAnimal}") #{selectJ[j].rpAnimal}
+        -}  	       
+  
+  button(type="submit" value="submit") Agregar Detalle Sanitacion
+

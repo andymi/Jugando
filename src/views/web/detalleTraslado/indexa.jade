@@ -1,0 +1,17 @@
+form(action='/web/detalleTraslado/add' method="POST")
+  input(type="hidden" name='id' value='#{trasladoJ}')
+  div(class="form-group")
+    label(for="descripcion") Descripcion
+    input(type="text"  class="form-control" id="descripcion" name='descripcion' value='detalleTrasladoJ.descripcion' placeholder="Ingrese la Descripcion") 
+    //detalle del pesaje
+  div(class="form-group")
+    label(class="control-label col-sm-2" for="email") Rp Animal: 
+    div(class="col-sm-10")  
+      select(name='selectJ')
+        option(value="-1" selected) Seleccione Rp
+        -for(var j=0; j < selectJ.length; j++) {
+          option(value="#{selectJ[j].idAnimal}") #{selectJ[j].rpAnimal}
+        -}  	       
+  
+  button(type="submit" value="submit") Agregar Detalle Traslado
+

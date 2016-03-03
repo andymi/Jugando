@@ -1,0 +1,43 @@
+table(class="table table-bordred table-striped")
+  thead
+    tr
+      th(class="cell-stat text-center") idDetallePesaje
+      th(class="cell-stat text-center") peso
+      th(class="cell-stat text-center") observacion           
+      th(class="cell-stat text-center") idAnimal
+      th(class="cell-stat text-center") rpAnimal
+      th(class="cell-stat text-center") fechaCreacion
+      th(class="cell-stat text-center") fechaModificacion
+      th(class="cell-stat text-center") fechaBorrado
+      th(class="cell-stat text-center") Accion
+      th(class="cell-stat text-center") Accion
+  
+  tbody
+    for detallePesaje in detallePesajes
+      tr
+        td(class="text-center")=detallePesaje.idDetallePesaje
+        td(class="text-center")=detallePesaje.peso
+        td(class="text-center")=detallePesaje.observacion       
+        td(class="text-center")=detallePesaje.Animal.idAnimal
+        if detallePesaje.Animal == null  
+          td(class="text-center") sin Animal
+        else 
+          td(class="text-center")=detallePesaje.Animal.rpAnimal        
+        td(class="text-center")=detallePesaje.fechaCreacion 
+        td(class="text-center")=detallePesaje.fechaModificacion
+        td(class="text-center")=detallePesaje.fechaBorrado 
+       
+        td
+          a(href="/web/detallePesaje/editar/#{detallePesaje.idDetallePesaje}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Editar Detalle Pesaje 
+              
+        form(id="topicForm" method="post" action="/web/detallePesaje/#{detallePesaje.idDetallePesaje}")
+          input(type="hidden" name="_method" value="delete")
+          input(type="hidden" name="idPesaje" value='#{detallePesaje.idDetallePesaje}')               
+          td
+            a(href="/web/detallePesaje/#{detallePesaje.idDetallePesaje}" class="btn btn-info" role="button")
+              p(data-placement="top" data-toggle="tooltip" title="Delete")
+                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Detalle Pesaje
+
+         

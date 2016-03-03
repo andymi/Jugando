@@ -1,0 +1,38 @@
+form(id="topicForm" method="post" action="/web/ciudad/#{ciudad.idCiudad}")
+  input(type="hidden" name="_method" value="put")
+  input(type="hidden" name="idCiudad" value='#{ciudad.idCiudad}')
+  table(class="table table-bordred table-striped")
+    thead
+      tr
+        th(class="cell-stat text-center") idCiudad
+        th(class="cell-stat text-center") ciudad 
+        th(class="cell-stat text-center") idDepartamento
+        th(class="cell-stat text-center") departamento
+        th(class="cell-stat text-center") fechaCreacion
+        th(class="cell-stat text-center") fechaModificacion
+        th(class="cell-stat text-center") fechaBorrado
+        th(class="cell-stat text-center") Accion
+        th(class="cell-stat text-center") Accion
+    tbody
+        tr
+          td(class="text-center")=ciudad.idCiudad
+          
+          td(class="text-center")
+            input(type="text" class="form-control" id='ciudad' name='ciudad' value='#{ciudad.ciudad}' required="true")
+
+          td(class="text-center")
+            select(name="departamentoSele")
+              -for (var j=0; j < select.length; j++) {
+                if ciudad.DepartamentoIdDepartamento == select[j].idDepartamento 
+                 option(value="#{select[j].idDepartamento}" selected) #{select[j].departamento} 
+                else 
+                 option(value="#{select[j].idDepartamento}") #{select[j].departamento}
+              -}
+          td(class="text-center")=ciudad.fechaCreacion
+          td(class="text-center")=ciudad.fechaModificacion
+          td(class="text-center")=ciudad.fechaBorrado
+          td
+            button(type="submit" name="commit" value="Form" class="btn btn-success btn-block") Editar Ciudad
+
+      
+   

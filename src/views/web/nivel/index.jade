@@ -1,0 +1,10 @@
+extends ../../layout 
+block content
+  br
+  br
+  div(class="container-fluid")
+    form(action='/web/nivel/cargar' method="POST")
+     div(class="form-group")
+      label(for="nivel") Nivel
+      input(type="text" class="form-control" id="nivel" name='nivel' value='nivel.nivel' placeholder="Ingrese Nivel")
+     button(type="submit" value="submit") Agregar Nivel

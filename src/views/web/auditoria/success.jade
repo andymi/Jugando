@@ -1,0 +1,53 @@
+table(class="table table-bordred table-striped")
+  thead
+    tr
+      th(class="cell-stat text-center") idAnimal
+      th(class="cell-stat text-center") razaAnimal
+      th(class="cell-stat text-center") pesoInicial
+      th(class="cell-stat text-center") rpAnimal
+      th(class="cell-stat text-center") cuernos
+      th(class="cell-stat text-center") sexoAnimal
+      th(class="cell-stat text-center") estado
+      th(class="cell-stat text-center") numeroTag      
+      th(class="cell-stat text-center") fechaIngreso
+      th(class="cell-stat text-center") fechaCreacion
+      th(class="cell-stat text-center") fechaModificacion
+      th(class="cell-stat text-center") fechaBorrado
+      th(class="cell-stat text-center") Accion
+      th(class="cell-stat text-center") Accion
+  
+  tbody
+    for animal in animales
+      tr
+        td(class="text-center")=animal.idAnimal
+        td(class="text-center")=animal.razaAnimal
+        td(class="text-center")=animal.pesoInicial
+        td(class="text-center")=animal.rpAnimal 
+        td(class="text-center")=animal.cuernos
+        td(class="text-center")=animal.sexoAnimal 
+        td(class="text-center")=animal.estado 
+        td(class="text-center")=animal.numeroTag 
+        td(class="text-center")=animal.fechaIngreso
+        td(class="text-center")=animal.fechaCreacion 
+        td(class="text-center")=animal.fechaModificacion
+        td(class="text-center")=animal.fechaBorrado 
+        td
+          a(href="/web/animal/#{animal.idAnimal}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Editar Animal 
+              
+        form(id="topicForm" method="post" action="/web/animal/#{animal.idAnimal}")
+          input(type="hidden" name="_method" value="delete")
+          input(type="hidden" name="idAnimal" value='#{animal.idAnimal}')               
+          td
+            a(href="/web/animal/#{animal.idAnimal}" class="btn btn-info" role="button")
+              p(data-placement="top" data-toggle="tooltip" title="Delete")
+                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Animal
+
+
+a(href="/web/animal/cargar" class="btn btn-info" role="button")
+  p(data-placement="top" data-toggle="tooltip" title="Add")
+    button(type="button" class="btn btn-info") Agregar Animal
+
+
+          

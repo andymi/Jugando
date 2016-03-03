@@ -1,0 +1,32 @@
+extends ../../layout 
+block content
+  br
+  br
+  div(class="container-fluid")
+    form(action='/web/proveedor/cargar' method="POST")
+     div(class="form-group")
+      label(for="rucProveedor") Ruc del Proveedor
+      input(type="text" class="form-control" id="rucProveedor" name='rucProveedor' value='proveedor.rucProveedor' placeholder="Ingrese el RUC")
+
+     div(class="form-group")
+      label(for="nombreProveedor") Nombre del Proveedor
+      input(type="text" class="form-control" id="nombreProveedor" name='nombreProveedor' value='proveedor.nombreProveedor' placeholder="Ingrese el Nombre")
+
+     div(class="form-group")
+      label(for="direccionProveedor") Direccion del Proveedor
+      input(type="text"  class="form-control" id="direccionProveedor" name='direccionProveedor' value='proveedor.direccionProveedor' placeholder="Ingrese la Direccion") 
+
+     div(class="form-group")
+      label(for="tipoProveedor") Tipo de Proveedor
+      input(type="text"  class="form-control" id="tipoProveedor" name='tipoProveedor' value='proveedor.tipoProveedor' placeholder="Ingrese el Tipo de Proveedor")
+
+     div(class="form-group")
+        label(class="control-label col-sm-2" for="email") Ciudad: 
+        div(class="col-sm-10")  
+          select(name='selectJ')
+            option(value="-1" selected) Seleccione Ciudad
+            -for(var j=0; j < selectJ.length; j++) {
+              option(value="#{selectJ[j].idCiudad}") #{selectJ[j].ciudad}
+            -}   
+
+     button(type="submit" value="submit") Agregar Proveedor

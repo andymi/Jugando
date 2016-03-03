@@ -1,0 +1,51 @@
+table(class="table table-bordred table-striped")
+  thead
+    tr
+      th(class="cell-stat text-center") idInsumo
+      th(class="cell-stat text-center") codigoBarra
+      th(class="cell-stat text-center") nombreInsumo
+      th(class="cell-stat text-center") contenidoInsumo
+      th(class="cell-stat text-center") precioCompra
+      th(class="cell-stat text-center") tipoInsumo
+      th(class="cell-stat text-center") presentacionInsumo
+      th(class="cell-stat text-center") estadoInsumo 
+      th(class="cell-stat text-center") fechaCreacion
+      th(class="cell-stat text-center") fechaModificacion
+      th(class="cell-stat text-center") fechaBorrado
+      th(class="cell-stat text-center") Accion
+      th(class="cell-stat text-center") Accion
+  
+  tbody
+    for insumo in insumos
+      tr
+        td(class="text-center")=insumo.idInsumo
+        td(class="text-center")=insumo.codigoBarra
+        td(class="text-center")=insumo.nombreInsumo
+        td(class="text-center")=insumo.contenidoInsumo
+        td(class="text-center")=insumo.precioCompra
+        td(class="text-center")=insumo.tipoInsumo
+        td(class="text-center")=insumo.presentacionInsumo 
+        td(class="text-center")=insumo.estadoInsumo
+        td(class="text-center")=insumo.fechaCreacion 
+        td(class="text-center")=insumo.fechaModificacion
+        td(class="text-center")=insumo.fechaBorrado 
+        td
+          a(href="/web/insumo/#{insumo.idInsumo}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Editar Insumo 
+              
+        form(id="topicForm" method="post" action="/web/insumo/#{insumo.idInsumo}")
+          input(type="hidden" name="_method" value="delete")
+          input(type="hidden" name="idInsumo" value='#{insumo.idInsumo}')               
+          td
+            a(href="/web/insumo/#{insumo.idInsumo}" class="btn btn-info" role="button")
+              p(data-placement="top" data-toggle="tooltip" title="Delete")
+                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Insumo
+
+
+a(href="/web/insumo/cargar" class="btn btn-info" role="button")
+  p(data-placement="top" data-toggle="tooltip" title="Add")
+    button(type="button" class="btn btn-info") Agregar Insumo
+
+
+          

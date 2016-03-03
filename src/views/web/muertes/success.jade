@@ -1,0 +1,61 @@
+table(class="table table-bordred table-striped")
+  thead
+    tr
+      th(class="cell-stat text-center") idMuerte
+      th(class="cell-stat text-center") fechaMuerte
+      th(class="cell-stat text-center") horaMuerte
+      th(class="cell-stat text-center") cantidadTotal      
+      th(class="cell-stat text-center") nombreEmpleado
+      th(class="cell-stat text-center") nombreProveedor
+      th(class="cell-stat text-center") fechaCreacion
+      th(class="cell-stat text-center") fechaModificacion
+      th(class="cell-stat text-center") fechaBorrado
+      th(class="cell-stat text-center") Accion
+      th(class="cell-stat text-center") Accion
+  
+  tbody
+    for muertess in muertes
+      tr
+        td(class="text-center")=muertess.idMuerte
+        td(class="text-center")=muertess.fechaMuerte
+        td(class="text-center")=muertess.horaMuerte
+        td(class="text-center")=muertess.cantidadTotal        
+        if muertess.Empleado == null  
+          td(class="text-center") sin Empleado
+        else 
+          td(class="text-center")=muertess.Empleado.nombreEmpleado 
+        if muertess.Proveedor == null  
+          td(class="text-center") sin Proveedor
+        else 
+          td(class="text-center")=muertess.Proveedor.nombreProveedor         
+        td(class="text-center")=muertess.fechaCreacion 
+        td(class="text-center")=muertess.fechaModificacion
+        td(class="text-center")=muertess.fechaBorrado 
+        td          
+          a(href="/web/detalleMuerte/add/#{muertess.idMuerte}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Add")
+              button(type="button" class="btn btn-info") Agregar Detalle Muerte
+        td
+          a(href="/web/detalleMuerte/#{muertess.idMuerte}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Ver Detalle
+        td
+          a(href="/web/muertes/#{muertess.idMuerte}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Editar Muertes 
+              
+        form(id="topicForm" method="post" action="/web/muertes/#{muertess.idMuerte}")
+          input(type="hidden" name="_method" value="delete")
+          input(type="hidden" name="idMuerte" value='#{muertess.idMuerte}')               
+          td
+            a(href="/web/muertes/#{muertess.idMuerte}" class="btn btn-info" role="button")
+              p(data-placement="top" data-toggle="tooltip" title="Delete")
+                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Muertes
+
+
+a(href="/web/muertes/cargar" class="btn btn-info" role="button")
+  p(data-placement="top" data-toggle="tooltip" title="Add")
+    button(type="button" class="btn btn-info") Agregar Muertes
+
+
+          

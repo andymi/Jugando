@@ -1,0 +1,29 @@
+form(id="topicForm" method="post" action="/web/detalleVenta/#{detalleVenta.idDetalleVenta}")
+  input(type="hidden" name="_method" value="put")
+  input(type="hidden" name="idDetalleVenta" value='#{detalleVenta.idDetalleVenta}')
+  table(class="table table-bordred table-striped")
+    thead
+      tr
+        th(class="cell-stat text-center") descripcionVenta
+        th(class="cell-stat text-center") precioVenta
+        th(class="cell-stat text-center") cantidadVenta
+        th(class="cell-stat text-center") fechaCreacion
+        th(class="cell-stat text-center") fechaModificacion
+        th(class="cell-stat text-center") fechaBorrado
+        th(class="cell-stat text-center") Accion
+        th(class="cell-stat text-center") Accion  
+    tbody
+      tr
+        td(class="text-center")
+          input(type="text" class="form-control" id='descripcionVenta' name='descripcionVenta' value='#{detalleVenta.descripcionVenta}' required="true")
+        td(class="text-center")
+          input(type="text" class="form-control" id='precioVenta' name='precioVenta' value='#{detalleVenta.precioVenta}' required="true")
+        td(class="text-center")
+          input(type="text" class="form-control" id='cantidadVenta' name='cantidadVenta' value='#{detalleVenta.cantidadVenta}' required="true")
+        td(class="text-center") 
+            
+        td(class="text-center")=detalleVenta.fechaCreacion
+        td(class="text-center")=detalleVenta.fechaModificacion
+        td(class="text-center")=detalleVenta.fechaBorrado
+        td
+  button(type="submit" name="commit" value="Form" class="btn btn-success btn-block") Editar Detalle Venta

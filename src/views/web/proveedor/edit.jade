@@ -1,0 +1,48 @@
+form(id="topicForm" method="post" action="/web/proveedor/#{proveedor.idProveedor}")
+  input(type="hidden" name="_method" value="put")
+  input(type="hidden" name="idProveedor" value='#{proveedor.idProveedor}')
+  table(class="table table-bordred table-striped")
+    thead
+      tr
+        th(class="cell-stat text-center") idProveedor
+        th(class="cell-stat text-center") nombreProveedor 
+        th(class="cell-stat text-center") direccionProveedor
+        th(class="cell-stat text-center") rucProveedor
+        th(class="cell-stat text-center") idCiudad
+        th(class="cell-stat text-center") ciudad
+        th(class="cell-stat text-center") tipoProveedor
+        th(class="cell-stat text-center") fechaCreacion
+        th(class="cell-stat text-center") fechaModificacion
+        th(class="cell-stat text-center") fechaBorrado
+        th(class="cell-stat text-center") Accion
+        th(class="cell-stat text-center") Accion
+    tbody
+        tr
+          td(class="text-center")=proveedor.idProveedor
+          
+          td(class="text-center")
+            input(type="text" class="form-control" id='nombreProveedor' name='nombreProveedor' value='#{proveedor.nombreProveedor}' required="true")
+          
+          td(class="text-center")
+            input(type="text" class="form-control" id="direccionProveedor" name='direccionProveedor' value='#{proveedor.direccionProveedor}' required="true")
+          
+          td(class="text-center")
+            input(type="text" class="form-control" id="rucProveedor" name='rucProveedor' value='#{proveedor.rucProveedor}' required="true")
+
+          td(class="text-center")
+            select(name="ciudadSele")
+              -for (var j=0; j < select.length; j++) {
+                if proveedor.CiudadIdCiudad == select[j].idCiudad 
+                 option(value="#{select[j].idCiudad}" selected) #{select[j].ciudad} 
+                else 
+                 option(value="#{select[j].idCiudad}") #{select[j].ciudad}
+              -}
+
+          td(class="text-center")
+            input(type="text" class="form-control" id="tipoProveedor" name='tipoProveedor' value='#{proveedor.tipoProveedor}' required="true")
+        
+          td(class="text-center")=proveedor.fechaCreacion
+          td(class="text-center")=proveedor.fechaModificacion
+          td(class="text-center")=proveedor.fechaBorrado
+          td
+            button(type="submit" name="commit" value="Form" class="btn btn-success btn-block") Editar Proveedor 

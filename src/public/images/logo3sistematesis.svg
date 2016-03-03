@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 19.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 100 100" style="enable-background:new 0 0 100 100;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#00656B;stroke:#F6F6F6;stroke-miterlimit:10;}
+	.st1{fill:#5FC4E4;stroke:#83CFF4;stroke-miterlimit:10;}
+	.st2{fill:#5FC4E4;stroke:#000000;stroke-miterlimit:10;}
+	.st3{fill:#F6F6F6;stroke:#F6F6F6;stroke-miterlimit:10;}
+	.st4{fill:#007680;stroke:#F6F6F6;stroke-miterlimit:10;}
+	.st5{fill:#017D7F;stroke:#F6F6F6;stroke-miterlimit:10;}
+	.st6{fill:#4AC1EE;stroke:#F6F6F6;stroke-miterlimit:10;}
+	.st7{fill:#02696B;stroke:#F6F6F6;stroke-miterlimit:10;}
+</style>
+<ellipse class="st0" cx="52.5" cy="47" rx="41.5" ry="40.5"/>
+<path class="st1" d="M89.3,63.7c-1.1,2.2-2.2,4-3.3,5.4c-1.1,1.7-2.8,4-5.3,6.3C68.8,87,53,86.8,51.3,86.8c0,0-17.1-0.5-28.3-12.6
+	c-3.1-3.3-5.3-7.1-5.3-7.1c-1.3-2.2-2.2-4.1-2.7-5.2c-1.1-2.5-1.7-3.7-1.8-4.3C12.7,53,30.1,43.2,51.2,42.5
+	c17.9-0.6,39.7,5.4,40.6,13.7c0.1,1.2-0.2,2.3-0.6,3.1C90.7,60.7,90.1,62.1,89.3,63.7z"/>
+<path class="st2" d="M79.7,60"/>
+<path class="st2" d="M38.2,63.3"/>
+<path class="st1" d="M9,56.3"/>
+<path class="st3" d="M65.6,77H39.4c-4,0-7.2-3.2-7.2-7.2V30.5c0-4,3.2-7.2,7.2-7.2h26.2c4,0,7.2,3.2,7.2,7.2v39.3
+	C72.8,73.8,69.6,77,65.6,77z"/>
+<path class="st4" d="M63.2,68.4H45.4c-4,0-7.2-3.2-7.2-7.2V32.8c0-4,3.2-7.2,7.2-7.2h17.8c4,0,7.2,3.2,7.2,7.2v28.3
+	C70.4,65.1,67.2,68.4,63.2,68.4z"/>
+<path class="st3" d="M58.1,73.4H39.4c-4,0-7.2-3.2-7.2-7.2V37.8c0-4,3.2-7.2,7.2-7.2h18.7c4,0,7.2,3.2,7.2,7.2v28.3
+	C65.3,70.1,62.1,73.4,58.1,73.4z"/>
+<rect x="39.8" y="37" class="st5" width="18.8" height="3.8"/>
+<ellipse class="st5" cx="54.9" cy="56.1" rx="9.4" ry="10.5">
+	<animateMotion dur="1s" repeatCount="indefinite"
+   path="m 0,0 a 15,11 0 1 1 -30,0 15,11 0 1 1 30,0 z" />
+</ellipse>
+<ellipse class="st3" cx="54.9" cy="56.1" rx="6.3" ry="7.5">
+	<animateMotion dur="1s" repeatCount="indefinite"
+   path="m 0,0 a 15,11 0 1 1 -30,0 15,11 0 1 1 30,0 z" />
+</ellipse>
+<ellipse class="st6" cx="54.9" cy="55.9" rx="5.7" ry="6.6">
+	<animateMotion dur="1s" repeatCount="indefinite"
+   path="m 0,0 a 15,11 0 1 1 -30,0 15,11 0 1 1 30,0 z" />
+</ellipse>
+<path class="st7" d="M66.5,81L66.5,81c-1,0.5-2.1,0-2.6-0.9l-7-14.8c-0.5-1,0-2.1,0.9-2.6h0c1-0.5,2.1,0,2.6,0.9l7,14.8
+	C67.9,79.4,67.5,80.5,66.5,81z">
+	<animateMotion dur="1s" repeatCount="indefinite"
+   path="m 0,0 a 15,11 0 1 1 -30,0 15,11 0 1 1 30,0 z" />
+</path>
+<path class="st7" d="M65.1,79.6"/>
+</svg>

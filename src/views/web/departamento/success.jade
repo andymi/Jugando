@@ -1,0 +1,36 @@
+table(class="table table-bordred table-striped")
+  thead
+    tr
+      th(class="cell-stat text-center") idDepartamento
+      th(class="cell-stat text-center") Departamento
+      th(class="cell-stat text-center") fechaCreacion
+      th(class="cell-stat text-center") fechaModificacion
+      th(class="cell-stat text-center") fechaBorrado
+      th(class="cell-stat text-center") Accion
+      th(class="cell-stat text-center") Accion
+  
+  tbody
+    for departamento in departamentos
+      tr
+        td(class="text-center")=departamento.idDepartamento
+        td(class="text-center")=departamento.departamento
+        td(class="text-center")=departamento.fechaCreacion 
+        td(class="text-center")=departamento.fechaModificacion
+        td(class="text-center")=departamento.fechaBorrado 
+        td
+          a(href="/web/departamento/#{departamento.idDepartamento}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Editar Departamento
+              
+        form(id="topicForm" method="post" action="/web/departamento/#{departamento.idDepartamento}")
+          input(type="hidden" name="_method" value="delete")
+          input(type="hidden" name="idDepartamento" value='#{departamento.idDepartamento}')               
+          td
+            a(href="/web/departamento/#{departamento.idDepartamento}" class="btn btn-info" role="button")
+              p(data-placement="top" data-toggle="tooltip" title="Delete")
+                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Departamento
+
+
+a(href="/web/departamento/cargar" class="btn btn-info" role="button")
+  p(data-placement="top" data-toggle="tooltip" title="Add")
+    button(type="button" class="btn btn-info") Agregar Departamento

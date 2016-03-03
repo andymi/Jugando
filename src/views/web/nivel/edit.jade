@@ -1,0 +1,25 @@
+form(id="topicForm" method="post" action="/web/nivel/#{nivel.idNivel}")
+  input(type="hidden" name="_method" value="put")
+  input(type="hidden" name="idNivel" value='#{nivel.idNivel}')
+  table(class="table table-bordred table-striped")
+    thead
+      tr
+        th(class="cell-stat text-center") idNivel
+        th(class="cell-stat text-center") nivel 
+        th(class="cell-stat text-center") fechaCreacion
+        th(class="cell-stat text-center") fechaModificacion
+        th(class="cell-stat text-center") fechaBorrado
+        th(class="cell-stat text-center") Accion
+        th(class="cell-stat text-center") Accion
+    tbody
+        tr
+          td(class="text-center")=nivel.idNivel
+          
+          td(class="text-center")
+            input(type="text" class="form-control" id='nivel' name='nivel' value='#{nivel.nivel}' required="true")
+        
+          td(class="text-center")=nivel.fechaCreacion
+          td(class="text-center")=nivel.fechaModificacion
+          td(class="text-center")=nivel.fechaBorrado
+          td
+            button(type="submit" name="commit" value="Form" class="btn btn-success btn-block") Editar Nivel

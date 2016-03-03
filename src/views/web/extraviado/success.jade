@@ -1,0 +1,59 @@
+table(class="table table-bordred table-striped")
+  thead
+    tr
+      th(class="cell-stat text-center") idExtraviado
+      th(class="cell-stat text-center") fechaExtraviado
+      th(class="cell-stat text-center") horaExtraviado 
+      th(class="cell-stat text-center") lugarExtraviado      
+      th(class="cell-stat text-center") idEmpleado
+      th(class="cell-stat text-center") nombreEmpleado
+      th(class="cell-stat text-center") fechaCreacion
+      th(class="cell-stat text-center") fechaModificacion
+      th(class="cell-stat text-center") fechaBorrado
+      th(class="cell-stat text-center") Accion
+      th(class="cell-stat text-center") Accion
+  
+  tbody
+    for extraviados in extraviado
+      tr
+        td(class="text-center")=extraviados.idExtraviado
+        td(class="text-center")=extraviados.fechaExtraviado
+        td(class="text-center")=extraviados.horaExtraviado 
+        td(class="text-center")=extraviados.lugarExtraviado
+
+        td(class="text-center")=extraviados.EmpleadoidEmpleado
+        if extraviados.Empleado == null  
+          td(class="text-center") sin Empleado
+        else 
+          td(class="text-center")=extraviados.Empleado.nombreEmpleado         
+        td(class="text-center")=extraviados.fechaCreacion 
+        td(class="text-center")=extraviados.fechaModificacion
+        td(class="text-center")=extraviados.fechaBorrado 
+        td
+          a(href="/web/detalleExtraviado/add/#{extraviados.idExtraviado}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Add")
+              button(type="button" class="btn btn-info") Agregar Detalle Extraviado        
+        td
+          a(href="/web/detalleExtraviado/#{extraviados.idExtraviado}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="view")
+              button(type="button" class="btn btn-info") Ver Detalle
+        td
+          a(href="/web/extraviado/#{extraviados.idExtraviado}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Editar Extraviado 
+              
+        form(id="topicForm" method="post" action="/web/extraviado/#{extraviados.idExtraviado}")
+          input(type="hidden" name="_method" value="delete")
+          input(type="hidden" name="idExtraviado" value='#{extraviados.idExtraviado}')               
+          td
+            a(href="/web/extraviado/#{extraviados.idExtraviado}" class="btn btn-info" role="button")
+              p(data-placement="top" data-toggle="tooltip" title="Delete")
+                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Extraviado
+
+
+a(href="/web/extraviado/cargar" class="btn btn-info" role="button")
+  p(data-placement="top" data-toggle="tooltip" title="Add")
+    button(type="button" class="btn btn-info") Agregar Extraviado
+
+
+          

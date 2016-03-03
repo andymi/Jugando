@@ -1,0 +1,20 @@
+form(action='/web/detallePesaje/add' method="POST") 
+  input(type="hidden" name='id' value='#{pesajeN}')
+  div(class="form-group")
+    label(for="peso") Peso
+    input(type="text" class="form-control" id="peso" name='peso' value='detallePesajeJ.peso' placeholder="Ingrese la Fecha")
+  div(class="form-group")
+    label(for="observacion") Observacion
+    input(type="text"  class="form-control" id="observacion" name='observacion' value='detallePesajeJ.observacion' placeholder="Ingrese el Pesaje") 
+    //detalle del pesaje
+  div(class="form-group")
+    label(class="control-label col-sm-2" for="email") Rp Animal: 
+    div(class="col-sm-10")  
+      select(name='selectJ')
+        option(value="-1" selected) Seleccione Rp
+        -for(var j=0; j < selectJ.length; j++) {
+          option(value="#{selectJ[j].idAnimal}") #{selectJ[j].rpAnimal}
+        -}           
+  
+  button(type="submit" value="submit") Agregar Detalle Pesaje
+

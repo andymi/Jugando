@@ -1,0 +1,22 @@
+form(action='/web/detalleSanitacion/cargar' method="POST")
+ for sanitaciones in sanitacionJ
+  input(type="hidden" name='id' value='#{sanitaciones.idSanitacion}')
+ div(class="form-group")
+    label(for="observacionSanitacion") Observacion
+    input(type="text"  class="form-control" id="observacionSanitacion" name='observacionSanitacion' value='detalleSanitacionJ.observacionSanitacion' placeholder="Ingrese la Observacion") 
+    //detalle del pesaje
+ div(class="form-group")
+    label(class="control-label col-sm-2" for="email") Rp Animal: 
+    div(class="col-sm-10")  
+      select(name='selectJ')
+        option(value="-1" selected) Seleccione Rp
+        -for(var j=0; j < selectJ.length; j++) {
+          option(value="#{selectJ[j].idAnimal}") #{selectJ[j].rpAnimal}
+        -}  	       
+  
+ button(type="submit" value="submit") Agregar Detalle Sanitacion
+
+a(href="/web/sanitacion" class="btn btn-info" role="button")
+  p(data-placement="top" data-toggle="tooltip" title="List")
+    button(type="button" class="btn btn-info") Listo
+

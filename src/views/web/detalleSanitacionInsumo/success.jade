@@ -1,0 +1,39 @@
+table(class="table table-bordred table-striped")
+  thead
+    tr
+      th(class="cell-stat text-center") idDetalleSanitacionInsumo
+      th(class="cell-stat text-center") cantidadUtilizada        
+      th(class="cell-stat text-center") idInsumo
+      th(class="cell-stat text-center") nombreInsumo
+      th(class="cell-stat text-center") fechaCreacion
+      th(class="cell-stat text-center") fechaModificacion
+      th(class="cell-stat text-center") fechaBorrado
+      th(class="cell-stat text-center") Accion
+      th(class="cell-stat text-center") Accion
+  
+  tbody
+    for detalleSanitacion in detalleSanitaciones
+      tr
+        td(class="text-center")=detalleSanitacion.idDetalleSanitacionInsumo
+        td(class="text-center")=detalleSanitacion.cantidadUtilizada     
+        td(class="text-center")=detalleSanitacion.Insumo.idInsumo
+        if detalleSanitacion.Insumo == null  
+          td(class="text-center") sin Insumo
+        else 
+          td(class="text-center")=detalleSanitacion.Insumo.nombreInsumo        
+        td(class="text-center")=detalleSanitacion.fechaCreacion 
+        td(class="text-center")=detalleSanitacion.fechaModificacion
+        td(class="text-center")=detalleSanitacion.fechaBorrado 
+        td
+          a(href="/web/detalleSanitacionInsumo/editar/#{detalleSanitacion.idDetalleSanitacionInsumo}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Editar Detalle Sanitacion Insumo
+              
+        form(id="topicForm" method="post" action="/web/detalleSanitacionInsumo/#{detalleSanitacion.idDetalleSanitacionInsumo}")
+          input(type="hidden" name="_method" value="delete")
+          input(type="hidden" name="idSanitacion" value='#{detalleSanitacion.idDetalleSanitacionInsumo}')               
+          td
+            a(href="/web/detalleSanitacionInsumo/#{detalleSanitacion.idDetalleSanitacionInsumo}" class="btn btn-info" role="button")
+              p(data-placement="top" data-toggle="tooltip" title="Delete")
+                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Detalle Sanitacion Insumo
+

@@ -1,0 +1,41 @@
+extends ../../layout 
+block content
+  br
+  br
+  div(class="container-fluid")
+    form(action='/web/facturaVenta/add' method="POST")
+     div(class="form-group")
+      label(for="fechaVenta") Fecha de la Venta
+      input(type="text" class="form-control" id="fechaVenta" name='fechaVenta' value='facturaVenta.fechaVenta' placeholder="Ingrese la Fecha")
+
+     div(class="form-group")
+      label(for="totalVenta") Monto Total de la Venta
+      input(type="text"  class="form-control" id="totalVenta" name='totalVenta' value='facturaVenta.totalVenta' placeholder="Ingrese el Monto Total") 
+
+     div(class="form-group")
+      label(for="condicionVenta") Condicion de la Venta
+      input(type="text" class="form-control" id="condicionVenta" name='condicionVenta' value='facturaVenta.condicionVenta' placeholder="Ingrese la Condicion")
+
+     div(class="form-group")
+      label(for="formaCobro") Forma de Cobro
+      input(type="text"  class="form-control" id="formaCobro" name='formaCobro' value='facturaVenta.formaCobro' placeholder="Ingrese la Forma de Cobro")
+     
+     div(class="form-group")
+      label(for="numeroVenta") Numero de Venta
+      input(type="text" class="form-control" id="numeroVenta" name='numeroVenta' value='facturaVenta.numeroVenta' placeholder="Ingrese el Numero de Venta")
+
+     div(class="form-group")
+      label(for="horaVenta") Hora de la Venta
+      input(type="text" class="form-control" id="horaVenta" name='horaVenta' value='facturaVenta.horaVenta' placeholder="Ingrese la Hora de la Venta") 
+
+     div(class="form-group")
+        label(class="control-label col-sm-2" for="email") Cliente: 
+        div(class="col-sm-10")  
+          select(name='selectJ')
+            option(value="-1" selected) Seleccione Cliente
+            -for(var j=0; j < selectJ.length; j++) {
+              option(value="#{selectJ[j].idCliente}") #{selectJ[j].nombreCliente}
+            -}    
+
+     button(type="submit" value="submit") Agregar Factura Venta
+      

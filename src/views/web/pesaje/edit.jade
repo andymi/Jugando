@@ -1,0 +1,42 @@
+form(id="topicForm" method="post" action="/web/pesaje/#{pesaje.idPesaje}")
+  input(type="hidden" name="_method" value="put")
+  input(type="hidden" name="idPesaje" value='#{pesaje.idPesaje}')
+  table(class="table table-bordred table-striped")
+    thead
+      tr
+        th(class="cell-stat text-center") idPesaje
+        th(class="cell-stat text-center") fechaPesaje
+        th(class="cell-stat text-center") horaPesaje
+        th(class="cell-stat text-center") idEmpleado
+        th(class="cell-stat text-center") nombreEmpleado
+        th(class="cell-stat text-center") fechaCreacion
+        th(class="cell-stat text-center") fechaModificacion
+        th(class="cell-stat text-center") fechaBorrado
+        th(class="cell-stat text-center") Accion
+        th(class="cell-stat text-center") Accion
+    tbody
+        tr
+          td(class="text-center")=pesaje.idPesaje
+          
+          td(class="text-center")
+            //label(for="fechaPesaje" class="control-label") Fecha Pesaje
+            input(type="text" class="form-control" id='fechaPesaje' name='fechaPesaje' value='#{pesaje.fechaPesaje}' required="true")
+          
+          td(class="text-center")
+            //label(for="horaPesaje" class="control-label") Hora Pesaje
+            input(type="text" class="form-control" id="horaPesaje" name='horaPesaje' value='#{pesaje.horaPesaje}' required="true")
+
+          td(class="text-center")
+            select(name="empleadoSele")
+              -for (var j=0; j < select.length; j++) {
+                if pesaje.EmpleadoIdEmpleado == select[j].idEmpleado 
+                 option(value="#{select[j].idEmpleado}" selected) #{select[j].nombreEmpleado} 
+                else 
+                 option(value="#{select[j].idEmpleado}") #{select[j].nombreEmpleado}
+              -}
+
+          td(class="text-center")=pesaje.fechaCreacion
+          td(class="text-center")=pesaje.fechaModificacion
+          td(class="text-center")=pesaje.fechaBorrado
+          td
+            button(type="submit" name="commit" value="Form" class="btn btn-success btn-block") Editar Pesaje 

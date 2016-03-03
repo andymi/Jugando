@@ -1,0 +1,57 @@
+table(class="table table-bordred table-striped")
+  thead
+    tr
+      th(class="cell-stat text-center") idVacunacion
+      th(class="cell-stat text-center") fechaVacunacion
+      th(class="cell-stat text-center") horaVacunacion 
+      th(class="cell-stat text-center") costoVacunacion          
+      th(class="cell-stat text-center") idProveedor
+      th(class="cell-stat text-center") nombreProveedor
+      th(class="cell-stat text-center") fechaCreacion
+      th(class="cell-stat text-center") fechaModificacion
+      th(class="cell-stat text-center") fechaBorrado
+      th(class="cell-stat text-center") Accion
+      th(class="cell-stat text-center") Accion
+  
+  tbody
+    for vacunaciones in vacunacion
+      tr
+        td(class="text-center")=vacunaciones.idVacunacion
+        td(class="text-center")=vacunaciones.fechaVacunacion
+        td(class="text-center")=vacunaciones.horaVacunacion  
+        td(class="text-center")=vacunaciones.costoVacunacion        
+        td(class="text-center")=vacunaciones.ProveedorIdProveedor
+        if vacunaciones.Proveedor == null  
+          td(class="text-center") sin Proveedor
+        else 
+          td(class="text-center")=vacunaciones.Proveedor.nombreProveedor         
+        td(class="text-center")=vacunaciones.fechaCreacion 
+        td(class="text-center")=vacunaciones.fechaModificacion
+        td(class="text-center")=vacunaciones.fechaBorrado 
+        td
+          a(href="/web/detalleVacunacion/add/#{vacunaciones.idVacunacion}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Add")
+              button(type="button" class="btn btn-info") Agregar Detalle Vacunacion Animal
+        td
+          a(href="/web/detalleVacunacion/animal/#{vacunaciones.idVacunacion}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Ver Detalle Animal
+        td
+          a(href="/web/vacunacion/#{vacunaciones.idVacunacion}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Editar Vacunacion       
+        form(id="topicForm" method="post" action="/web/vacunacion/#{vacunaciones.idVacunacion}")
+          input(type="hidden" name="_method" value="delete")
+          input(type="hidden" name="idVacunacion" value='#{vacunaciones.idVacunacion}')               
+          td
+            a(href="/web/vacunacion/#{vacunaciones.idVacunacion}" class="btn btn-info" role="button")
+              p(data-placement="top" data-toggle="tooltip" title="Delete")
+                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Vacunacion
+
+
+a(href="/web/vacunacion/cargar" class="btn btn-info" role="button")
+  p(data-placement="top" data-toggle="tooltip" title="Add")
+    button(type="button" class="btn btn-info") Agregar Vacunacion
+
+
+          

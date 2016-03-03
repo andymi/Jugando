@@ -1,0 +1,22 @@
+form(action='/web/detalleMuerte/cargar' method="POST")
+  for muertes in muerteJ
+    input(type="hidden" name='id' value='#{muertes.idMuerte}')
+  div(class="form-group")
+    label(for="observacion") Observacion
+    input(type="text"  class="form-control" id="observacion" name='observacion' value='detalleMuerte.observacion' placeholder="Ingrese el detalleMuerte") 
+    //detalle del pesaje
+  div(class="form-group")
+    label(class="control-label col-sm-2" for="email") Rp Animal: 
+    div(class="col-sm-10")  
+      select(name='selectJ')
+        option(value="-1" selected) Seleccione Rp
+        -for(var j=0; j < selectJ.length; j++) {
+          option(value="#{selectJ[j].idAnimal}") #{selectJ[j].rpAnimal}
+        -}  	       
+  
+  button(type="submit" value="submit") Agregar Detalle Muerte
+
+
+a(href="/web/muertes" class="btn btn-info" role="button")
+  p(data-placement="top" data-toggle="tooltip" title="List")
+    button(type="button" class="btn btn-info") Listo

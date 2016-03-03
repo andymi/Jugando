@@ -1,0 +1,83 @@
+form(id="topicForm" method="post" action="/web/traslado/#{traslado.idTraslado}")
+  input(type="hidden" name="_method" value="put")
+  input(type="hidden" name="idTraslado" value='#{traslado.idTraslado}')
+  table(class="table table-bordred table-striped")
+    thead
+      tr
+        th(class="cell-stat text-center") idTraslado
+        th(class="cell-stat text-center") fechaTraslado
+        th(class="cell-stat text-center") nombreConductor
+        th(class="cell-stat text-center") cedulaConductor
+        th(class="cell-stat text-center") cantidadAnimal
+        th(class="cell-stat text-center") numeroRUA
+        th(class="cell-stat text-center") marcaAuto       
+        th(class="cell-stat text-center") ciudad
+        th(class="cell-stat text-center") nombreEmpleado
+        th(class="cell-stat text-center") numeroCompra
+        th(class="cell-stat text-center") fechaCreacion
+        th(class="cell-stat text-center") fechaModificacion
+        th(class="cell-stat text-center") fechaBorrado
+        th(class="cell-stat text-center") Accion
+        th(class="cell-stat text-center") Accion
+    tbody
+        tr
+          td(class="text-center")=traslado.idTraslado
+          
+          td(class="text-center")
+            //label(for="fechaTraslado" class="control-label") Fecha Traslado
+            input(type="text" class="form-control" id='fechaTraslado' name='fechaTraslado' value='#{traslado.fechaTraslado}' required="true")
+          
+          td(class="text-center")
+            //label(for="nombreConductor" class="control-label") Nombre Conductor
+            input(type="text" class="form-control" id="nombreConductor" name='nombreConductor' value='#{traslado.nombreConductor}' required="true")
+
+          td(class="text-center")
+            //label(for="cedulaConductor" class="control-label") Cedula Conductor
+            input(type="text" class="form-control" id='cedulaConductor' name='cedulaConductor' value='#{traslado.cedulaConductor}' required="true")
+          
+          td(class="text-center")
+            //label(for="cantidadAnimal" class="control-label") Cantidad Animal
+            input(type="text" class="form-control" id="cantidadAnimal" name='cantidadAnimal' value='#{traslado.cantidadAnimal}' required="true")
+
+          td(class="text-center")
+            //label(for="numeroRUA" class="control-label") Numero RUA
+            input(type="text" class="form-control" id='numeroRUA' name='numeroRUA' value='#{traslado.numeroRUA}' required="true")
+          
+          td(class="text-center")
+            //label(for="marcaAuto" class="control-label") Marca Auto
+            input(type="text" class="form-control" id="marcaAuto" name='marcaAuto' value='#{traslado.marcaAuto}' required="true")
+
+          td(class="text-center")
+            select(name="ciudadSele")
+              -for (var j=0; j < select.length; j++) {
+                if traslado.CiudadIdCiudad == select[j].idCiudad 
+                 option(value="#{select[j].idCiudad}" selected) #{select[j].ciudad} 
+                else 
+                 option(value="#{select[j].idCiudad}") #{select[j].ciudad}
+              -}
+
+          td(class="text-center")
+            select(name="empleadoSele")
+              -for (var j=0; j < selectJ.length; j++) {
+                if traslado.EmpleadoIdEmpleado == selectJ[j].idEmpleado 
+                 option(value="#{selectJ[j].idEmpleado}" selected) #{selectJ[j].nombreEmpleado} 
+                else 
+                 option(value="#{selectJ[j].idEmpleado}") #{selectJ[j].nombreEmpleado}
+              -}
+
+          td(class="text-center")
+            select(name="compraSele")
+              -for (var j=0; j < selectN.length; j++) {
+                if traslado.FacturaCompraIdCompra == selectN[j].idCompra 
+                 option(value="#{selectN[j].idCompra}" selected) #{selectN[j].numeroCompra} 
+                else 
+                 option(value="#{selectN[j].idCompra}") #{selectN[j].numeroCompra}
+              -}
+          
+          
+        
+          td(class="text-center")=traslado.fechaCreacion
+          td(class="text-center")=traslado.fechaModificacion
+          td(class="text-center")=traslado.fechaBorrado
+          td
+            button(type="submit" name="commit" value="Form" class="btn btn-success btn-block") Editar Traslado 

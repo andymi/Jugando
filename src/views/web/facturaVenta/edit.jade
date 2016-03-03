@@ -1,0 +1,61 @@
+form(id="topicForm" method="post" action="/web/facturaVenta/#{facturaVenta.idVenta}")
+  input(type="hidden" name="_method" value="put")
+  input(type="hidden" name="idVenta" value='#{facturaVenta.idVenta}')
+  table(class="table table-bordred table-striped")
+    thead
+      tr
+        th(class="cell-stat text-center") idVenta
+        th(class="cell-stat text-center") fechaVenta
+        th(class="cell-stat text-center") horaVenta
+        th(class="cell-stat text-center") condicionVenta
+        th(class="cell-stat text-center") formaCobro
+        th(class="cell-stat text-center") numeroVenta
+        th(class="cell-stat text-center") totalVenta
+        th(class="cell-stat text-center") nombreCliente
+        th(class="cell-stat text-center") fechaCreacion
+        th(class="cell-stat text-center") fechaModificacion
+        th(class="cell-stat text-center") fechaBorrado
+        th(class="cell-stat text-center") Accion
+        th(class="cell-stat text-center") Accion
+    tbody
+        tr
+          td(class="text-center")=facturaVenta.idVenta
+          
+          td(class="text-center")
+            //label(for="fechaVenta" class="control-label") Fecha Venta
+            input(type="text" class="form-control" id='fechaVenta' name='fechaVenta' value='#{facturaVenta.fechaVenta}' required="true")
+          
+          td(class="text-center")
+            //label(for="horaVenta" class="control-label") Hora Venta
+            input(type="text" class="form-control" id="horaVenta" name='horaVenta' value='#{facturaVenta.horaVenta}' required="true")
+
+
+          td(class="text-center") 
+            input(type="text" class="form-control" id="condicionVenta" name='condicionVenta' value='#{facturaVenta.condicionVenta}' required="true")
+
+          
+          td(class="text-center") 
+            input(type="text" class="form-control" id="formaCobro" name='formaCobro' value='#{facturaVenta.formaCobro}' required="true")
+          
+          td(class="text-center")
+            //label(for="numeroVenta" class="control-label") Numero Venta
+            input(type="text" class="form-control" id="numeroVenta" name='numeroVenta' value='#{facturaVenta.numeroVenta}' required="true")
+
+          td(class="text-center")
+            //label(for="totalVenta" class="control-label") Total Venta
+            input(type="text" class="form-control" id="totalVenta" name='totalVenta' value='#{facturaVenta.totalVenta}' required="true")
+
+          td(class="text-center")
+            select(name="proveedorSele")
+              -for (var j=0; j < select.length; j++) {
+                if facturaVenta.ClienteIdCliente == select[j].idCliente 
+                 option(value="#{select[j].idCliente}" selected) #{select[j].nombreCliente} 
+                else 
+                 option(value="#{select[j].idCliente}") #{select[j].nombreCliente}
+              -}
+
+          td(class="text-center")=facturaVenta.fechaCreacion
+          td(class="text-center")=facturaVenta.fechaModificacion
+          td(class="text-center")=facturaVenta.fechaBorrado
+          td
+            button(type="submit" name="commit" value="Form" class="btn btn-success btn-block") Editar Factura Venta

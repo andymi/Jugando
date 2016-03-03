@@ -1,0 +1,54 @@
+table(class="table table-bordred table-striped")
+  thead
+    tr
+      th(class="cell-stat text-center") idIngresoAnimal
+      th(class="cell-stat text-center") fechaEntrada
+      th(class="cell-stat text-center") horaEntrada
+      th(class="cell-stat text-center") cantidadEntrada 
+      th(class="cell-stat text-center") observacion
+      th(class="cell-stat text-center") fechaCreacion
+      th(class="cell-stat text-center") fechaModificacion
+      th(class="cell-stat text-center") fechaBorrado
+      th(class="cell-stat text-center") Accion
+      th(class="cell-stat text-center") Accion
+  
+  tbody
+    for ingresoAnimal in ingresoanimales
+      tr
+        td(class="text-center")=ingresoAnimal.idIngresoAnimal
+        td(class="text-center")=ingresoAnimal.fechaEntrada 
+        td(class="text-center")=ingresoAnimal.horaEntrada 
+        td(class="text-center")=ingresoAnimal.cantidadEntrada 
+        td(class="text-center")=ingresoAnimal.observacion
+        td(class="text-center")=ingresoAnimal.fechaCreacion 
+        td(class="text-center")=ingresoAnimal.fechaModificacion
+        td(class="text-center")=ingresoAnimal.fechaBorrado 
+        td          
+          a(href="/web/detalleIngresoAnimal/add/#{ingresoAnimal.idIngresoAnimal}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Add")
+              button(type="button" class="btn btn-info") Agregar Detalle Ingreso
+
+        td
+          a(href="/web/detalleIngresoAnimal/#{ingresoAnimal.idIngresoAnimal}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="View")
+              button(type="button" class="btn btn-info") Ver Detalle
+        td
+          a(href="/web/ingresoAnimal/#{ingresoAnimal.idIngresoAnimal}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Editar Ingreso Animal 
+              
+        form(id="topicForm" method="post" action="/web/ingresoAnimal/#{ingresoAnimal.idIngresoAnimal}")
+          input(type="hidden" name="_method" value="delete")
+          input(type="hidden" name="idIngresoAnimal" value='#{ingresoAnimal.idIngresoAnimal}')               
+          td
+            a(href="/web/ingresoAnimal/#{ingresoAnimal.idIngresoAnimal}" class="btn btn-info" role="button")
+              p(data-placement="top" data-toggle="tooltip" title="Delete")
+                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Ingreso Animal
+
+
+a(href="/web/ingresoAnimal/cargar" class="btn btn-info" role="button")
+  p(data-placement="top" data-toggle="tooltip" title="Add")
+    button(type="button" class="btn btn-info") Agregar Ingreso Animal
+
+
+          

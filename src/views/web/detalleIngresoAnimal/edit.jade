@@ -1,0 +1,30 @@
+form(id="topicForm" method="post" action="/web/detalleIngresoAnimal/#{detalleIngresoAnimal.idDetalleIA}")
+  input(type="hidden" name="_method" value="put")
+  input(type="hidden" name="idDetalleIA" value='#{detalleIngresoAnimal.idDetalleIA}')
+  table(class="table table-bordred table-striped")
+    thead
+      tr
+        th(class="cell-stat text-center") observacion
+        th(class="cell-stat text-center") rpAnimal
+        th(class="cell-stat text-center") fechaCreacion
+        th(class="cell-stat text-center") fechaModificacion
+        th(class="cell-stat text-center") fechaBorrado
+        th(class="cell-stat text-center") Accion
+        th(class="cell-stat text-center") Accion  
+    tbody
+      tr
+        td(class="text-center")
+          input(type="text" class="form-control" id='observacion' name='observacion' value='#{detalleIngresoAnimal.observacion}' required="true")
+        td(class="text-center") 
+          select(name="animalSele")
+            -for (var j=0; j < select.length; j++) {
+              if detalleIngresoAnimal.AnimalIdAnimal == select[j].idAnimal 
+               option(value="#{select[j].idAnimal}" selected) #{select[j].rpAnimal} 
+              else 
+               option(value="#{select[j].idAnimal}") #{select[j].rpAnimal}
+            -}	       
+        td(class="text-center")=detalleIngresoAnimal.fechaCreacion
+        td(class="text-center")=detalleIngresoAnimal.fechaModificacion
+        td(class="text-center")=detalleIngresoAnimal.fechaBorrado
+        td
+  button(type="submit" name="commit" value="Form" class="btn btn-success btn-block") Editar Detalle Ingreso 

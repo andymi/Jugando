@@ -1,0 +1,29 @@
+extends ../../layout 
+block content
+  br
+  br
+  div(class="container-fluid")
+    form(action='/web/ingresoCorral/cargar' method="POST")
+     div(class="form-group")
+      label(for="fechaIngreso") Fecha de Ingreso
+      input(type="text" class="form-control" id="fechaIngreso" name='fechaIngreso' value='ingresoCorral.fechaIngreso' placeholder="Ingrese la Raza")
+
+     div(class="form-group")
+      label(for="horaIngreso") Hora de Ingreso
+      input(type="text"  class="form-control" id="horaIngreso" name='horaIngreso' value='ingresoCorral.horaIngreso' placeholder="Ingrese el Peso") 
+
+     div(class="form-group")
+      label(for="observacionIngreso") Observacion
+      input(type="text" class="form-control" id="observacionIngreso" name='observacionIngreso' value='ingresoCorral.observacionIngreso' placeholder="Ingrese el RP")
+
+     div(class="form-group")
+        label(class="control-label col-sm-2" for="email") Empleado: 
+        div(class="col-sm-10")  
+          select(name='selectJ')
+            option(value="-1" selected) Seleccione Empleado
+            -for(var j=0; j < selectJ.length; j++) {
+              option(value="#{selectJ[j].idEmpleado}") #{selectJ[j].nombreEmpleado}
+            -}   
+
+     button(type="submit" value="submit") Submit
+  

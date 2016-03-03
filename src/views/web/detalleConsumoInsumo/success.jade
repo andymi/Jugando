@@ -1,0 +1,39 @@
+table(class="table table-bordred table-striped")
+  thead
+    tr
+      th(class="cell-stat text-center") idDetalleConsumoInsumo
+      th(class="cell-stat text-center") cantidad          
+      th(class="cell-stat text-center") idInsumo
+      th(class="cell-stat text-center") nombreInsumo
+      th(class="cell-stat text-center") fechaCreacion
+      th(class="cell-stat text-center") fechaModificacion
+      th(class="cell-stat text-center") fechaBorrado
+      th(class="cell-stat text-center") Accion
+      th(class="cell-stat text-center") Accion
+  
+  tbody
+    for detalleConsumo in detalleConsumos
+      tr
+        td(class="text-center")=detalleConsumo.idDetalleConsumoInsumo
+        td(class="text-center")=detalleConsumo.cantidad       
+        td(class="text-center")=detalleConsumo.Insumo.idInsumo
+        if detalleConsumo.Insumo == null  
+          td(class="text-center") sin Insumo
+        else 
+          td(class="text-center")=detalleConsumo.Insumo.nombreInsumo        
+        td(class="text-center")=detalleConsumo.fechaCreacion 
+        td(class="text-center")=detalleConsumo.fechaModificacion
+        td(class="text-center")=detalleConsumo.fechaBorrado 
+        td
+          a(href="/web/detalleConsumoInsumo/editar/#{detalleConsumo.idDetalleConsumoInsumo}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Editar Detalle Consumo Insumo
+              
+        form(id="topicForm" method="post" action="/web/detalleConsumoInsumo/#{detalleConsumo.idDetalleConsumoInsumo}")
+          input(type="hidden" name="_method" value="delete")
+          input(type="hidden" name="idConsumo" value='#{detalleConsumo.idDetalleConsumoInsumo}')               
+          td
+            a(href="/web/detalleConsumoInsumo/#{detalleConsumo.idDetalleConsumoInsumo}" class="btn btn-info" role="button")
+              p(data-placement="top" data-toggle="tooltip" title="Delete")
+                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Detalle Consumo Insumo
+

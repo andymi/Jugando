@@ -1,0 +1,45 @@
+table(class="table table-bordred table-striped")
+  thead
+    tr
+      th(class="cell-stat text-center") idCiudad
+      th(class="cell-stat text-center") ciudad      
+      th(class="cell-stat text-center") departamento
+      th(class="cell-stat text-center") fechaCreacion
+      th(class="cell-stat text-center") fechaModificacion
+      th(class="cell-stat text-center") fechaBorrado
+      th(class="cell-stat text-center") Accion
+      th(class="cell-stat text-center") Accion
+  
+  tbody
+    for ciudad in ciudades
+      tr
+        td(class="text-center")=ciudad.idCiudad
+        td(class="text-center")=ciudad.ciudad
+        td(class="text-center")=ciudad.Departamento.idDepartamento 
+        if ciudad.Departamento == null  
+          td(class="text-center") sin departamento
+        else 
+          td(class="text-center")=ciudad.Departamento.departamento 
+        
+        td(class="text-center")=ciudad.fechaCreacion 
+        td(class="text-center")=ciudad.fechaModificacion
+        td(class="text-center")=ciudad.fechaBorrado 
+        td
+          a(href="/web/ciudad/#{ciudad.idCiudad}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Editar Ciudad
+              
+        form(id="topicForm" method="post" action="/web/ciudad/#{ciudad.idCiudad}")
+          input(type="hidden" name="_method" value="delete")
+          input(type="hidden" name="idCiudad" value='#{ciudad.idCiudad}')               
+          td
+            a(href="/web/ciudad/#{ciudad.idCiudad}" class="btn btn-info" role="button")
+              p(data-placement="top" data-toggle="tooltip" title="Delete")
+                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Ciudad
+
+a(href="/web/ciudad/cargar" class="btn btn-info" role="button")
+  p(data-placement="top" data-toggle="tooltip" title="Add")
+    button(type="button" class="btn btn-info") Agregar Ciudad
+
+
+          

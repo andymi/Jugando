@@ -1,0 +1,38 @@
+table(class="table table-bordred table-striped")
+  thead
+    tr
+      th(class="cell-stat text-center") idDetalleExtraviado
+      th(class="cell-stat text-center") observacionExtraviado          
+      th(class="cell-stat text-center") idAnimal
+      th(class="cell-stat text-center") rpAnimal
+      th(class="cell-stat text-center") fechaCreacion
+      th(class="cell-stat text-center") fechaModificacion
+      th(class="cell-stat text-center") fechaBorrado
+      th(class="cell-stat text-center") Accion
+      th(class="cell-stat text-center") Accion
+  
+  tbody
+    for detalleExtraviado in detalleExtraviados
+      tr
+        td(class="text-center")=detalleExtraviado.idDetalleExtraviado
+        td(class="text-center")=detalleExtraviado.observacionExtraviado       
+        td(class="text-center")=detalleExtraviado.Animal.idAnimal
+        if detalleExtraviado.Animal == null  
+          td(class="text-center") sin Animal
+        else 
+          td(class="text-center")=detalleExtraviado.Animal.rpAnimal        
+        td(class="text-center")=detalleExtraviado.fechaCreacion 
+        td(class="text-center")=detalleExtraviado.fechaModificacion
+        td(class="text-center")=detalleExtraviado.fechaBorrado 
+        td
+          a(href="/web/detalleExtraviado/editar/#{detalleExtraviado.idDetalleExtraviado}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Editar Detalle Extraviado 
+              
+        form(id="topicForm" method="post" action="/web/detalleExtraviado/#{detalleExtraviado.idDetalleExtraviado}")
+          input(type="hidden" name="_method" value="delete")
+          input(type="hidden" name="idConsumo" value='#{detalleExtraviado.idDetalleExtraviado}')               
+          td
+            a(href="/web/detalleExtraviado/#{detalleExtraviado.idDetalleExtraviado}" class="btn btn-info" role="button")
+              p(data-placement="top" data-toggle="tooltip" title="Delete")
+                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Detalle Extraviado

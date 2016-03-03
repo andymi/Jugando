@@ -1,0 +1,39 @@
+table(class="table table-bordred table-striped")
+  thead
+    tr
+      th(class="cell-stat text-center") idDetalleMuerte
+      th(class="cell-stat text-center") observacion           
+      th(class="cell-stat text-center") idAnimal
+      th(class="cell-stat text-center") rpAnimal
+      th(class="cell-stat text-center") fechaCreacion
+      th(class="cell-stat text-center") fechaModificacion
+      th(class="cell-stat text-center") fechaBorrado
+      th(class="cell-stat text-center") Accion
+      th(class="cell-stat text-center") Accion
+  
+  tbody
+    for detalleMuerte in detalleMuertes
+      tr
+        td(class="text-center")=detalleMuerte.idDetalleMuerte
+        td(class="text-center")=detalleMuerte.observacion       
+        td(class="text-center")=detalleMuerte.Animal.idAnimal
+        if detalleMuerte.Animal == null  
+          td(class="text-center") sin Animal
+        else 
+          td(class="text-center")=detalleMuerte.Animal.rpAnimal        
+        td(class="text-center")=detalleMuerte.fechaCreacion 
+        td(class="text-center")=detalleMuerte.fechaModificacion
+        td(class="text-center")=detalleMuerte.fechaBorrado 
+        td
+          a(href="/web/detalleMuerte/editar/#{detalleMuerte.idDetalleMuerte}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Editar Detalle Muerte 
+              
+        form(id="topicForm" method="post" action="/web/detalleMuerte/#{detalleMuerte.idDetalleMuerte}")
+          input(type="hidden" name="_method" value="delete")
+          input(type="hidden" name="idMuerte" value='#{detalleMuerte.idDetalleMuerte}')               
+          td
+            a(href="/web/detalleMuerte/#{detalleMuerte.idDetalleMuerte}" class="btn btn-info" role="button")
+              p(data-placement="top" data-toggle="tooltip" title="Delete")
+                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Detalle Muerte
+

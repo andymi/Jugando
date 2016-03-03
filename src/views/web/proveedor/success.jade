@@ -1,0 +1,47 @@
+table(class="table table-bordred table-striped")
+  thead
+    tr
+      th(class="cell-stat text-center") idProveedor
+      th(class="cell-stat text-center") nombreProveedor
+      th(class="cell-stat text-center") direccionProveedor
+      th(class="cell-stat text-center") rucProveedor
+      th(class="cell-stat text-center") tipoProveedor
+      th(class="cell-stat text-center") ciudad
+      th(class="cell-stat text-center") fechaCreacion
+      th(class="cell-stat text-center") fechaModificacion
+      th(class="cell-stat text-center") fechaBorrado
+      th(class="cell-stat text-center") Accion
+      th(class="cell-stat text-center") Accion
+  
+  tbody
+    for proveedor in proveedores
+      tr
+        td(class="text-center")=proveedor.idProveedor
+        td(class="text-center")=proveedor.nombreProveedor
+        td(class="text-center")=proveedor.direccionProveedor
+        td(class="text-center")=proveedor.rucProveedor 
+        td(class="text-center")=proveedor.tipoProveedor  
+        if proveedor.Ciudad == null  
+          td(class="text-center") sin Ciudad
+        else 
+          td(class="text-center")=proveedor.Ciudad.ciudad  
+        td(class="text-center")=proveedor.fechaCreacion 
+        td(class="text-center")=proveedor.fechaModificacion
+        td(class="text-center")=proveedor.fechaBorrado 
+        td
+          a(href="/web/proveedor/#{proveedor.idProveedor}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Editar Proveedor
+              
+        form(id="topicForm" method="post" action="/web/proveedor/#{proveedor.idProveedor}")
+          input(type="hidden" name="_method" value="delete")
+          input(type="hidden" name="idProveedor" value='#{proveedor.idProveedor}')               
+          td
+            a(href="/web/proveedor/#{proveedor.idProveedor}" class="btn btn-info" role="button")
+              p(data-placement="top" data-toggle="tooltip" title="Delete")
+                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Proveedor
+
+
+a(href="/web/proveedor/cargar" class="btn btn-info" role="button")
+  p(data-placement="top" data-toggle="tooltip" title="Add")
+    button(type="button" class="btn btn-info") Agregar Proveedor

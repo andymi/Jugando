@@ -1,0 +1,11 @@
+extends ../../layout 
+block content
+  br
+  br
+  div(class="container-fluid")
+    form(action='/web/departamento/cargar' method="POST")
+     div(class="form-group")
+      label(for="departamento") Nombre del Departamento
+      input(type="text" class="form-control" id="departamento" name='departamento' value='departamento.departamento' placeholder="Ingrese el Departamento")
+
+     button(type="submit" value="submit") Agregar Departamento 

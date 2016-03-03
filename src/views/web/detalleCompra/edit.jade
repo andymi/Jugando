@@ -1,0 +1,36 @@
+form(id="topicForm" method="post" action="/web/detalleCompra/#{detalleCompra.idDetalleCompra}")
+  input(type="hidden" name="_method" value="put")
+  input(type="hidden" name="idDetalleCompra" value='#{detalleCompra.idDetalleCompra}')
+  table(class="table table-bordred table-striped")
+    thead
+      tr
+        th(class="cell-stat text-center") descripcionCompra
+        th(class="cell-stat text-center") precioCompra
+        th(class="cell-stat text-center") cantidadCompra
+        th(class="cell-stat text-center") nombreInsumo
+        th(class="cell-stat text-center") fechaCreacion
+        th(class="cell-stat text-center") fechaModificacion
+        th(class="cell-stat text-center") fechaBorrado
+        th(class="cell-stat text-center") Accion
+        th(class="cell-stat text-center") Accion  
+    tbody
+      tr
+        td(class="text-center")
+          input(type="text" class="form-control" id='descripcionCompra' name='descripcionCompra' value='#{detalleCompra.descripcionCompra}' required="true")
+        td(class="text-center")
+          input(type="text" class="form-control" id='precioCompra' name='precioCompra' value='#{detalleCompra.precioCompra}' required="true")
+        td(class="text-center")
+          input(type="text" class="form-control" id='cantidadCompra' name='cantidadCompra' value='#{detalleCompra.cantidadCompra}' required="true")
+        td(class="text-center") 
+          select(name="insumoSele")
+            -for (var j=0; j < select.length; j++) {
+              if detalleCompra.InsumoIdInsumo == select[j].idInsumo 
+               option(value="#{select[j].idInsumo}" selected) #{select[j].nombreInsumo} 
+              else 
+               option(value="#{select[j].idInsumo}") #{select[j].nombreInsumo}
+            -}	       
+        td(class="text-center")=detalleCompra.fechaCreacion
+        td(class="text-center")=detalleCompra.fechaModificacion
+        td(class="text-center")=detalleCompra.fechaBorrado
+        td
+  button(type="submit" name="commit" value="Form" class="btn btn-success btn-block") Editar Detalle Compra 

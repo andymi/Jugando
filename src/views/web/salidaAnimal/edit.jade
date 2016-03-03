@@ -1,0 +1,42 @@
+form(id="topicForm" method="post" action="/web/salidaAnimal/#{salidaAnimal.idSalidaAnimal}")
+  input(type="hidden" name="_method" value="put")
+  input(type="hidden" name="idSalidaAnimal" value='#{salidaAnimal.idSalidaAnimal}')
+  table(class="table table-bordred table-striped")
+    thead
+      tr
+        th(class="cell-stat text-center") idSalidaAnimal
+        th(class="cell-stat text-center") fechaSalida 
+        th(class="cell-stat text-center") horaSalida
+        th(class="cell-stat text-center") cantidadSalida
+        th(class="cell-stat text-center") observacion
+        
+        th(class="cell-stat text-center") fechaCreacion
+        th(class="cell-stat text-center") fechaModificacion
+        th(class="cell-stat text-center") fechaBorrado
+        th(class="cell-stat text-center") Accion
+        th(class="cell-stat text-center") Accion
+    tbody
+        tr
+          td(class="text-center")=salidaAnimal.idSalidaAnimal
+          
+          td(class="text-center")
+            //label(for="fechaSalida" class="control-label") Fecha Salida
+            input(type="text" class="form-control" id="fechaSalida" name='fechaSalida' value='#{salidaAnimal.fechaSalida}' required="true")
+
+          td(class="text-center")
+            //label(for="horaSalida" class="control-label") Hora Salida
+            input(type="text" class="form-control" id='horaSalida' name='horaSalida' value='#{salidaAnimal.horaSalida}' required="true")
+
+          td(class="text-center")
+            //label(for="cantidadSalida" class="control-label") Cantidad Salida
+            input(type="text" class="form-control" id="cantidadSalida" name='cantidadSalida' value='#{salidaAnimal.cantidadSalida}' required="true") 
+
+          td(class="text-center")
+            //label(for="observacion" class="control-label") Observacion
+            input(type="text" class="form-control" id='observacion' name='observacion' value='#{salidaAnimal.observacion}' required="true")
+        
+          td(class="text-center")=salidaAnimal.fechaCreacion
+          td(class="text-center")=salidaAnimal.fechaModificacion
+          td(class="text-center")=salidaAnimal.fechaBorrado
+          td
+            button(type="submit" name="commit" value="Form" class="btn btn-success btn-block") Editar Salida Animal 

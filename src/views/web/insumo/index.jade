@@ -1,0 +1,37 @@
+extends ../../layout 
+block content
+  br
+  br
+  div(class="container-fluid")
+    form(action='/web/insumo/cargar' method="POST")
+
+     div(class="form-group")
+      label(for="codigoBarra") Codigo de Barra
+      input(type="text" class="form-control" id="codigoBarra" name='codigoBarra' value='insumo.codigoBarra' placeholder="Ingrese el Insumo")
+
+     div(class="form-group")
+      label(for="nombreInsumo") Nombre del Insumo
+      input(type="text" class="form-control" id="nombreInsumo" name='nombreInsumo' value='insumo.nombreInsumo' placeholder="Ingrese el Insumo")
+
+     div(class="form-group")
+      label(for="contenidoInsumo") Contenido
+      input(type="text" class="form-control" id="contenidoInsumo" name='contenidoInsumo' value='insumo.contenidoInsumo' placeholder="Ingrese el Contenido")
+
+     div(class="form-group")
+      label(for="precioCompra") Precio de Compra
+      input(type="text" class="form-control" id="precioCompra" name='precioCompra' value='insumo.precioCompra' placeholder="Ingrese el Precio")
+
+     div(class="form-group")
+      label(for="tipoInsumo") Tipo de Insumo
+      input(type="text" class="form-control" id="tipoInsumo" name='tipoInsumo' value='insumo.tipoInsumo' placeholder="Ingrese el Tipo de Insumo")
+
+     div(class="form-group")
+      label(for="presentacionInsumo") Presentacion del Insumo
+      input(type="text" class="form-control" id="presentacionInsumo" name='presentacionInsumo' value='insumo.presentacionInsumo' placeholder="Ingrese la Presentacion del Insumo")
+
+     div(class="form-group")
+      label(for="estadoInsumo") Estado del Insumo
+      input(type="text" class="form-control" id="estadoInsumo" name='estadoInsumo' value='insumo.estadoInsumo' placeholder="Ingrese el Estado")
+
+     button(type="submit" value="submit") Agregar Insumo
+      

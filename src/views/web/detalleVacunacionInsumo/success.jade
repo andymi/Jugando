@@ -1,0 +1,39 @@
+table(class="table table-bordred table-striped")
+  thead
+    tr
+      th(class="cell-stat text-center") idDetalleVacunacionInsumo
+      th(class="cell-stat text-center") cantidadInsumo          
+      th(class="cell-stat text-center") idInsumo
+      th(class="cell-stat text-center") nombreInsumo
+      th(class="cell-stat text-center") fechaCreacion
+      th(class="cell-stat text-center") fechaModificacion
+      th(class="cell-stat text-center") fechaBorrado
+      th(class="cell-stat text-center") Accion
+      th(class="cell-stat text-center") Accion
+  
+  tbody
+    for detalleVacunacion in detalleVacunaciones
+      tr
+        td(class="text-center")=detalleVacunacion.idDetalleVacunacionInsumo
+        td(class="text-center")=detalleVacunacion.cantidadInsumo       
+        td(class="text-center")=detalleVacunacion.Insumo.idInsumo
+        if detalleVacunacion.Insumo == null  
+          td(class="text-center") sin Insumo
+        else 
+          td(class="text-center")=detalleVacunacion.Insumo.nombreInsumo        
+        td(class="text-center")=detalleVacunacion.fechaCreacion 
+        td(class="text-center")=detalleVacunacion.fechaModificacion
+        td(class="text-center")=detalleVacunacion.fechaBorrado 
+        td
+          a(href="/web/detalleVacunacionInsumo/editar/#{detalleVacunacion.idDetalleVacunacionInsumo}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Editar Detalle Vacunacion Insumo
+              
+        form(id="topicForm" method="post" action="/web/detalleVacunacionInsumo/#{detalleVacunacion.idDetalleVacunacionInsumo}")
+          input(type="hidden" name="_method" value="delete")
+          input(type="hidden" name="idPesaje" value='#{detalleVacunacion.idDetalleVacunacionInsumo}')               
+          td
+            a(href="/web/detalleVacunacionInsumo/#{detalleVacunacion.idDetalleVacunacionInsumo}" class="btn btn-info" role="button")
+              p(data-placement="top" data-toggle="tooltip" title="Delete")
+                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Detalle Vacunacion Insumo
+

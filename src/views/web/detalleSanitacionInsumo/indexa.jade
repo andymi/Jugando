@@ -1,0 +1,17 @@
+form(action='/web/detalleSanitacionInsumo/add' method="POST")
+  input(type="hidden" name='id' value='#{sanitacionJ}')
+  div(class="form-group")
+    label(for="cantidadUtilizada") Cantidad Utilizada
+    input(type="text"  class="form-control" id="cantidadUtilizada" name='cantidadUtilizada' value='detalleSanitacionJ.cantidadUtilizada' placeholder="Ingrese la Observacion") 
+    //detalle del pesaje
+  div(class="form-group")
+    label(class="control-label col-sm-2" for="email") Nombre del Insumo: 
+    div(class="col-sm-10")  
+      select(name='selectJ')
+        option(value="-1" selected) Seleccione Nombre del Insumo
+        -for(var j=0; j < selectJ.length; j++) {
+          option(value="#{selectJ[j].idInsumo}") #{selectJ[j].nombreInsumo}
+        -}  	       
+  
+  button(type="submit" value="submit") Agregar Detalle Sanitacion Insumo
+

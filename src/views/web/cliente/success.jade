@@ -1,0 +1,49 @@
+table(class="table table-bordred table-striped")
+  thead
+    tr
+      th(class="cell-stat text-center") idCliente
+      th(class="cell-stat text-center") nombreCliente
+      th(class="cell-stat text-center") direccionCliente
+      th(class="cell-stat text-center") rucCliente
+      th(class="cell-stat text-center") ciudad
+      th(class="cell-stat text-center") fechaCreacion
+      th(class="cell-stat text-center") fechaModificacion
+      th(class="cell-stat text-center") fechaBorrado
+      th(class="cell-stat text-center") Accion
+      th(class="cell-stat text-center") Accion
+  
+  tbody
+    for cliente in clientes
+      tr
+        td(class="text-center")=cliente.idCliente
+        td(class="text-center")=cliente.nombreCliente
+        td(class="text-center")=cliente.direccionCliente
+        td(class="text-center")=cliente.rucCliente
+        if cliente.Ciudad == null  
+          td(class="text-center") sin Ciudad
+        else 
+          td(class="text-center")=cliente.Ciudad.ciudad 
+        
+        td(class="text-center")=cliente.fechaCreacion 
+        td(class="text-center")=cliente.fechaModificacion
+        td(class="text-center")=cliente.fechaBorrado 
+        td
+          a(href="/web/cliente/#{cliente.idCliente}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Editar Cliente 
+              
+        form(id="topicForm" method="post" action="/web/cliente/#{cliente.idCliente}")
+          input(type="hidden" name="_method" value="delete")
+          input(type="hidden" name="idCliente" value='#{cliente.idCliente}')               
+          td
+            a(href="/web/cliente/#{cliente.idCliente}" class="btn btn-info" role="button")
+              p(data-placement="top" data-toggle="tooltip" title="Delete")
+                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Cliente
+
+
+a(href="/web/cliente/cargar" class="btn btn-info" role="button")
+  p(data-placement="top" data-toggle="tooltip" title="Add")
+    button(type="button" class="btn btn-info") Agregar Cliente
+
+
+          

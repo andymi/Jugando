@@ -1,0 +1,74 @@
+table(class="table table-bordred table-striped")
+  thead
+    tr
+      th(class="cell-stat text-center") idTraslado
+      th(class="cell-stat text-center") fechaTraslado
+      th(class="cell-stat text-center") nombreConductor
+      th(class="cell-stat text-center") cedulaConductor 
+      th(class="cell-stat text-center") cantidadAnimal       
+      th(class="cell-stat text-center") numeroRUA
+      th(class="cell-stat text-center") marcaAuto          
+      th(class="cell-stat text-center") ciudad
+      th(class="cell-stat text-center") nombreEmpleado      
+      th(class="cell-stat text-center") numeroCompra
+      th(class="cell-stat text-center") fechaCreacion
+      th(class="cell-stat text-center") fechaModificacion
+      th(class="cell-stat text-center") fechaBorrado
+      th(class="cell-stat text-center") Accion
+      th(class="cell-stat text-center") Accion
+  
+  tbody
+    for traslados in traslado
+      tr
+        td(class="text-center")=traslados.idTraslado
+        td(class="text-center")=traslados.fechaTraslado
+        td(class="text-center")=traslados.nombreConductor
+        td(class="text-center")=traslados.cedulaConductor
+        td(class="text-center")=traslados.cantidadAnimal
+        td(class="text-center")=traslados.numeroRUA
+        td(class="text-center")=traslados.marcaAuto
+
+        if traslados.Ciudad == null  
+          td(class="text-center") sin Ciudad
+        else 
+          td(class="text-center")=traslados.Ciudad.ciudad       
+        if traslados.Empleado == null  
+          td(class="text-center") sin Empleado
+        else 
+          td(class="text-center")=traslados.Empleado.nombreEmpleado 
+        if traslados.FacturaCompra == null  
+          td(class="text-center") sin FacturaCompra
+        else 
+          td(class="text-center")=traslados.FacturaCompra.numeroCompra         
+        td(class="text-center")=traslados.fechaCreacion 
+        td(class="text-center")=traslados.fechaModificacion
+        td(class="text-center")=traslados.fechaBorrado 
+        td
+          a(href="/web/detalleTraslado/add/#{traslados.idTraslado}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Add")
+              button(type="button" class="btn btn-info") Agregar Detalle Traslado
+
+        td
+          a(href="/web/detalleTraslado/#{traslados.idTraslado}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Ver Detalle
+        td
+          a(href="/web/traslado/#{traslados.idTraslado}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Editar Traslado 
+              
+        form(id="topicForm" method="post" action="/web/traslado/#{traslados.idTraslado}")
+          input(type="hidden" name="_method" value="delete")
+          input(type="hidden" name="idTraslado" value='#{traslados.idTraslado}')               
+          td
+            a(href="/web/traslado/#{traslados.idTraslado}" class="btn btn-info" role="button")
+              p(data-placement="top" data-toggle="tooltip" title="Delete")
+                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Traslado
+
+
+a(href="/web/traslado/cargar" class="btn btn-info" role="button")
+  p(data-placement="top" data-toggle="tooltip" title="Add")
+    button(type="button" class="btn btn-info") Agregar Traslado
+
+
+          

@@ -1,0 +1,38 @@
+table(class="table table-bordred table-striped")
+  thead
+    tr
+      th(class="cell-stat text-center") idStock
+      th(class="cell-stat text-center") cantidad
+      th(class="cell-stat text-center") lote
+      th(class="cell-stat text-center") cantidadMinima
+      th(class="cell-stat text-center") Insumo
+      th(class="cell-stat text-center") DetalleCompra
+      th(class="cell-stat text-center") fechaCreacion
+      th(class="cell-stat text-center") fechaModificacion
+      th(class="cell-stat text-center") fechaBorrado
+      th(class="cell-stat text-center") Accion
+      th(class="cell-stat text-center") Accion
+  
+  tbody
+    for stock in stocks
+      tr
+        td(class="text-center")=stock.idStock
+        td(class="text-center")=stock.cantidad
+        td(class="text-center")=stock.lote
+        td(class="text-center")=stock.cantidadMinima
+        if stock.Insumo == null  
+          td(class="text-center") sin Insumo
+        else 
+          td(class="text-center")=stock.Insumo.nombreInsumo
+        if stock.DetalleCompra == null  
+          td(class="text-center") sin DetalleCompra
+        else 
+          td(class="text-center")=stock.DetalleCompra.idDetalleCompra       
+        td(class="text-center")=stock.fechaCreacion 
+        td(class="text-center")=stock.fechaModificacion
+        td(class="text-center")=stock.fechaBorrado 
+
+a(href="/web/stock/cargar" class="btn btn-info" role="button")
+  p(data-placement="top" data-toggle="tooltip" title="Add")
+    button(type="button" class="btn btn-info") Agregar Stock
+

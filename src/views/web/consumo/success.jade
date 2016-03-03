@@ -1,0 +1,49 @@
+table(class="table table-bordred table-striped")
+  thead
+    tr
+      th(class="cell-stat text-center") idConsumo
+      th(class="cell-stat text-center") fechaConsumo
+      th(class="cell-stat text-center") horaConsumo        
+      th(class="cell-stat text-center") fechaCreacion
+      th(class="cell-stat text-center") fechaModificacion
+      th(class="cell-stat text-center") fechaBorrado
+      th(class="cell-stat text-center") Accion
+      th(class="cell-stat text-center") Accion
+  
+  tbody
+    for consumos in consumo
+      tr
+        td(class="text-center")=consumos.idConsumo
+        td(class="text-center")=consumos.fechaConsumo
+        td(class="text-center")=consumos.horaConsumo                
+        td(class="text-center")=consumos.fechaCreacion 
+        td(class="text-center")=consumos.fechaModificacion
+        td(class="text-center")=consumos.fechaBorrado 
+        td
+          a(href="/web/detalleConsumo/add/#{consumos.idConsumo}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Add")
+              button(type="button" class="btn btn-info") Agregar Detalle Consumo        
+        td
+          a(href="/web/detalleConsumo/animal/#{consumos.idConsumo}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Ver Detalle
+        td
+          a(href="/web/consumo/#{consumos.idConsumo}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Editar Consumo
+              
+        form(id="topicForm" method="post" action="/web/consumo/#{consumos.idConsumo}")
+          input(type="hidden" name="_method" value="delete")
+          input(type="hidden" name="idConsumo" value='#{consumos.idConsumo}')               
+          td
+            a(href="/web/consumo/#{consumos.idConsumo}" class="btn btn-info" role="button")
+              p(data-placement="top" data-toggle="tooltip" title="Delete")
+                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Consumo
+
+
+a(href="/web/consumo/cargar" class="btn btn-info" role="button")
+  p(data-placement="top" data-toggle="tooltip" title="Add")
+    button(type="button" class="btn btn-info") Agregar Consumo
+
+
+          

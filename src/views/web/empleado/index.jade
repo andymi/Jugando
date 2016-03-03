@@ -1,0 +1,39 @@
+extends ../../layout 
+block content
+  br
+  br
+  div(class="container-fluid")
+    form(action='/web/empleado/cargar' method="POST")
+     div(class="form-group")
+      label(for="cedulaEmpleado") Ruc del Empleado
+      input(type="text" class="form-control" id="cedulaEmpleado" name='cedulaEmpleado' value='empleado.cedulaEmpleado' placeholder="Ingrese el RUC")
+
+     div(class="form-group")
+      label(for="nombreEmpleado") Nombre del Empleado
+      input(type="text" class="form-control" id="nombreEmpleado" name='nombreEmpleado' value='empleado.nombreEmpleado' placeholder="Ingrese el Nombre")
+
+     div(class="form-group")
+      label(for="codigoLlave") Codigo Llave
+      input(type="text" class="form-control" id="codigoLlave" name='codigoLlave' value='empleado.codigoLlave' placeholder="Ingrese el Codigo")
+
+     div(class="form-group")
+      label(for="direccionEmpleado") Direccion del Empleado
+      input(type="text"  class="form-control" id="direccionEmpleado" name='direccionEmpleado' value='empleado.direccionEmpleado' placeholder="Ingrese la Direccion") 
+
+     div(class="form-group")
+      label(for="estadoEmpleado") Estado del Empleado
+      input(type="text"  class="form-control" id="estadoEmpleado" name='estadoEmpleado' value='empleado.estadoEmpleado' placeholder="Ingrese la Estado") 
+
+     div(class="form-group")
+        label(class="control-label col-sm-2" for="email") Ciudad: 
+        div(class="col-sm-10")  
+          select(name='selectJ')
+            option(value="-1" selected) Seleccione Ciudad
+            -for(var j=0; j < selectJ.length; j++) {
+              option(value="#{selectJ[j].idCiudad}") #{selectJ[j].ciudad}
+            -}  
+
+     button(type="submit" value="submit") Agregar Empleado
+      
+
+        

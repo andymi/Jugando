@@ -1,0 +1,41 @@
+form(id="topicForm" method="post" action="/web/ingresoAnimal/#{ingresoAnimal.idIngresoAnimal}")
+  input(type="hidden" name="_method" value="put")
+  input(type="hidden" name="idIngresoAnimal" value='#{ingresoAnimal.idIngresoAnimal}')
+  table(class="table table-bordred table-striped")
+    thead
+      tr
+        th(class="cell-stat text-center") idIngresoAnimal
+        th(class="cell-stat text-center") fechaEntrada
+        th(class="cell-stat text-center") horaEntrada
+        th(class="cell-stat text-center") cantidadEntrada
+        th(class="cell-stat text-center") observacion
+        th(class="cell-stat text-center") fechaCreacion
+        th(class="cell-stat text-center") fechaModificacion
+        th(class="cell-stat text-center") fechaBorrado
+        th(class="cell-stat text-center") Accion
+        th(class="cell-stat text-center") Accion
+    tbody
+        tr
+          td(class="text-center")=ingresoAnimal.idIngresoAnimal
+          
+          td(class="text-center")
+            //label(for="fechaEntrada" class="control-label") Fecha Entrada
+            input(type="text" class="form-control" id="fechaEntrada" name='fechaEntrada' value='#{ingresoAnimal.fechaEntrada}' required="true")
+          
+          td(class="text-center")
+            //label(for="horaEntrada" class="control-label") Hora Entrada
+            input(type="text" class="form-control" id="horaEntrada" name='horaEntrada' value='#{ingresoAnimal.horaEntrada}' required="true")
+
+          td(class="text-center")
+            //label(for="cantidadEntrada" class="control-label") Cantidad Entrada
+            input(type="text" class="form-control" id="cantidadEntrada" name='cantidadEntrada' value='#{ingresoAnimal.cantidadEntrada}' required="true")
+
+          td(class="text-center")
+            //label(for="observacion" class="control-label") Observacion
+            input(type="text" class="form-control" id='observacion' name='observacion' value='#{ingresoAnimal.observacion}' required="true")
+        
+          td(class="text-center")=ingresoAnimal.fechaCreacion
+          td(class="text-center")=ingresoAnimal.fechaModificacion
+          td(class="text-center")=ingresoAnimal.fechaBorrado
+          td
+            button(type="submit" name="commit" value="Form" class="btn btn-success btn-block") Editar Ingreso Animal 

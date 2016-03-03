@@ -1,0 +1,14 @@
+form(action='/web/detalleVenta/add' method="POST")
+  input(type="hidden" name='id' value='#{ventaJ}')
+  div(class="form-group")
+    label(for="descripcionVenta") Descripcion Venta
+    input(type="text" class="form-control" id="descripcionVenta" name='descripcionVenta' value='detalleVenta.descripcionVenta' placeholder="Ingrese la Descripcion")
+  div(class="form-group")
+    label(for="precioVenta") Precio Venta
+    input(type="text"  class="form-control" id="precioVenta" name='precioVenta' value='detalleVenta.precioVenta' placeholder="Ingrese el Precio") 
+  div(class="form-group")
+    label(for="cantidadVenta") Cantidad Venta
+    input(type="text"  class="form-control" id="cantidadVenta" name='cantidadVenta' value='detalleVenta.cantidadVenta' placeholder="Ingrese la Cantidad")       
+  
+  button(type="submit" value="submit") Agregar Detalle Venta
+

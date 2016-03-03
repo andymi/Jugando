@@ -1,0 +1,13 @@
+extends ../../layout 
+block content
+  br
+  br
+  div(class="container-fluid")
+    form(action='/web/consumo/add' method="POST")
+     div(class="form-group")
+      label(for="fechaConsumo") Fecha del Consumo
+      input(type="text" class="form-control" id="fechaConsumo" name='fechaConsumo' value='consumo.fechaConsumo' placeholder="Ingrese la Fecha")
+     div(class="form-group")
+      label(for="horaConsumo") Hora del Consumo
+      input(type="text"  class="form-control" id="horaConsumo" name='horaConsumo' value='consumo.horaConsumo' placeholder="Ingrese la Hora") 
+     button(type="submit" value="submit") Agregar Consumo

@@ -1,0 +1,31 @@
+extends ../../layout 
+block content
+  br
+  br
+  div(class="container-fluid")
+    form(action='/web/cliente/cargar' method="POST")
+     div(class="form-group")
+      label(for="rucCliente") Ruc del Cliente
+      input(type="text" class="form-control" id="rucCliente" name='rucCliente' value='cliente.rucCliente' placeholder="Ingrese el RUC")
+
+     div(class="form-group")
+      label(for="nombreCliente") Nombre del Cliente
+      input(type="text" class="form-control" id="nombreCliente" name='nombreCliente' value='cliente.nombreCliente' placeholder="Ingrese el Nombre")
+
+     div(class="form-group")
+      label(for="direccionCliente") Direccion del Cliente
+      input(type="text"  class="form-control" id="direccionCliente" name='direccionCliente' value='cliente.direccionCliente' placeholder="Ingrese la Direccion") 
+     div(class="form-group")
+        label(class="control-label col-sm-2" for="email") Ciudad: 
+        div(class="col-sm-10")  
+          select(name='selectJ')
+            option(value="-1" selected) Seleccione Ciudad
+            -for(var j=0; j < selectJ.length; j++) {
+              option(value="#{selectJ[j].idCiudad}") #{selectJ[j].ciudad}
+            -}  	       
+
+     button(type="submit" value="submit") Agregar Cliente
+      
+
+    
+  

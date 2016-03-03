@@ -1,0 +1,47 @@
+form(id="topicForm" method="post" action="/web/vacunacion/#{vacunacion.idVacunacion}")
+  input(type="hidden" name="_method" value="put")
+  input(type="hidden" name="idVacunacion" value='#{vacunacion.idVacunacion}')
+  table(class="table table-bordred table-striped")
+    thead
+      tr
+        th(class="cell-stat text-center") idVacunacion
+        th(class="cell-stat text-center") fechaVacunacion
+        th(class="cell-stat text-center") horaVacunacion
+        th(class="cell-stat text-center") costoVacunacion
+        th(class="cell-stat text-center") idProveedor
+        th(class="cell-stat text-center") nombreProveedor
+        th(class="cell-stat text-center") fechaCreacion
+        th(class="cell-stat text-center") fechaModificacion
+        th(class="cell-stat text-center") fechaBorrado
+        th(class="cell-stat text-center") Accion
+        th(class="cell-stat text-center") Accion
+    tbody
+        tr
+          td(class="text-center")=vacunacion.idVacunacion
+          
+          td(class="text-center")
+            //label(for="fechaVacunacion" class="control-label") Fecha Vacunacion
+            input(type="text" class="form-control" id='fechaVacunacion' name='fechaVacunacion' value='#{vacunacion.fechaVacunacion}' required="true")
+          
+          td(class="text-center")
+            //label(for="horaVacunacion" class="control-label") Hora Vacunacion
+            input(type="text" class="form-control" id="horaVacunacion" name='horaVacunacion' value='#{vacunacion.horaVacunacion}' required="true")
+          
+          td(class="text-center")
+            //label(for="costoVacunacion" class="control-label") Costo Vacunacion
+            input(type="text" class="form-control" id="costoVacunacion" name='costoVacunacion' value='#{vacunacion.costoVacunacion}' required="true")
+
+          td(class="text-center")
+            select(name="empleadoSele")
+              -for (var j=0; j < select.length; j++) {
+                if vacunacion.ProveedorIdProveedor == select[j].idProveedor 
+                 option(value="#{select[j].idProveedor}" selected) #{select[j].nombreProveedor} 
+                else 
+                 option(value="#{select[j].idProveedor}") #{select[j].nombreProveedor}
+              -}
+
+          td(class="text-center")=vacunacion.fechaCreacion
+          td(class="text-center")=vacunacion.fechaModificacion
+          td(class="text-center")=vacunacion.fechaBorrado
+          td
+            button(type="submit" name="commit" value="Form" class="btn btn-success btn-block") Editar Vacunacion

@@ -1,0 +1,57 @@
+form(id="topicForm" method="post" action="/web/muertes/#{muertes.idMuerte}")
+  input(type="hidden" name="_method" value="put")
+  input(type="hidden" name="idMuerte" value='#{muertes.idMuerte}')
+  table(class="table table-bordred table-striped")
+    thead
+      tr
+        th(class="cell-stat text-center") idMuerte
+        th(class="cell-stat text-center") fechaMuerte
+        th(class="cell-stat text-center") horaMuerte
+        th(class="cell-stat text-center") cantidadTotal
+        th(class="cell-stat text-center") nombreEmpleado
+        th(class="cell-stat text-center") nombreProveedor
+        th(class="cell-stat text-center") fechaCreacion
+        th(class="cell-stat text-center") fechaModificacion
+        th(class="cell-stat text-center") fechaBorrado
+        th(class="cell-stat text-center") Accion
+        th(class="cell-stat text-center") Accion
+    tbody
+        tr
+          td(class="text-center")=muertes.idMuerte
+          
+          td(class="text-center")
+            //label(for="fechaMuerte" class="control-label") Fecha Muerte
+            input(type="text" class="form-control" id='fechaMuerte' name='fechaMuerte' value='#{muertes.fechaMuerte}' required="true")
+          
+          td(class="text-center")
+            //label(for="horaMuerte" class="control-label") Hora Muerte
+            input(type="text" class="form-control" id="horaMuerte" name='horaMuerte' value='#{muertes.horaMuerte}' required="true")
+
+          td(class="text-center")
+            //label(for="cantidadTotal" class="control-label") Cantidad Total
+            input(type="text" class="form-control" id="cantidadTotal" name='cantidadTotal' value='#{muertes.cantidadTotal}' required="true")
+
+          td(class="text-center")
+            select(name="empleadoSele")
+              -for (var j=0; j < selectJ.length; j++) {
+                if muertes.EmpleadoIdEmpleado == selectJ[j].idEmpleado 
+                 option(value="#{selectJ[j].idEmpleado}" selected) #{selectJ[j].nombreEmpleado} 
+                else 
+                 option(value="#{selectJ[j].idEmpleado}") #{selectJ[j].nombreEmpleado}
+              -}
+          td(class="text-center")
+            select(name="proveedorSele")
+              -for (var j=0; j < select.length; j++) {
+                if muertes.ProveedorIdProveedor == select[j].idProveedor 
+                 option(value="#{select[j].idProveedor}" selected) #{select[j].nombreProveedor} 
+                else 
+                 option(value="#{select[j].idProveedor}") #{select[j].nombreProveedor}
+              -}
+          
+          
+        
+          td(class="text-center")=muertes.fechaCreacion
+          td(class="text-center")=muertes.fechaModificacion
+          td(class="text-center")=muertes.fechaBorrado
+          td
+            button(type="submit" name="commit" value="Form" class="btn btn-success btn-block") Editar Muertes 

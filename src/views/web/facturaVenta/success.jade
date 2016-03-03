@@ -1,0 +1,61 @@
+table(class="table table-bordred table-striped")
+  thead
+    tr
+      th(class="cell-stat text-center") idVenta
+      th(class="cell-stat text-center") fechaVenta
+      th(class="cell-stat text-center") horaVenta 
+      th(class="cell-stat text-center") condicionVenta
+      th(class="cell-stat text-center") formaCobro 
+      th(class="cell-stat text-center") numeroVenta  
+      th(class="cell-stat text-center") nombreCliente
+      th(class="cell-stat text-center") fechaCreacion
+      th(class="cell-stat text-center") fechaModificacion
+      th(class="cell-stat text-center") fechaBorrado
+      th(class="cell-stat text-center") Accion
+      th(class="cell-stat text-center") Accion
+  
+  tbody
+    for facturaVentas in facturaVenta
+      tr
+        td(class="text-center")=facturaVentas.idVenta
+        td(class="text-center")=facturaVentas.fechaVenta
+        td(class="text-center")=facturaVentas.horaVenta  
+        td(class="text-center")=facturaVentas.condicionVenta
+        td(class="text-center")=facturaVentas.formaCobro
+        td(class="text-center")=facturaVentas.numeroVenta        
+        td(class="text-center")=facturaVentas.ClienteIdCliente
+        if facturaVentas.Cliente == null  
+          td(class="text-center") sin Cliente
+        else 
+          td(class="text-center")=facturaVentas.Cliente.nombreCliente      
+        td(class="text-center")=facturaVentas.fechaCreacion 
+        td(class="text-center")=facturaVentas.fechaModificacion
+        td(class="text-center")=facturaVentas.fechaBorrado 
+        td          
+          a(href="/web/detalleVenta/add/#{facturaVentas.idVenta}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Add")
+              button(type="button" class="btn btn-info") Agregar Detalle Venta
+        td
+          a(href="/web/detalleVenta/#{facturaVentas.idVenta}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Ver Detalle
+        td
+          a(href="/web/facturaVenta/#{facturaVentas.idVenta}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Editar Factura Venta 
+              
+        form(id="topicForm" method="post" action="/web/facturaVenta/#{facturaVentas.idVenta}")
+          input(type="hidden" name="_method" value="delete")
+          input(type="hidden" name="idVenta" value='#{facturaVentas.idVenta}')               
+          td
+            a(href="/web/facturaVenta/#{facturaVentas.idVenta}" class="btn btn-info" role="button")
+              p(data-placement="top" data-toggle="tooltip" title="Delete")
+                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Factura Venta
+
+
+a(href="/web/facturaVenta/cargar" class="btn btn-info" role="button")
+  p(data-placement="top" data-toggle="tooltip" title="Add")
+    button(type="button" class="btn btn-info") Agregar Factura Venta
+
+
+          

@@ -1,0 +1,19 @@
+extends ../../layout 
+block content
+  br
+  br
+  div(class="container-fluid")
+    form(action='/web/ingresoAnimal/add' method="POST")
+     div(class="form-group")
+      label(for="fechaEntrada") Fecha de Entrada de los Animales
+      input(type="text" class="form-control" id="fechaEntrada" name='fechaEntrada' value='ingresoAnimal.fechaEntrada' placeholder="Ingrese el Sexo")
+     div(class="form-group")
+      label(for="horaEntrada") Hora de Entrada
+      input(type="text"  class="form-control" id="horaEntrada" name='horaEntrada' value='ingresoAnimal.horaEntrada' placeholder="Ingrese el Estado") 
+     div(class="form-group")
+      label(for="cantidadEntrada") Cantidad de Animales Ingresados
+      input(type="text" class="form-control" id="cantidadEntrada" name='cantidadEntrada' value='ingresoAnimal.cantidadEntrada' placeholder="Ingrese el NumeroTag")
+     div(class="form-group") 
+      label(for="observacion")   Observacion
+      input(type="text"  class="form-control" id="observacion" name='observacion' value='ingresoAnimal.observacion' placeholder="Ingrese el Cuerno")
+     button(type="submit" value="submit") Agregar Ingreso Animal

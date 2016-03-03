@@ -1,0 +1,39 @@
+table(class="table table-bordred table-striped")
+  thead
+    tr
+      th(class="cell-stat text-center") idNivel
+      th(class="cell-stat text-center") nivel 
+      th(class="cell-stat text-center") fechaCreacion
+      th(class="cell-stat text-center") fechaModificacion
+      th(class="cell-stat text-center") fechaBorrado
+      th(class="cell-stat text-center") Accion
+      th(class="cell-stat text-center") Accion
+  
+  tbody
+    for nivel in niveles
+      tr
+        td(class="text-center")=nivel.idNivel
+        td(class="text-center")=nivel.nivel
+        td(class="text-center")=nivel.fechaCreacion 
+        td(class="text-center")=nivel.fechaModificacion
+        td(class="text-center")=nivel.fechaBorrado 
+        td
+          a(href="/web/nivel/#{nivel.idNivel}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Editar Nivel 
+              
+        form(id="topicForm" method="post" action="/web/nivel/#{nivel.idNivel}")
+          input(type="hidden" name="_method" value="delete")
+          input(type="hidden" name="idNivel" value='#{nivel.idNivel}')               
+          td
+            a(href="/web/nivel/#{nivel.idNivel}" class="btn btn-info" role="button")
+              p(data-placement="top" data-toggle="tooltip" title="Delete")
+                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Nivel
+
+
+a(href="/web/nivel/cargar" class="btn btn-info" role="button")
+  p(data-placement="top" data-toggle="tooltip" title="Add")
+    button(type="button" class="btn btn-info") Agregar Nivel
+
+
+          

@@ -1,0 +1,17 @@
+form(action='/web/detalleVacunacionInsumo/add' method="POST")
+  input(type="hidden" name='id' value='#{vacunacionJ}')
+  div(class="form-group")
+    label(for="cantidadInsumo") Cantidad Insumo
+    input(type="text" class="form-control" id="cantidadInsumo" name='cantidadInsumo' value='detalleVacunacionInsumo.cantidadInsumo' placeholder="Ingrese la Fecha")
+  
+  div(class="form-group")
+    label(class="control-label col-sm-2" for="email") Nombre Insumo: 
+    div(class="col-sm-10")  
+      select(name='selectJ')
+        option(value="-1" selected) Seleccione Insumo
+        -for(var j=0; j < selectJ.length; j++) {
+          option(value="#{selectJ[j].idInsumo}") #{selectJ[j].nombreInsumo}
+        -}  	       
+  
+  button(type="submit" value="submit") Agregar Detalle Vacunacion Insumo
+

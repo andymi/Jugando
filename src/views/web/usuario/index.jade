@@ -1,0 +1,30 @@
+extends ../../layout 
+block content
+  br
+  br
+  div(class="container-fluid")
+    form(action='/web/usuario/cargar' method="POST")
+     div(class="form-group")
+      label(for="usuario") Nombre de Usuario
+      input(type="text" class="form-control" id="usuario" name='usuario' value='usuario.usuario' placeholder="Ingrese Usuario")
+
+     div(class="form-group")
+      label(for="pass") Ingrese el Password
+      input(type="text"  class="form-control" id="pass" name='pass' value='usuario.pass' placeholder="Ingrese el Password") 
+     div(class="form-group")
+        label(class="control-label col-sm-2" for="email") Nivel: 
+        div(class="col-sm-10")  
+          select(name='selectJ')
+            option(value="-1" selected) Seleccione Nivel
+            -for(var j=0; j < selectJ.length; j++) {
+              option(value="#{selectJ[j].idNivel}") #{selectJ[j].nivel}
+            -}  	
+     div(class="form-group")
+        label(class="control-label col-sm-2" for="email") Empleado: 
+        div(class="col-sm-10")  
+          select(name='selectJN')
+            option(value="-1" selected) Seleccione Empleado
+            -for(var j=0; j < selectJN.length; j++) {
+              option(value="#{selectJN[j].idEmpleado}") #{selectJN[j].nombreEmpleado}
+            -} 
+     button(type="submit" value="submit") Agregar Usuario

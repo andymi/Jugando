@@ -1,0 +1,59 @@
+table(class="table table-bordred table-striped")
+  thead
+    tr
+      th(class="cell-stat text-center") idSanitacion
+      th(class="cell-stat text-center") fechaSanitacion
+      th(class="cell-stat text-center") horaSanitacion          
+      th(class="cell-stat text-center") nombreEmpleado
+      th(class="cell-stat text-center") nombreProveedor
+      th(class="cell-stat text-center") fechaCreacion
+      th(class="cell-stat text-center") fechaModificacion
+      th(class="cell-stat text-center") fechaBorrado
+      th(class="cell-stat text-center") Accion
+      th(class="cell-stat text-center") Accion
+  
+  tbody
+    for sanitaciones in sanitacion
+      tr
+        td(class="text-center")=sanitaciones.idSanitacion
+        td(class="text-center")=sanitaciones.fechaSanitacion
+        td(class="text-center")=sanitaciones.horaSanitacion        
+        if sanitaciones.Empleado == null  
+          td(class="text-center") sin Empleado
+        else 
+          td(class="text-center")=sanitaciones.Empleado.nombreEmpleado 
+        if sanitaciones.Proveedor == null  
+          td(class="text-center") sin Proveedor
+        else 
+          td(class="text-center")=sanitaciones.Proveedor.nombreProveedor         
+        td(class="text-center")=sanitaciones.fechaCreacion 
+        td(class="text-center")=sanitaciones.fechaModificacion
+        td(class="text-center")=sanitaciones.fechaBorrado
+        td
+          a(href="/web/detalleSanitacion/add/#{sanitaciones.idSanitacion}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Add")
+              button(type="button" class="btn btn-info") Agregar Detalle Sanitacion Animal      
+        td
+          a(href="/web/detalleSanitacion/animal/#{sanitaciones.idSanitacion}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Ver Detalle Animal
+        td
+          a(href="/web/sanitacion/#{sanitaciones.idSanitacion}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Editar Sanitacion 
+              
+        form(id="topicForm" method="post" action="/web/sanitacion/#{sanitaciones.idSanitacion}")
+          input(type="hidden" name="_method" value="delete")
+          input(type="hidden" name="idSanitacion" value='#{sanitaciones.idSanitacion}')               
+          td
+            a(href="/web/sanitacion/#{sanitaciones.idSanitacion}" class="btn btn-info" role="button")
+              p(data-placement="top" data-toggle="tooltip" title="Delete")
+                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Sanitacion
+
+
+a(href="/web/sanitacion/cargar" class="btn btn-info" role="button")
+  p(data-placement="top" data-toggle="tooltip" title="Add")
+    button(type="button" class="btn btn-info") Agregar Sanitacion
+
+
+          

@@ -1,0 +1,10 @@
+extends ../../layout 
+block content
+  br
+  br
+  div(class="container-fluid")
+    form(action='/web/raza/cargar' method="POST")
+      div(class="form-group")
+        label(for="raza") Raza
+        input(type="text" class="form-control" id="raza" name='raza' value='raza.raza' placeholder="Ingrese Raza")
+      button(type="submit" value="submit") Agregar Raza

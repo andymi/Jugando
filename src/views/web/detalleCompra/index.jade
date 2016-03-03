@@ -1,0 +1,28 @@
+form(action='/web/detalleCompra/cargar' method="POST")
+  for facturaCompras in facturaCompraJ
+    input(type="hidden" name='id' value='#{facturaCompras.idCompra}')
+  div(class="form-group")
+    label(for="descripcionCompra") Descripcion Compra
+    input(type="text" class="form-control" id="descripcionCompra" name='descripcionCompra' value='detalleCompra.descripcionCompra' placeholder="Ingrese la Descripcion")
+  div(class="form-group")
+    label(for="precioCompra") Precio Compra
+    input(type="text"  class="form-control" id="precioCompra" name='precioCompra' value='detalleCompra.precioCompra' placeholder="Ingrese el Precio") 
+  div(class="form-group")
+    label(for="cantidadCompra") Cantidad Compra
+    input(type="text"  class="form-control" id="cantidadCompra" name='cantidadCompra' value='detalleCompra.cantidadCompra' placeholder="Ingrese la Cantidad") 
+
+    //detalle del pesaje
+  div(class="form-group")
+    label(class="control-label col-sm-2" for="email") Nombre de Insumo: 
+    div(class="col-sm-10")  
+      select(name='selectJ')
+        option(value="-1" selected) Seleccione Insumo
+        -for(var j=0; j < selectJ.length; j++) {
+          option(value="#{selectJ[j].idInsumo}") #{selectJ[j].nombreInsumo}
+        -}  	       
+  
+  button(type="submit" value="submit") Agregar Detalle Compra
+
+a(href="/web/facturaCompra" class="btn btn-info" role="button")
+  p(data-placement="top" data-toggle="tooltip" title="List")
+    button(type="button" class="btn btn-info") Listo

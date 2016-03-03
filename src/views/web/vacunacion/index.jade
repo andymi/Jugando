@@ -1,0 +1,27 @@
+extends ../../layout 
+block content
+  br
+  br
+  div(class="container-fluid")
+    form(action='/web/vacunacion/add' method="POST")
+     div(class="form-group")
+      label(for="fechaVacunacion") Fecha Vacunacion
+      input(type="text" class="form-control" id="fechaVacunacion" name='fechaVacunacion' value='vacunacion.fechaVacunacion' placeholder="Ingrese la Fecha")
+
+     div(class="form-group")
+      label(for="horaVacunacion") Hora Vacunacion
+      input(type="text"  class="form-control" id="horaVacunacion" name='horaVacunacion' value='vacunacion.horaVacunacion' placeholder="Ingrese la Hora") 
+
+     div(class="form-group")
+      label(for="costoVacunacion") Costo Vacunacion
+      input(type="text"  class="form-control" id="costoVacunacion" name='costoVacunacion' value='vacunacion.costoVacunacion' placeholder="Ingrese el Costo") 
+
+     div(class="form-group")
+        label(class="control-label col-sm-2" for="email") Proveedor: 
+        div(class="col-sm-10")  
+          select(name='selectJ')
+            option(value="-1" selected) Seleccione Proveedor
+            -for(var j=0; j < selectJ.length; j++) {
+              option(value="#{selectJ[j].idProveedor}") #{selectJ[j].nombreProveedor}
+            -}  
+     button(type="submit" value="submit") Agregar Vacunacion

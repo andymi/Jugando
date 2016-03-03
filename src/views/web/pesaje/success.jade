@@ -1,0 +1,56 @@
+table(class="table table-bordred table-striped")
+  thead
+    tr
+      th(class="cell-stat text-center") idPesaje
+      th(class="cell-stat text-center") fechaPesaje
+      th(class="cell-stat text-center") horaPesaje           
+      th(class="cell-stat text-center") idEmpleado
+      th(class="cell-stat text-center") nombreEmpleado
+      th(class="cell-stat text-center") fechaCreacion
+      th(class="cell-stat text-center") fechaModificacion
+      th(class="cell-stat text-center") fechaBorrado
+      th(class="cell-stat text-center") Accion
+      th(class="cell-stat text-center") Accion
+  
+  tbody
+    for pesajes in pesaje
+      tr
+        td(class="text-center")=pesajes.idPesaje
+        td(class="text-center")=pesajes.fechaPesaje
+        td(class="text-center")=pesajes.horaPesaje        
+        td(class="text-center")=pesajes.EmpleadoidEmpleado
+        if pesajes.Empleado == null  
+          td(class="text-center") sin Empleado
+        else 
+          td(class="text-center")=pesajes.Empleado.nombreEmpleado         
+        td(class="text-center")=pesajes.fechaCreacion 
+        td(class="text-center")=pesajes.fechaModificacion
+        td(class="text-center")=pesajes.fechaBorrado 
+        td
+          a(href="/web/detallePesaje/add/#{pesajes.idPesaje}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Add")
+              button(type="button" class="btn btn-info") Agregar Detalle Pesaje
+        td
+          a(href="/web/detallePesaje/#{pesajes.idPesaje}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="View")
+              button(type="button" class="btn btn-info") Ver Detalle
+        td
+          a(href="/web/pesaje/#{pesajes.idPesaje}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Editar Pesaje 
+              
+        form(id="topicForm" method="post" action="/web/pesaje/#{pesajes.idPesaje}")
+          input(type="hidden" name="_method" value="delete")
+          input(type="hidden" name="idPesaje" value='#{pesajes.idPesaje}')               
+          td
+            a(href="/web/pesaje/#{pesajes.idPesaje}" class="btn btn-info" role="button")
+              p(data-placement="top" data-toggle="tooltip" title="Delete")
+                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Pesaje
+
+
+a(href="/web/pesaje/cargar" class="btn btn-info" role="button")
+  p(data-placement="top" data-toggle="tooltip" title="Add")
+    button(type="button" class="btn btn-info") Agregar Pesaje
+
+
+          

@@ -1,0 +1,50 @@
+table(class="table table-bordred table-striped")
+  thead
+    tr
+      th(class="cell-stat text-center") idEmpleado
+      th(class="cell-stat text-center") nombreEmpleado
+      th(class="cell-stat text-center") codigoLlave
+      th(class="cell-stat text-center") direccionEmpleado
+      th(class="cell-stat text-center") cedulaEmpleado
+      th(class="cell-stat text-center") estadoEmpleado
+      th(class="cell-stat text-center") ciudad
+      th(class="cell-stat text-center") fechaCreacion
+      th(class="cell-stat text-center") fechaModificacion
+      th(class="cell-stat text-center") fechaBorrado
+      th(class="cell-stat text-center") Accion
+      th(class="cell-stat text-center") Accion
+  
+  tbody
+    for empleado in empleados
+      tr
+        td(class="text-center")=empleado.idEmpleado
+        td(class="text-center")=empleado.nombreEmpleado
+        td(class="text-center")=empleado.codigoLlave
+        td(class="text-center")=empleado.direccionEmpleado
+        td(class="text-center")=empleado.cedulaEmpleado        
+        td(class="text-center")=empleado.estadoEmpleado 
+        if empleado.Ciudad == null  
+          td(class="text-center") sin Ciudad
+        else 
+          td(class="text-center")=empleado.Ciudad.ciudad 
+        
+        td(class="text-center")=empleado.fechaCreacion 
+        td(class="text-center")=empleado.fechaModificacion
+        td(class="text-center")=empleado.fechaBorrado 
+        td
+          a(href="/web/empleado/#{empleado.idEmpleado}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Editar Empleado
+              
+        form(id="topicForm" method="post" action="/web/empleado/#{empleado.idEmpleado}")
+          input(type="hidden" name="_method" value="delete")
+          input(type="hidden" name="idEmpleado" value='#{empleado.idEmpleado}')               
+          td
+            a(href="/web/empleado/#{empleado.idEmpleado}" class="btn btn-info" role="button")
+              p(data-placement="top" data-toggle="tooltip" title="Delete")
+                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Empleado
+
+
+a(href="/web/empleado/cargar" class="btn btn-info" role="button")
+  p(data-placement="top" data-toggle="tooltip" title="Add")
+    button(type="button" class="btn btn-info") Agregar Empleado

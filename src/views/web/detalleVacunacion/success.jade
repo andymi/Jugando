@@ -1,0 +1,50 @@
+table(class="table table-bordred table-striped")
+  thead
+    tr
+      th(class="cell-stat text-center") idDetalleVacunacion
+      th(class="cell-stat text-center") numeroCertificado
+      th(class="cell-stat text-center") observacion           
+      th(class="cell-stat text-center") idAnimal
+      th(class="cell-stat text-center") rpAnimal
+      th(class="cell-stat text-center") fechaCreacion
+      th(class="cell-stat text-center") fechaModificacion
+      th(class="cell-stat text-center") fechaBorrado
+      th(class="cell-stat text-center") Accion
+      th(class="cell-stat text-center") Accion
+  
+  tbody
+    for detalleVacunacion in detalleVacunaciones
+      tr
+        td(class="text-center")=detalleVacunacion.idDetalleVacunacion
+        td(class="text-center")=detalleVacunacion.numeroCertificado
+        td(class="text-center")=detalleVacunacion.observacion       
+        td(class="text-center")=detalleVacunacion.Animal.idAnimal
+        if detalleVacunacion.Animal == null  
+          td(class="text-center") sin Animal
+        else 
+          td(class="text-center")=detalleVacunacion.Animal.rpAnimal        
+        td(class="text-center")=detalleVacunacion.fechaCreacion 
+        td(class="text-center")=detalleVacunacion.fechaModificacion
+        td(class="text-center")=detalleVacunacion.fechaBorrado 
+        td
+          a(href="/web/detalleVacunacionInsumo/add/#{detalleVacunacion.idDetalleVacunacion}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Add")
+              button(type="button" class="btn btn-info") Agregar Detalle Vacunacion Insumo 
+        td
+          a(href="/web/detalleVacunacionInsumo/insumo/#{detalleVacunacion.idDetalleVacunacion}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Ver Detalle Insumo
+        td
+          a(href="/web/detalleVacunacion/editar/#{detalleVacunacion.idDetalleVacunacion}" class="btn btn-info" role="button")
+            p(data-placement="top" data-toggle="tooltip" title="Edit")
+              button(type="button" class="btn btn-info") Editar Detalle Vacunacion 
+              
+        form(id="topicForm" method="post" action="/web/detalleVacunacion/#{detalleVacunacion.idDetalleVacunacion}")
+          input(type="hidden" name="_method" value="delete")
+          input(type="hidden" name="idPesaje" value='#{detalleVacunacion.idDetalleVacunacion}')               
+          td
+            a(href="/web/detalleVacunacion/#{detalleVacunacion.idDetalleVacunacion}" class="btn btn-info" role="button")
+              p(data-placement="top" data-toggle="tooltip" title="Delete")
+                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Detalle Vacunacion
+
+

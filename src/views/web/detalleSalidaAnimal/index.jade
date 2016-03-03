@@ -1,0 +1,22 @@
+form(action='/web/detalleSalidaAnimal/cargar' method="POST")
+  for salidaAnimales in salidaAnimalJ
+    input(type="hidden" name='id' value='#{salidaAnimales.idSalidaAnimal}')
+  div(class="form-group")
+    label(for="observacion") Observacion
+    input(type="text"  class="form-control" id="observacion" name='observacion' value='detalleSalidaAnimalJ.observacion' placeholder="Ingrese el Pesaje") 
+    //detalle del pesaje
+  div(class="form-group")
+    label(class="control-label col-sm-2" for="email") Rp Animal: 
+    div(class="col-sm-10")  
+      select(name='selectJ')
+        option(value="-1" selected) Seleccione Rp
+        -for(var j=0; j < selectJ.length; j++) {
+          option(value="#{selectJ[j].idAnimal}") #{selectJ[j].rpAnimal}
+        -}  	       
+  
+  button(type="submit" value="submit") Agregar Detalle Salida Animal
+
+
+a(href="/web/salidaAnimal" class="btn btn-info" role="button")
+  p(data-placement="top" data-toggle="tooltip" title="List")
+    button(type="button" class="btn btn-info") Listo
