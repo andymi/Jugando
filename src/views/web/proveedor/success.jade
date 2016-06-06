@@ -1,47 +1,58 @@
-table(class="table table-bordred table-striped")
-  thead
-    tr
-      th(class="cell-stat text-center") idProveedor
-      th(class="cell-stat text-center") nombreProveedor
-      th(class="cell-stat text-center") direccionProveedor
-      th(class="cell-stat text-center") rucProveedor
-      th(class="cell-stat text-center") tipoProveedor
-      th(class="cell-stat text-center") ciudad
-      th(class="cell-stat text-center") fechaCreacion
-      th(class="cell-stat text-center") fechaModificacion
-      th(class="cell-stat text-center") fechaBorrado
-      th(class="cell-stat text-center") Accion
-      th(class="cell-stat text-center") Accion
-  
-  tbody
-    for proveedor in proveedores
-      tr
-        td(class="text-center")=proveedor.idProveedor
-        td(class="text-center")=proveedor.nombreProveedor
-        td(class="text-center")=proveedor.direccionProveedor
-        td(class="text-center")=proveedor.rucProveedor 
-        td(class="text-center")=proveedor.tipoProveedor  
-        if proveedor.Ciudad == null  
-          td(class="text-center") sin Ciudad
-        else 
-          td(class="text-center")=proveedor.Ciudad.ciudad  
-        td(class="text-center")=proveedor.fechaCreacion 
-        td(class="text-center")=proveedor.fechaModificacion
-        td(class="text-center")=proveedor.fechaBorrado 
-        td
-          a(href="/web/proveedor/#{proveedor.idProveedor}" class="btn btn-info" role="button")
-            p(data-placement="top" data-toggle="tooltip" title="Edit")
-              button(type="button" class="btn btn-info") Editar Proveedor
-              
-        form(id="topicForm" method="post" action="/web/proveedor/#{proveedor.idProveedor}")
-          input(type="hidden" name="_method" value="delete")
-          input(type="hidden" name="idProveedor" value='#{proveedor.idProveedor}')               
-          td
-            a(href="/web/proveedor/#{proveedor.idProveedor}" class="btn btn-info" role="button")
-              p(data-placement="top" data-toggle="tooltip" title="Delete")
-                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Proveedor
-
-
-a(href="/web/proveedor/cargar" class="btn btn-info" role="button")
-  p(data-placement="top" data-toggle="tooltip" title="Add")
-    button(type="button" class="btn btn-info") Agregar Proveedor
+extends ../../layout 
+block content
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Proveedor
+        small
+          b 
+            a(href="/web/proveedor/cargar")
+              p(class="text-green" data-placement="top" data-toggle="tooltip" title="Agregar Proveedor") Agregar Proveedor
+                  i(class="fa fa-save") 
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Tabla de Proveedores Registrados
+    section(class="content")
+      div(class="row")
+        div(class="col-xs-12")
+          div(class="box")
+            div(class="box-header")
+              h3(class="box-title") Tabla de Proveedores Registrados
+              <!-- /.box-header -->
+            div(class="box-body")
+              div(class="table-responsive")
+                table(id="example1" class="table table-bordered table-hover")
+                  thead
+                    tr(class="success")
+                      th(class="cell-stat text-center") RUC                      
+                      th(class="cell-stat text-center") Nombre
+                      th(class="cell-stat text-center") Dirección
+                      th(class="cell-stat text-center") Tipo de Proveedor
+                      th(class="cell-stat text-center") Ciudad
+                      th(class="cell-stat text-center") Editar Registro
+                      th(class="cell-stat text-center") Eliminar Registro                  
+                  tbody
+                    for proveedor in proveedores
+                      tr
+                        td(class="text-center")=proveedor.rucProveedor                         
+                        td(class="text-center")=proveedor.nombreProveedor
+                        td(class="text-center")=proveedor.direccionProveedor
+                        td(class="text-center")=proveedor.tipoProveedor  
+                        if proveedor.Ciudad == null  
+                          td(class="text-center") sin Ciudad
+                        else 
+                          td(class="text-center")=proveedor.Ciudad.ciudad  
+                        td(class="text-center")
+                          a(href="/web/proveedor/#{proveedor.idProveedor}" class="btn btn-success" role="button")
+                            p(data-placement="top" data-toggle="tooltip" title="Editar Proveedor")
+                              button(type="button" class="btn btn-success") 
+                                i(class="fa fa-refresh")
+                        form(id="topicForm" method="post" action="/web/proveedor/#{proveedor.idProveedor}")
+                          input(type="hidden" name="_method" value="delete")
+                          input(type="hidden" name="idProveedor" value='#{proveedor.idProveedor}')               
+                          td(class="text-center")
+                            a(href="/web/proveedor/#{proveedor.idProveedor}" class="btn btn-success" role="button")
+                              p(data-placement="top" data-toggle="tooltip" title="Borrar Proveedor")
+                                button(type="submit" name="committ" value="Form" class="btn btn-success") 
+                                  i(class="fa fa-remove")

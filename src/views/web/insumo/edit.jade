@@ -1,49 +1,50 @@
-form(id="topicForm" method="post" action="/web/insumo/#{insumo.idInsumo}")
-  input(type="hidden" name="_method" value="put")
-  input(type="hidden" name="idInsumo" value='#{insumo.idInsumo}')
-  table(class="table table-bordred table-striped")
-    thead
-      tr
-        th(class="cell-stat text-center") idInsumo
-        th(class="cell-stat text-center") codigoBarra
-        th(class="cell-stat text-center") nombreInsumo
-        th(class="cell-stat text-center") contenidoInsumo
-        th(class="cell-stat text-center") precioCompra
-        th(class="cell-stat text-center") tipoInsumo
-        th(class="cell-stat text-center") presentacionInsumo
-        th(class="cell-stat text-center") estadoInsumo
-        th(class="cell-stat text-center") fechaCreacion
-        th(class="cell-stat text-center") fechaModificacion
-        th(class="cell-stat text-center") fechaBorrado
-        th(class="cell-stat text-center") Accion
-        th(class="cell-stat text-center") Accion
-    tbody
-        tr
-          td(class="text-center")=insumo.idInsumo
-
-          td(class="text-center")
-            input(type="text" class="form-control" id='codigoBarra' name='codigoBarra' value='#{insumo.codigoBarra}' required="true")
-          
-          td(class="text-center")
-            input(type="text" class="form-control" id='nombreInsumo' name='nombreInsumo' value='#{insumo.nombreInsumo}' required="true")
-          
-          td(class="text-center")
-            input(type="text" class="form-control" id="contenidoInsumo" name='contenidoInsumo' value='#{insumo.contenidoInsumo}' required="true")
-          
-          td(class="text-center")
-            input(type="text" class="form-control" id="precioCompra" name='precioCompra' value='#{insumo.precioCompra}' required="true")
-
-          td(class="text-center")
-            input(type="text" class="form-control" id='tipoInsumo' name='tipoInsumo' value='#{insumo.tipoInsumo}' required="true")
-          
-          td(class="text-center")
-            input(type="text" class="form-control" id="presentacionInsumo" name='presentacionInsumo' value='#{insumo.presentacionInsumo}' required="true")
-          
-          td(class="text-center")
-            input(type="text" class="form-control" id="estadoInsumo" name='estadoInsumo' value='#{insumo.estadoInsumo}' required="true")
-
-          td(class="text-center")=insumo.fechaCreacion
-          td(class="text-center")=insumo.fechaModificacion
-          td(class="text-center")=insumo.fechaBorrado
-          td
-            button(type="submit" name="commit" value="Form" class="btn btn-success btn-block") Editar Insumo
+extends ../../layout 
+block content
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Insumo
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Insumo
+        li(class="active") Editar Insumo
+    section(class="content")
+      div(class="row")
+        div(class="col-md-12")
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Edición del Insumo            
+            form(class="form-horizontal" method="post" action="/web/insumo/#{insumo.idInsumo}")
+              div(class="box-body")
+                input(type="hidden" name="_method" value="put")
+                input(type="hidden" name="idInsumo" value='#{insumo.idInsumo}')
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Código de Barra: 
+                  div(class="col-sm-8")
+                    input(type="text" class="form-control" id='codigoBarra' name='codigoBarra' value='#{insumo.codigoBarra}' required="true")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Nombre: 
+                  div(class="col-sm-8")
+                    input(type="text" class="form-control" id='nombreInsumo' name='nombreInsumo' value='#{insumo.nombreInsumo}' required="true")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Contenido: 
+                  div(class="col-sm-8")
+                    input(type="text" class="form-control" id="contenidoInsumo" name='contenidoInsumo' value='#{insumo.contenidoInsumo}' required="true")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Precio de Compra: 
+                  div(class="col-sm-8")  
+                    input(type="text" class="form-control" id="precioCompra" name='precioCompra' value='#{insumo.precioCompra}' required="true")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Tipo de Insumo: 
+                  div(class="col-sm-8")
+                    input(type="text" class="form-control" id='tipoInsumo' name='tipoInsumo' value='#{insumo.tipoInsumo}' required="true")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Presentación: 
+                  div(class="col-sm-8")
+                    input(type="text" class="form-control" id="presentacionInsumo" name='presentacionInsumo' value='#{insumo.presentacionInsumo}' required="true")
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Editar Insumo 
+                    i(class="fa fa-refresh")
+                  a(href="/web/insumo" class="btn btn-default") Cancelar
+                    i(class="fa fa-remove")                        

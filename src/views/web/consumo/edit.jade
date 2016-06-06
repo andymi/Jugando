@@ -1,31 +1,51 @@
-form(id="topicForm" method="post" action="/web/consumo/#{consumo.idConsumo}")
-  input(type="hidden" name="_method" value="put")
-  input(type="hidden" name="idConsumo" value='#{consumo.idConsumo}')
-  table(class="table table-bordred table-striped")
-    thead
-      tr
-        th(class="cell-stat text-center") idConsumo
-        th(class="cell-stat text-center") fechaConsumo
-        th(class="cell-stat text-center") horaConsumo
-        th(class="cell-stat text-center") fechaCreacion
-        th(class="cell-stat text-center") fechaModificacion
-        th(class="cell-stat text-center") fechaBorrado
-        th(class="cell-stat text-center") Accion
-        th(class="cell-stat text-center") Accion
-    tbody
-        tr
-          td(class="text-center")=consumo.idConsumo
-          
-          td(class="text-center")
-            //label(for="fechaConsumo" class="control-label") Fecha Pesaje
-            input(type="text" class="form-control" id='fechaConsumo' name='fechaConsumo' value='#{consumo.fechaConsumo}' required="true")
-          
-          td(class="text-center")
-            //label(for="horaConsumo" class="control-label") Hora Pesaje
-            input(type="text" class="form-control" id="horaConsumo" name='horaConsumo' value='#{consumo.horaConsumo}' required="true")
-
-          td(class="text-center")=consumo.fechaCreacion
-          td(class="text-center")=consumo.fechaModificacion
-          td(class="text-center")=consumo.fechaBorrado
-          td
-            button(type="submit" name="commit" value="Form" class="btn btn-success btn-block") Editar Consumo
+extends ../../layout 
+block content
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Consumo del Animal
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Editar Consumo
+    section(class="content")
+      div(class="row")
+        div(class="col-md-12")
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Edición del Consumo
+            form(class="form-horizontal" method="post" action="/web/consumo/#{consumo.idConsumo}")
+              div(class="box-body")
+                input(type="hidden" name="_method" value="put")
+                input(type="hidden" name="idConsumo" value='#{consumo.idConsumo}')
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="cuernos") Fecha del Consumo:
+                  div(class="col-sm-8")
+                    div(class="input-group date")
+                      div(class="input-group-addon")
+                        i(class="fa fa-calendar")  
+                      input(type="text" class="form-control pull-right" id="datepicker" name='fechaConsumo' value='#{consumo.fechaConsumo}' required="true")
+                div(class="form-group")  
+                  label(class="col-sm-4 control-label" for="horaConsumo") Hora del Consumo:
+                  div(class="col-sm-8")
+                    div(class="bootstrap-timepicker")
+                      div(class="input-group")
+                        div(class="input-group-addon")
+                          i(class="fa fa-clock-o")
+                        input(type="text" class="form-control timepicker" name='horaConsumo' value='#{consumo.horaConsumo}' required) 
+                div(class="form-group")
+                  label(class="control-label col-sm-4" for="email") Insumo: 
+                  div(class="col-sm-8") 
+                    select(name="insumoSele" class="btn btn-default select2")
+                      -for (var j=0; j < select.length; j++) {
+                        if consumo.InsumoIdInsumo == select[j].idInsumo 
+                         option(value="#{select[j].idInsumo}" selected) #{select[j].nombreInsumo} 
+                        else 
+                         option(value="#{select[j].idInsumo}") #{select[j].nombreInsumo}
+                      -}
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Editar Consumo
+                    i(class="fa fa-save") 
+                  a(href="/web/consumo" class="btn btn-default") Cancelar
+                    i(class="fa fa-remove")  

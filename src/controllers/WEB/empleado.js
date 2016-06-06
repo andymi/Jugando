@@ -32,7 +32,6 @@ exports.create = function (req, res) {
   var codigoLlave = req.body.codigoLlave;
   var direccionEmpleado = req.body.direccionEmpleado;
   var cedulaEmpleado = req.body.cedulaEmpleado;
-  var estadoEmpleado = req.body.estadoEmpleado;
   var CiudadIdCiudad = req.body.selectJ;
 
   var index = Model.Empleado.build({
@@ -40,7 +39,6 @@ exports.create = function (req, res) {
     codigoLlave: codigoLlave,
     direccionEmpleado: direccionEmpleado,    
     cedulaEmpleado: cedulaEmpleado,
-    estadoEmpleado: estadoEmpleado,
     CiudadIdCiudad: CiudadIdCiudad
   });
 
@@ -78,7 +76,6 @@ exports.update = function (req, res) {
   empleado.codigoLlave = req.body.codigoLlave;
   empleado.direccionEmpleado = req.body.direccionEmpleado;
   empleado.cedulaEmpleado = req.body.cedulaEmpleado;
-  empleado.estadoEmpleado = req.body.estadoEmpleado;
   empleado.CiudadIdCiudad = req.body.ciudadSele;
 
   empleado.updateById(req.params.empleadoId, function (success) {

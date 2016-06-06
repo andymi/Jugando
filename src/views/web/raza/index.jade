@@ -1,10 +1,28 @@
 extends ../../layout 
 block content
-  br
-  br
-  div(class="container-fluid")
-    form(action='/web/raza/cargar' method="POST")
-      div(class="form-group")
-        label(for="raza") Raza
-        input(type="text" class="form-control" id="raza" name='raza' value='raza.raza' placeholder="Ingrese Raza")
-      button(type="submit" value="submit") Agregar Raza
+ div(class="content-wrapper")
+    section(class="content-header")
+      h1 Raza
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Agregar Raza
+    section(class="content")
+      div(class="row")  
+        div(class="col-md-12") 
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Registro Raza
+            form(class="form-horizontal" action='/web/raza/cargar' method="POST")
+              div(class="box-body")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Raza: 
+                  div(class="col-sm-8")  
+                    input(type="text" class="form-control" id="raza" name='raza' placeholder="Ingrese la Raza")
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Guardar
+                    i(class="fa fa-save") 
+                  a(href="/web/raza" class="btn btn-default") Cancelar
+                    i(class="fa fa-remove")

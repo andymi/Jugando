@@ -23,6 +23,23 @@ module.exports = function (sequelize, DataTypes) {
     },
     {
       instanceMethods: {
+        retriveCount: function(id, onSuccess, onError){
+          DetalleMuerte.findAndCountAll({
+            include: [ Model.Animal , Model.Muertes ],
+            where: { MuerteIdMuerte:id }
+          }).then(function (DetalleMuerte) {
+                Model.Muertes.update( { 
+                 cantidadTotal: DetalleMuerte.count
+                },{ where: { idMuerte: id } })
+                .then(onSuccess).catch(onError);
+                });
+        },
+        retriveCount2: function(id, onSuccess, onError){
+           DetalleMuerte.find({
+            attributes: ['MuerteIdMuerte'],
+            where: {  idDetalleMuerte: id }
+          }).then(onSuccess).catch(onError);
+        },
         retrieveAll: function (id, onSuccess, onError) {
           DetalleMuerte.findAll({
             include: [ Model.Animal , Model.Muertes ],
@@ -56,10 +73,11 @@ module.exports = function (sequelize, DataTypes) {
           },{ where: { idDetalleMuerte: detalleMuerteId } })
           .then(onSuccess).catch(onError);
         },
-        removeById: function (detalleMuerteId, onSuccess, onError) {
-          DetalleMuerte.destroy( { where: { idDetalleMuerte: detalleMuerteId } })
-          .then(onSuccess).catch(onError);
+        removeById: function (id, onSuccess, onError) {
+          DetalleMuerte.destroy( { where: { idDetalleMuerte: id } }).then(onSuccess).catch(onError);
         }
+        
+            
       },
       timestamps: true,
       paranoid:true,

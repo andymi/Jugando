@@ -1,43 +1,70 @@
 extends ../../layout 
 block content
-  br
-  br
-  div(class="container-fluid")
-    form(action='/web/facturaCompra/add' method="POST")
-     div(class="form-group")
-      label(for="fechaCompra") Fecha de la Compra
-      input(type="text" class="form-control" id="fechaCompra" name='fechaCompra' value='facturaCompra.fechaCompra' placeholder="Ingrese la Fecha")
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Factura Compra Animal
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Agregar Compra
+    section(class="content")
+      div(class="row")  
+        div(class="col-md-12") 
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Factura Compra Animal
+            form(class="form-horizontal" action='/web/facturaCompra/add' method="POST")
+              div(class="box-body")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="fechaCompra") Fecha de la Compra:
+                  div(class="col-sm-8")  
+                    div(class="input-group date")
+                      div(class="input-group-addon")
+                        i(class="fa fa-calendar")  
+                      input(type="text"  class="form-control pull-right" id="datepicker" name='fechaCompra' required) 
 
-     div(class="form-group")
-      label(for="totalCompra") Monto Total de la Compra
-      input(type="text"  class="form-control" id="totalCompra" name='totalCompra' value='facturaCompra.totalCompra' placeholder="Ingrese el Monto Total") 
+                div(class="form-group")  
+                    label(class="col-sm-4 control-label" for="horaPesaje") Hora de la Compra:
+                    div(class="col-sm-8")
+                      div(class="bootstrap-timepicker")
+                        div(class="input-group")
+                          div(class="input-group-addon")
+                            i(class="fa fa-clock-o")
+                          input(type="text" class="form-control timepicker" name='horaCompra' required)   
+                 
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="condicionCompra") Condición de la Compra:
+                  div(class="col-sm-8")  
+                    select(id="condicionCompra" name='condicionCompra' class="btn btn-default select2")
+                      option(value="-1" disabled="disabled" selected) Seleccione una opción
+                      option(value="Contado") Contado
+                      option(value="Crédito") Crédito
 
-     div(class="form-group")
-      label(for="condicionCompra") Condicion de la Compra
-      input(type="text" class="form-control" id="condicionCompra" name='condicionCompra' value='Contado' placeholder="Ingrese la Condicion")
-
-     div(class="form-group")
-      label(for="formaPago") Forma de Pago
-      input(type="text"  class="form-control" id="formaPago" name='formaPago' value='facturaCompra.formaPago' placeholder="Ingrese la Forma de Pago")
-     
-     div(class="form-group")
-      label(for="numeroCompra") Numero de Compra
-      input(type="text" class="form-control" id="numeroCompra" name='numeroCompra' value='facturaCompra.numeroCompra' placeholder="Ingrese el Numero de Compra")
-
-     div(class="form-group")
-      label(for="horaCompra") Hora de la Compra
-      input(type="text" class="form-control" id="horaCompra" name='horaCompra' value='facturaCompra.horaCompra' placeholder="Ingrese la Hora de la Compra") 
-      
-     div(class="form-group")
-        label(class="control-label col-sm-2" for="email") Proveedor: 
-        div(class="col-sm-10")  
-          select(name='selectJ')
-            option(value="-1" selected) Seleccione Proveedor
-            -for(var j=0; j < selectJ.length; j++) {
-              option(value="#{selectJ[j].idProveedor}") #{selectJ[j].nombreProveedor}
-            -}    
-
-     button(type="submit" value="submit") Agregar Factura Compra
-      a(href="/web/facturaCompra" class="btn btn-info" role="button")
-      p(data-placement="top" data-toggle="tooltip" title="List")
-        button(type="button" class="btn btn-info") Listo
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="formaPago") Forma de Pago:
+                  div(class="col-sm-8")  
+                    select(id="formaPago" name='formaPago' class="btn btn-default select2")
+                      option(value="-1" disabled="disabled" selected) Seleccione una opción
+                      option(value="Efectivo") Efectivo
+                      option(value="Cheque") Cheque
+             
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Número de Compra:
+                  div(class="col-sm-8")
+                    input(type="text" class="form-control" id="numeroCompra" name='numeroCompra' placeholder="Ingrese el Número de Compra")
+              
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Proveedor:
+                  div(class="col-sm-8")
+                    select(id="selectJ" name='selectJ' class="btn btn-default select2")
+                      option(value="-1" disabled="disabled" selected) Seleccione una opción
+                      -for(var j=0; j < selectJ.length; j++) {
+                        option(value="#{selectJ[j].idProveedor}") #{selectJ[j].nombreProveedor}
+                      -}    
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Guardar
+                    i(class="fa fa-save") 
+                  a(href="/web/facturaCompra" class="btn btn-default") Cancelar
+                    i(class="fa fa-remove")

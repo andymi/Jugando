@@ -1,41 +1,54 @@
-table(class="table table-bordred table-striped")
-  thead
-    tr
-      th(class="cell-stat text-center") idDetalleIA
-      th(class="cell-stat text-center") observacion           
-      th(class="cell-stat text-center") idAnimal
-      th(class="cell-stat text-center") rpAnimal
-      th(class="cell-stat text-center") fechaCreacion
-      th(class="cell-stat text-center") fechaModificacion
-      th(class="cell-stat text-center") fechaBorrado
-      th(class="cell-stat text-center") Accion
-      th(class="cell-stat text-center") Accion
-  
-  tbody
-    for detalleIngresoAnimal in detalleIngresoAnimales
-      tr
-        td(class="text-center")=detalleIngresoAnimal.idDetalleIA
-        td(class="text-center")=detalleIngresoAnimal.observacion       
-        td(class="text-center")=detalleIngresoAnimal.Animal.idAnimal
-        if detalleIngresoAnimal.Animal == null  
-          td(class="text-center") sin Animal
-        else 
-          td(class="text-center")=detalleIngresoAnimal.Animal.rpAnimal        
-        td(class="text-center")=detalleIngresoAnimal.fechaCreacion 
-        td(class="text-center")=detalleIngresoAnimal.fechaModificacion
-        td(class="text-center")=detalleIngresoAnimal.fechaBorrado 
-        td
-          a(href="/web/detalleIngresoAnimal/editar/#{detalleIngresoAnimal.idDetalleIA}" class="btn btn-info" role="button")
-            p(data-placement="top" data-toggle="tooltip" title="Edit")
-              button(type="button" class="btn btn-info") Editar Detalle Ingreso 
-              
-        form(id="topicForm" method="post" action="/web/detalleIngresoAnimal/#{detalleIngresoAnimal.idDetalleIA}")
-          input(type="hidden" name="_method" value="delete")
-          input(type="hidden" name="idConsumo" value='#{detalleIngresoAnimal.idDetalleIA}')               
-          td
-            a(href="/web/detalleIngresoAnimal/#{detalleIngresoAnimal.idDetalleIA}" class="btn btn-info" role="button")
-              p(data-placement="top" data-toggle="tooltip" title="Delete")
-                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Detalle Ingreso
-
-
-          
+extends ../../layout 
+block content
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Detalle del Ingreso
+        small
+          b 
+            a(href="/web/detallePesaje/cargar")
+              p(class="text-green" data-placement="top" data-toggle="tooltip" title="Agregar Detalle") Agregar Detalle
+                  i(class="fa fa-save") 
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Detalle del Ingreso de Animales Registrados
+    section(class="content")
+      div(class="row")
+        div(class="col-xs-12")
+          div(class="box")
+            div(class="box-header")
+              h3(class="box-title") Detalle del Ingreso de Animales Registrados
+              <!-- /.box-header -->
+            div(class="box-body")
+              div(class="table-responsive")
+                table(id="example1" class="table table-bordered table-striped")
+                  thead
+                    tr(class="success")
+                      th(class="cell-stat text-center") RP del Animal
+                      th(class="cell-stat text-center") Observación
+                      th(class="cell-stat text-center") Editar Registro
+                      th(class="cell-stat text-center") Eliminar Registro
+                  
+                  tbody
+                    for detalleIngresoAnimal in detalleIngresoAnimales
+                      tr
+                        if detalleIngresoAnimal.Animal == null  
+                          td(class="text-center") sin Animal
+                        else 
+                          td(class="text-center")=detalleIngresoAnimal.Animal.rpAnimal        
+                        td(class="text-center")=detalleIngresoAnimal.observacion  
+                        td(class="text-center")
+                          a(href="/web/detalleIngresoAnimal/editar/#{detalleIngresoAnimal.idDetalleIA}" class="btn btn-success" role="button")
+                            p(data-placement="top" data-toggle="tooltip" title="Editar Detalle Ingreso")
+                              button(type="button" class="btn btn-success")  
+                                i(class="fa fa-refresh")
+                        form(id="topicForm" method="post" action="/web/detalleIngresoAnimal/#{detalleIngresoAnimal.idDetalleIA}")
+                          input(type="hidden" name="_method" value="delete")
+                          input(type="hidden" name="idConsumo" value='#{detalleIngresoAnimal.idDetalleIA}')               
+                          td(class="text-center")
+                            a(href="/web/detalleIngresoAnimal/#{detalleIngresoAnimal.idDetalleIA}" class="btn btn-success" role="button")
+                              p(data-placement="top" data-toggle="tooltip" title="Borrar Detalle Ingreso")
+                                button(type="submit" name="committ" value="Form" class="btn btn-success") 
+                                  i(class="fa fa-remove")
+                          

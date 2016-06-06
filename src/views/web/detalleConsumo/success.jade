@@ -1,47 +1,55 @@
-table(class="table table-bordred table-striped")
-  thead
-    tr
-      th(class="cell-stat text-center") idDetalleConsumo
-      th(class="cell-stat text-center") observacion           
-      th(class="cell-stat text-center") idAnimal
-      th(class="cell-stat text-center") rpAnimal
-      th(class="cell-stat text-center") fechaCreacion
-      th(class="cell-stat text-center") fechaModificacion
-      th(class="cell-stat text-center") fechaBorrado
-      th(class="cell-stat text-center") Accion
-      th(class="cell-stat text-center") Accion
-  
-  tbody
-    for detalleConsumo in detalleConsumos
-      tr
-        td(class="text-center")=detalleConsumo.idDetalleConsumo
-        td(class="text-center")=detalleConsumo.observacion       
-        td(class="text-center")=detalleConsumo.Animal.idAnimal
-        if detalleConsumo.Animal == null  
-          td(class="text-center") sin Animal
-        else 
-          td(class="text-center")=detalleConsumo.Animal.rpAnimal        
-        td(class="text-center")=detalleConsumo.fechaCreacion 
-        td(class="text-center")=detalleConsumo.fechaModificacion
-        td(class="text-center")=detalleConsumo.fechaBorrado 
-        td
-          a(href="/web/detalleConsumoInsumo/add/#{detalleConsumo.idDetalleConsumo}" class="btn btn-info" role="button")
-            p(data-placement="top" data-toggle="tooltip" title="Add")
-              button(type="button" class="btn btn-info") Agregar Detalle Consumo Insumo 
-        td
-          a(href="/web/detalleConsumoInsumo/insumo/#{detalleConsumo.idDetalleConsumo}" class="btn btn-info" role="button")
-            p(data-placement="top" data-toggle="tooltip" title="Edit")
-              button(type="button" class="btn btn-info") Ver Detalle Insumo
-        td
-          a(href="/web/detalleConsumo/editar/#{detalleConsumo.idDetalleConsumo}" class="btn btn-info" role="button")
-            p(data-placement="top" data-toggle="tooltip" title="Edit")
-              button(type="button" class="btn btn-info") Editar Detalle Consumo 
-              
-        form(id="topicForm" method="post" action="/web/detalleConsumo/#{detalleConsumo.idDetalleConsumo}")
-          input(type="hidden" name="_method" value="delete")
-          input(type="hidden" name="idConsumo" value='#{detalleConsumo.idDetalleConsumo}')               
-          td
-            a(href="/web/detalleConsumo/#{detalleConsumo.idDetalleConsumo}" class="btn btn-info" role="button")
-              p(data-placement="top" data-toggle="tooltip" title="Delete")
-                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Detalle Consumo
-
+extends ../../layout 
+block content
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Detalle del Consumo
+        small
+          b 
+            a(href="/web/detalleConsumo/cargar")
+              p(class="text-green" data-placement="top" data-toggle="tooltip" title="Agregar Detalle") Agregar Detalle
+                  i(class="fa fa-save") 
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Detalle del Consumo de Animales Registrados
+    section(class="content")
+      div(class="row")
+        div(class="col-xs-12")
+          div(class="box")
+            div(class="box-header")
+              h3(class="box-title") Detalle del Consumo de Animales Registrados
+              <!-- /.box-header -->
+            div(class="box-body")
+              div(class="table-responsive")
+                table(id="example1" class="table table-bordered table-striped")
+                  thead
+                    tr(class="success")
+                      th(class=" text-center") RP del Animal
+                      th(class=" text-center") Cantidad
+                      th(class=" text-center") Observación
+                      th(class="cell-stat text-center") Editar Registro
+                      th(class="cell-stat text-center") Eliminar Registro
+                  
+                  tbody
+                    for detalleConsumo in detalleConsumos
+                      tr
+                        if detalleConsumo.Animal == null  
+                          td(class="text-center") sin Animal
+                        else 
+                          td(class="text-center")=detalleConsumo.Animal.rpAnimal  
+                        td(class="text-center")=detalleConsumo.cantidad       
+                        td(class="text-center")=detalleConsumo.observacion             
+                        td(class="text-center")
+                          a(href="/web/detalleConsumo/editar/#{detalleConsumo.idDetalleConsumo}" class="btn btn-success" role="button")
+                            p(data-placement="top" data-toggle="tooltip" title="Editar Detalle Consumo")
+                              button(type="button" class="btn btn-success")  
+                                i(class="fa fa-refresh")
+                        form(id="topicForm" method="post" action="/web/detalleConsumo/#{detalleConsumo.idDetalleConsumo}")
+                          input(type="hidden" name="_method" value="delete")
+                          input(type="hidden" name="idConsumo" value='#{detalleConsumo.idDetalleConsumo}')               
+                          td(class="text-center")
+                            a(href="/web/detalleConsumo/#{detalleConsumo.idDetalleConsumo}" class="btn btn-success" role="button")
+                              p(data-placement="top" data-toggle="tooltip" title="Borrar Detalle Consumo")
+                                button(type="submit" name="committ" value="Form" class="btn btn-success") 
+                                  i(class="fa fa-remove")

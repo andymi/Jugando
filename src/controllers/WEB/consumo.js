@@ -10,21 +10,33 @@ var Model = require('../../models/jugando.js');
 /* Rutas que terminan en /consumo
 // router.route('/consumo') */
 exports.getForm =  function (req, res) {
+  var insumo = Model.Insumo.build();
   var consumo = Model.Consumo.build();
-  res.render('web/consumo/index', {
-          pesajeJ: consumo
-  });     
+  insumo.retrieveAll(function (insumoQ) {
+    console.log('insumoQ',insumoQ);
+    if (insumoQ) {
+        res.render('web/consumo/index', {
+                pesajeJ: consumo,
+                selectJ: insumoQ
+        });
+      }
+  },function (error) {
+    res.send('Consumo no encontrado');
+  }
+  );        
 };
 // POST /consumo
 exports.create = function (req, res) {
   console.log(req.body);
   // bodyParser debe hacer la magia
   var fechaConsumo = req.body.fechaConsumo;
-  var horaConsumo = req.body.horaConsumo; 
+  var horaConsumo = req.body.horaConsumo;
+  var InsumoIdInsumo = req.body.selectJ; 
 
   var index = Model.Consumo.build({
     fechaConsumo: fechaConsumo,
-    horaConsumo: horaConsumo
+    horaConsumo: horaConsumo,
+    InsumoIdInsumo: InsumoIdInsumo
   });
 
   index.add(function (success) {
@@ -61,6 +73,7 @@ exports.update = function (req, res) {
 
   consumo.fechaConsumo = req.body.fechaConsumo;
   consumo.horaConsumo = req.body.horaConsumo;
+  consumo.InsumoIdInsumo = req.body.insumoSele;
   
 
   consumo.updateById(req.params.consumoId, function (success) {
@@ -77,16 +90,27 @@ exports.update = function (req, res) {
 // GET /consumo/:consumoId
 // Toma un consumo por id
 exports.read = function (req, res) {
-  var consumo = Model.Consumo.build();   
-  consumo.retrieveById(req.params.consumoId, function (consumo) {
-    if (consumo) {
-      res.render('web/consumo/edit', {
-                  consumo:consumo
-                });
+  var consumo = Model.Consumo.build(); 
+  var insumo = Model.Insumo.build();
+  insumo.retrieveAll(function (insumo) {
+    if (insumo) {  
+      consumo.retrieveById(req.params.consumoId, function (consumo) {
+        if (consumo) {
+          res.render('web/consumo/edit', {
+                      consumo:consumo,
+                      select: insumo
+                    });
+        } else {
+          res.send(401, 'Consumo no encontrado');
+        }
+      }, function (error) {
+        res.send('Consumo no encontrado');
+      });
     } else {
-      res.send(401, 'Consumo no encontrado');
+      res.send(401, 'No se encontraron Consumos');
     }
   }, function (error) {
+    console.log(error);
     res.send('Consumo no encontrado');
   });
 };

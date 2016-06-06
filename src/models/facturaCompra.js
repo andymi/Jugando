@@ -22,10 +22,20 @@ module.exports = function (sequelize, DataTypes) {
           notEmpty: true
         }
       },
+      horaCompra: {
+        type: DataTypes.TIME,
+        allowNull: false,
+        comment: 'Hora de la Compra',
+        validate: {
+          //notNull: true,
+          notEmpty: true
+        }
+      },
       totalCompra: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
         comment: 'Total de la Compra',
+        defaultValue: '0',
         validate: {
           //notNull: true,
           notEmpty: true
@@ -57,13 +67,6 @@ module.exports = function (sequelize, DataTypes) {
         comment: 'Numero de la Factura Compra',
         validate: {
           //notNull: true,
-          notEmpty: true
-        }
-      },
-      horaCompra: {
-        type: DataTypes.TIME,
-        comment: 'Hora de la Compra',
-        validate: {
           notEmpty: true
         }
       }
@@ -103,40 +106,43 @@ module.exports = function (sequelize, DataTypes) {
         add: function (onSuccess, onError) {
 
           var fechaCompra = this.fechaCompra;
-          var totalCompra = this.totalCompra;
+          var horaCompra = this.horaCompra;
           var condicionCompra = this.condicionCompra;
           var formaPago = this.formaPago;
           var numeroCompra = this.numeroCompra;
-          var horaCompra = this.horaCompra;
           var ProveedorIdProveedor = this.ProveedorIdProveedor;
 
           console.log('soy postadd fechaCompra',fechaCompra);
-          console.log('soy postadd totalCompra',totalCompra);
+          console.log('soy postadd horaCompra',horaCompra);
           console.log('soy postadd condicionCompra',condicionCompra);
           console.log('soy postadd formaPago',formaPago);
           console.log('soy postadd numeroCompra',numeroCompra);
-          console.log('soy postadd horaCompra',horaCompra);
           console.log('soy postadd ProveedorIdProveedor',ProveedorIdProveedor);
 
-          FacturaCompra.build({ fechaCompra: fechaCompra, totalCompra: totalCompra, condicionCompra:condicionCompra,
-          formaPago: formaPago,numeroCompra: numeroCompra,horaCompra: horaCompra, ProveedorIdProveedor: ProveedorIdProveedor})
+          FacturaCompra.build({ fechaCompra: fechaCompra,
+           horaCompra: horaCompra, 
+           condicionCompra:condicionCompra,
+          formaPago: formaPago,numeroCompra: numeroCompra, ProveedorIdProveedor: ProveedorIdProveedor})
           .save().then(onSuccess).catch(onError);
         },
         updateById: function (facturaCompraId, onSuccess, onError) {
           var idCompra = facturaCompraId; 
           var fechaCompra = this.fechaCompra;
-          var totalCompra = this.totalCompra;
+          var horaCompra = this.horaCompra;
           var condicionCompra = this.condicionCompra;
           var formaPago = this.formaPago;
           var numeroCompra = this.numeroCompra;
-          var horaCompra = this.horaCompra;
           var ProveedorIdProveedor = this.ProveedorIdProveedor;
-          console.log('dentro de update',idCompra, fechaCompra, totalCompra, condicionCompra, 
+          console.log('dentro de update',idCompra, fechaCompra, 
+            horaCompra, 
+            condicionCompra, 
             formaPago, numeroCompra, horaCompra, ProveedorIdProveedor);
 
           FacturaCompra.update( { 
-            fechaCompra: fechaCompra, totalCompra: totalCompra, condicionCompra:condicionCompra,
-            formaPago: formaPago,numeroCompra: numeroCompra,horaCompra: horaCompra, ProveedorIdProveedor: ProveedorIdProveedor
+            fechaCompra: fechaCompra, 
+            horaCompra: horaCompra, 
+            condicionCompra:condicionCompra,
+            formaPago: formaPago,numeroCompra: numeroCompra, ProveedorIdProveedor: ProveedorIdProveedor
           },{ where: { idCompra: facturaCompraId } })
           .then(onSuccess).catch(onError);
         },

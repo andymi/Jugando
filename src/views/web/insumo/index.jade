@@ -1,37 +1,58 @@
 extends ../../layout 
 block content
-  br
-  br
-  div(class="container-fluid")
-    form(action='/web/insumo/cargar' method="POST")
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Insumo
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Agregar Insumo
+    section(class="content")
+      div(class="row")  
+        div(class="col-md-12") 
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Registrar Insumo  
+            form(class="form-horizontal" action='/web/insumo/cargar' method="POST")
+              div(class="box-body")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Código de Barra: 
+                  div(class="col-sm-8")  
+                    input(type="text" class="form-control" id="codigoBarra" name='codigoBarra' placeholder="Ingrese el Código de Barras")
 
-     div(class="form-group")
-      label(for="codigoBarra") Codigo de Barra
-      input(type="text" class="form-control" id="codigoBarra" name='codigoBarra' value='insumo.codigoBarra' placeholder="Ingrese el Insumo")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Nombre: 
+                  div(class="col-sm-8")  
+                    input(type="text" class="form-control" id="nombreInsumo" name='nombreInsumo' placeholder="Ingrese el Nombre del Insumo")
 
-     div(class="form-group")
-      label(for="nombreInsumo") Nombre del Insumo
-      input(type="text" class="form-control" id="nombreInsumo" name='nombreInsumo' value='insumo.nombreInsumo' placeholder="Ingrese el Insumo")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Contenido: 
+                  div(class="col-sm-8")  
+                    input(type="text" class="form-control" id="contenidoInsumo" name='contenidoInsumo' placeholder="Ingrese el Contenido")
 
-     div(class="form-group")
-      label(for="contenidoInsumo") Contenido
-      input(type="text" class="form-control" id="contenidoInsumo" name='contenidoInsumo' value='insumo.contenidoInsumo' placeholder="Ingrese el Contenido")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Precio: 
+                  div(class="col-sm-8")  
+                    input(type="text" class="form-control" id="precioCompra" name='precioCompra' placeholder="Ingrese el Precio")
 
-     div(class="form-group")
-      label(for="precioCompra") Precio de Compra
-      input(type="text" class="form-control" id="precioCompra" name='precioCompra' value='insumo.precioCompra' placeholder="Ingrese el Precio")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Tipo de Insumo: 
+                  div(class="col-sm-8")  
+                    select(id="tipoInsumo" name='tipoInsumo' class="btn btn-default select2")
+                      option(value="-1" disabled="disabled" selected) Seleccione una opción
+                      option(value="Medicamento") Medicamento
+                      option(value="Sal Mineral") Sal Mineral
+                      option(value="Balanceado") Balanceado
 
-     div(class="form-group")
-      label(for="tipoInsumo") Tipo de Insumo
-      input(type="text" class="form-control" id="tipoInsumo" name='tipoInsumo' value='insumo.tipoInsumo' placeholder="Ingrese el Tipo de Insumo")
-
-     div(class="form-group")
-      label(for="presentacionInsumo") Presentacion del Insumo
-      input(type="text" class="form-control" id="presentacionInsumo" name='presentacionInsumo' value='insumo.presentacionInsumo' placeholder="Ingrese la Presentacion del Insumo")
-
-     div(class="form-group")
-      label(for="estadoInsumo") Estado del Insumo
-      input(type="text" class="form-control" id="estadoInsumo" name='estadoInsumo' value='insumo.estadoInsumo' placeholder="Ingrese el Estado")
-
-     button(type="submit" value="submit") Agregar Insumo
-      
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Presentación: 
+                  div(class="col-sm-8")  
+                    input(type="text" class="form-control" id="presentacionInsumo" name='presentacionInsumo' placeholder="Ingrese la Presentación del Insumo")
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Guardar
+                    i(class="fa fa-save") 
+                  a(href="/web/insumo" class="btn btn-default") Cancelar
+                    i(class="fa fa-remove")
+                  

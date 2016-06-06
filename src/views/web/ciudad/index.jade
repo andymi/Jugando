@@ -1,26 +1,38 @@
 extends ../../layout 
 block content
-  br
-  br
-  div(class="container-fluid")
-   div(class="centerdiv")
-    form(action='/web/ciudad/cargar' method="POST")
-      div(class="form-group")
-        h1 Registro de Ciudades
-      div(class="form-group")
-        label(class="control-label col-sm-7" for="ciudad") Nombre de la Ciudad
-        div(class="col-sm-5")
-          input(type="text" class="form-control" id="ciudad" name='ciudad' value='ciudad.ciudad' placeholder="Ingrese la Ciudad")
-      div(class="form-group")
-        label(class="control-label col-sm-7" for="departamento") Departamento: 
-        div(class="col-sm-5") 
-          select(name='selectJ' class="btn btn-secondary")
-            option(value="-1" selected) Seleccione Departamento
-            -for(var j=0; j < selectJ.length; j++) {
-              option(value="#{selectJ[j].idDepartamento}") #{selectJ[j].departamento}
-            -}  	     
-      div(class="form-group")
-        div(class="col-sm-5") 
-        button(type="submit" href="javascript:void(0);" class="shortcode_button btn_type1") Agregar Ciudad
-               
-    
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Ciudad
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Agregar Ciudad
+    section(class="content")
+      div(class="row")  
+        div(class="col-md-12") 
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Registro Ciudad
+            form(class="form-horizontal" action='/web/ciudad/cargar' method="POST")
+              div(class="box-body")
+                div(class="form-group")
+                  label(class="control-label col-sm-4" for="ciudad") Ciudad:
+                  div(class="col-sm-8")
+                    input(type="text" class="form-control" id="ciudad" name='ciudad' placeholder="Ingrese la Ciudad")
+                div(class="form-group")
+                  label(class="control-label col-sm-4" for="departamento") Departamento: 
+                  div(class="col-sm-8") 
+                    select(name='selectJ' class="btn btn-default select2")
+                      option(value="-1" disabled="disabled" selected) Seleccione una opción
+                      -for(var j=0; j < selectJ.length; j++) {
+                        option(value="#{selectJ[j].idDepartamento}") #{selectJ[j].departamento}
+                      -} 
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Guardar
+                    i(class="fa fa-save") 
+                  a(href="/web/ciudad" class="btn btn-default") Cancelar
+                    i(class="fa fa-remove")
+                       
+            

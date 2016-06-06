@@ -15,7 +15,6 @@ var pesaje = require('./web/pesaje');
 var detallePesaje = require('./web/detallePesaje');
 var consumo = require('./web/consumo');
 var detalleConsumo = require('./web/detalleConsumo');
-var detalleConsumoInsumo = require('./web/detalleConsumoInsumo');
 var extraviado = require('./web/extraviado');
 var detalleExtraviado = require('./web/detalleExtraviado');
 var ingresoCorral = require('./web/ingresoCorral');
@@ -80,14 +79,12 @@ RoutesWEB.get('/departamento/:departamentoId', departamento.read);
 RoutesWEB.put('/departamento/:departamentoId', departamento.update);
 RoutesWEB.delete('/departamento/:departamentoId', departamento.delete);
 
-RoutesWEB.get('/detalleCompra/cargar', detalleCompra.getForm1);
-RoutesWEB.get('/detalleCompra/:id', detalleCompra.listPag1);
-RoutesWEB.post('/detalleCompra/cargar', detalleCompra.create1);
+RoutesWEB.get('/detalleCompra/cargar', detalleCompra.getForm);
+RoutesWEB.get('/detalleCompra/:id', detalleCompra.listPag);
+RoutesWEB.post('/detalleCompra/cargar', detalleCompra.create);
 RoutesWEB.get('/detalleCompra/editar/:detalleCompraId', detalleCompra.read);
 RoutesWEB.put('/detalleCompra/:detalleCompraId', detalleCompra.update);
 RoutesWEB.delete('/detalleCompra/:detalleCompraId', detalleCompra.delete);
-RoutesWEB.get('/detalleCompra/add/:compraId', detalleCompra.getForm2);
-RoutesWEB.post('/detalleCompra/add', detalleCompra.create2);
 
 RoutesWEB.get('/detalleConsumo/cargar', detalleConsumo.getForm1);
 RoutesWEB.get('/detalleConsumo/animal/:id', detalleConsumo.listPag1);
@@ -97,15 +94,6 @@ RoutesWEB.post('/detalleConsumo/add', detalleConsumo.create2);
 RoutesWEB.get('/detalleConsumo/editar/:detalleConsumoId', detalleConsumo.read);
 RoutesWEB.put('/detalleConsumo/:detalleConsumoId', detalleConsumo.update);
 RoutesWEB.delete('/detalleConsumo/:detalleConsumoId', detalleConsumo.delete);
-
-RoutesWEB.get('/detalleConsumoInsumo/cargar',  detalleConsumoInsumo.getForm);
-RoutesWEB.get('/detalleConsumoInsumo/insumo/:id',  detalleConsumoInsumo.listPag1);
-RoutesWEB.post('/detalleConsumoInsumo/cargar',  detalleConsumoInsumo.create1);
-RoutesWEB.get('/detalleConsumoInsumo/add/:consumoId',  detalleConsumoInsumo.getForm2);
-RoutesWEB.post('/detalleConsumoInsumo/add',  detalleConsumoInsumo.create2);
-RoutesWEB.get('/detalleConsumoInsumo/editar/:detalleConsumoInsumoId',  detalleConsumoInsumo.read);
-RoutesWEB.put('/detalleConsumoInsumo/:detalleConsumoInsumoId', detalleConsumoInsumo.update);
-RoutesWEB.delete('/detalleConsumoInsumo/:detalleConsumoInsumoId',  detalleConsumoInsumo.delete);
 
 RoutesWEB.get('/detalleExtraviado/cargar', detalleExtraviado.getForm1);
 RoutesWEB.get('/detalleExtraviado/:id', detalleExtraviado.listPag1);

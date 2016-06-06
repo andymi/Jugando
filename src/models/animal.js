@@ -39,14 +39,6 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false,
         comment: 'Sexo del Animal'
       },
-      estado: {
-        type: DataTypes.STRING(45),
-        allowNull: false,
-        comment: 'Estado del Animal'
-        //validate: {
-          //notNull: true
-        //}
-      },
       numeroTag: {
         type: DataTypes.STRING(100),
         allowNull: false,
@@ -83,24 +75,23 @@ module.exports = function (sequelize, DataTypes) {
           var rpAnimal = this.rpAnimal;
           var cuernos = this.cuernos;
           var sexoAnimal = this.sexoAnimal;
-          var estado = this.estado;
           var numeroTag = this.numeroTag;
           var fechaIngreso = this.fechaIngreso;
           var RazaIdRaza = this.RazaIdRaza;
 
           Animal.build({
             pesoInicial: pesoInicial, rpAnimal: rpAnimal, cuernos: cuernos, sexoAnimal: sexoAnimal, 
-            estado: estado, numeroTag: numeroTag, fechaIngreso: fechaIngreso, RazaIdRaza: RazaIdRaza
+            numeroTag: numeroTag, fechaIngreso: fechaIngreso, RazaIdRaza: RazaIdRaza
           })
           .save().then(onSuccess).catch(onError);
         },
         updateById: function (animalId, onSuccess, onError) {
           console.log('soy updatemodel',this.idAnimal, this.pesoInicial, this.rpAnimal, 
-          this.cuernos, this.sexoAnimal, this.estado, this.numeroTag, this.fechaIngreso);
+          this.cuernos, this.sexoAnimal, this.numeroTag, this.fechaIngreso);
           Animal.update(
           { pesoInicial: this.pesoInicial, rpAnimal: this.rpAnimal, 
             cuernos: this.cuernos, sexoAnimal: this.sexoAnimal, 
-            estado: this.estado, numeroTag: this.numeroTag, fechaIngreso: this.fechaIngreso,
+            numeroTag: this.numeroTag, fechaIngreso: this.fechaIngreso,
             RazaIdRaza: this.RazaIdRaza},
           { where: { idAnimal: this.idAnimal } }
           )

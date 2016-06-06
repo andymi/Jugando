@@ -10,13 +10,13 @@ Rutas que terminan en /web
 GET /
 */
 router.get('/', function (req, res) {
-  res.render('publico/home/index',{ title: 'Bienvenidos' });
-});
-/*
-router.get('/historia', function (req, res) {
-  res.render('publico/museo/historia',{ title: 'Bienvenidos' });
+  res.render('publico/home/indexa.jade',{ title: 'Bienvenidos' });
 });
 
+router.get('/principal', function (req, res) {
+  res.render('web/index/PaginaPrincipal',{ title: 'Bienvenidos' });
+});
+/*
 router.get('/fundacion', function (req, res) {
   res.render('publico/museo/fundacion',{ title: 'Bienvenidos' });
 });

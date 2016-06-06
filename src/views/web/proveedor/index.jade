@@ -1,32 +1,55 @@
 extends ../../layout 
 block content
-  br
-  br
-  div(class="container-fluid")
-    form(action='/web/proveedor/cargar' method="POST")
-     div(class="form-group")
-      label(for="rucProveedor") Ruc del Proveedor
-      input(type="text" class="form-control" id="rucProveedor" name='rucProveedor' value='proveedor.rucProveedor' placeholder="Ingrese el RUC")
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Proveedor
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Agregar Proveedor
+    section(class="content")
+      div(class="row")  
+        div(class="col-md-12") 
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Registrar Proveedor
+            form(class="form-horizontal" action='/web/proveedor/cargar' method="POST")
+              div(class="box-body")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") RUC: 
+                  div(class="col-sm-8")
+                    input(type="text" class="form-control" id="rucProveedor" name='rucProveedor' placeholder="Ingrese el RUC")
 
-     div(class="form-group")
-      label(for="nombreProveedor") Nombre del Proveedor
-      input(type="text" class="form-control" id="nombreProveedor" name='nombreProveedor' value='proveedor.nombreProveedor' placeholder="Ingrese el Nombre")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Nombre: 
+                  div(class="col-sm-8") 
+                    input(type="text" class="form-control" id="nombreProveedor" name='nombreProveedor' placeholder="Ingrese el Nombre")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Dirección: 
+                  div(class="col-sm-8")
+                    input(type="text"  class="form-control" id="direccionProveedor" name='direccionProveedor' placeholder="Ingrese la Dirección") 
 
-     div(class="form-group")
-      label(for="direccionProveedor") Direccion del Proveedor
-      input(type="text"  class="form-control" id="direccionProveedor" name='direccionProveedor' value='proveedor.direccionProveedor' placeholder="Ingrese la Direccion") 
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="tipo") Tipo de Proveedor:
+                  div(class="col-sm-8")  
+                    select(id="tipoProveedor" name='tipoProveedor' class="btn btn-default select2")
+                      option(value="-1" disabled="disabled" selected) Seleccione una opción
+                      option(value="Animal") Animal
+                      option(value="Insumo") Insumo
+                      option(value="Servicio") Servicio
 
-     div(class="form-group")
-      label(for="tipoProveedor") Tipo de Proveedor
-      input(type="text"  class="form-control" id="tipoProveedor" name='tipoProveedor' value='proveedor.tipoProveedor' placeholder="Ingrese el Tipo de Proveedor")
-
-     div(class="form-group")
-        label(class="control-label col-sm-2" for="email") Ciudad: 
-        div(class="col-sm-10")  
-          select(name='selectJ')
-            option(value="-1" selected) Seleccione Ciudad
-            -for(var j=0; j < selectJ.length; j++) {
-              option(value="#{selectJ[j].idCiudad}") #{selectJ[j].ciudad}
-            -}   
-
-     button(type="submit" value="submit") Agregar Proveedor
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Ciudad: 
+                  div(class="col-sm-8")
+                      select(name='selectJ' class="btn btn-default select2")
+                        option(value="-1" disabled="disabled" selected) Seleccione una opción
+                        -for(var j=0; j < selectJ.length; j++) {
+                          option(value="#{selectJ[j].idCiudad}") #{selectJ[j].ciudad}
+                        -}   
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Guardar
+                    i(class="fa fa-save") 
+                  a(href="/web/proveedor" class="btn btn-default") Cancelar
+                    i(class="fa fa-remove")

@@ -29,29 +29,26 @@ exports.create = function (req, res) {
   console.log(req.body);
   // bodyParser debe hacer la magia
   var fechaCompra = req.body.fechaCompra;
-  var totalCompra = req.body.totalCompra;
+  var horaCompra = req.body.horaCompra;
   var condicionCompra = req.body.condicionCompra;
   var formaPago = req.body.formaPago;
   var numeroCompra = req.body.numeroCompra;  
-  var horaCompra = req.body.horaCompra;
   var ProveedorIdProveedor = req.body.selectJ;
 
   console.log('soy post fechaCompra',fechaCompra);
-  console.log('soy post totalCompra',totalCompra);
+  console.log('soy post horaCompra',horaCompra);
   console.log('soy post condicionCompra',condicionCompra);
   console.log('soy post formaPago',formaPago);
   console.log('soy post numeroCompra',numeroCompra);
-  console.log('soy post horaCompra',horaCompra);
   console.log('soy post ProveedorIdProveedor',ProveedorIdProveedor);
 
 
   var facturaCompra = Model.FacturaCompra.build({
     fechaCompra: fechaCompra,
-    totalCompra: totalCompra,    
+    horaCompra: horaCompra,    
     condicionCompra: condicionCompra,
     formaPago: formaPago,
     numeroCompra: numeroCompra,
-    horaCompra: horaCompra, 
     ProveedorIdProveedor: ProveedorIdProveedor
   });
 
@@ -86,11 +83,10 @@ exports.update = function (req, res) {
   var facturaCompra = Model.FacturaCompra.build();
   console.log('*************',req.body);
   facturaCompra.fechaCompra = req.body.fechaCompra;
-  facturaCompra.totalCompra = req.body.totalCompra;
+  facturaCompra.horaCompra = req.body.horaCompra;
   facturaCompra.condicionCompra = req.body.condicionCompra;
   facturaCompra.formaPago = req.body.formaPago;
   facturaCompra.numeroCompra = req.body.numeroCompra;
-  facturaCompra.horaCompra = req.body.horaCompra;
   facturaCompra.ProveedorIdProveedor = req.body.proveedorSele;
 
   facturaCompra.updateById(req.params.facturaCompraId, function (success) {

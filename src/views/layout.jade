@@ -1,9 +1,11 @@
 doctype html
-html(lang="es")
+html(lang="es" class="no-js")
   include ./partials/head.jade
-  body 
-  //include ./partials/navbar.jade 
-  block content
-  include ./partials/footer.jade
+  body(class="hold-transition skin-green sidebar-mini")
+  div(class="wrapper")
+   include ./partials/header.jade 
+   include ./partials/main.jade  
+   block content
+   include ./partials/footer.jade
+   include ./partials/nav.jade
   include ./partials/footerScripts.jade
-  

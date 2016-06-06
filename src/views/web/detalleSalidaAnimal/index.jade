@@ -1,22 +1,38 @@
-form(action='/web/detalleSalidaAnimal/cargar' method="POST")
-  for salidaAnimales in salidaAnimalJ
-    input(type="hidden" name='id' value='#{salidaAnimales.idSalidaAnimal}')
-  div(class="form-group")
-    label(for="observacion") Observacion
-    input(type="text"  class="form-control" id="observacion" name='observacion' value='detalleSalidaAnimalJ.observacion' placeholder="Ingrese el Pesaje") 
-    //detalle del pesaje
-  div(class="form-group")
-    label(class="control-label col-sm-2" for="email") Rp Animal: 
-    div(class="col-sm-10")  
-      select(name='selectJ')
-        option(value="-1" selected) Seleccione Rp
-        -for(var j=0; j < selectJ.length; j++) {
-          option(value="#{selectJ[j].idAnimal}") #{selectJ[j].rpAnimal}
-        -}  	       
-  
-  button(type="submit" value="submit") Agregar Detalle Salida Animal
-
-
-a(href="/web/salidaAnimal" class="btn btn-info" role="button")
-  p(data-placement="top" data-toggle="tooltip" title="List")
-    button(type="button" class="btn btn-info") Listo
+extends ../../layout 
+block content
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Detalle de la Salida del Animal
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Agregar Detalle de la Salida del Animal
+    section(class="content")
+      div(class="row")  
+        div(class="col-md-12") 
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Registro del Detalle de la Salida del Animal
+            form(class="form-horizontal" action='/web/detalleSalidaAnimal/cargar' method="POST")
+              div(class="box-body") 
+                for salidaAnimales in salidaAnimalJ
+                  input(type="hidden" name='id' value='#{salidaAnimales.idSalidaAnimal}')
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") RP Animal:
+                  div(class="col-sm-8")  
+                    select(name='selectJ' class="btn btn-default select2")
+                      option(value="-1" disabled="disabled" selected) Seleccione una opción
+                      -for(var j=0; j < selectJ.length; j++) {
+                        option(value="#{selectJ[j].idAnimal}") #{selectJ[j].rpAnimal}
+                      -} 
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Observación: 
+                  div(class="col-sm-8")
+                    input(type="text"  class="form-control" id="observacion" name='observacion' placeholder="Ingrese la Observación") 
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Guardar
+                    i(class="fa fa-save") 
+                  a(href="/web/salidaAnimal" class="btn btn-default") Listo
+                    i(class="fa fa-remove")

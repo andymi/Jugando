@@ -1,19 +1,42 @@
-form(action='/web/detalleVenta/cargar' method="POST")
-  for facturaVentas in facturaVentaJ
-    input(type="hidden" name='id' value='#{facturaVentas.idVenta}')
-  div(class="form-group")
-    label(for="descripcionVenta") Descripcion Venta
-    input(type="text" class="form-control" id="descripcionVenta" name='descripcionVenta' value='detalleVenta.descripcionVenta' placeholder="Ingrese la Descripcion")
-  div(class="form-group")
-    label(for="precioVenta") Precio Venta
-    input(type="text"  class="form-control" id="precioVenta" name='precioVenta' value='detalleVenta.precioVenta' placeholder="Ingrese el Precio") 
-  div(class="form-group")
-    label(for="cantidadVenta") Cantidad Venta
-    input(type="text"  class="form-control" id="cantidadVenta" name='cantidadVenta' value='detalleVenta.cantidadVenta' placeholder="Ingrese la Cantidad")       
-  
-  button(type="submit" value="submit") Agregar Detalle Venta
-
-
-a(href="/web/facturaVenta" class="btn btn-info" role="button")
-  p(data-placement="top" data-toggle="tooltip" title="List")
-    button(type="button" class="btn btn-info") Listo
+extends ../../layout 
+block content
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Detalle de la Venta 
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Agregar Detalle
+    section(class="content")
+      div(class="row")  
+        div(class="col-md-12") 
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Detalle de la Venta
+            form(class="form-horizontal" action='/web/detalleVenta/cargar' method="POST")
+              div(class="box-body")
+                for facturaVentas in facturaVentaJ
+                  input(type="hidden" name='id' value='#{facturaVentas.idVenta}')
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Descripción Venta
+                  div(class="col-sm-8")
+                    input(type="text" class="form-control" id="descripcionVenta" name='descripcionVenta' placeholder="Ingrese la Descripcion")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Precio Venta
+                  div(class="col-sm-8")
+                    input(type="text"  class="form-control" id="precioVenta" name='precioVenta' placeholder="Ingrese el Precio") 
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Cantidad Venta
+                  div(class="col-sm-8")
+                    input(type="text"  class="form-control" id="cantidadVenta" name='cantidadVenta' placeholder="Ingrese la Cantidad") 
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Subtotal
+                  div(class="col-sm-8")
+                    input(type="text"  class="form-control" id="subtotalVenta" name='subtotalVenta' placeholder="Ingrese el Subtotal") 
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Guardar
+                    i(class="fa fa-save") 
+                  a(href="/web/facturaVenta" class="btn btn-default") Listo
+                    i(class="fa fa-check")       

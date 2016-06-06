@@ -23,7 +23,6 @@ exports.create = function (req, res) {
   var precioCompra = req.body.precioCompra;  
   var tipoInsumo = req.body.tipoInsumo; 
   var presentacionInsumo = req.body.presentacionInsumo; 
-  var estadoInsumo = req.body.estadoInsumo; 
 
   var index = Model.Insumo.build({
     codigoBarra: codigoBarra,
@@ -31,8 +30,7 @@ exports.create = function (req, res) {
     contenidoInsumo: contenidoInsumo,    
     precioCompra: precioCompra,
     tipoInsumo : tipoInsumo,
-    presentacionInsumo : presentacionInsumo,
-    estadoInsumo : estadoInsumo
+    presentacionInsumo : presentacionInsumo
   });
 
   index.add(function (success) {
@@ -69,7 +67,6 @@ exports.update = function (req, res) {
   insumo.precioCompra = req.body.precioCompra;
   insumo.tipoInsumo = req.body.tipoInsumo;
   insumo.presentacionInsumo = req.body.presentacionInsumo;
-  insumo.estadoInsumo = req.body.estadoInsumo;
   
 
   insumo.updateById(req.params.insumoId, function (success) {

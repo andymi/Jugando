@@ -31,6 +31,7 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.INTEGER(11),
         allowNull: false,
         comment: 'Cantidad total de muertes',
+        defaultValue: '0',
         validate: {
           //notNull: true,
           notEmpty: true
@@ -72,11 +73,10 @@ module.exports = function (sequelize, DataTypes) {
         add: function (onSuccess, onError) {
           var fechaMuerte = this.fechaMuerte;
           var horaMuerte = this.horaMuerte;
-          var cantidadTotal = this.cantidadTotal;
           var ProveedorIdProveedor = this.ProveedorIdProveedor;
           var EmpleadoIdEmpleado = this.EmpleadoIdEmpleado;
 
-          Muertes.build({ fechaMuerte: fechaMuerte, horaMuerte: horaMuerte, cantidadTotal:cantidadTotal,
+          Muertes.build({ fechaMuerte: fechaMuerte, horaMuerte: horaMuerte,
           ProveedorIdProveedor: ProveedorIdProveedor, EmpleadoIdEmpleado: EmpleadoIdEmpleado })
           .save().then(onSuccess).catch(onError);
         },
@@ -84,16 +84,23 @@ module.exports = function (sequelize, DataTypes) {
           var idMuerte = muerteId;
           var fechaMuerte = this.fechaMuerte;
           var horaMuerte = this.horaMuerte;
-          var cantidadTotal = this.cantidadTotal;
           var ProveedorIdProveedor = this.ProveedorIdProveedor;
           var EmpleadoIdEmpleado = this.EmpleadoIdEmpleado;
 
           Muertes.update( { 
-            fechaMuerte: fechaMuerte, horaMuerte: horaMuerte, cantidadTotal:cantidadTotal, 
+            fechaMuerte: fechaMuerte, horaMuerte: horaMuerte, 
             ProveedorIdProveedor: ProveedorIdProveedor, EmpleadoIdEmpleado: EmpleadoIdEmpleado
           },{ where: { idMuerte:  muerteId } })
           .then(onSuccess).catch(onError);
         },
+        /*updateCount: function (muerteId, count , onSuccess, onError) {
+          var idMuerte = muerteId;
+          var cantidadTotal = this.count;
+          Muertes.update( { 
+            cantidadTotal: cantidadTotal
+          },{ where: { idMuerte:  muerteId } })
+          .then(onSuccess).catch(onError);
+        },*/
         removeById: function (muerteId, onSuccess, onError) {
           Muertes.destroy( { where: { idMuerte: muerteId } })
           .then(onSuccess).catch(onError);

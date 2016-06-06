@@ -31,20 +31,29 @@ exports.create1 = function (req, res) {
   // bodyParser debe hacer la magia
   var descripcionVenta = req.body.descripcionVenta;
   var precioVenta = req.body.precioVenta;
-  var cantidadVenta = req.body.cantidadVenta; 
+  var cantidadVenta = req.body.cantidadVenta;
+  var subtotalVenta =req.body.subtotalVenta; 
   var FacturaVentaIdVenta = req.body.id; 
 
   var index = Model.DetalleVenta.build({
     descripcionVenta: descripcionVenta,
     precioVenta: precioVenta,    
     cantidadVenta: cantidadVenta,
+    subtotalVenta : subtotalVenta,
     FacturaVentaIdVenta: FacturaVentaIdVenta
   });
 
   index.add(function (success) {
-    res.redirect('/web/detalleVenta/cargar');
-  },
-  function (err) {
+    index.retriveSum(FacturaVentaIdVenta, function (detalleVentas) {
+      if (detalleVentas) {
+        res.redirect('/web/detalleVenta/cargar');
+      } else {
+        res.send(401, 'No anda tu count amigo');
+      }
+    },function (err) {
+        res.send('errores aaaa',err);
+    }); 
+  },function (err) {
     res.send(err);
   });
 };
@@ -81,12 +90,14 @@ exports.create2 =  function (req, res) {
   var descripcionVenta = req.body.descripcionVenta;
   var precioVenta = req.body.precioVenta;
   var cantidadVenta = req.body.cantidadVenta; 
+  var subtotalVenta =req.body.subtotalVenta;
   var FacturaVentaIdVenta = req.body.id; 
 
   var index = Model.DetalleVenta.build({
     descripcionVenta: descripcionVenta,
     precioVenta: precioVenta,    
     cantidadVenta: cantidadVenta,
+    subtotalVenta: subtotalVenta,
     FacturaVentaIdVenta: FacturaVentaIdVenta
   });
 
@@ -107,9 +118,10 @@ exports.create2 =  function (req, res) {
 exports.update = function (req, res) {
   var detalleVenta = Model.DetalleVenta.build();
 
- detalleVenta.descripcionVenta = req.body.descripcionVenta;
+  detalleVenta.descripcionVenta = req.body.descripcionVenta;
   detalleVenta.precioVenta = req.body.precioVenta;
   detalleVenta.cantidadVenta = req.body.cantidadVenta;
+  detalleVenta.subtotalVenta = req.body.subtotalVenta;
   
   
 

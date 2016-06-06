@@ -40,13 +40,34 @@ module.exports = function (sequelize, DataTypes) {
           //notNull: true,
           notEmpty: true
         }
+      },
+      subtotalCompra: {
+        type: DataTypes.INTEGER(11),
+        allowNull: false,
+        comment: 'Subtotal de la Compra',
+        validate: {
+          //notNull: true,
+          notEmpty: true
+        }
       }
     },
     {
       instanceMethods: {
+        retriveSum: function(id, onSuccess, onError){
+          DetalleCompra.findAll({
+            attributes:[[sequelize.fn('SUM', sequelize.col('subtotalCompra')),'TOTAL']],
+            where: { FacturaCompraIdCompra:id }
+          }).then(function (detalleCompra) {
+            console.log('dentro de update',detalleCompra[0].dataValues['TOTAL']);
+            Model.FacturaCompra.update( { 
+             totalCompra: detalleCompra[0].dataValues['TOTAL']
+            },{ where: { idCompra: id } })
+            .then(onSuccess).catch(onError);
+            });
+        },
         retrieveAll: function (id, onSuccess, onError) {
           DetalleCompra.findAll({
-            include: [ Model.Insumo , Model.FacturaCompra],
+            include: [ Model.FacturaCompra],
             where: { FacturaCompraIdCompra:id }
           })
           .then(onSuccess).catch(onError);
@@ -60,7 +81,6 @@ module.exports = function (sequelize, DataTypes) {
         },
         retrieveById: function (detalleCompraId, onSuccess, onError) {
           DetalleCompra.find( {
-            include: [ Model.Insumo ],
             where: { idDetalleCompra:detalleCompraId }
           }, { raw: true })
           .then(onSuccess).catch(onError);
@@ -69,11 +89,11 @@ module.exports = function (sequelize, DataTypes) {
           var descripcionCompra = this.descripcionCompra;
           var precioCompra = this.precioCompra;
           var cantidadCompra = this.cantidadCompra;
-          var InsumoIdInsumo = this.InsumoIdInsumo;
+          var subtotalCompra = this.subtotalCompra;
           var FacturaCompraIdCompra = this.FacturaCompraIdCompra;
 
           DetalleCompra.build({ descripcionCompra: descripcionCompra, precioCompra: precioCompra, 
-          cantidadCompra: cantidadCompra, InsumoIdInsumo: InsumoIdInsumo, FacturaCompraIdCompra: FacturaCompraIdCompra})
+          cantidadCompra: cantidadCompra, subtotalCompra:subtotalCompra, FacturaCompraIdCompra: FacturaCompraIdCompra})
           .save().then(onSuccess).catch(onError);
         },
         updateById: function (detalleCompraId, onSuccess, onError) {
@@ -81,12 +101,12 @@ module.exports = function (sequelize, DataTypes) {
           var descripcionCompra = this.descripcionCompra;
           var precioCompra = this.precioCompra;
           var cantidadCompra = this.cantidadCompra;
-          var InsumoIdInsumo = this.InsumoIdInsumo;
+          var subtotalCompra = this.subtotalCompra;
           var FacturaCompraIdCompra = this.FacturaCompraIdCompra;
           
           DetalleCompra.update( { 
             descripcionCompra: descripcionCompra, precioCompra: precioCompra, cantidadCompra: cantidadCompra,
-            InsumoIdInsumo: InsumoIdInsumo, FacturaCompraIdCompra: FacturaCompraIdCompra
+            subtotalCompra: subtotalCompra, FacturaCompraIdCompra: FacturaCompraIdCompra
           },{ where: { idDetalleCompra: detalleCompraId } })
           .then(onSuccess).catch(onError);
         },

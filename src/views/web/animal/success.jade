@@ -1,59 +1,65 @@
-table(class="table table-bordred table-striped")
-  thead
-    tr
-      th(class="cell-stat text-center") idAnimal
-      th(class="cell-stat text-center") idRaza
-      th(class="cell-stat text-center") raza
-      th(class="cell-stat text-center") pesoInicial
-      th(class="cell-stat text-center") rpAnimal
-      th(class="cell-stat text-center") cuernos
-      th(class="cell-stat text-center") sexoAnimal
-      th(class="cell-stat text-center") estado
-      th(class="cell-stat text-center") numeroTag      
-      th(class="cell-stat text-center") fechaIngreso
-      th(class="cell-stat text-center") fechaCreacion
-      th(class="cell-stat text-center") fechaModificacion
-      th(class="cell-stat text-center") fechaBorrado
-      th(class="cell-stat text-center") Accion
-      th(class="cell-stat text-center") Accion
-  
-  tbody
-    for animal in animales
-      tr
-        td(class="text-center")=animal.idAnimal
-        td(class="text-center")=animal.Raza.idRaza 
-        if animal.Raza == null  
-          td(class="text-center") sin raza
-        else 
-          td(class="text-center")=animal.Raza.raza 
-        
-        td(class="text-center")=animal.pesoInicial
-        td(class="text-center")=animal.rpAnimal 
-        td(class="text-center")=animal.cuernos
-        td(class="text-center")=animal.sexoAnimal 
-        td(class="text-center")=animal.estado
-        td(class="text-center")=animal.numeroTag 
-        td(class="text-center")=animal.fechaIngreso
-        td(class="text-center")=animal.fechaCreacion 
-        td(class="text-center")=animal.fechaModificacion
-        td(class="text-center")=animal.fechaBorrado 
-        td
-          a(href="/web/animal/#{animal.idAnimal}" class="btn btn-info" role="button")
-            p(data-placement="top" data-toggle="tooltip" title="Edit")
-              button(type="button" class="btn btn-info") Editar Animal 
-              
-        form(id="topicForm" method="post" action="/web/animal/#{animal.idAnimal}")
-          input(type="hidden" name="_method" value="delete")
-          input(type="hidden" name="idAnimal" value='#{animal.idAnimal}')               
-          td
-            a(href="/web/animal/#{animal.idAnimal}" class="btn btn-info" role="button")
-              p(data-placement="top" data-toggle="tooltip" title="Delete")
-                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Animal
-
-
-a(href="/web/animal/cargar" class="btn btn-info" role="button")
-  p(data-placement="top" data-toggle="tooltip" title="Add")
-    button(type="button" class="btn btn-info") Agregar Animal
-
-
-          
+extends ../../layout 
+block content
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Animal
+        small
+          b 
+            a(href="/web/animal/cargar")
+              p(class="text-green" data-placement="top" data-toggle="tooltip" title="Agregar Animal") Agregar Animal
+                  i(class="fa fa-save") 
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Tabla de Animales Registrados
+    section(class="content")
+      div(class="row")
+        div(class="col-xs-12")
+          div(class="box")
+            div(class="box-header")
+              h3(class="box-title") Tabla de Animales Registrados
+              <!-- /.box-header -->
+            div(class="box-body")
+              div(class="table-responsive")
+                table(id="example1" class="table table-bordered table-striped")
+                  thead
+                    tr(class="success")
+                      th(class="text-center") Raza
+                      th(class="text-center") Peso Inicial
+                      th(class="text-center") RP
+                      th(class="text-center") Cuernos
+                      th(class="text-center") Sexo
+                      th(class="text-center") Etiqueta Nº      
+                      th(class="text-center") Fecha de Ingreso
+                      th(class="text-center") Editar Registro
+                      th(class="text-center") Eliminar Registro
+                  
+                  tbody
+                    for animal in animales
+                      tr
+                        if animal.Raza == null  
+                          td(class="text-center") sin raza
+                        else 
+                          td( class="text-center")=animal.Raza.raza 
+                        
+                        td(class="text-center")=animal.pesoInicial
+                        td(class="text-center")=animal.rpAnimal 
+                        td(class="text-center")=animal.cuernos
+                        td(class="text-center")=animal.sexoAnimal 
+                        td(class="text-center")=animal.numeroTag 
+                        td(class="text-center")=animal.fechaIngreso
+                        td(class="text-center")
+                          a(href="/web/animal/#{animal.idAnimal}" class="btn btn-success" role="button")
+                            p(data-placement="top" data-toggle="tooltip" title="Editar Animal")
+                              button(type="button" class="btn btn-success")
+                                i(class="fa fa-refresh")
+                              
+                        form(id="topicForm" method="post" action="/web/animal/#{animal.idAnimal}")
+                          input(type="hidden" name="_method" value="delete")
+                          input(type="hidden" name="idAnimal" value='#{animal.idAnimal}')               
+                          td(class="text-center")
+                            a(href="/web/animal/#{animal.idAnimal}" class="btn btn-success" role="button")
+                              p(data-placement="top" data-toggle="tooltip" title="Borrar Animal")
+                                button(type="submit" name="committ" value="Form" class="btn btn-success")
+                                  i(class="fa fa-remove")

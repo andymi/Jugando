@@ -1,19 +1,47 @@
 extends ../../layout 
 block content
-  br
-  br
-  div(class="container-fluid")
-    form(action='/web/ingresoAnimal/add' method="POST")
-     div(class="form-group")
-      label(for="fechaEntrada") Fecha de Entrada de los Animales
-      input(type="text" class="form-control" id="fechaEntrada" name='fechaEntrada' value='ingresoAnimal.fechaEntrada' placeholder="Ingrese el Sexo")
-     div(class="form-group")
-      label(for="horaEntrada") Hora de Entrada
-      input(type="text"  class="form-control" id="horaEntrada" name='horaEntrada' value='ingresoAnimal.horaEntrada' placeholder="Ingrese el Estado") 
-     div(class="form-group")
-      label(for="cantidadEntrada") Cantidad de Animales Ingresados
-      input(type="text" class="form-control" id="cantidadEntrada" name='cantidadEntrada' value='ingresoAnimal.cantidadEntrada' placeholder="Ingrese el NumeroTag")
-     div(class="form-group") 
-      label(for="observacion")   Observacion
-      input(type="text"  class="form-control" id="observacion" name='observacion' value='ingresoAnimal.observacion' placeholder="Ingrese el Cuerno")
-     button(type="submit" value="submit") Agregar Ingreso Animal
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Ingreso de Animales al Corral
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Agregar Ingreso
+    section(class="content")
+      div(class="row")  
+        div(class="col-md-12") 
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Ingreso de Animales al Corral            
+            form(class="form-horizontal" action='/web/ingresoAnimal/add' method="POST")
+              div(class="box-body")
+                div(class="form-group")
+                    label(class="col-sm-4 control-label" for="fechaEntrada") Fecha de Entrada 
+                    div(class="col-sm-8")  
+                      div(class="input-group date")
+                        div(class="input-group-addon")
+                          i(class="fa fa-calendar")  
+                        input(type="text"  class="form-control pull-right" id="datepicker" name='fechaEntrada' required)
+                div(class="form-group")  
+                    label(class="col-sm-4 control-label" for="horaEntrada") Hora de Entrada
+                    div(class="col-sm-8")
+                      div(class="bootstrap-timepicker")
+                        div(class="input-group")
+                          div(class="input-group-addon")
+                            i(class="fa fa-clock-o")
+                          input(type="text" class="form-control timepicker" name='horaEntrada' required)   
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="cantidadEntrada") Cantidad de Animales Ingresados
+                  div(class="col-sm-8")
+                    input(type="text" class="form-control" id="cantidadEntrada" name='cantidadEntrada' placeholder="Ingrese la Cantidad")
+                div(class="form-group") 
+                  label(class="col-sm-4 control-label" for="observacion") Observación
+                  div(class="col-sm-8")
+                    input(type="text"  class="form-control" id="observacion" name='observacion' placeholder="Ingrese la Observación")
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Guardar
+                    i(class="fa fa-save") 
+                  a(href="/web/ingresoAnimal" class="btn btn-default") Cancelar
+                    i(class="fa fa-remove")

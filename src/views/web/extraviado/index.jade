@@ -1,31 +1,52 @@
 extends ../../layout 
 block content
-  br
-  br
-  div(class="container-fluid")
-    form(action='/web/extraviado/add' method="POST")
-     div(class="form-group")
-      label(for="fechaExtraviado") Fecha Extraviado
-      input(type="text" class="form-control" id="fechaExtraviado" name='fechaExtraviado' value='extraviado.fechaExtraviado' placeholder="Ingrese la Fecha")
-
-     div(class="form-group")
-      label(for="horaExtraviado") Hora Extraviado
-      input(type="text"  class="form-control" id="horaExtraviado" name='horaExtraviado' value='extraviado.horaExtraviado' placeholder="Ingrese la Hora") 
-
-     div(class="form-group")
-      label(for="lugarExtraviado") Lugar Extraviado
-      input(type="text" class="form-control" id="lugarExtraviado" name='lugarExtraviado' value='extraviado.lugarExtraviado' placeholder="Ingrese el Lugar")
-
-     div(class="form-group")
-        label(class="control-label col-sm-2" for="email") Empleado: 
-        div(class="col-sm-10")  
-          select(name='selectJ')
-            option(value="-1" selected) Seleccione Empleado
-            -for(var j=0; j < selectJ.length; j++) {
-              option(value="#{selectJ[j].idEmpleado}") #{selectJ[j].nombreEmpleado}
-            -}    
-     button(type="submit" value="submit") Agregar Extraviado
-  
-
-    
-  
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Extraviado
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Agregar Extraviado
+    section(class="content")
+      div(class="row")  
+        div(class="col-md-12") 
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Registro de Animal Extraviado
+            form(class="form-horizontal" action='/web/extraviado/add' method="POST")
+              div(class="box-body")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="fechaExtraviado") Fecha del Extravío
+                  div(class="col-sm-8")  
+                    div(class="input-group date")
+                      div(class="input-group-addon")
+                        i(class="fa fa-calendar")  
+                      input(type="text"  class="form-control pull-right" id="datepicker" name='fechaExtraviado' required)
+                div(class="form-group")  
+                    label(class="col-sm-4 control-label" for="horaExtraviado") Hora del Extravío
+                    div(class="col-sm-8")
+                      div(class="bootstrap-timepicker")
+                        div(class="input-group")
+                          div(class="input-group-addon")
+                            i(class="fa fa-clock-o")
+                          input(type="text" class="form-control timepicker" name='horaExtraviado' required)   
+                div(class="form-group")
+                  label(class="control-label col-sm-4" for="email") Lugar Extraviado 
+                  div(class="col-sm-8")
+                    input(type="text" class="form-control" id="lugarExtraviado" name='lugarExtraviado' placeholder="Ingrese el Lugar")
+                div(class="form-group")
+                  label(class="control-label col-sm-4" for="email") Empleado Encargado 
+                  div(class="col-sm-8") 
+                    select(name='selectJ' class="btn btn-default select2")
+                      option(value="-1" selected) Seleccione Empleado
+                      -for(var j=0; j < selectJ.length; j++) {
+                        option(value="#{selectJ[j].idEmpleado}") #{selectJ[j].nombreEmpleado}
+                      -}    
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Guardar
+                    i(class="fa fa-save") 
+                  a(href="/web/extraviado" class="btn btn-default") Cancelar
+                    i(class="fa fa-remove")
+              

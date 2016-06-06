@@ -1,37 +1,55 @@
 extends ../../layout 
 block content
-  br
-  br
-  div(class="container-fluid")
-    form(action='/web/muertes/add' method="POST")
-     div(class="form-group")
-      label(for="fechaMuerte") Ingrese la Fecha de la Muerte
-      input(type="text" class="form-control" id="fechaMuerte" name='fechaMuerte' value='muertes.fechaMuerte' placeholder="Ingrese la Fecha de la Muerte")
-
-     div(class="form-group")
-      label(for="horaMuerte") Ingrese la Hora de la Muerte
-      input(type="text"  class="form-control" id="horaMuerte" name='horaMuerte' value='muertes.horaMuerte' placeholder="Ingrese la Hora de la Muerte") 
-
-     div(class="form-group")
-      label(for="cantidadTotal") Ingrese la Cantidad Total 
-      input(type="text"  class="form-control" id="cantidadTotal" name='cantidadTotal' value='muertes.cantidadTotal' placeholder="Ingrese la Cantidad Total") 
-
-     div(class="form-group")
-        label(class="control-label col-sm-2" for="email") Empleado: 
-        div(class="col-sm-10")  
-          select(name='selectJ')
-            option(value="-1" selected) Seleccione Empleado
-            -for(var j=0; j < selectJ.length; j++) {
-              option(value="#{selectJ[j].idEmpleado}") #{selectJ[j].nombreEmpleado}
-            -} 
-     div(class="form-group")
-        label(class="control-label col-sm-2" for="email") Proveedor: 
-        div(class="col-sm-10")  
-          select(name='selectN')
-            option(value="-1" selected) Seleccione Proveedor
-            -for(var j=0; j < selectN.length; j++) {
-              option(value="#{selectN[j].idProveedor}") #{selectN[j].nombreProveedor}
-            -}   
-
-
-     button(type="submit" value="submit") Agregar Muerte
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Muerte del Animal
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Agregar Muerte del Animal
+    section(class="content")
+      div(class="row")  
+        div(class="col-md-12") 
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Registro de Muerte del Animal
+            form(class="form-horizontal" action='/web/muertes/add' method="POST")
+              div(class="box-body")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="fechaMuerte") Fecha de la Muerte
+                  div(class="col-sm-8")  
+                    div(class="input-group date")
+                      div(class="input-group-addon")
+                        i(class="fa fa-calendar")  
+                      input(type="text"  class="form-control pull-right" id="datepicker" name='fechaMuerte' required)
+                div(class="form-group")  
+                  label(class="col-sm-4 control-label" for="horaMuerte") Hora de la Muerte
+                  div(class="col-sm-8")
+                    div(class="bootstrap-timepicker")
+                      div(class="input-group")
+                        div(class="input-group-addon")
+                          i(class="fa fa-clock-o")
+                        input(type="text" class="form-control timepicker" name='horaMuerte' required)
+                div(class="form-group")
+                  label(class="control-label col-sm-4" for="email") Empleado Encargado
+                  div(class="col-sm-8")  
+                    select(name='selectJ' class="btn btn-default select2")
+                      option(value="-1" disabled="disabled" selected) Seleccione una opción
+                      -for(var j=0; j < selectJ.length; j++) {
+                        option(value="#{selectJ[j].idEmpleado}") #{selectJ[j].nombreEmpleado}
+                      -} 
+                div(class="form-group")
+                  label(class="control-label col-sm-4" for="email") Veterinario 
+                  div(class="col-sm-8")  
+                    select(name='selectN' class="btn btn-default select2")
+                      option(value="-1" disabled="disabled" selected) Seleccione una opción
+                      -for(var j=0; j < selectN.length; j++) {
+                        option(value="#{selectN[j].idProveedor}") #{selectN[j].nombreProveedor}
+                      -}   
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Guardar
+                    i(class="fa fa-save") 
+                  a(href="/web/muertes" class="btn btn-default") Cancelar
+                    i(class="fa fa-remove")

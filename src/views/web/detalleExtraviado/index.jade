@@ -1,24 +1,39 @@
-form(action='/web/detalleExtraviado/cargar' method="POST")
-  for extraviados in extraviadoJ
-    input(type="hidden" name='id' value='#{extraviados.idExtraviado}')
-
-  div(class="form-group")
-    label(for="observacionExtraviado") Observacion
-    input(type="text"  class="form-control" id="observacionExtraviado" name='observacionExtraviado' value='detalleExtraviado.observacionExtraviado' placeholder="Ingrese el Pesaje") 
-
-    //detalle del pesaje
-  div(class="form-group")
-    label(class="control-label col-sm-2" for="email") Rp Animal: 
-    div(class="col-sm-10")  
-      select(name='selectJ')
-        option(value="-1" selected) Seleccione Rp
-        -for(var j=0; j < selectJ.length; j++) {
-          option(value="#{selectJ[j].idAnimal}") #{selectJ[j].rpAnimal}
-        -}  	       
-  
-  button(type="submit" value="submit") Agregar Detalle Extraviado
-
-a(href="/web/extraviado" class="btn btn-info" role="button")
-  p(data-placement="top" data-toggle="tooltip" title="List")
-    button(type="button" class="btn btn-info") Listo
+extends ../../layout 
+block content
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Detalle del Animal Extraviado
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Agregar Detalle del Animal Extraviado
+    section(class="content")
+      div(class="row")  
+        div(class="col-md-12") 
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Registro Detalle del Animal Extraviado
+            form(class="form-horizontal" action='/web/detalleExtraviado/cargar' method="POST")
+              div(class="box-body") 
+                for extraviados in extraviadoJ
+                  input(type="hidden" name='id' value='#{extraviados.idExtraviado}')
+                  div(class="form-group")
+                    label(class="col-sm-4 control-label" for="email") Observación 
+                    div(class="col-sm-8")
+                      input(type="text"  class="form-control" id="observacionExtraviado" name='observacionExtraviado' placeholder="Ingrese el Animal Extraviado") 
+                  div(class="form-group")
+                    label(class="control-label col-sm-4" for="email") Rp Animal
+                    div(class="col-sm-8")  
+                      select(name='selectJ' class="btn btn-default select2")
+                        option(value="-1" selected) Seleccione una opción
+                        -for(var j=0; j < selectJ.length; j++) {
+                          option(value="#{selectJ[j].idAnimal}") #{selectJ[j].rpAnimal}
+                        -} 
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Guardar
+                    i(class="fa fa-save") 
+                  a(href="/web/extraviado" class="btn btn-default") Listo
+                    i(class="fa fa-remove")
 

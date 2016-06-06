@@ -13,6 +13,15 @@ module.exports = function (sequelize, DataTypes) {
           notNull: true
         }
       },
+      cantidad: {
+        type: DataTypes.INTEGER(11),
+        allowNull: false,
+        comment: 'cantidad',
+        validate: {
+          //notNull: true,
+          notEmpty: true
+        }
+      },
       observacion: {
         type: DataTypes.STRING(250),
         comment: 'observacion',
@@ -45,21 +54,23 @@ module.exports = function (sequelize, DataTypes) {
           .then(onSuccess).catch(onError);
         },
         add: function (onSuccess, onError) {
+          var cantidad = this.cantidad;
           var observacion = this.observacion;
           var AnimalIdAnimal = this.AnimalIdAnimal;
           var ConsumoIdConsumo = this.ConsumoIdConsumo;
 
-          DetalleConsumo.build({ observacion: observacion, 
+          DetalleConsumo.build({ cantidad: cantidad, observacion: observacion, 
             AnimalIdAnimal:AnimalIdAnimal, ConsumoIdConsumo: ConsumoIdConsumo })
           .save().then(onSuccess).catch(onError);
         },
         updateById: function (detalleConsumoId, onSuccess, onError) {
           var idDetalleConsumo = this.idDetalleConsumo;          
+          var cantidad = this.cantidad;
           var observacion = this.observacion;
           var AnimalIdAnimal = this.AnimalIdAnimal;
           
           DetalleConsumo.update( { 
-            observacion: observacion, AnimalIdAnimal: AnimalIdAnimal
+            cantidad: cantidad, observacion: observacion, AnimalIdAnimal: AnimalIdAnimal
           },{ where: { idDetalleConsumo: detalleConsumoId } })
           .then(onSuccess).catch(onError);
         },

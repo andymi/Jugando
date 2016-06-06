@@ -1,57 +1,72 @@
 extends ../../layout 
 block content
-  br
-  br
-     
-  div(class="container-fluid")
-   div(class="centerdiv")
-    form(action='/web/animal/cargar' method="POST" class="form-horizontal" data-toggle="validator")
-      div(class="form-group")
-        h1 Registro de Animales
-      div(class="form-group")
-        label(class="control-label col-sm-7" for="email") Raza: 
-        div(class="col-sm-5")  
-          select(id="selectJ" name='selectJ' class="btn btn-secondary" required="required")
-            option(value="-1" disabled="disabled" selected) Seleccione una opción
-            -for(var j=0; j < selectJ.length; j++) {
-              option(value="#{selectJ[j].idRaza}") #{selectJ[j].raza}
-            -}  
-      div(class="form-group")
-        label(class="control-label col-sm-7" for="pesoAnimal") Peso del Animal:
-        div(class="col-sm-5") 
-          input(type="text"  class="form-control" id="pesoAnimal" name='pesoInicial' placeholder="Ingrese el Peso" required) 
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Animal
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Agregar Animal
+    section(class="content")
+      div(class="row")  
+        div(class="col-md-12") 
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Registro Animal
+            form( class="form-horizontal" action='/web/animal/cargar' method="POST")
+              div(class="box-body")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Raza: 
+                  div(class="col-sm-8")  
+                    select(id="selectJ" name='selectJ' class="btn btn-default select2")
+                      option(value="-1" disabled="disabled" selected) Seleccione una opción
+                      -for(var j=0; j < selectJ.length; j++) {
+                        option(value="#{selectJ[j].idRaza}") #{selectJ[j].raza}
+                      -}
+                       
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="pesoAnimal") Peso:
+                  div(class="col-sm-8") 
+                    input(type="text"  class="form-control" id="pesoAnimal" name='pesoInicial' placeholder="Ingrese el Peso" required)
 
-      div(class="form-group")
-        label(class="control-label col-sm-7" for="rpAnimal") RP del Animal:
-        div(class="col-sm-5") 
-          input(type="text" class="form-control" id="rpAnimal" name='rpAnimal' placeholder="Ingrese el RP" required)
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="rpAnimal") RP:
+                  div(class="col-sm-8") 
+                    input(type="text" class="form-control" id="rpAnimal" name='rpAnimal' placeholder="Ingrese el RP" required)
 
-      div(class="form-group")
-        label(class="control-label col-sm-7" for="cuernos") Presencia de Cuernos:
-        div(class="col-sm-5")  
-          select(id="cuernos" name='cuernos' class="btn btn-secondary")
-             option(value="-1" disabled="disabled" selected) Seleccione una opción
-             option(value="Si") Si
-             option(value="No") No
-     
-      div(class="form-group")
-        label(class="control-label col-sm-7" for="sexoAnimal") Sexo del Animal:
-        div(class="col-sm-5")  
-          select(id="sexoAnimal" name='sexoAnimal' class="btn btn-secondary")
-             option(value="-1" disabled="disabled" selected) Seleccione una opción
-             option(value="Hembra") Hembra
-             option(value="Macho") Macho
-     
-      div(class="form-group")
-        label(class="control-label col-sm-7" for="numeroTag") NumeroTag del Animal:
-        div(class="col-sm-5")  
-          input(type="text" class="form-control" id="numeroTag" name='numeroTag' placeholder="Ingrese el NumeroTag" required)
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="cuernos") Presencia de Cuernos:
+                  div(class="col-sm-8")  
+                    select(id="cuernos" name='cuernos' class="btn btn-default select2")
+                       option(value="-1" disabled="disabled" selected) Seleccione una opción
+                       option(value="Si") Si
+                       option(value="No") No    
 
-      div(class="form-group")
-        label(class="control-label col-sm-7" for="fechaIngreso") Fecha de Ingreso del Animal:
-        div(class="col-sm-5")  
-          input(type="text"  class="form-control" id="fechaIngreso" name='fechaIngreso' placeholder="Ingrese la Fecha Ingreso" required)
-      div(class="form-group")
-        div(class="col-sm-5") 
-        button(type="submit" href="javascript:void(0);" class="shortcode_button btn_type1") Agregar Animal
-      
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="sexoAnimal") Sexo:
+                  div(class="col-sm-8")  
+                    select(id="sexoAnimal" name='sexoAnimal' class="btn btn-default select2")
+                       option(value="-1" disabled="disabled" selected) Seleccione una opción
+                       option(value="Hembra") Hembra
+                       option(value="Macho") Macho 
+
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="numeroTag") Etiqueta Nº:
+                  div(class="col-sm-8")  
+                    input(type="text" class="form-control" id="numeroTag" name='numeroTag' placeholder="Ingrese el NumeroTag" required)
+
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="fechaIngreso") Fecha de Ingreso:
+                  div(class="col-sm-8")  
+                    div(class="input-group date")
+                      div(class="input-group-addon")
+                        i(class="fa fa-calendar")  
+                      input(type="text"  class="form-control pull-right" id="datepicker" name='fechaIngreso' required)
+
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Guardar
+                    i(class="fa fa-save") 
+                  a(href="/web/animal" class="btn btn-default") Cancelar
+                    i(class="fa fa-remove")

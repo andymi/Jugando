@@ -36,7 +36,6 @@ exports.create = function (req, res) {
   var rpAnimal = req.body.rpAnimal;
   var cuernos = req.body.cuernos;
   var sexoAnimal = req.body.sexoAnimal;
-  var estado ="Activo";
   var numeroTag = req.body.numeroTag;
   var fechaIngreso = req.body.fechaIngreso;
   var RazaIdRaza = req.body.selectJ;
@@ -45,7 +44,6 @@ exports.create = function (req, res) {
   console.log('soy post rpAnimal',rpAnimal);
   console.log('soy post cuernos',cuernos);
   console.log('soy post sexoAnimal',sexoAnimal);
-  console.log('soy post estado',estado);
   console.log('soy post numeroTag',numeroTag);
   console.log('soy post fechaIngreso',fechaIngreso);
   console.log('soy post RazaIdRaza',RazaIdRaza);
@@ -55,7 +53,6 @@ exports.create = function (req, res) {
     rpAnimal: rpAnimal,
     cuernos: cuernos,
     sexoAnimal: sexoAnimal,
-    estado : estado,
     numeroTag : numeroTag,
     fechaIngreso : fechaIngreso,
     RazaIdRaza : RazaIdRaza
@@ -99,7 +96,6 @@ exports.update = function (req, res) {
   animal.rpAnimal = req.body.rpAnimal;
   animal.cuernos = req.body.cuernos;
   animal.sexoAnimal = req.body.sexoAnimal;
-  animal.estado = req.body.estado;
   animal.numeroTag = req.body.numeroTag;
   animal.fechaIngreso = req.body.fechaIngreso;  
   animal.RazaIdRaza= req.body.razaSele;
@@ -109,7 +105,6 @@ exports.update = function (req, res) {
   console.log('soy post rpAnimal',req.body.rpAnimal);
   console.log('soy post cuernos',req.body.cuernos);
   console.log('soy post sexoAnimal',req.body.sexoAnimal);
-  console.log('soy post estado',req.body.estado);
   console.log('soy post numeroTag',req.body.numeroTag);
   console.log('soy post fechaIngreso',req.body.fechaIngreso);
   console.log('soy post RazaIdRaza',req.body.RazaIdRaza);

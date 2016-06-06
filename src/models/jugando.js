@@ -145,9 +145,6 @@ var Usuario= sequelize.import(usuarioPath);
 var vacunacionPath = path.join(__dirname,'vacunacion');
 var Vacunacion = sequelize.import(vacunacionPath);
 // Importar definicion de la tabla Forum
-var detalleConsumoInsumoPath = path.join(__dirname,'detalleConsumoInsumo');
-var DetalleConsumoInsumo = sequelize.import(detalleConsumoInsumoPath);
-// Importar definicion de la tabla Forum
 var razaPath = path.join(__dirname,'raza');
 var Raza = sequelize.import(razaPath);
 // Importar definicion de la tabla Forum
@@ -214,9 +211,9 @@ Empleado.hasMany(Muertes);
 //Empleado - Extraviado
 Extraviado.belongsTo(Empleado);
 Empleado.hasMany(Extraviado);
-//Animal - Stock
-Stock.belongsTo(Animal);
-Animal.hasMany(Stock);
+//Raza - Stock
+Stock.belongsTo(Raza);
+Raza.hasMany(Stock);
 //Animal - DetalleSanitacion
 DetalleSanitacion.belongsTo(Animal);
 Animal.hasMany(DetalleSanitacion);
@@ -265,18 +262,12 @@ Proveedor.hasMany(FacturaCompra);
 //FacturaCompra - DetalleCompra
 DetalleCompra.belongsTo(FacturaCompra);
 FacturaCompra.hasMany(DetalleCompra);
-//DetalleConsumo - DetalleConsumoInsumo
-DetalleConsumoInsumo.belongsTo(DetalleConsumo);
-DetalleConsumo.hasMany(DetalleConsumoInsumo);
 //FacturaCompra - Traslado
 Traslado.belongsTo(FacturaCompra);
 FacturaCompra.hasMany(Traslado);
 //Insumo - DetalleCompra 
 DetalleCompra.belongsTo(Insumo);
 Insumo.hasMany(DetalleCompra);
-//Insumo - DetalleConsumoInsumo 
-DetalleConsumoInsumo.belongsTo(Insumo);
-Insumo.hasMany(DetalleConsumoInsumo);
 //Insumo - DetalleVacunacionInsumo 
 DetalleVacunacionInsumo.belongsTo(Insumo);
 Insumo.hasMany(DetalleVacunacionInsumo);
@@ -289,12 +280,12 @@ Insumo.hasMany(DetalleSanitacionInsumo);
 //Extraviado - DetalleExtraviado 
 DetalleExtraviado.belongsTo(Extraviado);
 Extraviado.hasMany(DetalleExtraviado);
+//Insumo - Consumo 
+Consumo.belongsTo(Insumo);
+Insumo.hasMany(Consumo);
 //Consumo  - DetalleConsumo
 DetalleConsumo.belongsTo(Consumo);
 Consumo.hasMany(DetalleConsumo);
-//Consumo  - Stock
-Stock.belongsTo(Consumo);
-Consumo.hasMany(Stock);
 //Muertes  - DetalleMuerte
 DetalleMuerte.belongsTo(Muertes);
 Muertes.hasMany(DetalleMuerte);
@@ -307,18 +298,6 @@ DetalleSanitacion.hasMany(DetalleSanitacionInsumo);
 //Traslado - DetalleTraslado
 DetalleTraslado.belongsTo(Traslado);
 Traslado.hasMany(DetalleTraslado);
-//DetalleTraslado - Stock
-Stock.belongsTo(DetalleTraslado);
-DetalleTraslado.hasMany(Stock);
-//DetalleCompra - Stock
-Stock.belongsTo(DetalleCompra);
-DetalleCompra.hasMany(Stock);
-//DetalleVacunacionInsumo - Stock
-Stock.belongsTo(DetalleVacunacionInsumo);
-DetalleVacunacionInsumo.hasMany(Stock);
-//DetalleSanitacionInsumo - Stock
-Stock.belongsTo(DetalleSanitacionInsumo);
-DetalleSanitacionInsumo.hasMany(Stock);
 //salida animal - detallesalidaanimal
 DetalleSalidaAnimal.belongsTo(SalidaAnimal);
 SalidaAnimal.hasMany(DetalleSalidaAnimal);
@@ -361,7 +340,6 @@ exports.Proveedor= Proveedor;
 exports.Sanitacion = Sanitacion;
 exports.Traslado= Traslado;
 exports.Vacunacion = Vacunacion;
-exports.DetalleConsumoInsumo = DetalleConsumoInsumo;
 exports.Raza = Raza;
 exports.SalidaAnimal = SalidaAnimal;
 exports.DetalleSalidaAnimal = DetalleSalidaAnimal;
@@ -370,7 +348,6 @@ exports.DetalleSalidaAnimal = DetalleSalidaAnimal;
 sequelize.sync().then(function () {
   console.log ('sequelize SYNC');
   // then(..) ejecuta el manejador una vez creada la tabla
-
   Nivel.count().then(function (count) {
         if (count === 0) {
           Nivel.bulkCreate(
@@ -462,6 +439,32 @@ sequelize.sync().then(function () {
           });
         }
       }); // Empleado.count()
+  Cliente.count().then(function (count) {
+        if (count === 0) {
+          Cliente.bulkCreate(
+          [
+            { nombreCliente: 'Ignacio ', direccionCliente:'14 de mayo', rucCliente:'3818223', CiudadIdCiudad: 1 },
+            { nombreCliente: 'Juan', direccionCliente:'14 de mayo', rucCliente:'3818222', CiudadIdCiudad: 2 },
+            { nombreCliente: 'Maria', direccionCliente:'14 de mayo', rucCliente:'3818221', CiudadIdCiudad: 3 }
+          ]
+          ).then(function () {
+            console.log('Base de datos (tabla Cliente) inicializada');
+          });
+        }
+      }); // Cliente.count()
+  Proveedor.count().then(function (count) {
+        if (count === 0) {
+          Proveedor.bulkCreate(
+          [
+            { nombreProveedor: 'Ganadera la Negra ', direccionProveedor:'14 de mayo', rucProveedor:'3818223', tipoProveedor:'Animal',  CiudadIdCiudad: 1 },
+            { nombreProveedor: 'El Toke', direccionProveedor:'14 de mayo', rucProveedor:'3818222', tipoProveedor:'Insumo', CiudadIdCiudad: 2 },
+            { nombreProveedor: 'Agustin Chaparro', direccionProveedor:'14 de mayo', rucProveedor:'3818221', tipoProveedor:'Servicio', CiudadIdCiudad: 3 }
+          ]
+          ).then(function () {
+            console.log('Base de datos (tabla Proveedor) inicializada');
+          });
+        }
+      }); // Proveedor.count()
 
   Usuario.count().then(function (count) {
     if (count === 0) {   // la tabla se inicializa solo si está vacía
@@ -476,4 +479,23 @@ sequelize.sync().then(function () {
     });
     }
   }); // Usuario.count()
+ /* sequelize.query('CREATE TRIGGER crear_triggerc AFTER INSERT ON detallecompra' +
+    ' FOR EACH ROW' +
+    ' BEGIN' +
+    ' update facturacompra set totalcompra = totalcompra + new.subtotalCompra WHERE facturacompra.idCompra = new.FacturaCompraIdCompra;' +
+    'END;')
+  sequelize.query('CREATE TRIGGER crear_triggerm AFTER INSERT ON detallemuerte' +
+    ' FOR EACH ROW' +
+    ' BEGIN' +
+    ' update muertes set cantidadTotal = '+
+    '  (SELECT count(detallemuerte.MuerteIdMuerte) as valor '+
+    '  FROM detallemuerte where detallemuerte.MuerteIdMuerte=new.MuerteIdMuerte)'+ 
+    ' WHERE muertes.idMuerte=new.MuerteIdMuerte;' +
+    'END;')
+  sequelize.query('CREATE TRIGGER crear_triggerv AFTER INSERT ON detalleventa' +
+    ' FOR EACH ROW' +
+    ' BEGIN' +
+    ' update facturaventa set totalventa = totalventa + new.subtotalventa WHERE facturaventa.idVenta = new.FacturaVentaIdVenta;' +
+    'END;')*/
+  
 });

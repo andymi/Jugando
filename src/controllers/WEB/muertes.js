@@ -41,14 +41,12 @@ exports.create = function (req, res) {
   // bodyParser debe hacer la magia
   var fechaMuerte = req.body.fechaMuerte;
   var horaMuerte = req.body.horaMuerte;
-  var cantidadTotal = req.body.cantidadTotal; 
   var EmpleadoIdEmpleado = req.body.selectJ;
   var ProveedorIdProveedor = req.body.selectN; 
 
   var index = Model.Muertes.build({
     fechaMuerte: fechaMuerte,
     horaMuerte: horaMuerte,    
-    cantidadTotal: cantidadTotal,
     EmpleadoIdEmpleado: EmpleadoIdEmpleado,
     ProveedorIdProveedor: ProveedorIdProveedor
   });
@@ -86,7 +84,6 @@ exports.update = function (req, res) {
 
   muertes.fechaMuerte = req.body.fechaMuerte;
   muertes.horaMuerte = req.body.horaMuerte;
-  muertes.cantidadTotal = req.body.cantidadTotal;
   muertes.EmpleadoIdEmpleado = req.body.empleadoSele;
   muertes.ProveedorIdProveedor = req.body.proveedorSele;
   

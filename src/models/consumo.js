@@ -29,7 +29,9 @@ module.exports = function (sequelize, DataTypes) {
     {
       instanceMethods: {
         retrieveAll: function (onSuccess, onError) {
-          Consumo.findAll({})
+          Consumo.findAll({
+            include: [ Model.Insumo ]
+          })
           .then(onSuccess).catch(onError);
         },
         retrieveId: function (onSuccess, onError) {
@@ -48,29 +50,29 @@ module.exports = function (sequelize, DataTypes) {
         },
         retrieveById: function (consumoId, onSuccess, onError) {
           Consumo.find( {
-           where: { idConsumo: consumoId } }, { raw: true } )
+           include: [ Model.Insumo ],
+           where: { idConsumo: consumoId } 
+           }, { raw: true } )
           .then(onSuccess).catch(onError);
         },
         retrieveByConsumo: function (consumo, onSuccess, onError) {
-          Consumo.find( { 
-
-            where: { fechaConsumo: consumo} }, { raw: true })
+          Consumo.find( { where: { fechaConsumo: consumo} }, { raw: true })
           .then(onSuccess).catch(onError);
         },
         add: function (onSuccess, onError) {
           var fechaConsumo = this.fechaConsumo;
           var horaConsumo = this.horaConsumo;
-      
-          Consumo.build({ fechaConsumo: fechaConsumo, horaConsumo: horaConsumo })
+          var InsumoIdInsumo = this.InsumoIdInsumo;
+          Consumo.build({ fechaConsumo: fechaConsumo, horaConsumo: horaConsumo, InsumoIdInsumo: InsumoIdInsumo })
           .save().then(onSuccess).catch(onError);
         },
         updateById: function (consumoId, onSuccess, onError) {
           var idEmpleado = this.consumoId;
           var fechaConsumo = this.fechaConsumo;
           var horaConsumo = this.horaConsumo;
-          
+          var InsumoIdInsumo = this.InsumoIdInsumo;
           Consumo.update( { 
-            fechaConsumo: fechaConsumo, horaConsumo: horaConsumo
+            fechaConsumo: fechaConsumo, horaConsumo: horaConsumo, InsumoIdInsumo: InsumoIdInsumo
           },{ where: { idConsumo:  consumoId } })
           .then(onSuccess).catch(onError);
         },

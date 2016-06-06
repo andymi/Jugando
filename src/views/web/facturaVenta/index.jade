@@ -1,41 +1,66 @@
 extends ../../layout 
 block content
-  br
-  br
-  div(class="container-fluid")
-    form(action='/web/facturaVenta/add' method="POST")
-     div(class="form-group")
-      label(for="fechaVenta") Fecha de la Venta
-      input(type="text" class="form-control" id="fechaVenta" name='fechaVenta' value='facturaVenta.fechaVenta' placeholder="Ingrese la Fecha")
-
-     div(class="form-group")
-      label(for="totalVenta") Monto Total de la Venta
-      input(type="text"  class="form-control" id="totalVenta" name='totalVenta' value='facturaVenta.totalVenta' placeholder="Ingrese el Monto Total") 
-
-     div(class="form-group")
-      label(for="condicionVenta") Condicion de la Venta
-      input(type="text" class="form-control" id="condicionVenta" name='condicionVenta' value='facturaVenta.condicionVenta' placeholder="Ingrese la Condicion")
-
-     div(class="form-group")
-      label(for="formaCobro") Forma de Cobro
-      input(type="text"  class="form-control" id="formaCobro" name='formaCobro' value='facturaVenta.formaCobro' placeholder="Ingrese la Forma de Cobro")
-     
-     div(class="form-group")
-      label(for="numeroVenta") Numero de Venta
-      input(type="text" class="form-control" id="numeroVenta" name='numeroVenta' value='facturaVenta.numeroVenta' placeholder="Ingrese el Numero de Venta")
-
-     div(class="form-group")
-      label(for="horaVenta") Hora de la Venta
-      input(type="text" class="form-control" id="horaVenta" name='horaVenta' value='facturaVenta.horaVenta' placeholder="Ingrese la Hora de la Venta") 
-
-     div(class="form-group")
-        label(class="control-label col-sm-2" for="email") Cliente: 
-        div(class="col-sm-10")  
-          select(name='selectJ')
-            option(value="-1" selected) Seleccione Cliente
-            -for(var j=0; j < selectJ.length; j++) {
-              option(value="#{selectJ[j].idCliente}") #{selectJ[j].nombreCliente}
-            -}    
-
-     button(type="submit" value="submit") Agregar Factura Venta
-      
+  div(class="content-wrapper")
+      section(class="content-header")
+        h1 Factura Venta Animal
+        ol(class="breadcrumb")
+          li
+            a(href="#")
+              i(class="fa fa-dashboard") Registros
+          li(class="active") Agregar Venta
+      section(class="content")
+        div(class="row")  
+          div(class="col-md-12") 
+            div(class="box box-success")
+              div(class="box-header with-border")
+                h3(class="box-title") Factura Venta Animal
+              form(class="form-horizontal" action='/web/facturaVenta/add' method="POST")
+                div(class="box-body")
+                  div(class="form-group")
+                    label(class="col-sm-4 control-label" for="fechaVenta") Fecha de la Venta
+                    div(class="col-sm-8")  
+                      div(class="input-group date")
+                        div(class="input-group-addon")
+                          i(class="fa fa-calendar")  
+                        input(type="text"  class="form-control pull-right" id="datepicker" name='fechaVenta' required)
+                  div(class="form-group")  
+                    label(class="col-sm-4 control-label" for="horaPesaje") Hora de la Venta:
+                    div(class="col-sm-8")
+                      div(class="bootstrap-timepicker")
+                        div(class="input-group")
+                          div(class="input-group-addon")
+                            i(class="fa fa-clock-o")
+                          input(type="text" class="form-control timepicker" name='horaVenta' required)   
+                
+                  div(class="form-group")
+                    label(class="col-sm-4 control-label" for="email") Condición de la Venta
+                    div(class="col-sm-8")  
+                      select(id="condicionVenta" name='condicionVenta' class="btn btn-default select2")
+                        option(value="-1" disabled="disabled" selected) Seleccione una opción
+                        option(value="Contado") Contado
+                        option(value="Crédito") Crédito
+                  div(class="form-group")
+                    label(class="col-sm-4 control-label" for="email") Forma de Cobro
+                    div(class="col-sm-8")  
+                      select(id="formaCobro" name='formaCobro' class="btn btn-default select2")
+                        option(value="-1" disabled="disabled" selected) Seleccione una opción
+                        option(value="Efectivo") Efectivo
+                        option(value="Cheque") Cheque
+                  div(class="form-group")
+                    label(class="col-sm-4 control-label" for="email") Número de Venta
+                    div(class="col-sm-8")
+                      input(type="text" class="form-control" id="numeroVenta" name='numeroVenta' placeholder="Ingrese el Número de Venta")
+                  div(class="form-group")
+                    label(class="col-sm-4 control-label" for="email") Cliente:  
+                    div(class="col-sm-8")
+                      select(id="selectJ" name='selectJ' class="btn btn-default select2")
+                        option(value="-1" disabled="disabled" selected) Seleccione Cliente
+                        -for(var j=0; j < selectJ.length; j++) {
+                          option(value="#{selectJ[j].idCliente}") #{selectJ[j].nombreCliente}
+                        -}    
+                div(class="box-footer")
+                  div(class="btn-group pull-right")
+                    button(type="submit" href="javascript:void(0);" class="btn btn-success") Guardar
+                      i(class="fa fa-save") 
+                    a(href="/web/facturaVenta" class="btn btn-default") Cancelar
+                      i(class="fa fa-remove")

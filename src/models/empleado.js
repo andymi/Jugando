@@ -51,16 +51,6 @@ module.exports = function (sequelize, DataTypes) {
           //notNull: true,
           notEmpty: true
         }
-      },
-      estadoEmpleado: {
-        type: DataTypes.STRING(45),
-        allowNull: false,
-        comment: 'Estado del Empleado',
-        validate: {
-          is: ['[a-z]','i'],
-          //notNull: true,
-          notEmpty: true
-        }
       }
     },
     {
@@ -86,11 +76,10 @@ module.exports = function (sequelize, DataTypes) {
           var codigoLlave = this.codigoLlave;
           var direccionEmpleado = this.direccionEmpleado;
           var cedulaEmpleado = this.cedulaEmpleado;
-          var estadoEmpleado = this.estadoEmpleado;
           var CiudadIdCiudad = this.CiudadIdCiudad;
 
           Empleado.build({ nombreEmpleado: nombreEmpleado, codigoLlave: codigoLlave, direccionEmpleado: direccionEmpleado, cedulaEmpleado:cedulaEmpleado,
-          estadoEmpleado:estadoEmpleado, CiudadIdCiudad:CiudadIdCiudad })
+          CiudadIdCiudad:CiudadIdCiudad })
           .save().then(onSuccess).catch(onError);
         },
         updateById: function (empleadoId, onSuccess, onError) {
@@ -99,12 +88,11 @@ module.exports = function (sequelize, DataTypes) {
           var codigoLlave = this.codigoLlave;
           var direccionEmpleado = this.direccionEmpleado;
           var cedulaEmpleado = this.cedulaEmpleado;
-          var estadoEmpleado = this.estadoEmpleado;
           var CiudadIdCiudad = this.CiudadIdCiudad;
           
           Empleado.update( { 
             nombreEmpleado: nombreEmpleado, codigoLlave: codigoLlave, direccionEmpleado: direccionEmpleado, cedulaEmpleado:cedulaEmpleado,
-            estadoEmpleado:estadoEmpleado, CiudadIdCiudad:CiudadIdCiudad
+            CiudadIdCiudad:CiudadIdCiudad
           },{ where: { idEmpleado:  empleadoId } })
           .then(onSuccess).catch(onError);
         },

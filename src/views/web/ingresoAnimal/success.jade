@@ -1,54 +1,68 @@
-table(class="table table-bordred table-striped")
-  thead
-    tr
-      th(class="cell-stat text-center") idIngresoAnimal
-      th(class="cell-stat text-center") fechaEntrada
-      th(class="cell-stat text-center") horaEntrada
-      th(class="cell-stat text-center") cantidadEntrada 
-      th(class="cell-stat text-center") observacion
-      th(class="cell-stat text-center") fechaCreacion
-      th(class="cell-stat text-center") fechaModificacion
-      th(class="cell-stat text-center") fechaBorrado
-      th(class="cell-stat text-center") Accion
-      th(class="cell-stat text-center") Accion
-  
-  tbody
-    for ingresoAnimal in ingresoanimales
-      tr
-        td(class="text-center")=ingresoAnimal.idIngresoAnimal
-        td(class="text-center")=ingresoAnimal.fechaEntrada 
-        td(class="text-center")=ingresoAnimal.horaEntrada 
-        td(class="text-center")=ingresoAnimal.cantidadEntrada 
-        td(class="text-center")=ingresoAnimal.observacion
-        td(class="text-center")=ingresoAnimal.fechaCreacion 
-        td(class="text-center")=ingresoAnimal.fechaModificacion
-        td(class="text-center")=ingresoAnimal.fechaBorrado 
-        td          
-          a(href="/web/detalleIngresoAnimal/add/#{ingresoAnimal.idIngresoAnimal}" class="btn btn-info" role="button")
-            p(data-placement="top" data-toggle="tooltip" title="Add")
-              button(type="button" class="btn btn-info") Agregar Detalle Ingreso
+extends ../../layout 
+block content
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Ingreso de Animales
+        small
+          b 
+            a(href="/web/ingresoAnimal/cargar")
+              p(class="text-green" data-placement="top" data-toggle="tooltip" title="Agregar Ingreso") Agregar Ingreso Animal
+                  i(class="fa fa-save") 
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Tabla de Ingreso de Animales Registrados
+    section(class="content")
+      div(class="row")
+        div(class="col-xs-12")
+          div(class="box")
+            div(class="box-header")
+              h3(class="box-title") Tabla de Ingreso de Animales Registrados
+              <!-- /.box-header -->
+            div(class="box-body")
+              div(class="table-responsive")
+                table(id="example1" class="table table-bordered table-striped")
+                  thead
+                    tr(class="success")
+                      th(class="cell-stat text-center") Fecha de Entrada
+                      th(class="cell-stat text-center") Hora de Entrada
+                      th(class="cell-stat text-center") Cantidad de Entrada 
+                      th(class="cell-stat text-center") Observación
+                      th(class="cell-stat text-center") Agregar Detalle
+                      th(class="cell-stat text-center") Ver Detalle
+                      th(class="cell-stat text-center") Editar Registro
+                      th(class="cell-stat text-center") Eliminar Registro
+                  
+                  tbody
+                    for ingresoAnimal in ingresoanimales
+                      tr
+                        td(class="text-center")=ingresoAnimal.fechaEntrada 
+                        td(class="text-center")=ingresoAnimal.horaEntrada 
+                        td(class="text-center")=ingresoAnimal.cantidadEntrada 
+                        td(class="text-center")=ingresoAnimal.observacion
+                        td(class="text-center")          
+                          a(href="/web/detalleIngresoAnimal/add/#{ingresoAnimal.idIngresoAnimal}" class="btn btn-success" role="button")
+                            p(data-placement="top" data-toggle="tooltip" title="Agregar Detalle Ingreso")
+                              button(type="button" class="btn btn-success") 
+                                i(class="fa fa-plus")
 
-        td
-          a(href="/web/detalleIngresoAnimal/#{ingresoAnimal.idIngresoAnimal}" class="btn btn-info" role="button")
-            p(data-placement="top" data-toggle="tooltip" title="View")
-              button(type="button" class="btn btn-info") Ver Detalle
-        td
-          a(href="/web/ingresoAnimal/#{ingresoAnimal.idIngresoAnimal}" class="btn btn-info" role="button")
-            p(data-placement="top" data-toggle="tooltip" title="Edit")
-              button(type="button" class="btn btn-info") Editar Ingreso Animal 
-              
-        form(id="topicForm" method="post" action="/web/ingresoAnimal/#{ingresoAnimal.idIngresoAnimal}")
-          input(type="hidden" name="_method" value="delete")
-          input(type="hidden" name="idIngresoAnimal" value='#{ingresoAnimal.idIngresoAnimal}')               
-          td
-            a(href="/web/ingresoAnimal/#{ingresoAnimal.idIngresoAnimal}" class="btn btn-info" role="button")
-              p(data-placement="top" data-toggle="tooltip" title="Delete")
-                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Ingreso Animal
-
-
-a(href="/web/ingresoAnimal/cargar" class="btn btn-info" role="button")
-  p(data-placement="top" data-toggle="tooltip" title="Add")
-    button(type="button" class="btn btn-info") Agregar Ingreso Animal
-
-
-          
+                        td(class="text-center")
+                          a(href="/web/detalleIngresoAnimal/#{ingresoAnimal.idIngresoAnimal}" class="btn btn-success" role="button")
+                            p(data-placement="top" data-toggle="tooltip" title="Ver Detalle")
+                              button(type="button" class="btn btn-success") 
+                                i(class="fa fa-eye")
+                        td(class="text-center")
+                          a(href="/web/ingresoAnimal/#{ingresoAnimal.idIngresoAnimal}" class="btn btn-success" role="button")
+                            p(data-placement="top" data-toggle="tooltip" title="Editar Ingreso Animal")
+                              button(type="button" class="btn btn-success") 
+                                i(class="fa fa-refresh") 
+                              
+                        form(id="topicForm" method="post" action="/web/ingresoAnimal/#{ingresoAnimal.idIngresoAnimal}")
+                          input(type="hidden" name="_method" value="delete")
+                          input(type="hidden" name="idIngresoAnimal" value='#{ingresoAnimal.idIngresoAnimal}')               
+                          td(class="text-center")
+                            a(href="/web/ingresoAnimal/#{ingresoAnimal.idIngresoAnimal}" class="btn btn-success" role="button")
+                              p(data-placement="top" data-toggle="tooltip" title="Borrar Ingreso Animal")
+                                button(type="submit" name="committ" value="Form" class="btn btn-success") 
+                                  i(class="fa fa-remove")

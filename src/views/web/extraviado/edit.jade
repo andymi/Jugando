@@ -1,47 +1,55 @@
-form(id="topicForm" method="post" action="/web/extraviado/#{extraviado.idExtraviado}")
-  input(type="hidden" name="_method" value="put")
-  input(type="hidden" name="idExtraviado" value='#{extraviado.idExtraviado}')
-  table(class="table table-bordred table-striped")
-    thead
-      tr
-        th(class="cell-stat text-center") idExtraviado
-        th(class="cell-stat text-center") fechaExtraviado
-        th(class="cell-stat text-center") horaExtraviado
-        th(class="cell-stat text-center") lugarExtraviado
-        th(class="cell-stat text-center") idEmpleado
-        th(class="cell-stat text-center") nombreEmpleado
-        th(class="cell-stat text-center") fechaCreacion
-        th(class="cell-stat text-center") fechaModificacion
-        th(class="cell-stat text-center") fechaBorrado
-        th(class="cell-stat text-center") Accion
-        th(class="cell-stat text-center") Accion
-    tbody
-        tr
-          td(class="text-center")=extraviado.idExtraviado
-          
-          td(class="text-center")
-            //label(for="fechaExtraviado" class="control-label") Fecha Extraviado
-            input(type="text" class="form-control" id='fechaExtraviado' name='fechaExtraviado' value='#{extraviado.fechaExtraviado}' required="true")
-          
-          td(class="text-center")
-            //label(for="horaExtraviado" class="control-label") Hora Extraviado
-            input(type="text" class="form-control" id="horaExtraviado" name='horaExtraviado' value='#{extraviado.horaExtraviado}' required="true")
-
-          td(class="text-center")
-            //label(for="lugarExtraviado" class="control-label") Lugar Extraviado
-            input(type="text" class="form-control" id='lugarExtraviado' name='lugarExtraviado' value='#{extraviado.lugarExtraviado}' required="true")
-
-          td(class="text-center")
-            select(name="empleadoSele")
-              -for (var j=0; j < select.length; j++) {
-                if extraviado.EmpleadoIdEmpleado == select[j].idEmpleado 
-                 option(value="#{select[j].idEmpleado}" selected) #{select[j].nombreEmpleado} 
-                else 
-                 option(value="#{select[j].idEmpleado}") #{select[j].nombreEmpleado}
-              -}
-
-          td(class="text-center")=extraviado.fechaCreacion
-          td(class="text-center")=extraviado.fechaModificacion
-          td(class="text-center")=extraviado.fechaBorrado
-          td
-            button(type="submit" name="commit" value="Form" class="btn btn-success btn-block") Editar Extraviado 
+extends ../../layout 
+block content
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Extraviado
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Editar Extraviado
+    section(class="content")
+      div(class="row")
+        div(class="col-md-12")
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Edición del Extraviado
+            form(class="form-horizontal" method="post" action="/web/extraviado/#{extraviado.idExtraviado}")
+              div(class="box-body")
+                input(type="hidden" name="_method" value="put")
+                input(type="hidden" name="idExtraviado" value='#{extraviado.idExtraviado}')
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="cuernos") Fecha del Extravío
+                  div(class="col-sm-8")  
+                    div(class="input-group date")
+                      div(class="input-group-addon")
+                        i(class="fa fa-calendar")  
+                      input(type="text" class="form-control pull-right" id="datepicker" name='fechaExtraviado' value='#{extraviado.fechaExtraviado}' required="true")
+                div(class="form-group")  
+                  label(class="col-sm-4 control-label" for="horaExtraviado") Hora del Extravío
+                  div(class="col-sm-8")
+                    div(class="bootstrap-timepicker")
+                      div(class="input-group")
+                        div(class="input-group-addon")
+                          i(class="fa fa-clock-o")
+                        input(type="text" class="form-control timepicker" name='horaExtraviado' value='#{extraviado.horaExtraviado}' required) 
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Lugar  
+                  div(class="col-sm-8")
+                    input(type="text" class="form-control" id='lugarExtraviado' name='lugarExtraviado' value='#{extraviado.lugarExtraviado}' required="true")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Empleado Encargado 
+                  div(class="col-sm-8")
+                    select(name="empleadoSele" class="btn btn-default select2")
+                      -for (var j=0; j < select.length; j++) {
+                        if extraviado.EmpleadoIdEmpleado == select[j].idEmpleado 
+                         option(value="#{select[j].idEmpleado}" selected) #{select[j].nombreEmpleado} 
+                        else 
+                         option(value="#{select[j].idEmpleado}") #{select[j].nombreEmpleado}
+                      -}
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Editar  
+                    i(class="fa fa-refresh")
+                  a(href="/web/extraviado" class="btn btn-default") Cancelar
+                    i(class="fa fa-remove")

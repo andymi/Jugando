@@ -1,44 +1,34 @@
-table(class="table table-bordred table-striped")
-  thead
-    tr
-      th(class="cell-stat text-center") idDetalleCompra
-      th(class="cell-stat text-center") descripcionCompra
-      th(class="cell-stat text-center") precioCompra
-      th(class="cell-stat text-center") cantidadCompra           
-      th(class="cell-stat text-center") idInsumo
-      th(class="cell-stat text-center") nombreInsumo
-      th(class="cell-stat text-center") fechaCreacion
-      th(class="cell-stat text-center") fechaModificacion
-      th(class="cell-stat text-center") fechaBorrado
-      th(class="cell-stat text-center") Accion
-      th(class="cell-stat text-center") Accion
-  
-  tbody
-    for detalleCompra in detalleCompras
-      tr
-        td(class="text-center")=detalleCompra.idDetalleCompra
-        td(class="text-center")=detalleCompra.descripcionCompra
-        td(class="text-center")=detalleCompra.precioCompra
-        td(class="text-center")=detalleCompra.cantidadCompra
-        td(class="text-center")=detalleCompra.Insumo.idInsumo
-        if detalleCompra.Insumo == null  
-          td(class="text-center") sin Insumo
-        else 
-          td(class="text-center")=detalleCompra.Insumo.nombreInsumo     
-        td(class="text-center")=detalleCompra.fechaCreacion 
-        td(class="text-center")=detalleCompra.fechaModificacion
-        td(class="text-center")=detalleCompra.fechaBorrado 
-        td
-          a(href="/web/detalleCompra/editar/#{detalleCompra.idDetalleCompra}" class="btn btn-info" role="button")
-            p(data-placement="top" data-toggle="tooltip" title="Edit")
-              button(type="button" class="btn btn-info") Editar Detalle Compra 
-              
-        form(id="topicForm" method="post" action="/web/detalleCompra/#{detalleCompra.idDetalleCompra}")
-          input(type="hidden" name="_method" value="delete")
-          input(type="hidden" name="idDetalleCompra" value='#{detalleCompra.idDetalleCompra}')               
-          td
-            a(href="/web/detalleCompra/#{detalleCompra.idDetalleCompra}" class="btn btn-info" role="button")
-              p(data-placement="top" data-toggle="tooltip" title="Delete")
-                button(type="submit" name="committ" value="Form" class="btn btn-info") Borrar Detalle Compra
-
-       
+extends ../../layout 
+block content
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Detalle de Compra de Animales
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Tabla de Detalle de Compra de Animales Registrados
+    section(class="content")
+      div(class="row")
+        div(class="col-xs-12")
+          div(class="box")
+            div(class="box-header")
+              h3(class="box-title") Tabla de Detalle de Compra de Animales Registrados
+              <!-- /.box-header -->
+            div(class="box-body")
+              div(class="table-responsive")
+                table(id="example1" class="table table-bordered table-striped")
+                  thead
+                    tr(class="success")
+                      th(class="text-center") Descripción
+                      th(class="text-center") Precio de Compra
+                      th(class="text-center") Cantidad
+                      th(class="text-center") SubTotal           
+                  
+                  tbody
+                    for detalleCompra in detalleCompras
+                      tr
+                        td(class="text-center")=detalleCompra.descripcionCompra
+                        td(class="text-center")=detalleCompra.precioCompra
+                        td(class="text-center")=detalleCompra.cantidadCompra
+                        td(class="text-center")=detalleCompra.subtotalCompra

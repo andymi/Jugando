@@ -1,25 +1,30 @@
-form(id="topicForm" method="post" action="/web/raza/#{raza.idRaza}")
-  input(type="hidden" name="_method" value="put")
-  input(type="hidden" name="idRaza" value='#{raza.idRaza}')
-  table(class="table table-bordred table-striped")
-    thead
-      tr
-        th(class="cell-stat text-center") idRaza
-        th(class="cell-stat text-center") raza 
-        th(class="cell-stat text-center") fechaCreacion
-        th(class="cell-stat text-center") fechaModificacion
-        th(class="cell-stat text-center") fechaBorrado
-        th(class="cell-stat text-center") Accion
-        th(class="cell-stat text-center") Accion
-    tbody
-        tr
-          td(class="text-center")=raza.idRaza
-          
-          td(class="text-center")
-            input(type="text" class="form-control" id='raza' name='raza' value='#{raza.raza}' required="true")
-        
-          td(class="text-center")=raza.fechaCreacion
-          td(class="text-center")=raza.fechaModificacion
-          td(class="text-center")=raza.fechaBorrado
-          td
-            button(type="submit" name="commit" value="Form" class="btn btn-success btn-block") Editar Raza
+extends ../../layout 
+block content
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Raza
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Editar Raza
+    section(class="content")
+      div(class="row")
+        div(class="col-md-12")
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Edición de la Raza
+            form(class="form-horizontal" method="post" action="/web/raza/#{raza.idRaza}")
+              div(class="box-body")
+                input(type="hidden" name="_method" value="put")
+                input(type="hidden" name="idRaza" value='#{raza.idRaza}')
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Raza: 
+                  div(class="col-sm-8")
+                    input(type="text" class="form-control" id='raza' name='raza' value='#{raza.raza}' required="true")
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Editar Raza
+                    i(class="fa fa-refresh")
+                  a(href="/web/raza" class="btn btn-default") Cancelar
+                    i(class="fa fa-remove")

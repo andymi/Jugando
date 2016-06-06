@@ -37,6 +37,7 @@ exports.create = function (req, res) {
     fechaExtraviado: fechaExtraviado,
     horaExtraviado: horaExtraviado,    
     lugarExtraviado: lugarExtraviado,
+    cantidadTotal: cantidadTotal,
     EmpleadoIdEmpleado: EmpleadoIdEmpleado
   });
 

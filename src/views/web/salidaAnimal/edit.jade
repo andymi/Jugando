@@ -1,42 +1,50 @@
-form(id="topicForm" method="post" action="/web/salidaAnimal/#{salidaAnimal.idSalidaAnimal}")
-  input(type="hidden" name="_method" value="put")
-  input(type="hidden" name="idSalidaAnimal" value='#{salidaAnimal.idSalidaAnimal}')
-  table(class="table table-bordred table-striped")
-    thead
-      tr
-        th(class="cell-stat text-center") idSalidaAnimal
-        th(class="cell-stat text-center") fechaSalida 
-        th(class="cell-stat text-center") horaSalida
-        th(class="cell-stat text-center") cantidadSalida
-        th(class="cell-stat text-center") observacion
-        
-        th(class="cell-stat text-center") fechaCreacion
-        th(class="cell-stat text-center") fechaModificacion
-        th(class="cell-stat text-center") fechaBorrado
-        th(class="cell-stat text-center") Accion
-        th(class="cell-stat text-center") Accion
-    tbody
-        tr
-          td(class="text-center")=salidaAnimal.idSalidaAnimal
-          
-          td(class="text-center")
-            //label(for="fechaSalida" class="control-label") Fecha Salida
-            input(type="text" class="form-control" id="fechaSalida" name='fechaSalida' value='#{salidaAnimal.fechaSalida}' required="true")
+extends ../../layout 
+block content
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Salida de Animales
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Editar Salida de Animales
+    section(class="content")
+      div(class="row")
+        div(class="col-md-12")
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Edición de la Salida de Animales
+            form(class="form-horizontal" method="post" action="/web/salidaAnimal/#{salidaAnimal.idSalidaAnimal}")
+              div(class="box-body")
+                input(type="hidden" name="_method" value="put")
+                input(type="hidden" name="idSalidaAnimal" value='#{salidaAnimal.idSalidaAnimal}')
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="fechaSalida") Fecha de Salida:
+                  div(class="col-sm-8")  
+                    div(class="input-group date")
+                      div(class="input-group-addon")
+                        i(class="fa fa-calendar")  
+                      input(type="text" class="form-control pull-right" id="datepicker" name='fechaSalida' value='#{salidaAnimal.fechaSalida}' required="true")
+                div(class="form-group")  
+                  label(class="col-sm-4 control-label" for="horaSalida") Hora de la Salida:
+                  div(class="col-sm-8")
+                    div(class="bootstrap-timepicker")
+                      div(class="input-group")
+                        div(class="input-group-addon")
+                          i(class="fa fa-clock-o")
+                        input(type="text" class="form-control timepicker" name='horaSalida' value='#{salidaAnimal.horaSalida}' required)                 
+                div(class="form-group")
+                  label(class="control-label col-sm-4" for="email") Cantidad Salida: 
+                  div(class="col-sm-8")
+                    input(type="text" class="form-control" id="cantidadSalida" name='cantidadSalida' value='#{salidaAnimal.cantidadSalida}' required="true") 
 
-          td(class="text-center")
-            //label(for="horaSalida" class="control-label") Hora Salida
-            input(type="text" class="form-control" id='horaSalida' name='horaSalida' value='#{salidaAnimal.horaSalida}' required="true")
-
-          td(class="text-center")
-            //label(for="cantidadSalida" class="control-label") Cantidad Salida
-            input(type="text" class="form-control" id="cantidadSalida" name='cantidadSalida' value='#{salidaAnimal.cantidadSalida}' required="true") 
-
-          td(class="text-center")
-            //label(for="observacion" class="control-label") Observacion
-            input(type="text" class="form-control" id='observacion' name='observacion' value='#{salidaAnimal.observacion}' required="true")
-        
-          td(class="text-center")=salidaAnimal.fechaCreacion
-          td(class="text-center")=salidaAnimal.fechaModificacion
-          td(class="text-center")=salidaAnimal.fechaBorrado
-          td
-            button(type="submit" name="commit" value="Form" class="btn btn-success btn-block") Editar Salida Animal 
+                div(class="form-group")
+                  label(class="control-label col-sm-4" for="email") Observación: 
+                  div(class="col-sm-8")
+                    input(type="text" class="form-control" id='observacion' name='observacion' value='#{salidaAnimal.observacion}' required="true")
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Editar 
+                    i(class="fa fa-save") 
+                  a(href="/web/salidaAnimal" class="btn btn-default") Cancelar
+                    i(class="fa fa-remove")                        

@@ -41,18 +41,20 @@ exports.create1 = function (req, res) {
   console.log(req.body);
   // bodyParser debe hacer la magia
   
+  var cantidad = req.body.cantidad;
   var observacion = req.body.observacion;
   var AnimalIdAnimal = req.body.selectJ;
   var ConsumoIdConsumo = req.body.id;  
 
   var index = Model.DetalleConsumo.build({
+    cantidad: cantidad,
     observacion: observacion,
     AnimalIdAnimal: AnimalIdAnimal,
     ConsumoIdConsumo: ConsumoIdConsumo
   });
 
   index.add(function (success) {
-    res.redirect('/web/detalleConsumoInsumo/cargar');
+    res.redirect('/web/detalleConsumo/cargar');
   },
   function (err) {
     res.send(err);
@@ -99,11 +101,13 @@ exports.getForm2 = function (req, res) {
 exports.create2 = function (req, res) {
   console.log(req.body);
   // bodyParser debe hacer la magia
+  var cantidad = req.body.cantidad;
   var observacion = req.body.observacion;
   var AnimalIdAnimal = req.body.selectJ;
   var ConsumoIdConsumo = req.body.id;  
 
   var index = Model.DetalleConsumo.build({
+    cantidad: cantidad,
     observacion: observacion,
     AnimalIdAnimal: AnimalIdAnimal,
     ConsumoIdConsumo: ConsumoIdConsumo
@@ -123,7 +127,7 @@ exports.create2 = function (req, res) {
 // Actualiza detalleConsumo */
 exports.update = function (req, res) {
   var detalleConsumo = Model.DetalleConsumo.build();
-
+  detalleConsumo.cantidad = req.body.cantidad;
   detalleConsumo.observacion = req.body.observacion;
   detalleConsumo.AnimalIdAnimal = req.body.animalSele;
   

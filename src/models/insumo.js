@@ -64,16 +64,6 @@ module.exports = function (sequelize, DataTypes) {
           is: ['[a-z]','i'],
           notEmpty: true
         }
-      },
-      estadoInsumo: {
-        type: DataTypes.STRING(45),
-        allowNull: false,
-        comment: 'Estado del Insumo',
-        validate: {
-          is: ['[a-z]','i'],
-          //notNull: true,
-          notEmpty: true
-        }
       }
     },
     {
@@ -97,10 +87,9 @@ module.exports = function (sequelize, DataTypes) {
           var precioCompra = this.precioCompra;
           var tipoInsumo = this.tipoInsumo;
           var presentacionInsumo = this.presentacionInsumo;
-          var estadoInsumo = this.estadoInsumo;
-
+          
           Insumo.build({ codigoBarra: codigoBarra, nombreInsumo: nombreInsumo, contenidoInsumo: contenidoInsumo, precioCompra: precioCompra,
-          tipoInsumo: tipoInsumo, presentacionInsumo: presentacionInsumo, estadoInsumo: estadoInsumo })
+          tipoInsumo: tipoInsumo, presentacionInsumo: presentacionInsumo })
           .save().then(onSuccess).catch(onError);
         },
         updateById: function (insumoId, onSuccess, onError) {
@@ -111,11 +100,10 @@ module.exports = function (sequelize, DataTypes) {
           var precioCompra = this.precioCompra;
           var tipoInsumo = this.tipoInsumo;
           var presentacionInsumo = this.presentacionInsumo;
-          var estadoInsumo = this.estadoInsumo;
-
+          
           Insumo.update( { 
            codigoBarra: codigoBarra, nombreInsumo: nombreInsumo, contenidoInsumo: contenidoInsumo, precioCompra: precioCompra,
-           tipoInsumo: tipoInsumo, presentacionInsumo: presentacionInsumo, estadoInsumo: estadoInsumo
+           tipoInsumo: tipoInsumo, presentacionInsumo: presentacionInsumo
           },{ where: { idInsumo:  insumoId } })
           .then(onSuccess).catch(onError);
         },

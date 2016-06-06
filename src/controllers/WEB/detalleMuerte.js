@@ -39,6 +39,8 @@ exports.getForm1 = function (req, res) {
 exports.create1 = function (req, res) {
   console.log(req.body);
   // bodyParser debe hacer la magia
+  var muertes =Model.Muertes.build();
+
   var observacion = req.body.observacion; 
   var AnimalIdAnimal = req.body.selectJ;
   var MuerteIdMuerte = req.body.id;
@@ -50,10 +52,18 @@ exports.create1 = function (req, res) {
   });
 
   index.add(function (success) {
-    res.redirect('/web/detalleMuerte/cargar');
+    index.retriveCount(MuerteIdMuerte, function (detalleMuertes) {
+      if (detalleMuertes) {
+        res.redirect('/web/detalleMuerte/cargar'); 
+      } else {
+        res.send(401, 'No anda tu count amigo');
+      }
+    },function (err) {
+        res.send('errores aaaa');
+    });
   },
   function (err) {
-    res.send(err);
+    res.send('errores ooooo');
   });
 };
 /* (trae todos los detalleMuerte)
@@ -109,7 +119,15 @@ exports.create2 = function (req, res) {
   });
 
   index.add(function (success) {
-    res.redirect('/web/muertes');
+    index.retriveCount(MuerteIdMuerte, function (detalleMuertes) {
+      if (detalleMuertes) {
+        res.redirect('/web/muertes');
+      } else {
+        res.send(401, 'No anda tu count amigo');
+      }
+    },function (err) {
+        res.send('errores aaaa');
+    });
   },
   function (err) {
     res.send(err);
@@ -170,14 +188,22 @@ exports.read = function (req, res) {
 // Borra el detalleMuerteId
 exports.delete = function (req, res) {
   var detalleMuerte = Model.DetalleMuerte.build();
-
- detalleMuerte.removeById(req.params.detalleMuerteId, function (detalleMuerte) {
-    if (detalleMuerte) {
-      res.redirect('/web/muertes');
-    } else {
-      res.send(401, 'Detalle Muerte Animal no encontrado');
-    }
+  var variable = req.params.detalleMuerteId;
+  console.log("estoy adentro");
+  detalleMuerte.retriveCount2(variable, function (detalle) {
+    console.log("dentro de count",detalle.MuerteIdMuerte);
+    detalleMuerte.removeById(variable, function (eliminar) {
+      console.log("dentro de delete");
+      detalleMuerte.retriveCount(detalle.MuerteIdMuerte, function (contar) {
+        console.log("actualizando");
+        res.redirect('/web/muertes');
+      }, function (error) {
+        res.send('Detalle Muerte Animal no encontrado');
+      });
+    }, function (error) {
+        res.send('mmmmDetalle Muerte Animal no encontrado');
+    });
   }, function (error) {
-    res.send('Detalle Muerte Animal no encontrado');
+    res.send('Detalle no encontrado');
   });
 };

@@ -29,7 +29,6 @@ exports.create = function (req, res) {
   console.log(req.body);
   // bodyParser debe hacer la magia
   var fechaVenta = req.body.fechaVenta;
-  var totalVenta = req.body.totalVenta;
   var condicionVenta = req.body.condicionVenta;
   var formaCobro = req.body.formaCobro;
   var numeroVenta = req.body.numeroVenta;  
@@ -38,7 +37,6 @@ exports.create = function (req, res) {
 
   var index = Model.FacturaVenta.build({
     fechaVenta: fechaVenta,
-    totalVenta: totalVenta,    
     condicionVenta: condicionVenta,
     formaCobro: formaCobro,
     numeroVenta: numeroVenta,
@@ -80,7 +78,6 @@ exports.update = function (req, res) {
   var facturaVenta = Model.FacturaVenta.build();
   console.log('*************',req.body);
   facturaVenta.fechaVenta = req.body.fechaVenta;
-  facturaVenta.totalVenta = req.body.totalVenta;
   facturaVenta.condicionVenta = req.body.condicionVenta;
   facturaVenta.formaCobro = req.body.formaCobro;
   facturaVenta.numeroVenta = req.body.numeroVenta;

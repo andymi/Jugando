@@ -40,6 +40,16 @@ module.exports = function (sequelize, DataTypes) {
           //notNull: true,
           notEmpty: true
         }
+      },
+      cantidadTotal: {
+        type: DataTypes.INTEGER(11),
+        allowNull: false,
+        comment: 'Cantidad Total de Extravio',
+        defaultValue: '0',
+        validate: {
+          //notNull: true,
+          notEmpty: true
+        }
       }
     },
     {
@@ -81,7 +91,7 @@ module.exports = function (sequelize, DataTypes) {
           var EmpleadoIdEmpleado = this.EmpleadoIdEmpleado;
 
           Extraviado.build({ fechaExtraviado: fechaExtraviado, horaExtraviado: horaExtraviado, 
-          lugarExtraviado: lugarExtraviado, EmpleadoIdEmpleado: EmpleadoIdEmpleado })
+          lugarExtraviado: lugarExtraviado, cantidadTotal: cantidadTotal, EmpleadoIdEmpleado: EmpleadoIdEmpleado })
           .save().then(onSuccess).catch(onError);
         },
         updateById: function (extraviadoId, onSuccess, onError) {

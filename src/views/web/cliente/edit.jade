@@ -1,44 +1,48 @@
-form(id="topicForm" method="post" action="/web/cliente/#{cliente.idCliente}")
-  input(type="hidden" name="_method" value="put")
-  input(type="hidden" name="idCliente" value='#{cliente.idCliente}')
-  table(class="table table-bordred table-striped")
-    thead
-      tr
-        th(class="cell-stat text-center") idCliente
-        th(class="cell-stat text-center") nombreCliente
-        th(class="cell-stat text-center") direccionCliente
-        th(class="cell-stat text-center") rucCliente
-        th(class="cell-stat text-center") idCiudad
-        th(class="cell-stat text-center") ciudad
-        th(class="cell-stat text-center") fechaCreacion
-        th(class="cell-stat text-center") fechaModificacion
-        th(class="cell-stat text-center") fechaBorrado
-        th(class="cell-stat text-center") Accion
-        th(class="cell-stat text-center") Accion
-    tbody
-        tr
-          td(class="text-center")=cliente.idCliente
-          
-          td(class="text-center")
-            input(type="text" class="form-control" id='nombreCliente' name='nombreCliente' value='#{cliente.nombreCliente}' required="true")
-          
-          td(class="text-center")
-            input(type="text" class="form-control" id="direccionCliente" name='direccionCliente' value='#{cliente.direccionCliente}' required="true")
-          
-          td(class="text-center")
-            input(type="text" class="form-control" id="rucCliente" name='rucCliente' value='#{cliente.rucCliente}' required="true")
-
-          td(class="text-center")
-            select(name="ciudadSele")
-              -for (var j=0; j < select.length; j++) {
-                if cliente.CiudadIdCiudad == select[j].idCiudad 
-                 option(value="#{select[j].idCiudad}" selected) #{select[j].ciudad} 
-                else 
-                 option(value="#{select[j].idCiudad}") #{select[j].ciudad}
-              -}
-
-          td(class="text-center")=cliente.fechaCreacion
-          td(class="text-center")=cliente.fechaModificacion
-          td(class="text-center")=cliente.fechaBorrado
-          td
-            button(type="submit" name="commit" value="Form" class="btn btn-success btn-block") Editar Cliente
+extends ../../layout 
+block content
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Cliente
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Editar Cliente
+    section(class="content")
+      div(class="row")
+        div(class="col-md-12")
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Edición del Cliente
+            form(class="form-horizontal" method="post" action="/web/cliente/#{cliente.idCliente}")
+              div(class="box-body")                
+                input(type="hidden" name="_method" value="put")
+                input(type="hidden" name="idCliente" value='#{cliente.idCliente}')
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") RUC: 
+                  div(class="col-sm-8")  
+                    input(type="text" class="form-control" id="rucCliente" name='rucCliente' value='#{cliente.rucCliente}' required="true")                
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Nombre: 
+                  div(class="col-sm-8")  
+                    input(type="text" class="form-control" id='nombreCliente' name='nombreCliente' value='#{cliente.nombreCliente}' required="true")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Dirección: 
+                  div(class="col-sm-8")  
+                    input(type="text" class="form-control" id="direccionCliente" name='direccionCliente' value='#{cliente.direccionCliente}' required="true")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Ciudad: 
+                  div(class="col-sm-8")
+                    select(name="ciudadSele" class="btn btn-success select2")
+                      -for (var j=0; j < select.length; j++) {
+                        if cliente.CiudadIdCiudad == select[j].idCiudad 
+                         option(value="#{select[j].idCiudad}" selected) #{select[j].ciudad} 
+                        else 
+                         option(value="#{select[j].idCiudad}") #{select[j].ciudad}
+                      -}
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Editar Cliente
+                    i(class="fa fa-refresh")
+                  a(href="/web/cliente" class="btn btn-default") Cancelar
+                    i(class="fa fa-remove")

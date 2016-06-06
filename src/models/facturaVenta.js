@@ -26,6 +26,7 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.INTEGER(11),
         allowNull: false,
         comment: 'Total de la Venta',
+        defaultValue: '0',
         validate: {
           //notNull: true,
           notEmpty: true
@@ -103,21 +104,19 @@ module.exports = function (sequelize, DataTypes) {
         add: function (onSuccess, onError) {
 
           var fechaVenta = this.fechaVenta;
-          var totalVenta = this.totalVenta;
           var condicionVenta = this.condicionVenta;
           var formaCobro = this.formaCobro;
           var numeroVenta = this.numeroVenta;
           var horaVenta = this.horaVenta;
           var ClienteIdCliente = this.ClienteIdCliente;
 
-          FacturaVenta.build({ fechaVenta: fechaVenta, totalVenta: totalVenta, condicionVenta:condicionVenta,
+          FacturaVenta.build({ fechaVenta: fechaVenta, condicionVenta:condicionVenta,
           formaCobro: formaCobro,numeroVenta: numeroVenta,horaVenta: horaVenta, ClienteIdCliente: ClienteIdCliente})
           .save().then(onSuccess).catch(onError);
         },
         updateById: function (ventaId, onSuccess, onError) {
           var idVenta = this.idVenta; 
           var fechaVenta = this.fechaVenta;
-          var totalVenta = this.totalVenta;
           var condicionVenta = this.condicionVenta;
           var formaCobro = this.formaCobro;
           var numeroVenta = this.numeroVenta;
@@ -126,7 +125,7 @@ module.exports = function (sequelize, DataTypes) {
 
 
           FacturaVenta.update( { 
-            fechaVenta: fechaVenta, totalVenta: totalVenta, condicionVenta:condicionVenta,
+            fechaVenta: fechaVenta, condicionVenta:condicionVenta,
             formaCobro: formaCobro,numeroVenta: numeroVenta,horaVenta: horaVenta, ClienteIdCliente: ClienteIdCliente
           },{ where: { idVenta: ventaId } })
           .then(onSuccess).catch(onError);

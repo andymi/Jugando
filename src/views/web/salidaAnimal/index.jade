@@ -1,23 +1,49 @@
 extends ../../layout 
 block content
-  br
-  br
-  div(class="container-fluid")
-    form(action='/web/salidaAnimal/add' method="POST")
-      div(class="form-group") 
-        label(for="fechaSalida")  Fecha de la Salida
-        input(type="text" class="form-control" id="fechaSalida" name='fechaSalida' value='salidaAnimal.fechaSalida' placeholder="Ingrese el RP")
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Salida de Animales
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Agregar Salida de Animales
+    section(class="content")
+      div(class="row")  
+        div(class="col-md-12") 
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Salida de Animales 
+            form(class="form-horizontal" action='/web/salidaAnimal/add' method="POST")
+              div(class="box-body")
+                div(class="form-group")
+                    label(class="col-sm-4 control-label" for="fechaSalida") Fecha de la Salida:
+                    div(class="col-sm-8")  
+                      div(class="input-group date")
+                        div(class="input-group-addon")
+                          i(class="fa fa-calendar")  
+                        input(type="text"  class="form-control pull-right" id="datepicker" name='fechaSalida' required)
+                div(class="form-group")  
+                    label(class="col-sm-4 control-label" for="horaSalida") Hora de la Salida:
+                    div(class="col-sm-8")
+                      div(class="bootstrap-timepicker")
+                        div(class="input-group")
+                          div(class="input-group-addon")
+                            i(class="fa fa-clock-o")
+                          input(type="text" class="form-control timepicker" name='horaSalida' required)   
+                
+                div(class="form-group")
+                  label(class="control-label col-sm-4" for="email") Cantidad de Animales Sacados: 
+                  div(class="col-sm-8") 
+                    input(type="text"  class="form-control" id="cantidadSalida" name='cantidadSalida' placeholder="Ingrese la Cantidad") 
 
-      div(class="form-group") 
-        label(for="horaSalida") Hora de la Salida 
-        input(type="text" class="form-control" id="horaSalida" name='horaSalida' value='salidaAnimal.horaSalida' placeholder="Ingrese la Raza")
-
-      div(class="form-group") 
-        label(for="cantidadSalida") Cantidad de Animales Sacados 
-        input(type="text"  class="form-control" id="cantidadSalida" name='cantidadSalida' value='salidaAnimal.cantidadSalida' placeholder="Ingrese el Peso") 
-
-      div(class="form-group") 
-        label(for="observacion")   Observacion
-        input(type="text"  class="form-control" id="observacion" name='observacion' value='salidaAnimal.observacion' placeholder="Ingrese el Cuerno")
-
-      button(type="submit" value="submit") Agregar Salida Animal
+                div(class="form-group")
+                  label(class="control-label col-sm-4" for="email") Observación: 
+                  div(class="col-sm-8") 
+                    input(type="text"  class="form-control" id="observacion" name='observacion' placeholder="Ingrese la Observación")
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Guardar
+                    i(class="fa fa-save") 
+                  a(href="/web/salidaAnimal" class="btn btn-default") Cancelar
+                    i(class="fa fa-remove")
