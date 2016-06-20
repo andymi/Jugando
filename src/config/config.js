@@ -35,14 +35,14 @@ var host     = (url[4] || null);
 */
 config.db            = {};
 
-config.db.name     = 'jugar';
-config.db.user     = 'root';
-config.db.pwd      = '';
+config.db.name     = 'bonanza';
+config.db.user     = 'bonanza';
+config.db.pwd      = 'bonanza';
 config.db.dialect  = 'mysql';
 config.db.protocol = 'mysql';
 config.db.port     = '3306';
 config.db.host     = 'localhost';
-config.db.storage  = process.env.DATABASE_STORAGE || 'jugar.sqlite';
+config.db.storage  = process.env.DATABASE_STORAGE || 'bonanza.sqlite';
 
 
 /**

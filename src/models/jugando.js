@@ -404,9 +404,9 @@ sequelize.sync().then(function () {
         if (count === 0) {
           Insumo.bulkCreate(
           [
-            { nombreInsumo: 'Neubon' , contenidoInsumo: '500ml', precioCompra: 50000, tipoInsumo:'para engorde', presentacionInsumo:'en bolsa', estadoInsumo:'activo' },
-            { nombreInsumo: 'Balanceado ' , contenidoInsumo: '500ml', precioCompra: 50000, tipoInsumo:'para engorde', presentacionInsumo:'en bolsa', estadoInsumo:'activo' },
-            { nombreInsumo: 'Sal Mineral' , contenidoInsumo: '500ml', precioCompra: 50000, tipoInsumo:'para engorde', presentacionInsumo:'en bolsa', estadoInsumo:'activo' }
+            { nombreInsumo: 'Neubon' , contenidoInsumo: '500ml', precioCompra: 50000, tipoInsumo:'para engorde', presentacionInsumo:'en bolsa', estadoInsumo:'activo' , codigoBarra: '123456' },
+            { nombreInsumo: 'Balanceado ' , contenidoInsumo: '500ml', precioCompra: 50000, tipoInsumo:'para engorde', presentacionInsumo:'en bolsa', estadoInsumo:'activo' , codigoBarra: '123456' },
+            { nombreInsumo: 'Sal Mineral' , contenidoInsumo: '500ml', precioCompra: 50000, tipoInsumo:'para engorde', presentacionInsumo:'en bolsa', estadoInsumo:'activo' , codigoBarra: '123456' }
           ]
           ).then(function () {
             console.log('Base de datos (tabla Insumo) inicializada');
@@ -430,9 +430,9 @@ sequelize.sync().then(function () {
         if (count === 0) {
           Empleado.bulkCreate(
           [
-            { nombreEmpleado: 'Ignacio ', direccionEmpleado:'14 de mayo', cedulaEmpleado:'3818223', CiudadIdCiudad: 1 },
-            { nombreEmpleado: 'Juan', direccionEmpleado:'14 de mayo', cedulaEmpleado:'3818222', CiudadIdCiudad: 2 },
-            { nombreEmpleado: 'Maria', direccionEmpleado:'14 de mayo', cedulaEmpleado:'3818221', CiudadIdCiudad: 3 }
+            { nombreEmpleado: 'Ignacio ', direccionEmpleado:'14 de mayo', cedulaEmpleado:'3818223', CiudadIdCiudad: 1 , codigoLlave: '123456' },
+            { nombreEmpleado: 'Juan', direccionEmpleado:'14 de mayo', cedulaEmpleado:'3818222', CiudadIdCiudad: 2 , codigoLlave: '123456' },
+            { nombreEmpleado: 'Maria', direccionEmpleado:'14 de mayo', cedulaEmpleado:'3818221', CiudadIdCiudad: 3 , codigoLlave: '123456'}
           ]
           ).then(function () {
             console.log('Base de datos (tabla Empleado) inicializada');
