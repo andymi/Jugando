@@ -1,0 +1,26 @@
+include ../../partials/head.jade
+block content
+  body(class="hold-transition login-page")
+    div(class="login-box")
+      div(class="login-logo")
+        a(href="/") 
+          b Bonanza
+      div(class="login-box-body") 
+        p(class="login-box-msg") Ingresa y empieza tu sesión
+        form(action='/web/signin/ver' method="POST")
+          if (typeof(errorMessage) !== 'undefined') 
+            span=errorMessage
+          div(class="form-group has-feedback")
+            input(type="email" name="usuario" id="usuario" class="form-control" placeholder="Email" required="true") 
+            span(class="glyphicon glyphicon-envelope form-control-feedback") 
+          div(class="form-group has-feedback")
+            input(type="password" name="pass" id="pass" class="form-control" placeholder="Password" required="true")
+            span(class="glyphicon glyphicon-lock form-control-feedback")
+          div(class="row")
+            div(class="col-xs-12")
+              button(type="submit" class="btn btn-success btn-block btn-flat") Ingresar
+
+        //div(class="social-auth-links text-center")
+          a(href="#") Olvide mi contraseña -  
+          a(href="/web/signup" class="text-center")   Registrarme
+include ../../partials/footerScripts.jade

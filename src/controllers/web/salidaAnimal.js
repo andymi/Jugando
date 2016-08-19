@@ -10,7 +10,32 @@ var Model = require('../../models/jugando.js');
 // router.route('/salidaAnimal') */
 exports.getForm = function (req, res) {
   var salidaAnimal = Model.SalidaAnimal.build();
-  res.render('web/salidaAnimal/index',{salidaAnimal: salidaAnimal});
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) { 
+          res.render('web/salidaAnimal/index',{
+            salidaAnimal: salidaAnimal,
+            mensajes: mensaje1,
+            mensajeria: mensaje2
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
+    }
+  }, function (error) {
+    res.send('Mensaje no encontrado');
+  });
 };
 // POST /salidaAnimal
 exports.create =  function (req, res) {
@@ -42,14 +67,39 @@ exports.create =  function (req, res) {
 exports.listPag = function (req, res) {
   var salidaAnimal = Model.SalidaAnimal.build();
   console.log(req.body);
-  salidaAnimal.retrieveAll(function (salidaAnimales) {
-    if (salidaAnimales) {
-      res.render('web/salidaAnimal/success', { salidaAnimales: salidaAnimales});
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) { 
+          salidaAnimal.retrieveAll(function (salidaAnimales) {
+            if (salidaAnimales) {
+              res.render('web/salidaAnimal/success', { 
+                salidaAnimales: salidaAnimales,
+                mensajes: mensaje1,
+                mensajeria: mensaje2
+              });
+            } else {
+              res.send(401, 'No se encontraron Animales');
+            }
+          }, function (error) {
+            res.send('Animal no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'No se encontraron Animales');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Animal no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 
@@ -82,30 +132,78 @@ exports.update = function (req, res) {
 exports.read = function (req, res) {
   var salidaAnimal = Model.SalidaAnimal.build();
   console.log('soy get edit',req.body);
-  salidaAnimal.retrieveById(req.params.salidaAnimalId, function (salidaAnimal) {
-    if (salidaAnimal) {
-      res.render('web/salidaAnimal/edit', {salidaAnimal:salidaAnimal});
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) { 
+          salidaAnimal.retrieveById(req.params.salidaAnimalId, function (salidaAnimal) {
+            if (salidaAnimal) {
+              res.render('web/salidaAnimal/edit', {
+                salidaAnimal:salidaAnimal,
+                mensajes: mensaje1,
+                mensajeria: mensaje2
+              });
+            } else {
+              res.send(401, 'SalidaAnimal no encontrado');
+            }
+          }, function (error) {
+            res.send('SalidaAnimal no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'SalidaAnimal no encontrado');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('SalidaAnimal no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 
 exports.readId = function (req, res) {
   var salidaAnimal = Model.SalidaAnimal.build();
   console.log('dentro de get id', req.body);
-  salidaAnimal.retrieveVerId(req.params.id, function (salidaAnimalq) {
-    if (salidaAnimalq) {
-      res.render('web/detalleSalidaAnimal/success', {
-                  salidaAnimal:salidaAnimalq
-                });
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {
+          salidaAnimal.retrieveVerId(req.params.id, function (salidaAnimalq) {
+            if (salidaAnimalq) {
+              res.render('web/detalleSalidaAnimal/success', {
+                          salidaAnimal:salidaAnimalq,
+                          mensajes: mensaje1,
+                          mensajeria: mensaje2
+                        });
+            } else {
+              res.send(401, 'SalidaAnimal no encontrado');
+            }
+          }, function (error) {
+            res.send('SalidaAnimal no encontrado',error);
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'SalidaAnimal no encontrado');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('SalidaAnimal no encontrado',error);
+    res.send('Mensaje no encontrado');
   });
 };
 

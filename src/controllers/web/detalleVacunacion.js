@@ -12,28 +12,50 @@ exports.getForm1 = function (req, res) {
   var animal = Model.Animal.build();
   var detalleVacunacion = Model.DetalleVacunacion.build();
   var vacunacion = Model.Vacunacion.build();
-  animal.retrieveAll(function (animalQ) {
-    console.log('animalQ',animalQ);
-    if (animalQ) {
-      vacunacion.retrieveId(function (vacunacionQ) {
-          if (vacunacionQ) {      
-            console.log('soy Vacunacion retrieveId',vacunacionQ);
-            res.render('web/detalleVacunacion/index', {
-                            vacunacionJ:vacunacionQ,
-                            detalleVacunacionJ: detalleVacunacion,
-                            selectJ: animalQ
-            });    
-          } else {
-            res.send(401, 'No se encontraron Pesajes');
-          }
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          animal.retrieveAll(function (animalQ) {
+            console.log('animalQ',animalQ);
+            if (animalQ) {
+              vacunacion.retrieveId(function (vacunacionQ) {
+                  if (vacunacionQ) {      
+                    console.log('soy Vacunacion retrieveId',vacunacionQ);
+                    res.render('web/detalleVacunacion/index', {
+                                    vacunacionJ:vacunacionQ,
+                                    detalleVacunacionJ: detalleVacunacion,
+                                    selectJ: animalQ,
+                                    mensajes: mensaje1,
+                                    mensajeria: mensaje2
+                    });    
+                  } else {
+                    res.send(401, 'No se encontraron Pesajes');
+                  }
+              });
+            }else {
+              res.send(401, 'No se Eencontraron Pesajes');
+            }
+          }, function (error) {
+            res.send('Detalle Vacunacion no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
       });
-    }else {
-      res.send(401, 'No se Eencontraron Pesajes');
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Detalle Vacunacion no encontrado');
-    }
-  );
+    res.send('Mensaje no encontrado');
+  });
 };
 // POST /detalleVacunacion
 exports.create1 = function (req, res) {
@@ -65,14 +87,39 @@ exports.create1 = function (req, res) {
 exports.listPag1 = function (req, res) {
   var detalleVacunacion = Model.DetalleVacunacion.build();
   console.log('dentro de get /',req.body);
-  detalleVacunacion.retrieveAll(req.params.id, function (detalleVacunacion) {
-    if (detalleVacunacion) {
-      res.render('web/detalleVacunacion/success', { detalleVacunaciones:detalleVacunacion});
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {
+          detalleVacunacion.retrieveAll(req.params.id, function (detalleVacunacion) {
+            if (detalleVacunacion) {
+              res.render('web/detalleVacunacion/success', { 
+                detalleVacunaciones:detalleVacunacion,
+                mensajes: mensaje1,
+                mensajeria: mensaje2
+              });
+            } else {
+              res.send(401, 'No se encontraron Detalles');
+            }
+          }, function (error) {
+            res.send('DetalleVacunacion no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'No se encontraron Detalles');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('DetalleVacunacion no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 //******************************************************
@@ -80,22 +127,44 @@ exports.getForm2 = function (req, res) {
   var animal = Model.Animal.build();
   var detalleVacunacion = Model.DetalleVacunacion.build();
   var vacunacionId = req.params.vacunacionId;
-  animal.retrieveAll(function (animalQ) {
-    console.log('animalQ',animalQ);
-    if (animalQ) {
-            console.log('soy vacunacionId',vacunacionId);
-            res.render('web/detalleVacunacion/indexa', {
-                            vacunacionJ:vacunacionId,
-                            detalleVacunacionJ: detalleVacunacion,
-                            selectJ: animalQ
-            });    
-    }else {
-      res.send(401, 'No se Eencontraron Pesajes');
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) { 
+          animal.retrieveAll(function (animalQ) {
+            console.log('animalQ',animalQ);
+            if (animalQ) {
+                    console.log('soy vacunacionId',vacunacionId);
+                    res.render('web/detalleVacunacion/indexa', {
+                                    vacunacionJ:vacunacionId,
+                                    detalleVacunacionJ: detalleVacunacion,
+                                    selectJ: animalQ,
+                                    mensajes: mensaje1,
+                                    mensajeria: mensaje2
+                    });    
+            }else {
+              res.send(401, 'No se Eencontraron Pesajes');
+            }
+          }, function (error) {
+            res.send('Detalle Vacunacion no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Detalle Vacunacion no encontrado');
-    }
-  );
+    res.send('Mensaje no encontrado');
+  });
 };
 // POST /detalleVacunacion
 exports.create2 = function (req, res) {
@@ -149,26 +218,49 @@ exports.update = function (req, res) {
 exports.read = function (req, res) {
   var detalleVacunacion = Model.DetalleVacunacion.build();
   var animal = Model.Animal.build();
-  animal.retrieveAll(function (animal) {
-    if (animal) {
-      detalleVacunacion.retrieveById(req.params.detalleVacunacionId, function (detalleVacunacion) {
-        if (detalleVacunacion) {
-          res.render('web/detalleVacunacion/edit', {
-                      detalleVacunacion:detalleVacunacion,
-                      select: animal
-                    });
-        } else {
-          res.send(401, 'Detalle Vacunacion no encontrado');
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) { 
+          animal.retrieveAll(function (animal) {
+            if (animal) {
+              detalleVacunacion.retrieveById(req.params.detalleVacunacionId, function (detalleVacunacion) {
+                if (detalleVacunacion) {
+                  res.render('web/detalleVacunacion/edit', {
+                              detalleVacunacion:detalleVacunacion,
+                              select: animal,
+                              mensajes: mensaje1,
+                              mensajeria: mensaje2
+                            });
+                } else {
+                  res.send(401, 'Detalle Vacunacion no encontrado');
+                }
+              }, function (error) {
+                res.send('Detalle Vacunacion no encontrado');
+              });
+            } else {
+              res.send(401, 'No se encontraron Detalles');
+            }
+          }, function (error) {
+            console.log(error);
+            res.send('desDetalles no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
         }
       }, function (error) {
-        res.send('Detalle Vacunacion no encontrado');
+        res.send('Mensaje no encontrado');
       });
     } else {
-      res.send(401, 'No se encontraron Detalles');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    console.log(error);
-    res.send('desDetalles no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 

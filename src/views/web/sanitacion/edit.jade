@@ -1,51 +1,62 @@
-form(id="topicForm" method="post" action="/web/sanitacion/#{sanitacion.idSanitacion}")
-  input(type="hidden" name="_method" value="put")
-  input(type="hidden" name="idSanitacion" value='#{sanitacion.idSanitacion}')
-  table(class="table table-bordred table-striped")
-    thead
-      tr
-        th(class="cell-stat text-center") idSanitacion
-        th(class="cell-stat text-center") fechaSanitacion
-        th(class="cell-stat text-center") horaSanitacion
-        th(class="cell-stat text-center") nombreEmpleado
-        th(class="cell-stat text-center") nombreProveedor
-        th(class="cell-stat text-center") fechaCreacion
-        th(class="cell-stat text-center") fechaModificacion
-        th(class="cell-stat text-center") fechaBorrado
-        th(class="cell-stat text-center") Accion
-        th(class="cell-stat text-center") Accion
-    tbody
-        tr
-          td(class="text-center")=sanitacion.idSanitacion
-          
-          td(class="text-center")
-            //label(for="fechaSanitacion" class="control-label") Fecha Sanitacion
-            input(type="text" class="form-control" id='fechaSanitacion' name='fechaSanitacion' value='#{sanitacion.fechaSanitacion}' required="true")
-          
-          td(class="text-center")
-            //label(for="horaSanitacion" class="control-label") Hora Sanitacion
-            input(type="text" class="form-control" id="horaSanitacion" name='horaSanitacion' value='#{sanitacion.horaSanitacion}' required="true")
-          td(class="text-center")
-            select(name="empleadoSele")
-              -for (var j=0; j < selectJ.length; j++) {
-                if sanitacion.EmpleadoIdEmpleado == selectJ[j].idEmpleado 
-                 option(value="#{selectJ[j].idEmpleado}" selected) #{selectJ[j].nombreEmpleado} 
-                else 
-                 option(value="#{selectJ[j].idEmpleado}") #{selectJ[j].nombreEmpleado}
-              -}
-          td(class="text-center")
-            select(name="proveedorSele")
-              -for (var j=0; j < select.length; j++) {
-                if sanitacion.ProveedorIdProveedor == select[j].idProveedor 
-                 option(value="#{select[j].idProveedor}" selected) #{select[j].nombreProveedor} 
-                else 
-                 option(value="#{select[j].idProveedor}") #{select[j].nombreProveedor}
-              -}
-          
-          
-        
-          td(class="text-center")=sanitacion.fechaCreacion
-          td(class="text-center")=sanitacion.fechaModificacion
-          td(class="text-center")=sanitacion.fechaBorrado
-          td
-            button(type="submit" name="commit" value="Form" class="btn btn-success btn-block") Editar Sanitacion 
+extends ../../layout 
+block content
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Sanitación
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Editar Sanitación
+    section(class="content")
+      div(class="row")
+        div(class="col-md-12")
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Edición del Sanitación
+            form(class="form-horizontal" method="post" action="/web/sanitacion/#{sanitacion.idSanitacion}")
+              div(class="box-body")
+                input(type="hidden" name="_method" value="put")
+                input(type="hidden" name="idSanitacion" value='#{sanitacion.idSanitacion}')
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="fechaSanitacion") Fecha de la Sanitación:
+                  div(class="col-sm-8")  
+                    div(class="input-group date")
+                      div(class="input-group-addon")
+                        i(class="fa fa-calendar")  
+                      input(type="text" class="form-control pull-right" id="datepicker" name='fechaSanitacion' value='#{sanitacion.fechaSanitacion}' required="true")
+                div(class="form-group")  
+                  label(class="col-sm-4 control-label" for="horaSanitacion") Hora de la Sanitación:
+                  div(class="col-sm-8")
+                    div(class="bootstrap-timepicker")
+                      div(class="input-group")
+                        div(class="input-group-addon")
+                          i(class="fa fa-clock-o")
+                        input(type="text" class="form-control timepicker" name='horaSanitacion' value='#{sanitacion.horaSanitacion}' required) 
+                div(class="form-group")
+                  label(class="control-label col-sm-4" for="email") Empleado: 
+                  div(class="col-sm-8") 
+                    select(name="empleadoSele" class="btn btn-default select2")
+                      -for (var j=0; j < select.length; j++) {
+                        if sanitacion.EmpleadoIdEmpleado == select[j].idEmpleado 
+                         option(value="#{select[j].idEmpleado}" selected) #{select[j].nombreEmpleado} 
+                        else 
+                         option(value="#{select[j].idEmpleado}") #{select[j].nombreEmpleado}
+                      -}
+                div(class="form-group")
+                  label(class="control-label col-sm-4" for="email") Proveedor: 
+                  div(class="col-sm-8") 
+                    select(name="proveedorSele" class="btn btn-default select2")
+                      -for (var j=0; j < select.length; j++) {
+                        if sanitacion.ProveedorIdProveedor == select[j].idProveedor
+                         option(value="#{select[j].idProveedor}" selected) #{select[j].nombreProveedor} 
+                        else 
+                         option(value="#{select[j].idProveedor}") #{select[j].nombreProveedor}
+                      -} 
+                      
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Editar Sanitación
+                    i(class="fa fa-save") 
+                  a(href="/web/pesaje" class="btn btn-default") Cancelar
+                    i(class="fa fa-remove")

@@ -1,0 +1,50 @@
+extends ../../layout 
+block content
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Servicios
+        small
+          b 
+            a(href="/web/servicios/cargar")
+              p(class="text-green" data-placement="top" data-toggle="tooltip" title="Agregar Servicios") Agregar Servicios
+                  i(class="fa fa-save") 
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Tabla de Razas Registradas
+    section(class="content")
+      div(class="row")
+        div(class="col-xs-12")
+          div(class="box")
+            div(class="box-header")
+              h3(class="box-title") Tabla de Razas Registradas
+              <!-- /.box-header -->
+            div(class="box-body")
+              div(class="table-responsive")
+                table(id="example1" class="table table-bordered table-hover")
+                  thead
+                    tr(class="success")
+                      th(class="cell-stat text-center") Servicios 
+                      th(class="cell-stat text-center") Fecha de Creación
+                      th(class="cell-stat text-center") Editar Registro
+                      th(class="cell-stat text-center") Eliminar Registro
+                  
+                  tbody
+                    for servicios in service
+                      tr
+                        td(class="text-center")=servicios.servicios
+                        td(class="text-center")=servicios.fechaCreacion 
+                        td(class="text-center")
+                          a(href="/web/servicios/#{servicios.idServicios}" class="btn btn-success" role="button")
+                            p(data-placement="top" data-toggle="tooltip" title="Editar Servicios")
+                              button(type="button" class="btn btn-success")  
+                                i(class="fa fa-refresh")
+                        form(id="topicForm" method="post" action="/web/servicios/#{servicios.idServicios}")
+                          input(type="hidden" name="_method" value="delete")
+                          input(type="hidden" name="idServicios" value='#{servicios.idServicios}')               
+                          td(class="text-center")
+                            a(href="/web/servicios/#{servicios.idServicios}" class="btn btn-success" role="button")
+                              p(data-placement="top" data-toggle="tooltip" title="Borrar Servicios")
+                                button(type="submit" name="committ" value="Form" class="btn btn-success") 
+                                  i(class="fa fa-remove")                         

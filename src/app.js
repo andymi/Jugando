@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
+var session = require('express-session');
+
 //var SerialPort = require("serialport");
 //var port = new SerialPort('/dev/tty-usbserial1');
 
@@ -13,11 +15,8 @@ var config = require('./config/config');
 var webPublico = require('./controllers/web/webPublico');
 var routesAPI = require('./controllers/routesAPI');
 var routesWEB = require('./controllers/routesWEB');
-
-
-
-
 var app = express();
+
 
 /**
  * Configuración y seteo de Express
@@ -47,6 +46,7 @@ app.use(cookieParser());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 // If you want to simulate DELETE and PUT
 // in your app you need methodOverride.
 // override with POST having
@@ -58,7 +58,6 @@ app.use(methodOverride(function(req, res){
     return method;
   }
 }));
-
 
 
 // Keep user, csrf token and config available
@@ -79,6 +78,8 @@ app.use(function (req, res, next) {
 app.use('/api', routesAPI);
 app.use('/web', routesWEB);
 app.use('/', webPublico);
+
+
 /*
   esta ruta es para el controlador de páginas estáticas, va a estar montada en la raíz
 */

@@ -13,18 +13,41 @@ var Model = require('../../models/jugando');
 exports.getForm = function (req, res) {
   var animal = Model.Animal.build();
   var raza = Model.Raza.build();
-  raza.retrieveAll(function (razaQ) {
-    console.log('razaQ',razaQ);
-    if (razaQ) {
-        res.render('web/animal/index',{
-            animal: animal,
-            selectJ:razaQ
-        });
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          console.log(req.body);
+            raza.retrieveAll(function (razaQ) {
+              console.log('razaQ',razaQ);
+              if (razaQ) {
+                  res.render('web/animal/index',{
+                      animal: animal,
+                      selectJ:razaQ,
+                      mensajes: mensaje1,
+                      mensajeria: mensaje2
+                  });
+              }
+            }, function (error) {
+              res.send('Animal no encontrado');
+            });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Animal no encontrado');
-    }
-  );
+    res.send('Mensaje no encontrado');
+  });
 };
 
 
@@ -70,15 +93,40 @@ exports.create = function (req, res) {
 // GET /animal */
 exports.listPag = function (req, res) {
   var animal = Model.Animal.build();
-  console.log(req.body);
-  animal.retrieveAll(function (animales) {
-    if (animales) {
-      res.render('web/animal/success', { animales: animales});
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          console.log(req.body);
+          animal.retrieveAll(function (animales) {
+            if (animales) {
+              res.render('web/animal/success', { 
+                animales: animales,
+                mensajes: mensaje1,
+                mensajeria: mensaje2
+              });
+            } else {
+              res.send(401, 'No se encontraron Animales');
+            }
+          }, function (error) {
+            res.send('Animal no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'No se encontraron Animales');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Animal no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 
@@ -135,31 +183,54 @@ exports.read = function (req, res) {
   console.log('editar:*****************');
   console.log(req.params);
   var raza = Model.Raza.build();
-  raza.retrieveAll(function (raza) {
-  if (raza) {
-        animal.retrieveById(req.params.animalId, function (animaloq) {
-          if (animaloq) {
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          raza.retrieveAll(function (raza) {
+          if (raza) {
+                animal.retrieveById(req.params.animalId, function (animaloq) {
+                  if (animaloq) {
 
-            console.log('dentro de editar:*****************');
-            res.render('web/animal/edit', {
-                    animal:animaloq,
-                    select: raza
-            });
+                    console.log('dentro de editar:*****************');
+                    res.render('web/animal/edit', {
+                            animal:animaloq,
+                            select: raza,
+                            mensajes: mensaje1,
+                            mensajeria: mensaje2
+                    });
 
-            //res.json(animal);
-          } else {
-             console.log('dentro de else:*****************');
-            res.send(401, 'Animal no encontrado');
-          }
-        }, function (error) {
-          res.send('Animal no encontrado');
-        });
-      } else {
-      res.send(401, 'No se encontraron Razas');
+                    //res.json(animal);
+                  } else {
+                     console.log('dentro de else:*****************');
+                    res.send(401, 'Animal no encontrado');
+                  }
+                }, function (error) {
+                  res.send('Animal no encontrado');
+                });
+              } else {
+              res.send(401, 'No se encontraron Razas');
+            }
+          }, function (error) {
+            console.log(error);
+            res.send('Raza no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    console.log(error);
-    res.send('Raza no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 

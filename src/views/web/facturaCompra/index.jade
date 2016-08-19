@@ -55,13 +55,13 @@ block content
                     input(type="text" class="form-control" id="numeroCompra" name='numeroCompra' placeholder="Ingrese el Número de Compra")
               
                 div(class="form-group")
-                  label(class="col-sm-4 control-label" for="email") Proveedor:
-                  div(class="col-sm-8")
+                  label(class="col-sm-4 control-label" for="Proveedor") Proveedor: 
+                  div(class="col-sm-8")  
                     select(id="selectJ" name='selectJ' class="btn btn-default select2")
                       option(value="-1" disabled="disabled" selected) Seleccione una opción
                       -for(var j=0; j < selectJ.length; j++) {
                         option(value="#{selectJ[j].idProveedor}") #{selectJ[j].nombreProveedor}
-                      -}    
+                      -}  
               div(class="box-footer")
                 div(class="btn-group pull-right")
                   button(type="submit" href="javascript:void(0);" class="btn btn-success") Guardar

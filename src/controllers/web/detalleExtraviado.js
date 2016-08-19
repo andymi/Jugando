@@ -12,28 +12,50 @@ exports.getForm1 = function (req, res) {
   var animal = Model.Animal.build();
   var detalleExtraviado = Model.DetalleExtraviado.build();
   var extraviado = Model.Extraviado.build();
-  animal.retrieveAll(function (animalQ) {
-    console.log('animalQ',animalQ);
-    if (animalQ) {
-      extraviado.retrieveId(function (extraviadoQ) {
-          if (extraviadoQ) {      
-            console.log('soy extraviado retrieveId',extraviadoQ);
-            res.render('web/detalleExtraviado/index', {
-                            extraviadoJ:extraviadoQ,
-                            detalleExtraviadoJ: detalleExtraviado,
-                            selectJ: animalQ
-            });    
-          } else {
-            res.send(401, 'No se encontraron Extraviado');
-          }
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {
+          animal.retrieveAll(function (animalQ) {
+            console.log('animalQ',animalQ);
+            if (animalQ) {
+              extraviado.retrieveId(function (extraviadoQ) {
+                  if (extraviadoQ) {      
+                    //console.log('soy extraviado retrieveId',extraviadoQ);
+                    res.render('web/detalleExtraviado/index', {
+                                    extraviadoJ:extraviadoQ,
+                                    detalleExtraviadoJ: detalleExtraviado,
+                                    selectJ: animalQ,
+                                    mensajes: mensaje1,
+                                    mensajeria: mensaje2
+                    });    
+                  } else {
+                    res.send(401, 'No se encontraron Extraviado');
+                  }
+              });
+            }else {
+              res.send(401, 'No se Eencontraron Extraviado');
+            }
+          }, function (error) {
+            res.send('Detalle Extraviado no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
       });
-    }else {
-      res.send(401, 'No se Eencontraron Extraviado');
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Detalle Extraviado no encontrado');
-    }
-  );
+    res.send('Mensaje no encontrado');
+  });
 };
 // POST /detalleExtraviado
 exports.create1 = function (req, res) {
@@ -63,14 +85,39 @@ exports.create1 = function (req, res) {
 exports.listPag1 = function (req, res) {
   var detalleExtraviado = Model.DetalleExtraviado.build();
   console.log('dentro de get /',req.body);
-  detalleExtraviado.retrieveAll(req.params.id, function (detalleExtraviados) {
-    if (detalleExtraviados) {
-      res.render('web/detalleExtraviado/success', { detalleExtraviados:detalleExtraviados});
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        //console.log('mensaje2', mensaje2);
+        if (mensaje2) {
+          detalleExtraviado.retrieveAll(req.params.id, function (detalleExtraviados) {
+            if (detalleExtraviados) {
+              res.render('web/detalleExtraviado/success', { 
+                detalleExtraviados:detalleExtraviados,
+                mensajes: mensaje1,
+                mensajeria: mensaje2
+              });
+            } else {
+              res.send(401, 'No se encontraron Detalles');
+            }
+          }, function (error) {
+            res.send('DetalleExtraviado no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'No se encontraron Detalles');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('DetalleExtraviado no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 //*************************************************************
@@ -78,22 +125,44 @@ exports.getForm2 = function (req, res) {
   var animal =Model.Animal.build();
   var detalleExtraviado = Model.DetalleExtraviado.build();
   var extraviadoId = req.params.extraviadoId;
-  animal.retrieveAll(function (animalQ) {
-    console.log('animalQ',animalQ);
-    if (animalQ) {
-            console.log('soy extraviado retrieveId',extraviadoId);
-            res.render('web/detalleExtraviado/indexa', {
-                            extraviadoJ:extraviadoId,
-                            detalleExtraviadoJ: detalleExtraviado,
-                            selectJ: animalQ
-            });              
-    }else {
-      res.send(401, 'No se Eencontraron Extraviado');
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {
+          animal.retrieveAll(function (animalQ) {
+            console.log('animalQ',animalQ);
+            if (animalQ) {
+                   // console.log('soy extraviado retrieveId',extraviadoId);
+                    res.render('web/detalleExtraviado/indexa', {
+                                    extraviadoJ:extraviadoId,
+                                    detalleExtraviadoJ: detalleExtraviado,
+                                    selectJ: animalQ,
+                                    mensajes: mensaje1,
+                                    mensajeria: mensaje2
+                    });              
+            }else {
+              res.send(401, 'No se Eencontraron Extraviado');
+            }
+          }, function (error) {
+            res.send('Detalle Extraviado no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Detalle Extraviado no encontrado');
-    }
-  );
+    res.send('Mensaje no encontrado');
+  });
 };
 // POST /detalleExtraviado
 exports.create2 = function (req, res) {
@@ -144,26 +213,49 @@ exports.update = function (req, res) {
 exports.read = function (req, res) {
   var detalleExtraviado = Model.DetalleExtraviado.build();
   var animal = Model.Animal.build();
-  animal.retrieveAll(function (animal) {
-    if (animal) {
-      detalleExtraviado.retrieveById(req.params.detalleExtraviadoId, function (detalleExtraviado) {
-        if (detalleExtraviado) {
-          res.render('web/detalleExtraviado/edit', {
-                      detalleExtraviado:detalleExtraviado,
-                      select: animal
-                    });
-        } else {
-          res.send(401, 'Detalle Extraviado no encontrado');
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {
+          animal.retrieveAll(function (animal) {
+            if (animal) {
+              detalleExtraviado.retrieveById(req.params.detalleExtraviadoId, function (detalleExtraviado) {
+                if (detalleExtraviado) {
+                  res.render('web/detalleExtraviado/edit', {
+                              detalleExtraviado:detalleExtraviado,
+                              select: animal,
+                              mensajes: mensaje1,
+                              mensajeria: mensaje2
+                            });
+                } else {
+                  res.send(401, 'Detalle Extraviado no encontrado');
+                }
+              }, function (error) {
+                res.send('Detalle Extraviado no encontrado');
+              });
+            } else {
+              res.send(401, 'No se encontraron Detalles');
+            }
+          }, function (error) {
+            console.log(error);
+            res.send('desDetalles no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
         }
       }, function (error) {
-        res.send('Detalle Extraviado no encontrado');
+        res.send('Mensaje no encontrado');
       });
     } else {
-      res.send(401, 'No se encontraron Detalles');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    console.log(error);
-    res.send('desDetalles no encontrado');
+    res.send('Mensaje no encontrado');
   });
 
 };

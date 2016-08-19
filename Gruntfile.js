@@ -83,7 +83,7 @@ module.exports = function(grunt) {
     stylus: {
       compile: {
         options: {
-          compress: false,
+          compress: true,
           paths: ['src/stylus']
         },
         files: {

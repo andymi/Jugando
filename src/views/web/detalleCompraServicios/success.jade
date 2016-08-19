@@ -1,0 +1,37 @@
+extends ../../layout 
+block content
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Detalle de Compra de Servicios
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Tabla de Detalle de Compra de Servicios Registrados
+    section(class="content")
+      div(class="row")
+        div(class="col-xs-12")
+          div(class="box")
+            div(class="box-header")
+              h3(class="box-title") Tabla de Detalle de Compra de Servicios Registrados
+              <!-- /.box-header -->
+            div(class="box-body")
+              div(class="table-responsive")
+                table(id="example1" class="table table-bordered table-striped")
+                  thead
+                    tr(class="success")
+                      th(class="text-center") Servicios
+                      th(class="text-center") Precio de Compra
+                      th(class="text-center") Cantidad
+                      th(class="text-center") SubTotal           
+                  
+                  tbody
+                    for detalleCompra in detalleCompras
+                      tr
+                        if detalleCompra.Servicio == null  
+                          td(class="text-center") sin Servicios
+                        else 
+                          td(class="text-center")=detalleCompra.Servicio.servicios                       
+                        td(class="text-center")=detalleCompra.precioCompra
+                        td(class="text-center")=detalleCompra.cantidadCompra
+                        td(class="text-center")=detalleCompra.subtotalCompra

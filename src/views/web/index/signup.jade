@@ -1,0 +1,18 @@
+head
+   title titulos
+body
+   h2 Register Form
+   form( class="form-horizontal" action='/web/signup/ver' method="POST")
+      if (typeof(errorMessage) !== 'undefined') 
+         span=errorMessage 
+      p
+         label(for="usuario") usuario
+         input(type="text" name="usuario" id="usuario"
+            placeholder="usuario" required="true")
+      p
+         label(for="pass") password
+         input(type="text" name="pass" id="pass"
+            placeholder="pass" required="true")
+      p
+         input(type="submit" name="signup" id="signup" value="register")
+         a(href="/web/log" title="sign in") Loguearse

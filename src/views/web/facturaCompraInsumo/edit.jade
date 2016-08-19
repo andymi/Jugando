@@ -1,0 +1,61 @@
+form(id="topicForm" method="post" action="/web/facturaCompra/#{facturaCompra.idCompra}")
+  input(type="hidden" name="_method" value="put")
+  input(type="hidden" name="idCompra" value='#{facturaCompra.idCompra}')
+  table(class="table table-bordred table-striped")
+    thead
+      tr
+        th(class="cell-stat text-center") idCompra
+        th(class="cell-stat text-center") fechaCompra
+        th(class="cell-stat text-center") horaCompra
+        th(class="cell-stat text-center") condicionCompra
+        th(class="cell-stat text-center") formaPago
+        th(class="cell-stat text-center") numeroCompra
+        th(class="cell-stat text-center") totalCompra
+        th(class="cell-stat text-center") nombreProveedor
+        th(class="cell-stat text-center") fechaCreacion
+        th(class="cell-stat text-center") fechaModificacion
+        th(class="cell-stat text-center") fechaBorrado
+        th(class="cell-stat text-center") Accion
+        th(class="cell-stat text-center") Accion
+    tbody
+        tr
+          td(class="text-center")=facturaCompra.idCompra
+          
+          td(class="text-center")
+            //label(for="fechaCompra" class="control-label") Fecha Compra
+            input(type="text" class="form-control" id='fechaCompra' name='fechaCompra' value='#{facturaCompra.fechaCompra}' required="true")
+          
+          td(class="text-center")
+            //label(for="horaCompra" class="control-label") Hora Compra
+            input(type="text" class="form-control" id="horaCompra" name='horaCompra' value='#{facturaCompra.horaCompra}' required="true")
+
+
+          td(class="text-center") 
+            input(type="text" class="form-control" id="condicionCompra" name='condicionCompra' value='#{facturaCompra.condicionCompra}' required="true")
+
+          
+          td(class="text-center") 
+            input(type="text" class="form-control" id="formaPago" name='formaPago' value='#{facturaCompra.formaPago}' required="true")
+          
+          td(class="text-center")
+            //label(for="numeroCompra" class="control-label") Numero Compra
+            input(type="text" class="form-control" id="numeroCompra" name='numeroCompra' value='#{facturaCompra.numeroCompra}' required="true")
+
+          td(class="text-center")
+            //label(for="totalCompra" class="control-label") Total Compra
+            input(type="text" class="form-control" id="totalCompra" name='totalCompra' value='#{facturaCompra.totalCompra}' required="true")
+
+          td(class="text-center")
+            select(name="proveedorSele")
+              -for (var j=0; j < select.length; j++) {
+                if facturaCompra.ProveedorIdProveedor == select[j].idProveedor 
+                 option(value="#{select[j].idProveedor}" selected) #{select[j].nombreProveedor} 
+                else 
+                 option(value="#{select[j].idProveedor}") #{select[j].nombreProveedor}
+              -}
+
+          td(class="text-center")=facturaCompra.fechaCreacion
+          td(class="text-center")=facturaCompra.fechaModificacion
+          td(class="text-center")=facturaCompra.fechaBorrado
+          td
+            button(type="submit" name="commit" value="Form" class="btn btn-success btn-block") Editar Factura Compra

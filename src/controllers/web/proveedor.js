@@ -12,18 +12,40 @@ var Model = require('../../models/jugando.js');
 exports.getForm = function (req, res) {
   var proveedor = Model.Proveedor.build();
   var ciudad = Model.Ciudad.build();
-  ciudad.retrieveAll(function (ciudadQ) {
-    console.log('ciudadQ',ciudadQ);
-    if (ciudadQ) {
-        res.render('web/proveedor/index',{
-            proveedor: proveedor,
-            selectJ: ciudadQ
-        });
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          ciudad.retrieveAll(function (ciudadQ) {
+            console.log('ciudadQ',ciudadQ);
+            if (ciudadQ) {
+                res.render('web/proveedor/index',{
+                    proveedor: proveedor,
+                    selectJ: ciudadQ,
+                    mensajes: mensaje1,
+                    mensajeria: mensaje2
+                });
+            }
+          }, function (error) {
+            res.send('Proveedor no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Proveedor no encontrado');
-    }
-  );
+    res.send('Mensaje no encontrado');
+  });
 };
 
 // POST /proveedor
@@ -57,14 +79,39 @@ exports.create = function (req, res) {
 exports.listPag = function (req, res) {
   var proveedor = Model.Proveedor.build();
   console.log(req.body);
-  proveedor.retrieveAll(function (proveedores) {
-    if (proveedores) {
-      res.render('web/proveedor/success', { proveedores: proveedores});
+   //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) { 
+          proveedor.retrieveAll(function (proveedores) {
+            if (proveedores) {
+              res.render('web/proveedor/success', { 
+                proveedores: proveedores,
+                mensajes: mensaje1,
+                mensajeria: mensaje2
+              });
+            } else {
+              res.send(401, 'No se encontraron Proveedores');
+            }
+          }, function (error) {
+            res.send('Proveedor no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'No se encontraron Proveedores');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Proveedor no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 /* Rutas que terminan en /proveedor/:proveedorId
@@ -96,26 +143,49 @@ exports.update = function (req, res) {
 exports.read = function (req, res) {
   var proveedor = Model.Proveedor.build();
   var ciudad = Model.Ciudad.build();
-  ciudad.retrieveAll(function (ciudad) {
-    if (ciudad) {
-      proveedor.retrieveById(req.params.proveedorId, function (proveedoroq) {
-        if (proveedoroq) {
-          res.render('web/proveedor/edit', {
-                      proveedor:proveedoroq,
-                      select: ciudad
-                    });
-        } else {
-          res.send(401, 'arProveedor no encontrado');
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          ciudad.retrieveAll(function (ciudad) {
+            if (ciudad) {
+              proveedor.retrieveById(req.params.proveedorId, function (proveedoroq) {
+                if (proveedoroq) {
+                  res.render('web/proveedor/edit', {
+                              proveedor:proveedoroq,
+                              select: ciudad,
+                              mensajes: mensaje1,
+                              mensajeria: mensaje2
+                            });
+                } else {
+                  res.send(401, 'arProveedor no encontrado');
+                }
+              }, function (error) {
+                res.send('esProveedor no encontrado',error);
+              });
+            } else {
+              res.send(401, 'No se encontraron Proveedores');
+            }
+          }, function (error) {
+            console.log(error);
+            res.send('desProveedor no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
         }
       }, function (error) {
-        res.send('esProveedor no encontrado',error);
+        res.send('Mensaje no encontrado');
       });
     } else {
-      res.send(401, 'No se encontraron Proveedores');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    console.log(error);
-    res.send('desProveedor no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 

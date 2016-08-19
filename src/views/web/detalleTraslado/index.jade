@@ -1,22 +1,38 @@
-form(action='/web/detalleTraslado/cargar' method="POST")
-  for traslados in notaTrasladoJ
-    input(type="hidden" name='id' value='#{traslados.idTraslado}')
-  div(class="form-group")
-    label(for="descripcion") Descripcion
-    input(type="text"  class="form-control" id="descripcion" name='descripcion' value='detalleTrasladoJ.descripcion' placeholder="Ingrese la Descripcion") 
-    //detalle del pesaje
-  div(class="form-group")
-    label(class="control-label col-sm-2" for="email") Rp Animal: 
-    div(class="col-sm-10")  
-      select(name='selectJ')
-        option(value="-1" selected) Seleccione Rp
-        -for(var j=0; j < selectJ.length; j++) {
-          option(value="#{selectJ[j].idAnimal}") #{selectJ[j].rpAnimal}
-        -}  	       
-  
-  button(type="submit" value="submit") Agregar Detalle Traslado
-
-
-a(href="/web/traslado" class="btn btn-info" role="button")
-  p(data-placement="top" data-toggle="tooltip" title="List")
-    button(type="button" class="btn btn-info") Listo
+extends ../../layout 
+block content
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Detalle del Traslado del Animal
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Agregar Detalle del Traslado del Animal
+    section(class="content")
+      div(class="row")  
+        div(class="col-md-12") 
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Registro del Detalle del Traslado del Animal
+            form(class="form-horizontal" action='/web/detalleTraslado/cargar' method="POST")
+              div(class="box-body")
+                for traslados in notaTrasladoJ
+                  input(type="hidden" name='id' value='#{traslados.idTraslado}')
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") RP Animal:
+                  div(class="col-sm-8")
+                    select(name='selectJ' class="btn btn-default select2")
+                      option(value="-1" disabled="disabled" selected) Seleccione una opción
+                      -for(var j=0; j < selectJ.length; j++) {
+                        option(value="#{selectJ[j].idAnimal}") #{selectJ[j].rpAnimal}
+                      -}
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="descripcion") Descripción:
+                  div(class="col-sm-8")
+                    input(type="text" class="form-control" id="descripcion" name='descripcion' placeholder="Ingrese la Descripción" required)
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Guardar
+                    i(class="fa fa-save") 
+                  a(href="/web/traslado" class="btn btn-default") Listo
+                    i(class="fa fa-remove")       

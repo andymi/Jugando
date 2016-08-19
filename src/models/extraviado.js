@@ -89,9 +89,9 @@ module.exports = function (sequelize, DataTypes) {
           var horaExtraviado = this.horaExtraviado;
           var lugarExtraviado = this.lugarExtraviado;
           var EmpleadoIdEmpleado = this.EmpleadoIdEmpleado;
-
+          console.log('estoy dentro de add:',fechaExtraviado, horaExtraviado, lugarExtraviado, EmpleadoIdEmpleado);
           Extraviado.build({ fechaExtraviado: fechaExtraviado, horaExtraviado: horaExtraviado, 
-          lugarExtraviado: lugarExtraviado, cantidadTotal: cantidadTotal, EmpleadoIdEmpleado: EmpleadoIdEmpleado })
+          lugarExtraviado: lugarExtraviado, EmpleadoIdEmpleado: EmpleadoIdEmpleado })
           .save().then(onSuccess).catch(onError);
         },
         updateById: function (extraviadoId, onSuccess, onError) {

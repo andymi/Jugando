@@ -1,0 +1,64 @@
+extends ../../layout 
+block content
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Factura Compra de Servicios
+        small
+          b 
+            a(href="/web/facturaCompraServicios/cargar")
+              p(class="text-green" data-placement="top" data-toggle="tooltip" title="Agregar Factura Compra") Agregar Factura Compra
+                  i(class="fa fa-save") 
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Tabla de Compra de Servicios Registrados
+    section(class="content")
+      div(class="row")
+        div(class="col-xs-12")
+          div(class="box")
+            div(class="box-header")
+              h3(class="box-title") Tabla de Compra de Servicios Registrados
+              <!-- /.box-header -->
+            div(class="box-body")
+              div(class="table-responsive")
+                table(id="example1" class="table table-bordered table-striped")
+                  thead
+                    tr(class="success")
+                      th(class="text-center") Fecha de Compra
+                      th(class="text-center") Condición 
+                      th(class="text-center") Forma de Pago 
+                      th(class="text-center") Número de Compra 
+                      th(class="text-center") Total de Servicios Adquiridos
+                      th(class="text-center") Monto Total de la Compra         
+                      th(class="text-center") Proveedor
+                      th(class="text-center") Ver Detalle
+                      th(class="text-center") Eliminar Registro
+                  
+                  tbody
+                    for facturaCompras in facturaCompra
+                      tr
+                        td(class="text-center")=facturaCompras.fechaCompra
+                        td(class="text-center")=facturaCompras.condicionCompra
+                        td(class="text-center")=facturaCompras.formaPago
+                        td(class="text-center")=facturaCompras.numeroCompra
+                        td(class="text-center")=facturaCompras.cantidadTotalCompra 
+                        td(class="text-center")=facturaCompras.totalCompra        
+                        if facturaCompras.Proveedor == null  
+                          td(class="text-center") sin Proveedor
+                        else 
+                          td(class="text-center")=facturaCompras.Proveedor.nombreProveedor         
+                        td(class="text-center")
+                          a(href="/web/detalleCompraServicios/#{facturaCompras.idCompra}" class="btn btn-success" role="button")
+                            p(data-placement="top" data-toggle="tooltip" title="Ver Detalle")
+                              button(type="button" class="btn btn-success")
+                                i(class="fa fa-eye") 
+                              
+                        form(id="topicForm" method="post" action="/web/facturaCompraServicios/#{facturaCompras.idCompra}")
+                          input(type="hidden" name="_method" value="delete")
+                          input(type="hidden" name="idCompra" value='#{facturaCompras.idCompra}')               
+                          td(class="text-center")
+                            a(href="/web/facturaCompraServicios/#{facturaCompras.idCompra}" class="btn btn-success" role="button")
+                              p(data-placement="top" data-toggle="tooltip" title="Borrar Factura Compra")
+                                button(type="submit" name="committ" value="Form" class="btn btn-success")
+                                  i(class="fa fa-remove")

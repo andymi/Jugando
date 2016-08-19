@@ -36,8 +36,8 @@ var host     = (url[4] || null);
 config.db            = {};
 
 config.db.name     = 'bonanza';
-config.db.user     = 'bonanza';
-config.db.pwd      = 'bonanza';
+config.db.user     = 'root';
+config.db.pwd      = '';
 config.db.dialect  = 'mysql';
 config.db.protocol = 'mysql';
 config.db.port     = '3306';
@@ -50,5 +50,10 @@ config.db.storage  = process.env.DATABASE_STORAGE || 'bonanza.sqlite';
  */
 
 config.logging        = process.env.LOGGING || false;
+
+/***
+* Key para usuarios
+*/
+config.key            = process.env.KEY || '2b5deeee-c5f6-11e5-bbc1-6002925d298e';
 
 module.exports = config;

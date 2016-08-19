@@ -1,31 +1,55 @@
 extends ../../layout 
 block content
-  br
-  br
-  div(class="container-fluid")
-    form(action='/web/sanitacion/add' method="POST")
-     div(class="form-group")
-      label(for="fechaSanitacion") Fecha Sanitacion
-      input(type="text" class="form-control" id="fechaSanitacion" name='fechaSanitacion' value='sanitacion.fechaSanitacion' placeholder="Ingrese Usuario")
-
-     div(class="form-group")
-      label(for="horaSanitacion") Hora Sanitacion
-      input(type="text"  class="form-control" id="horaSanitacion" name='horaSanitacion' value='sanitacion.horaSanitacion' placeholder="Ingrese el Password")
-
-     div(class="form-group")
-        label(class="control-label col-sm-2" for="email") Empleado: 
-        div(class="col-sm-10")  
-          select(name='selectJ')
-            option(value="-1" selected) Seleccione Empleado
-            -for(var j=0; j < selectJ.length; j++) {
-              option(value="#{selectJ[j].idEmpleado}") #{selectJ[j].nombreEmpleado}
-            -} 
-     div(class="form-group")
-        label(class="control-label col-sm-2" for="email") Proveedor: 
-        div(class="col-sm-10")  
-          select(name='selectN')
-            option(value="-1" selected) Seleccione Proveedor
-            -for(var j=0; j < selectN.length; j++) {
-              option(value="#{selectN[j].idProveedor}") #{selectN[j].nombreProveedor}
-            -}   
-     button(type="submit" value="submit") Agregar Sanitacion
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Sanitación Animal
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Agregar Sanitación
+    section(class="content")
+      div(class="row")  
+        div(class="col-md-12") 
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Sanitación Animal   
+            form(class="form-horizontal" action='/web/sanitacion/add' method="POST")
+              div(class="box-body")
+                div(class="form-group")
+                    label(class="col-sm-4 control-label" for="fechaSanitacion") Fecha de la Sanitación:
+                    div(class="col-sm-8")  
+                      div(class="input-group date")
+                        div(class="input-group-addon")
+                          i(class="fa fa-calendar")  
+                        input(type="text"  class="form-control pull-right" id="datepicker" name='fechaSanitacion' required)
+                div(class="form-group")  
+                    label(class="col-sm-4 control-label" for="horaSanitacion") Hora de la Sanitación:
+                    div(class="col-sm-8")
+                      div(class="bootstrap-timepicker")
+                        div(class="input-group")
+                          div(class="input-group-addon")
+                            i(class="fa fa-clock-o")
+                          input(type="text" class="form-control timepicker" name='horaSanitacion' required)   
+                div(class="form-group")
+                  label(class="control-label col-sm-4" for="email") Empleado: 
+                  div(class="col-sm-8")  
+                    select(id="selectJ" name='selectJ' class="btn btn-default select2")
+                      option(value="-1" disabled="disabled" selected) Seleccione una opción
+                      -for(var j=0; j < selectJ.length; j++) {
+                        option(value="#{selectJ[j].idEmpleado}") #{selectJ[j].nombreEmpleado}
+                      -} 
+                div(class="form-group")
+                  label(class="control-label col-sm-4" for="email") Proveedor: 
+                  div(class="col-sm-8")  
+                    select(id="selectN" name='selectN' class="btn btn-default select2")
+                      option(value="-1" disabled="disabled" selected) Seleccione una opción
+                      -for(var j=0; j < selectN.length; j++) {
+                        option(value="#{selectN[j].idProveedor}") #{selectN[j].nombreProveedor}
+                      -} 
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Guardar
+                    i(class="fa fa-save") 
+                  a(href="/web/sanitacion" class="btn btn-default") Cancelar
+                    i(class="fa fa-remove")

@@ -14,32 +14,52 @@ header(class="main-header")
       span(class="sr-only") Toggle navigation
     div(class="navbar-custom-menu") 
       ul(class="nav navbar-nav") 
+        li(class="dropdown messages-menu")
+                a(href="#" class="dropdown-toggle" data-toggle="dropdown")
+                  i(class="fa fa-envelope-o")
+                  for mensajess in mensajes
+                    span(class="label label-success")=mensajess.email
+                ul(class="dropdown-menu")
+                 for mensajess in mensajes 
+                  li(class="header") 
+                    span Tu tienes 
+                    span=mensajess.email 
+                    span   mensajes
+                  li
+                    <!-- inner menu: contains the actual data -->
+                    ul(class="menu")
+                      for mensajess in mensajeria
+                        li
+                          a(href="#")                            
+                            small 
+                                i(class="fa fa-clock-o")=mensajess.fechaCreacion
+                            div(class="pull-left")
+                              i(class="fa fa-envelope-o")
+                            h4=mensajess.nombre
+                              
+                            p=mensajess.mensaje
+                  li(class="footer")
+                    a(href="#") Ver todos los Mensajes
+
+
         <!-- User Account: style can be found in dropdown.less -->
         li(class="dropdown user user-menu") 
           a(href="#" class="dropdown-toggle" data-toggle="dropdown") 
             img(src="/img/user10-160x160.png" class="user-image" alt="User Image") 
+            //for usuarioss in usuarios
             span(class="hidden-xs") Andrea Forneron
           ul(class="dropdown-menu") 
             <!-- User image -->
             li(class="user-header") 
               img(src="/img/user10-160x160.png" class="img-circle" alt="User Image")
-              p Andrea Forneron - Web Developer
-                small Member since Nov. 2015
-            <!-- Menu Body -->
-            li(class="user-body")
-              div(class="row")
-                div(class="col-xs-4 text-center")
-                  a(href="#") Followers
-                div(class="col-xs-4 text-center")
-                  a(href="#") Sales
-                div(class="col-xs-4 text-center")
-                  a(href="#") Friends
+              p Andrea Forneron - Usuario
+                small Usuario del Sistema
             <!-- Menu Footer-->
             li(class="user-footer")
               div(class="pull-left")
-                a(href="#" class="btn btn-default btn-flat") Profile
+                a(href="#" class="btn btn-default btn-flat") Perfíl
               div(class="pull-right") 
-                a(href="#" class="btn btn-default btn-flat") Sign out
+                a(href="#" class="btn btn-default btn-flat") Salir
         li
           a(href="#" data-toggle="control-sidebar")
               i(class="fa fa-gears")

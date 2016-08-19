@@ -12,28 +12,50 @@ exports.getForm1 =  function (req, res) {
   var animal = Model.Animal.build();
   var detalleSanitacion = Model.DetalleSanitacion.build();
   var sanitacion = Model.Sanitacion.build();
-  animal.retrieveAll(function (animalQ) {
-    console.log('animalQ',animalQ);
-    if (animalQ) {
-      sanitacion.retrieveId(function (sanitacion) {
-          if (sanitacion) {      
-            console.log('soy sanitacion retrieveId',sanitacion);
-            res.render('web/detalleSanitacion/index', {
-                            sanitacionJ:sanitacion,
-                            detalleSanitacionJ: detalleSanitacion,
-                            selectJ: animalQ
-            });    
-          } else {
-            res.send(401, 'No se encontraron Sanitaciones');
-          }
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) { 
+          animal.retrieveAll(function (animalQ) {
+            console.log('animalQ',animalQ);
+            if (animalQ) {
+              sanitacion.retrieveId(function (sanitacion) {
+                  if (sanitacion) {      
+                    console.log('soy sanitacion retrieveId',sanitacion);
+                    res.render('web/detalleSanitacion/index', {
+                                    sanitacionJ:sanitacion,
+                                    detalleSanitacionJ: detalleSanitacion,
+                                    selectJ: animalQ,
+                                    mensajes: mensaje1,
+                                    mensajeria: mensaje2
+                    });    
+                  } else {
+                    res.send(401, 'No se encontraron Sanitaciones');
+                  }
+              });
+            }else {
+              res.send(401, 'No se Eencontraron Sanitaciones');
+            }
+          }, function (error) {
+            res.send('Detalle Sanitacion no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
       });
-    }else {
-      res.send(401, 'No se Eencontraron Sanitaciones');
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Detalle Sanitacion no encontrado');
-    }
-  );
+    res.send('Mensaje no encontrado');
+  });
 };
 // POST /detalleSanitacion
 exports.create1 = function (req, res) {
@@ -62,14 +84,39 @@ exports.create1 = function (req, res) {
 exports.listPag1 = function (req, res) {
   var detalleSanitacion =Model.DetalleSanitacion.build();
   console.log('dentro de get /',req.body);
-  detalleSanitacion.retrieveAll(req.params.id, function (detalleSanitaciones) {
-    if (detalleSanitaciones) {
-      res.render('web/detalleSanitacion/success', { detalleSanitaciones:detalleSanitaciones});
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          detalleSanitacion.retrieveAll(req.params.id, function (detalleSanitaciones) {
+            if (detalleSanitaciones) {
+              res.render('web/detalleSanitacion/success', { 
+                detalleSanitaciones:detalleSanitaciones,
+                mensajes: mensaje1,
+                mensajeria: mensaje2
+              });
+            } else {
+              res.send(401, 'No se encontraron Detalles');
+            }
+          }, function (error) {
+            res.send('DetalleSanitacion no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'No se encontraron Detalles');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('DetalleSanitacion no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 
@@ -78,22 +125,44 @@ exports.getForm2 = function (req, res) {
   var animal = Model.Animal.build();
   var detalleSanitacion = Model.DetalleSanitacion.build();
   var sanitacionId = req.params.sanitacionId;
-  animal.retrieveAll(function (animalQ) {
-    console.log('animalQ',animalQ);
-    if (animalQ) {
-            console.log('soy sanitacionId',sanitacionId);
-            res.render('web/detalleSanitacion/indexa', {
-                            sanitacionJ:sanitacionId,
-                            detalleSanitacionJ: detalleSanitacion,
-                            selectJ: animalQ
-            });    
-    }else {
-      res.send(401, 'No se Eencontraron Sanitaciones');
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) { 
+          animal.retrieveAll(function (animalQ) {
+            console.log('animalQ',animalQ);
+            if (animalQ) {
+                    console.log('soy sanitacionId',sanitacionId);
+                    res.render('web/detalleSanitacion/indexa', {
+                                    sanitacionJ:sanitacionId,
+                                    detalleSanitacionJ: detalleSanitacion,
+                                    selectJ: animalQ,
+                                    mensajes: mensaje1,
+                                    mensajeria: mensaje2
+                    });    
+            }else {
+              res.send(401, 'No se Eencontraron Sanitaciones');
+            }
+          }, function (error) {
+            res.send('Detalle Sanitacion no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Detalle Sanitacion no encontrado');
-    }
-  );
+    res.send('Mensaje no encontrado');
+  });
 };
 // POST /detalleSanitacion
 exports.create2 = function (req, res) {
@@ -144,26 +213,49 @@ exports.update =  function (req, res) {
 exports.read = function (req, res) {
   var detalleSanitacion = Model.DetalleSanitacion.build();
   var animal =Model.Animal.build();
-  animal.retrieveAll(function (animal) {
-    if (animal) { 
-      detalleSanitacion.retrieveById(req.params.detalleSanitacionId, function (detalleSanitacion) {
-        if (detalleSanitacion) {
-          res.render('web/detalleSanitacion/edit', {
-                      detalleSanitacion:detalleSanitacion,
-                      select: animal
-                    });
-        } else {
-          res.send(401, 'Detalle Sanitacion no encontrado');
+   //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          animal.retrieveAll(function (animal) {
+            if (animal) { 
+              detalleSanitacion.retrieveById(req.params.detalleSanitacionId, function (detalleSanitacion) {
+                if (detalleSanitacion) {
+                  res.render('web/detalleSanitacion/edit', {
+                              detalleSanitacion:detalleSanitacion,
+                              select: animal,
+                              mensajes: mensaje1,
+                              mensajeria: mensaje2
+                            });
+                } else {
+                  res.send(401, 'Detalle Sanitacion no encontrado');
+                }
+              }, function (error) {
+                res.send('Detalle Sanitacion no encontrado');
+              });
+            } else {
+              res.send(401, 'No se encontraron Detalles');
+            }
+          }, function (error) {
+            console.log(error);
+            res.send('desDetalles no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
         }
       }, function (error) {
-        res.send('Detalle Sanitacion no encontrado');
+        res.send('Mensaje no encontrado');
       });
     } else {
-      res.send(401, 'No se encontraron Detalles');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    console.log(error);
-    res.send('desDetalles no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 

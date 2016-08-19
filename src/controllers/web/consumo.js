@@ -12,18 +12,41 @@ var Model = require('../../models/jugando.js');
 exports.getForm =  function (req, res) {
   var insumo = Model.Insumo.build();
   var consumo = Model.Consumo.build();
-  insumo.retrieveAll(function (insumoQ) {
-    console.log('insumoQ',insumoQ);
-    if (insumoQ) {
-        res.render('web/consumo/index', {
-                pesajeJ: consumo,
-                selectJ: insumoQ
-        });
-      }
-  },function (error) {
-    res.send('Consumo no encontrado');
-  }
-  );        
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          insumo.retrieveByInsumo(function (insumoQ) {
+            console.log('insumoQ',insumoQ);
+            if (insumoQ) {
+                res.render('web/consumo/index', {
+                        pesajeJ: consumo,
+                        selectJ: insumoQ,
+                        mensajes: mensaje1,
+                        mensajeria: mensaje2
+                });
+              }
+          },function (error) {
+            res.send('Consumo no encontrado');
+          }
+          ); 
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
+    }
+  }, function (error) {
+    res.send('Mensaje no encontrado');
+  });       
 };
 // POST /consumo
 exports.create = function (req, res) {
@@ -51,16 +74,41 @@ exports.create = function (req, res) {
 exports.listPag = function (req, res) {
   var consumo = Model.Consumo.build();
   console.log('request body',req.body);
-  consumo.retrieveAll(function (consumo) {
-    console.log('estoy dentro de consumo retrieveAll');
-    if (consumo) {      
-      res.render('web/consumo/success', { consumo: consumo});
-      console.log('soy consumo retrieveAll',consumo);
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) { 
+          consumo.retrieveAll(function (consumo) {
+            console.log('estoy dentro de consumo retrieveAll');
+            if (consumo) {      
+              res.render('web/consumo/success', { 
+                consumo: consumo,
+                mensajes: mensaje1,
+                mensajeria: mensaje2
+              });
+              console.log('soy consumo retrieveAll',consumo);
+            } else {
+              res.send(401, 'No se encontraron Consumo');
+            }
+          }, function (error) {
+            res.send('Consumo no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'No se encontraron Consumo');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Consumo no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 /* Rutas que terminan en /consumo/:consumoId
@@ -92,26 +140,49 @@ exports.update = function (req, res) {
 exports.read = function (req, res) {
   var consumo = Model.Consumo.build(); 
   var insumo = Model.Insumo.build();
-  insumo.retrieveAll(function (insumo) {
-    if (insumo) {  
-      consumo.retrieveById(req.params.consumoId, function (consumo) {
-        if (consumo) {
-          res.render('web/consumo/edit', {
-                      consumo:consumo,
-                      select: insumo
-                    });
-        } else {
-          res.send(401, 'Consumo no encontrado');
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          insumo.retrieveAll(function (insumo) {
+            if (insumo) {  
+              consumo.retrieveById(req.params.consumoId, function (consumo) {
+                if (consumo) {
+                  res.render('web/consumo/edit', {
+                              consumo:consumo,
+                              select: insumo,
+                              mensajes: mensaje1,
+                              mensajeria: mensaje2
+                            });
+                } else {
+                  res.send(401, 'Consumo no encontrado');
+                }
+              }, function (error) {
+                res.send('Consumo no encontrado');
+              });
+            } else {
+              res.send(401, 'No se encontraron Consumos');
+            }
+          }, function (error) {
+            console.log(error);
+            res.send('Consumo no encontrado');
+          });
+         }else {
+          res.send(401, 'No se encontraron Mensajes');
         }
       }, function (error) {
-        res.send('Consumo no encontrado');
+        res.send('Mensaje no encontrado');
       });
     } else {
-      res.send(401, 'No se encontraron Consumos');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    console.log(error);
-    res.send('Consumo no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 

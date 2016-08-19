@@ -1,0 +1,16 @@
+body
+   h2 Sign In Form
+   form( class="form-horizontal" action='/web/signin/ver' method="POST")
+      if (typeof(errorMessage) !== 'undefined') 
+         span=errorMessage
+      p
+         label(for="usuario") Usuario
+         input(type="text" name="usuario" id="usuario"
+            placeholder="usuario" required="true")
+      p
+         label(for="pass") Pass
+         input(type="text" name="pass" id="pass"
+            placeholder="pass" required="true")
+      p
+         input(type="submit" name="signin" id="signin" value="sign in")
+         a(href="/web/signup" title="register") register

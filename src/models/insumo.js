@@ -76,8 +76,23 @@ module.exports = function (sequelize, DataTypes) {
           Insumo.find( { where: { idInsumo: insumoId } }, { raw: true } )
           .then(onSuccess).catch(onError);
         },
-        retrieveByInsumo: function (insumo, onSuccess, onError) {
-          Insumo.find( { where: { nombreInsumo: insumo} }, { raw: true })
+        retrieveByInsumo: function (onSuccess, onError) {
+          Insumo.findAll({ 
+            where: { 
+              $or:[
+                {tipoInsumo: 'Balanceado' },
+                {tipoInsumo: 'Sal Mineral'}
+              ]
+            }
+          })
+          .then(onSuccess).catch(onError);
+        },
+        retrieveByMedicamento: function (onSuccess, onError) {
+          Insumo.findAll({ 
+            where: {               
+                tipoInsumo: 'Medicamento'
+            }
+          })
           .then(onSuccess).catch(onError);
         },
         add: function (onSuccess, onError) {

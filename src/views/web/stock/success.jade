@@ -1,38 +1,39 @@
-table(class="table table-bordred table-striped")
-  thead
-    tr
-      th(class="cell-stat text-center") idStock
-      th(class="cell-stat text-center") cantidad
-      th(class="cell-stat text-center") lote
-      th(class="cell-stat text-center") cantidadMinima
-      th(class="cell-stat text-center") Insumo
-      th(class="cell-stat text-center") DetalleCompra
-      th(class="cell-stat text-center") fechaCreacion
-      th(class="cell-stat text-center") fechaModificacion
-      th(class="cell-stat text-center") fechaBorrado
-      th(class="cell-stat text-center") Accion
-      th(class="cell-stat text-center") Accion
-  
-  tbody
-    for stock in stocks
-      tr
-        td(class="text-center")=stock.idStock
-        td(class="text-center")=stock.cantidad
-        td(class="text-center")=stock.lote
-        td(class="text-center")=stock.cantidadMinima
-        if stock.Insumo == null  
-          td(class="text-center") sin Insumo
-        else 
-          td(class="text-center")=stock.Insumo.nombreInsumo
-        if stock.DetalleCompra == null  
-          td(class="text-center") sin DetalleCompra
-        else 
-          td(class="text-center")=stock.DetalleCompra.idDetalleCompra       
-        td(class="text-center")=stock.fechaCreacion 
-        td(class="text-center")=stock.fechaModificacion
-        td(class="text-center")=stock.fechaBorrado 
-
-a(href="/web/stock/cargar" class="btn btn-info" role="button")
-  p(data-placement="top" data-toggle="tooltip" title="Add")
-    button(type="button" class="btn btn-info") Agregar Stock
-
+extends ../../layout 
+block content
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Stock
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Stock de Insumos
+        li(class="active") Tabla de Stock de Insumos Registradas
+    section(class="content")
+      div(class="row")
+        div(class="col-xs-12")
+          div(class="box")
+            div(class="box-header")
+              h3(class="box-title") Tabla de Stock de Insumos Registradas
+              <!-- /.box-header -->
+            div(class="box-body")
+              div(class="table-responsive")
+                table(id="example1" class="table table-bordered table-hover")
+                  thead
+                    tr(class="success")
+                      th(class="cell-stat text-center") Insumo                      
+                      th(class="cell-stat text-center") Cantidad
+                      th(class="cell-stat text-center") Presentación
+                      th(class="cell-stat text-center") Lote
+                      th(class="cell-stat text-center") Cantidad Mínima
+                  
+                  tbody
+                    for stock in stocks
+                      tr
+                        if stock.Insumo == null  
+                          td(class="text-center") sin Insumo
+                        else 
+                          td(class="text-center")=stock.Insumo.nombreInsumo
+                        td(class="text-center")=stock.cantidad
+                        td(class="text-center")=stock.Insumo.presentacionInsumo
+                        td(class="text-center")=stock.lote
+                        td(class="text-center")=stock.cantidadMinima

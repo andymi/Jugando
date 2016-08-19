@@ -69,15 +69,55 @@ module.exports = function (sequelize, DataTypes) {
           //notNull: true,
           notEmpty: true
         }
+      },
+      cantidadTotalCompra: {
+        type: DataTypes.INTEGER(11),
+        allowNull: false,
+        comment: 'Cantidad total de Animales Comprados',
+        defaultValue: '0',
+        validate: {
+          //notNull: true,
+          notEmpty: true
+        }
       }
     },
     {
       instanceMethods: {
         retrieveAll: function (onSuccess, onError) {
-          FacturaCompra.findAll({
-            include: [ Model.Proveedor ]
-          })
-          .then(onSuccess).catch(onError);
+          Model.Proveedor.find({
+            attributes: ['idProveedor'],
+            where:{tipoProveedor:'Insumo'}
+          }).then(function (Proveedori) {
+              FacturaCompra.findAll({
+                include: [ Model.Proveedor ],
+                where: { ProveedorIdProveedor: Proveedori.idProveedor }
+              })
+              .then(onSuccess).catch(onError);
+          });
+        },
+        retrieveAll2: function (onSuccess, onError) {
+          Model.Proveedor.find({
+            attributes: ['idProveedor'],
+            where:{tipoProveedor:'Animal'}
+          }).then(function (Proveedori) {
+              FacturaCompra.findAll({
+                include: [ Model.Proveedor ],
+                where: { ProveedorIdProveedor: Proveedori.idProveedor }
+              })
+              .then(onSuccess).catch(onError);
+          });
+        },
+        retrieveAll3: function (onSuccess, onError) {
+          Model.Proveedor.find({
+            attributes: ['idProveedor'],
+            where:{tipoProveedor:'Servicio'}
+          }).then(function (Proveedori) {
+              FacturaCompra.findAll({
+                include: [ Model.Proveedor ],
+                where: { ProveedorIdProveedor: Proveedori.idProveedor }
+              })
+              .then(onSuccess).catch(onError);
+          });
         },
         retrieveId: function (onSuccess, onError) {
           FacturaCompra.findAll( {
@@ -98,11 +138,8 @@ module.exports = function (sequelize, DataTypes) {
             include: [ Model.Proveedor ],
             where: { idCompra: compraId } }, { raw: true } )
           .then(onSuccess).catch(onError);
-        },
-        retrieveByCompra: function (fecha, onSuccess, onError) {
-         FacturaCompra.find( { where: { fechaCompra: fecha} }, { raw: true })
-          .then(onSuccess).catch(onError);
-        },
+        },        
+
         add: function (onSuccess, onError) {
 
           var fechaCompra = this.fechaCompra;

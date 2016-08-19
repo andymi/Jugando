@@ -11,19 +11,41 @@ var Model = require('../../models/jugando.js');
 exports.getForm1 = function (req, res) {
   var facturaVenta = Model.FacturaVenta.build();
   var detalleVenta = Model.DetalleVenta.build();
-  facturaVenta.retrieveId(function (FacturaVentaq) {
-    console.log('FacturaVentaq',FacturaVentaq);
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) { 
+          facturaVenta.retrieveId(function (FacturaVentaq) {
+            console.log('FacturaVentaq',FacturaVentaq);
 
-    if (FacturaVentaq) {
-        res.render('web/detalleVenta/index', {
-            detalleVentaJ: detalleVenta,
-            facturaVentaJ: FacturaVentaq
-        });
+            if (FacturaVentaq) {
+                res.render('web/detalleVenta/index', {
+                    detalleVentaJ: detalleVenta,
+                    facturaVentaJ: FacturaVentaq,
+                    mensajes: mensaje1,
+                    mensajeria: mensaje2
+                });
+            }
+          }, function (error) {
+            res.send('DetalleVenta no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('DetalleVenta no encontrado');
-    }
-  );
+    res.send('Mensaje no encontrado');
+  });
 };
 // POST /detalleVenta
 exports.create1 = function (req, res) {
@@ -32,8 +54,9 @@ exports.create1 = function (req, res) {
   var descripcionVenta = req.body.descripcionVenta;
   var precioVenta = req.body.precioVenta;
   var cantidadVenta = req.body.cantidadVenta;
-  var subtotalVenta =req.body.subtotalVenta; 
+  var subtotalVenta =cantidadVenta*precioVenta; 
   var FacturaVentaIdVenta = req.body.id; 
+  console.log('subtotalVenta',subtotalVenta);
 
   var index = Model.DetalleVenta.build({
     descripcionVenta: descripcionVenta,
@@ -63,25 +86,73 @@ exports.create1 = function (req, res) {
 exports.listPag1 =  function (req, res) {
   var detalleVenta = Model.DetalleVenta.build();
   console.log('dentro de get /',req.params.id);
-  detalleVenta.retrieveAll(req.params.id, function (detalleVentas) {
-    if (detalleVentas) {
-      res.render('web/detalleVenta/success', { detalleVentas:detalleVentas});
+   //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) { 
+          detalleVenta.retrieveAll(req.params.id, function (detalleVentas) {
+            if (detalleVentas) {
+              res.render('web/detalleVenta/success', { 
+                detalleVentas:detalleVentas,
+                mensajes: mensaje1,
+                mensajeria: mensaje2
+              });
+            } else {
+              res.send(401, 'No se encontraron Detalles');
+            }
+          }, function (error) {
+            res.send('DetalleVenta no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'No se encontraron Detalles');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('DetalleVenta no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 //***********************************************************
 exports.getForm2 = function (req, res) {
   var ventaId = req.params.ventaId;
   var detalleVenta = Model.DetalleVenta.build();
-  console.log('ventaId',ventaId);
-    res.render('web/detalleVenta/indexa', {
-        detalleVentaJ: detalleVenta,
-        ventaJ: ventaId
-    });
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          console.log('ventaId',ventaId);
+            res.render('web/detalleVenta/indexa', {
+                detalleVentaJ: detalleVenta,
+                ventaJ: ventaId,
+                mensajes: mensaje1,
+                mensajeria: mensaje2
+            });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
+    }
+  }, function (error) {
+    res.send('Mensaje no encontrado');
+  });
 };
 // POST /detalleVenta
 exports.create2 =  function (req, res) {
@@ -140,17 +211,37 @@ exports.update = function (req, res) {
 // Toma un detalleVenta por id
 exports.read = function (req, res) {
   var detalleVenta = Model.DetalleVenta.build();
-
-  detalleVenta.retrieveById(req.params.detalleVentaId, function (detalleVenta) {
-    if (detalleVenta) {
-      res.render('web/detalleVenta/edit', {
-                      detalleVenta:detalleVenta
-                    });
+   //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          detalleVenta.retrieveById(req.params.detalleVentaId, function (detalleVenta) {
+            if (detalleVenta) {
+              res.render('web/detalleVenta/edit', {
+                              detalleVenta:detalleVenta
+                            });
+            } else {
+              res.send(401, 'Detalle Venta no encontrado');
+            }
+          }, function (error) {
+            res.send('Detalle Venta no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'Detalle Venta no encontrado');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Detalle Venta no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 

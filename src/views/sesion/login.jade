@@ -1,0 +1,28 @@
+div(id="login-overlay" class="modal-dialog")
+  div(class="modal-content")
+      div(class="modal-header")
+          h4(class="modal-title" id="myModalLabel") Login al Sistema de Gestión Bonanza
+          if errors.message > 0 
+            div(class="alert alert-danger")=errors.message 
+           
+      div(class="modal-body")
+          div(class="row")
+              div(class="col-xs-6")
+                  div(class="well")
+                      form(id="loginForm" method="POST" action="sesion/create" novalidate="novalidate")
+                          div(class="form-group")
+                              label(for="usuario" class="control-label") Email
+                              input(type="text" class="form-control" id="usuario" name="usuario" value="" required="true" title="Ingrese su email" placeholder="<su email>")
+                              span(class="help-block")
+                          div(class="form-group")
+                              label(for="pass" class="control-label") Password
+                              input(type="password" class="form-control" id="pass" name="pass" value="true" required="" title="Please enter your password") 
+                              span(class="help-block")
+                          div(id="loginErrorMsg" class="alert alert-error hide") Wrong username og password
+                          div(class="checkbox") 
+                          //label
+                          //input(type="checkbox" name="remember" id="remember") Recordá mi login
+                          p(class="help-block") (SI es una computadora privada)
+                          //input(name="_csrf" type="hidden" value="#{_csrf}")
+                          button(type="submit" name="commit" value="Login" class="btn btn-success btn-block") Login
+                          a(href="/forgot" class="btn btn-default btn-block") Recuperar

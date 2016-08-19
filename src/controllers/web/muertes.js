@@ -12,28 +12,49 @@ exports.getForm = function (req, res) {
   var empleado = Model.Empleado.build();
   var proveedor = Model.Proveedor.build();
   var muertes = Model.Muertes.build();
-  proveedor.retrieveAll(function (proveedorQ) {
-    console.log('proveedorQ',proveedorQ);
-    if (proveedorQ) {
-      empleado.retrieveAll(function (empleadoQ) {
-        console.log('empleadoQ',empleadoQ);
-
-        if (empleadoQ) {
-            res.render('web/muertes/index', {
-                    muertesJ: muertes,
-                    selectJ: empleadoQ,
-                    selectN: proveedorQ
-            });
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) { 
+          proveedor.retrieveByProveedor3(function (proveedorQ) {
+            console.log('proveedorQ',proveedorQ);
+            if (proveedorQ) {
+              empleado.retrieveAll(function (empleadoQ) {
+                console.log('empleadoQ',empleadoQ);
+                if (empleadoQ) {
+                    res.render('web/muertes/index', {
+                            muertesJ: muertes,
+                            selectJ: empleadoQ,
+                            selectN: proveedorQ,
+                            mensajes: mensaje1,
+                            mensajeria: mensaje2
+                    });
+                }
+              },function (error) {
+                res.send('Muertes no encontrado');
+              }
+              ); 
+            }
+          },function (error) {
+              res.send('Muertes no encontrado');
+          }); 
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
         }
-
-      },function (error) {
-        res.send('Muertes no encontrado');
-      }
-      ); 
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
     }
-    },function (error) {
-        res.send('Muertes no encontrado');
-    }); 
+  }, function (error) {
+    res.send('Mensaje no encontrado');
+  });   
 };
 // POST /muertes
 exports.create = function (req, res) {
@@ -64,16 +85,41 @@ exports.create = function (req, res) {
 exports.listPag = function (req, res) {
   var muertes = Model.Muertes.build();
   console.log('request body',req.body);
-  muertes.retrieveAll(function (muertes) {
-    if (muertes) {      
-      res.render('web/muertes/success', {muertes: muertes});
-      console.log('soy muertes retrieveAll',muertes);
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {
+          muertes.retrieveAll(function (muertes) {
+            if (muertes) {      
+              res.render('web/muertes/success', {
+                muertes: muertes,
+                mensajes: mensaje1,
+                mensajeria: mensaje2
+              });
+              console.log('soy muertes retrieveAll',muertes);
+            } else {
+              res.send(401, 'No se encontraron Muertes');
+            }
+          }, function (error) {
+            res.send('Muertes no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'No se encontraron Muertes');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Muertes no encontrado');
-  });
+    res.send('Mensaje no encontrado');
+  });    
 };
 /* Rutas que terminan en /muertes/:muertesId
 // router.route('/muertes/:muertesId')
@@ -106,50 +152,96 @@ exports.read = function (req, res) {
   var muertes = Model.Muertes.build();
   var empleado = Model.Empleado.build();
   var proveedor = Model.Proveedor.build();
-  proveedor.retrieveAll(function (proveedor) {
-    if (proveedor) {
-        empleado.retrieveAll(function (empleado) {
-          if (empleado) {
-            muertes.retrieveById(req.params.muertesId, function (muertes) {
-              if (muertes) {
-                res.render('web/muertes/edit', {
-                      muertes:muertes,
-                      selectJ: empleado,
-                      select: proveedor
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          proveedor.retrieveAll(function (proveedor) {
+            if (proveedor) {
+                empleado.retrieveAll(function (empleado) {
+                  if (empleado) {
+                    muertes.retrieveById(req.params.muertesId, function (muertes) {
+                      if (muertes) {
+                        res.render('web/muertes/edit', {
+                              muertes:muertes,
+                              selectJ: empleado,
+                              select: proveedor,
+                              mensajes: mensaje1,
+                              mensajeria: mensaje2
+                            });
+                      } else {
+                        res.send(401, 'Muertes no encontrado');
+                      }
+                    }, function (error) {
+                      res.send('Muertes no encontrado');
                     });
-              } else {
-                res.send(401, 'Muertes no encontrado');
-              }
-            }, function (error) {
-              res.send('Muertes no encontrado');
-            });
-          } else {
-            res.send(401, 'No se encontraron empleados');
-          }
-        }, function (error) {
-          console.log(error);
-          res.send('desempleados no encontrado');
-        });
+                  } else {
+                    res.send(401, 'No se encontraron empleados');
+                  }
+                }, function (error) {
+                  console.log(error);
+                  res.send('desempleados no encontrado');
+                });
+            } else {
+              res.send(401, 'No se encontraron proveedor');
+            }
+          }, function (error) {
+            console.log(error);
+            res.send('desproveedor no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'No se encontraron proveedor');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    console.log(error);
-    res.send('desproveedor no encontrado');
-  });
+    res.send('Mensaje no encontrado');
+  });   
 };
 exports.readId = function (req, res) {
   var muertes = Model.Muertes.build();
-  muertes.retrieveVerId(req.params.id, function (muertesQ) {
-    if (muertesQ) {
-      res.render('web/detalleMuerte/success', {
-                  muertes:muertesQ
-                });
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          muertes.retrieveVerId(req.params.id, function (muertesQ) {
+            if (muertesQ) {
+              res.render('web/detalleMuerte/success', {
+                          muertes:muertesQ,
+                          mensajes: mensaje1,
+                          mensajeria: mensaje2
+                        });
+            } else {
+              res.send(401, 'arPesaje no encontrado');
+            }
+          }, function (error) {
+            res.send('esPesaje no encontrado',error);
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'arPesaje no encontrado');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('esPesaje no encontrado',error);
+    res.send('Mensaje no encontrado');
   });
 };
 // DELETE /muertes/muertesId

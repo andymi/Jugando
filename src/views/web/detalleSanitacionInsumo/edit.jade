@@ -1,31 +1,40 @@
-form(id="topicForm" method="post" action="/web/detalleSanitacionInsumo/#{detalleSanitacionInsumo.idDetalleSanitacionInsumo}")
-  input(type="hidden" name="_method" value="put")
-  input(type="hidden" name="idDetalleSanitacionInsumo" value='#{detalleSanitacionInsumo.idDetalleSanitacionInsumo}')
-  table(class="table table-bordred table-striped")
-    thead
-      tr
-        
-        th(class="cell-stat text-center") cantidadUtilizada
-        th(class="cell-stat text-center") nombreInsumo
-        th(class="cell-stat text-center") fechaCreacion
-        th(class="cell-stat text-center") fechaModificacion
-        th(class="cell-stat text-center") fechaBorrado
-        th(class="cell-stat text-center") Accion
-        th(class="cell-stat text-center") Accion  
-    tbody
-      tr
-        td(class="text-center")
-          input(type="text" class="form-control" id='cantidadUtilizada' name='cantidadUtilizada' value='#{detalleSanitacionInsumo.cantidadUtilizada}' required="true")
-        td(class="text-center") 
-          select(name="insumoSele")
-            -for (var j=0; j < select.length; j++) {
-              if detalleSanitacionInsumo.InsumoIdInsumo == select[j].idInsumo
-               option(value="#{select[j].idInsumo}" selected) #{select[j].nombreInsumo} 
-              else 
-               option(value="#{select[j].idInsumo}") #{select[j].nombreInsumo}
-            -}	       
-        td(class="text-center")=detalleSanitacionInsumo.fechaCreacion
-        td(class="text-center")=detalleSanitacionInsumo.fechaModificacion
-        td(class="text-center")=detalleSanitacionInsumo.fechaBorrado
-        td
-  button(type="submit" name="commit" value="Form" class="btn btn-success btn-block") Editar Detalle Sanitacion Insumo
+extends ../../layout 
+block content
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Detalle de la Sanitación(Insumos)
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Editar Detalle de la Sanitación
+    section(class="content")
+      div(class="row")
+        div(class="col-md-12")
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Edición del Detalle de la Sanitación
+            form(class="form-horizontal" method="post" action="/web/detalleSanitacionInsumo/#{detalleSanitacionInsumo.idDetalleSanitacionInsumo}")
+              div(class="box-body")
+                input(type="hidden" name="_method" value="put")
+                input(type="hidden" name="idDetalleSanitacionInsumo" value='#{detalleSanitacionInsumo.idDetalleSanitacionInsumo}')
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Nombre del Insumo: 
+                  div(class="col-sm-8")
+                    select(name="insumoSele" class="btn btn-default select2")
+                      -for (var j=0; j < select.length; j++) {
+                        if detalleSanitacionInsumo.InsumoIdInsumo == select[j].idInsumo 
+                         option(value="#{select[j].idInsumo}" selected) #{select[j].nombreInsumo} 
+                        else 
+                         option(value="#{select[j].idInsumo}") #{select[j].nombreInsumo}
+                      -} 
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Cantidad: 
+                  div(class="col-sm-8")
+                    input(type="text" class="form-control" id='cantidadUtilizada' name='cantidadUtilizada' value='#{detalleSanitacionInsumo.cantidadUtilizada}' required="true") 
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Editar
+                    i(class="fa fa-refresh")
+                  a(href="/web/sanitacion" class="btn btn-default") Cancelar
+                    i(class="fa fa-remove")

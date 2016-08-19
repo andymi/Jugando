@@ -17,13 +17,9 @@ block content
             form( class="form-horizontal" action='/web/animal/cargar' method="POST")
               div(class="box-body")
                 div(class="form-group")
-                  label(class="col-sm-4 control-label" for="email") Raza: 
-                  div(class="col-sm-8")  
-                    select(id="selectJ" name='selectJ' class="btn btn-default select2")
-                      option(value="-1" disabled="disabled" selected) Seleccione una opción
-                      -for(var j=0; j < selectJ.length; j++) {
-                        option(value="#{selectJ[j].idRaza}") #{selectJ[j].raza}
-                      -}
+                  label(class="col-sm-4 control-label" for="rpAnimal") RP:
+                  div(class="col-sm-8") 
+                    input(type="text" class="form-control" id="rpAnimal" name='rpAnimal' placeholder="Ingrese el RP" required)                
                        
                 div(class="form-group")
                   label(class="col-sm-4 control-label" for="pesoAnimal") Peso:
@@ -31,9 +27,13 @@ block content
                     input(type="text"  class="form-control" id="pesoAnimal" name='pesoInicial' placeholder="Ingrese el Peso" required)
 
                 div(class="form-group")
-                  label(class="col-sm-4 control-label" for="rpAnimal") RP:
-                  div(class="col-sm-8") 
-                    input(type="text" class="form-control" id="rpAnimal" name='rpAnimal' placeholder="Ingrese el RP" required)
+                  label(class="col-sm-4 control-label" for="email") Raza: 
+                  div(class="col-sm-8")  
+                    select(id="selectJ" name='selectJ' class="btn btn-default select2")
+                      option(value="-1" disabled="disabled" selected) Seleccione una opción
+                      -for(var j=0; j < selectJ.length; j++) {
+                        option(value="#{selectJ[j].idRaza}") #{selectJ[j].raza}
+                      -}
 
                 div(class="form-group")
                   label(class="col-sm-4 control-label" for="cuernos") Presencia de Cuernos:
@@ -54,7 +54,7 @@ block content
                 div(class="form-group")
                   label(class="col-sm-4 control-label" for="numeroTag") Etiqueta Nº:
                   div(class="col-sm-8")  
-                    input(type="text" class="form-control" id="numeroTag" name='numeroTag' placeholder="Ingrese el NumeroTag" required)
+                    input(type="text" class="form-control" id="numeroTag" name='numeroTag' placeholder="Ingrese el Número de Etiqueta" required)
 
                 div(class="form-group")
                   label(class="col-sm-4 control-label" for="fechaIngreso") Fecha de Ingreso:

@@ -1,0 +1,53 @@
+extends ../../layout 
+block content
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Detalle de la Compra de Insumos
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Agregar Detalle
+    section(class="content")
+      div(class="row")  
+        div(class="col-md-12") 
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Detalle de la Compra de Insumos
+            form(class="form-horizontal" action='/web/detalleCompraInsumo/cargar' method="POST")
+              div(class="box-body")
+                for facturaCompras in facturaCompraJ
+                  input(type="hidden" name='id' value='#{facturaCompras.idCompra}')
+                div(class="form-group")
+                  label(class="control-label col-sm-4" for="email") Nombre del Insumo: 
+                  div(class="col-sm-8")  
+                    select(name='selectJ' class="btn btn-default select2")
+                      option(value="-1" selected) Seleccione una opción
+                      -for(var j=0; j < selectJ.length; j++) {
+                        option(value="#{selectJ[j].idInsumo}") #{selectJ[j].nombreInsumo}
+                      -}
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Precio Compra:
+                  div(class="col-sm-8")
+                    input(type="text"  class="form-control" id="precioCompra" name='precioCompra' placeholder="Ingrese el Precio") 
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Cantidad Compra:
+                  div(class="col-sm-8")
+                    input(type="text"  class="form-control" id="cantidadCompra" name='cantidadCompra' placeholder="Ingrese la Cantidad")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Designar Cantidad Mínima:
+                  div(class="col-sm-8")
+                    input(type="text"  class="form-control" id="cantidadMinima" name='cantidadMinima' placeholder="Ingrese la Cantidad Mínima")
+                div(class="form-group")
+                    label(class="col-sm-4 control-label" for="lote") Fecha de Vencimiento:
+                    div(class="col-sm-8")
+                      div(class="input-group date")
+                        div(class="input-group-addon")
+                          i(class="fa fa-calendar")  
+                        input(type="text"  class="form-control pull-right" id="datepicker" name='lote' required)                  
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Guardar
+                    i(class="fa fa-save") 
+                  a(href="/web/facturaCompraInsumo" class="btn btn-default") Listo
+                    i(class="fa fa-check")        

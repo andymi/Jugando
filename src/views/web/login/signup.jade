@@ -1,0 +1,27 @@
+include ../../partials/head.jade
+block content
+  body(class="hold-transition register-page")
+    div(class="register-box")
+      div(class="register-logo")
+        a(href="/") 
+          b Bonanza
+      div(class="register-box-body") 
+        p(class="login-box-msg") Registrarse
+        form(action='/web/signup/ver' method="POST")
+          if (typeof(errorMessage) !== 'undefined') 
+            span=errorMessage 
+          div(class="form-group has-feedback")
+            input(type="email" name="usuario" id="usuario" class="form-control" placeholder="Email" required="true")
+            span(class="glyphicon glyphicon-envelope form-control-feedback")
+          div(class="form-group has-feedback")
+            input(type="password" name="pass" id="pass" class="form-control" placeholder="Password" required="true")
+            span(class="glyphicon glyphicon-lock form-control-feedback")
+          div(class="form-group has-feedback")
+            input(type="password" class="form-control" placeholder="Repite password" required="true")
+            span(class="glyphicon glyphicon-log-in form-control-feedback")
+          div(class="row")
+            div(class="col-xs-12") 
+              button(type="submit" class="btn btn-success btn-block btn-flat") Registrar
+        div(class="social-auth-links text-center")
+          a(href="/web/log" class="text-center") Ya estoy registrado
+include ../../partials/footerScripts.jade      

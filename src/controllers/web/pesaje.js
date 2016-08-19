@@ -12,18 +12,41 @@ var Model = require('../../models/jugando.js');
 exports.getForm = function (req, res) {
   var empleado = Model.Empleado.build();
   var pesaje = Model.Pesaje.build();
-  empleado.retrieveAll(function (empleadoQ) {
-    console.log('empleadoQ',empleadoQ);
-    if (empleadoQ) {
-        res.render('web/pesaje/index', {
-                pesajeJ: pesaje,
-                selectJ: empleadoQ
-        });
-      }
-  },function (error) {
-    res.send('Pesaje no encontrado');
-  }
-  );    
+   //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {
+          empleado.retrieveAll(function (empleadoQ) {
+            console.log('empleadoQ',empleadoQ);
+            if (empleadoQ) {
+                res.render('web/pesaje/index', {
+                        pesajeJ: pesaje,
+                        selectJ: empleadoQ,
+                        mensajes: mensaje1,
+                        mensajeria: mensaje2
+                });
+              }
+          },function (error) {
+            res.send('Pesaje no encontrado');
+          }
+          );    
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
+    }
+  }, function (error) {
+    res.send('Mensaje no encontrado');
+  });    
 };
 
 exports.create = function (req, res) {
@@ -54,16 +77,41 @@ exports.create = function (req, res) {
 exports.listPag = function (req, res) {
   var pesaje = Model.Pesaje.build();
   console.log('request body',req.body);
-  pesaje.retrieveAll(function (pesaje) {
-    if (pesaje) {      
-      res.render('web/pesaje/success', { pesaje: pesaje});
-      console.log('soy pesaje retrieveAll',pesaje);
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) { 
+          pesaje.retrieveAll(function (pesaje) {
+            if (pesaje) {      
+              res.render('web/pesaje/success', { 
+                pesaje: pesaje,
+                mensajes: mensaje1,
+                mensajeria: mensaje2
+              });
+              console.log('soy pesaje retrieveAll',pesaje);
+            } else {
+              res.send(401, 'No se encontraron Pesajes');
+            }
+          }, function (error) {
+            res.send('Pesaje no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'No se encontraron Pesajes');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Pesaje no encontrado');
-  });
+    res.send('Mensaje no encontrado');
+  });   
 };
 /* Rutas que terminan en /pesaje/:pesajeId
 // router.route('/pesaje/:pesajeId')
@@ -94,43 +142,88 @@ exports.update = function (req, res) {
 exports.read = function (req, res) {
   var pesaje = Model.Pesaje.build();
   var empleado = Model.Empleado.build();
-
-  empleado.retrieveAll(function (empleado) {
-    if (empleado) {
-      pesaje.retrieveById(req.params.pesajeId, function (pesajeq) {
-        if (pesajeq) {
-          res.render('web/pesaje/edit', {
-                      pesaje:pesajeq,
-                      select: empleado
-                    });
-        } else {
-          res.send(401, 'arPesaje no encontrado');
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) { 
+          empleado.retrieveAll(function (empleado) {
+            if (empleado) {
+              pesaje.retrieveById(req.params.pesajeId, function (pesajeq) {
+                if (pesajeq) {
+                  res.render('web/pesaje/edit', {
+                              pesaje:pesajeq,
+                              select: empleado,
+                              mensajes: mensaje1,
+                              mensajeria: mensaje2
+                            });
+                } else {
+                  res.send(401, 'arPesaje no encontrado');
+                }
+              }, function (error) {
+                res.send('esPesaje no encontrado',error);
+              });
+            } else {
+              res.send(401, 'No se encontraron Pesajes');
+            }
+          }, function (error) {
+            console.log(error);
+            res.send('desPesaje no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
         }
       }, function (error) {
-        res.send('esPesaje no encontrado',error);
+        res.send('Mensaje no encontrado');
       });
     } else {
-      res.send(401, 'No se encontraron Pesajes');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    console.log(error);
-    res.send('desPesaje no encontrado');
-  });
+    res.send('Mensaje no encontrado');
+  });    
 };
 
 exports.readId = function (req, res) {
   var pesaje = Model.Pesaje.build();
-  pesaje.retrieveVerId(req.params.id, function (pesajeq) {
-    if (pesajeq) {
-      res.render('web/detallePesaje/success', {
-                  pesaje:pesajeq
-                });
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {
+          pesaje.retrieveVerId(req.params.id, function (pesajeq) {
+            if (pesajeq) {
+              res.render('web/detallePesaje/success', {
+                          pesaje:pesajeq,
+                          mensajes: mensaje1,
+                          mensajeria: mensaje2
+                        });
+            } else {
+              res.send(401, 'arPesaje no encontrado');
+            }
+          }, function (error) {
+            res.send('esPesaje no encontrado',error);
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'arPesaje no encontrado');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('esPesaje no encontrado',error);
-  });
+    res.send('Mensaje no encontrado');
+  });      
 };
 
 

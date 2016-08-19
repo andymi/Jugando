@@ -26,15 +26,6 @@ module.exports = function (sequelize, DataTypes) {
           //notNull: true,
           notEmpty: true
         }
-      },
-      costoVacunacion: {
-        type: DataTypes.INTEGER(11),
-        allowNull: false,
-        comment: 'Costo de la Vacunacion',
-        validate: {
-          //notNull: true,
-          notEmpty: true
-        }
       }
     },
     {
@@ -72,23 +63,21 @@ module.exports = function (sequelize, DataTypes) {
         add: function (onSuccess, onError) {
           var fechaVacunacion = this.fechaVacunacion;
           var horaVacunacion = this.horaVacunacion;
-          var costoVacunacion = this.costoVacunacion;
           var ProveedorIdProveedor = this.ProveedorIdProveedor;
 
           Vacunacion.build({ fechaVacunacion: fechaVacunacion, horaVacunacion: horaVacunacion, 
-          costoVacunacion: costoVacunacion, ProveedorIdProveedor:ProveedorIdProveedor })
+           ProveedorIdProveedor:ProveedorIdProveedor })
           .save().then(onSuccess).catch(onError);
         },
         updateById: function (vacunacionId, onSuccess, onError) {
           var idVacunacion = vacunacionId;
           var fechaVacunacion = this.fechaVacunacion;
           var horaVacunacion = this.horaVacunacion;
-          var costoVacunacion = this.costoVacunacion;
           var ProveedorIdProveedor = this.ProveedorIdProveedor;
 
           Vacunacion.update( { 
             fechaVacunacion: fechaVacunacion, horaVacunacion: horaVacunacion, 
-            costoVacunacion: costoVacunacion, ProveedorIdProveedor:ProveedorIdProveedor
+            ProveedorIdProveedor:ProveedorIdProveedor
           },{ where: { idVacunacion:  vacunacionId } })
           .then(onSuccess).catch(onError);
         },

@@ -12,28 +12,50 @@ exports.getForm1 = function (req, res) {
   var animal = Model.Animal.build();
   var detalleTraslado = Model.DetalleTraslado.build();
   var notaTraslado = Model.Traslado.build();
-  animal.retrieveAll(function (animalQ) {
-    console.log('animalQ',animalQ);
-    if (animalQ) {
-      notaTraslado.retrieveId(function (notaTrasladoQ) {
-          if (notaTrasladoQ) {      
-            console.log('soy notaTraslado retrieveId',notaTrasladoQ);
-            res.render('web/detalleTraslado/index', {
-                            notaTrasladoJ:notaTrasladoQ,
-                            detalleTrasladoJ: detalleTraslado,
-                            selectJ: animalQ
-            });    
-          } else {
-            res.send(401, 'No se encontraron nota Traslado');
-          }
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          animal.retrieveAll(function (animalQ) {
+            console.log('animalQ',animalQ);
+            if (animalQ) {
+              notaTraslado.retrieveId(function (notaTrasladoQ) {
+                  if (notaTrasladoQ) {      
+                    console.log('soy notaTraslado retrieveId',notaTrasladoQ);
+                    res.render('web/detalleTraslado/index', {
+                                    notaTrasladoJ:notaTrasladoQ,
+                                    detalleTrasladoJ: detalleTraslado,
+                                    selectJ: animalQ,
+                                    mensajes: mensaje1,
+                                    mensajeria: mensaje2
+                    });    
+                  } else {
+                    res.send(401, 'No se encontraron nota Traslado');
+                  }
+              });
+            }else {
+              res.send(401, 'No se Eencontraron nota Traslado');
+            }
+          }, function (error) {
+            res.send('Detalle Traslado no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
       });
-    }else {
-      res.send(401, 'No se Eencontraron nota Traslado');
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Detalle Traslado no encontrado');
-    }
-  );
+    res.send('Mensaje no encontrado');
+  });
 };
 // POST /detalleTraslado
 exports.create1 = function (req, res) {
@@ -63,14 +85,39 @@ exports.create1 = function (req, res) {
 exports.readId = function (req, res) {
   var detalleTraslado = Model.DetalleTraslado.build();
   console.log('dentro de get /',req.body);
-  detalleTraslado.retrieveAll(req.params.id, function (detalleTraslados) {
-    if (detalleTraslados) {
-      res.render('web/detalleTraslado/success', { detalleTraslados:detalleTraslados});
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {
+          detalleTraslado.retrieveAll(req.params.id, function (detalleTraslados) {
+            if (detalleTraslados) {
+              res.render('web/detalleTraslado/success', { 
+                detalleTraslados:detalleTraslados,
+                mensajes: mensaje1,
+                mensajeria: mensaje2
+              });
+            } else {
+              res.send(401, 'No se encontraron Detalles');
+            }
+          }, function (error) {
+            res.send('DetalleTraslado no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'No se encontraron Detalles');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('DetalleTraslado no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 //*****************************************************************
@@ -78,22 +125,44 @@ exports.getForm2 = function (req, res) {
   var animal = Model.Animal.build();
   var detalleTraslado = Model.DetalleTraslado.build();
   var trasladoId = req.params.trasladoId;
-  animal.retrieveAll(function (animalQ) {
-    console.log('animalQ',animalQ);
-    if (animalQ) {
-            console.log('soy notaTraslado retrieveId',trasladoId);
-            res.render('web/detalleTraslado/indexa', {
-                            trasladoJ:trasladoId,
-                            detalleTrasladoJ: detalleTraslado,
-                            selectJ: animalQ
-            });   
-    }else {
-      res.send(401, 'No se Eencontraron nota Traslado');
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {
+          animal.retrieveAll(function (animalQ) {
+            console.log('animalQ',animalQ);
+            if (animalQ) {
+                    console.log('soy notaTraslado retrieveId',trasladoId);
+                    res.render('web/detalleTraslado/indexa', {
+                                    trasladoJ:trasladoId,
+                                    detalleTrasladoJ: detalleTraslado,
+                                    selectJ: animalQ,
+                                    mensajes: mensaje1,
+                                    mensajeria: mensaje2
+                    });   
+            }else {
+              res.send(401, 'No se Eencontraron nota Traslado');
+            }
+          }, function (error) {
+            res.send('Detalle Traslado no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Detalle Traslado no encontrado');
-    }
-  );
+    res.send('Mensaje no encontrado');
+  });
 };
 // POST /detalleTraslado
 exports.create2 = function (req, res) {
@@ -145,26 +214,49 @@ exports.update = function (req, res) {
 exports.read = function (req, res) {
   var detalleTraslado = Model.DetalleTraslado.build();
   var animal = Model.Animal.build();
-  animal.retrieveAll(function (animal) {
-    if (animal) {
-      detalleTraslado.retrieveById(req.params.detalleTrasladoId, function (detalleTraslado) {
-        if (detalleTraslado) {
-          res.render('web/detalleTraslado/edit', {
-                      detalleTraslado:detalleTraslado,
-                      select: animal
-                    });
-        } else {
-          res.send(401, 'Detalle Traslado Animal no encontrado');
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) { 
+          animal.retrieveAll(function (animal) {
+            if (animal) {
+              detalleTraslado.retrieveById(req.params.detalleTrasladoId, function (detalleTraslado) {
+                if (detalleTraslado) {
+                  res.render('web/detalleTraslado/edit', {
+                              detalleTraslado:detalleTraslado,
+                              select: animal,
+                              mensajes: mensaje1,
+                              mensajeria: mensaje2
+                            });
+                } else {
+                  res.send(401, 'Detalle Traslado Animal no encontrado');
+                }
+              }, function (error) {
+                res.send('Detalle Traslado Animal no encontrado');
+              });
+            } else {
+              res.send(401, 'No se encontraron Detalles');
+            }
+          }, function (error) {
+            console.log(error);
+            res.send('desDetalles no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
         }
       }, function (error) {
-        res.send('Detalle Traslado Animal no encontrado');
+        res.send('Mensaje no encontrado');
       });
     } else {
-      res.send(401, 'No se encontraron Detalles');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    console.log(error);
-    res.send('desDetalles no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 

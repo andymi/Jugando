@@ -12,7 +12,32 @@ var Model = require('../../models/jugando.js');
 
 exports.getForm = function (req, res) {
   var raza = Model.Raza.build();
-  res.render('web/raza/index',{raza: raza});
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {
+          res.render('web/raza/index',{
+            raza: raza,
+            mensajes: mensaje1,
+            mensajeria: mensaje2
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
+    }
+  }, function (error) {
+    res.send('Mensaje no encontrado');
+  });
 };
 
 // POST /raza
@@ -38,14 +63,39 @@ exports.create = function (req, res) {
 exports.listPag = function (req, res) {
   var raza = Model.Raza.build();
   console.log(req.body);
-  raza.retrieveAll(function (razas) {
-    if (razas) {
-      res.render('web/raza/success', { razas: razas});
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          raza.retrieveAll(function (razas) {
+            if (razas) {
+              res.render('web/raza/success', { 
+                razas: razas,
+                mensajes: mensaje1,
+                mensajeria: mensaje2
+              });
+            } else {
+              res.send(401, 'No se encontraron Razas');
+            }
+          }, function (error) {
+            res.send('Raza no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'No se encontraron Razas');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Raza no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 /* Rutas que terminan en /raza/:razaId
@@ -74,16 +124,40 @@ exports.update = function (req, res) {
 // Toma un raza por id
 exports.read = function (req, res) {
   var raza = Model.Raza.build();
-
-  raza.retrieveById(req.params.razaId, function (razaoq) {
-    if (razaoq) {
-      console.log('dentro de editar:*****************');
-      res.render('web/raza/edit', {raza:razaoq});
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {
+          raza.retrieveById(req.params.razaId, function (razaoq) {
+            if (razaoq) {
+              console.log('dentro de editar:*****************');
+              res.render('web/raza/edit', {
+                raza:razaoq,
+                mensajes: mensaje1,
+                mensajeria: mensaje2
+              });
+            } else {
+              res.send(401, 'Raza no encontrado');
+            }
+          }, function (error) {
+            res.send('Raza no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'Raza no encontrado');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Raza no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 

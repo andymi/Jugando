@@ -29,6 +29,7 @@ block content
                       th(class="text-center") Condición 
                       th(class="text-center") Forma de Pago 
                       th(class="text-center") Número de Compra 
+                      th(class="text-center") Total de Animales Comprados 
                       th(class="text-center") Monto Total de la Compra         
                       th(class="text-center") Proveedor
                       th(class="text-center") Ver Detalle
@@ -41,6 +42,7 @@ block content
                         td(class="text-center")=facturaCompras.condicionCompra
                         td(class="text-center")=facturaCompras.formaPago
                         td(class="text-center")=facturaCompras.numeroCompra 
+                        td(class="text-center")=facturaCompras.cantidadTotalCompra
                         td(class="text-center")=facturaCompras.totalCompra        
                         if facturaCompras.Proveedor == null  
                           td(class="text-center") sin Proveedor

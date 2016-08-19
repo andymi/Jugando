@@ -3,81 +3,94 @@
 // USUARIOS CRUD
 
 // Importar rutas
-// =============================================================================
-var express = require('express');
-var router = express.Router();
+// ==============================
 
-var Museo = require('../../models/jugando.js');
+var Model = require('../../models/jugando.js');
 
-/* Rutas que terminan en /stock
-// router.route('/stock') */
-router.get('/cargar', function (req, res) {
-  var insumo = Museo.Insumo.build();
-  var stock = Museo.Stock.build();
-  var detalleCompra = Museo.DetalleCompra.build();
-  insumo.retrieveAll(function (insumoQ) {
-    console.log('insumoQ',insumoQ);
-    if (insumoQ) {
-      detalleCompra.retrieveId(function (detalleCompraQ) {
-          if (detalleCompraQ) {      
-            console.log('soy detalleCompra retrieveId',detalleCompraQ);
-            res.render('web/stock/index', {
-                            detalleCompraJ:detalleCompraQ,
-                            stockJ: stock,
-                            selectJ: insumoQ
-            });    
-          } else {
-            res.send(401, 'No se encontraron Factura Compras');
-          }
-      });
-    }else {
-      res.send(401, 'No se Eencontraron Factura Compras');
-    }
-  }, function (error) {
-    res.send('Detalle DetalleCompra no encontrado');
-    }
-  );
-});
-// POST /stock
-router.post('/cargar', function (req, res) {
+//******************************************
+exports.listPag = function (req, res) {
+  var stock = Model.Stock.build();
   console.log(req.body);
-  // bodyParser debe hacer la magia
-  var cantidad = req.body.cantidad;
-  var lote = req.body.lote;
-  var cantidadMinima = req.body.cantidadMinima; 
-  var InsumoIdInsumo = req.body.selectJ;
-  var DetalleCompraIdDetalleCompra = req.body.id; 
-
-  var index = Museo.Stock.build({
-    cantidad:cantidad,
-    lote: lote,    
-    cantidadMinima: cantidadMinima,
-    InsumoIdInsumo: InsumoIdInsumo,
-    DetalleCompraIdDetalleCompra: DetalleCompraIdDetalleCompra
-  });
-
-  index.add(function (success) {
-    res.redirect('/web/stock');
-  },
-  function (err) {
-    res.send(err);
-  });
-});
-
-router.get('/', function (req, res) {
-  var stock = Museo.Stock.build();
-  console.log('request body',req.body);
-  stock.retrieveAll(function (stock) {
-    if (stock) {      
-      console.log('soy stock retrieveAll',stock);
-      res.render('web/stock/success', { stocks: stock});
+   //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) { 
+         stock.retrieveStock(function (stock) {
+            if (stock) {
+              res.render('web/stock/success', { 
+                stocks: stock,
+                mensajes: mensaje1,
+                mensajeria: mensaje2
+              });
+            } else {
+              res.send(401, 'No se encontraron Insumos');
+            }
+          }, function (error) {
+            res.send('Stock no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'No se encontraron Sanitaciones');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Stock no encontrado');
+    res.send('Mensaje no encontrado');
   });
-});
+};
+
+//******************************************
+exports.listPag2 = function (req, res) {
+  var stock = Model.Stock.build();
+  console.log(req.body);
+   //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) { 
+         stock.retrieveSAnimal(function (stock) {
+            if (stock) {
+              res.render('web/stock/lista', { 
+                stocks: stock,
+                mensajes: mensaje1,
+                mensajeria: mensaje2
+              });
+            } else {
+              res.send(401, 'No se encontraron Animales');
+            }
+          }, function (error) {
+            res.send('Stock no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
+    }
+  }, function (error) {
+    res.send('Mensaje no encontrado');
+  });
+};
+
+
+
+
+
 /* (trae todos los stock)
 // GET /stock */
 
@@ -149,4 +162,3 @@ router.delete('/:stockId', function (req, res) {
   });
 });
 */
-module.exports = router;

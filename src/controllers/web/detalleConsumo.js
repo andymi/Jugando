@@ -13,28 +13,51 @@ exports.getForm1 = function (req, res) {
   var animal = Model.Animal.build();
   var detalleConsumo = Model.DetalleConsumo.build();
   var consumo = Model.Consumo.build();
-  animal.retrieveAll(function (animalQ) {
-    console.log('animalQ',animalQ);
-    if (animalQ) {
-      consumo.retrieveId(function (consumoQ) {
-          if (consumoQ) {      
-            console.log('soy consumo retrieveId',consumoQ);
-            res.render('web/detalleConsumo/index', {
-                            consumoJ:consumoQ,
-                            detalleConsumoJ: detalleConsumo,
-                            selectJ: animalQ
-            });    
-          } else {
-            res.send(401, 'No se encontraron Consumos');
-          }
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          animal.retrieveAll(function (animalQ) {
+            console.log('animalQ',animalQ);
+            if (animalQ) {
+              consumo.retrieveId(function (consumoQ) {
+                  if (consumoQ) {      
+                    console.log('soy consumo retrieveId',consumoQ);
+                    res.render('web/detalleConsumo/index', {
+                                    consumoJ:consumoQ,
+                                    detalleConsumoJ: detalleConsumo,
+                                    selectJ: animalQ,
+                                    mensajes: mensaje1,
+                                    mensajeria: mensaje2
+                    });    
+                  } else {
+                    res.send(401, 'No se encontraron Consumos');
+                  }
+              });
+            }else {
+              res.send(401, 'No se Encontraron Consumos');
+            }
+          }, function (error) {
+            res.send('Detalle Consumo no encontrado');
+            }
+          );
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
       });
-    }else {
-      res.send(401, 'No se Encontraron Consumos');
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Detalle Consumo no encontrado');
-    }
-  );
+    res.send('Mensaje no encontrado');
+  });   
 };
 // POST /detalleConsumo
 exports.create1 = function (req, res) {
@@ -65,37 +88,85 @@ exports.create1 = function (req, res) {
 exports.listPag1 = function (req, res) {
   var detalleConsumo = Model.DetalleConsumo.build();
   console.log('dentro de get /',req.body);
-  detalleConsumo.retrieveAll(req.params.id, function (detalleConsumos) {
-    if (detalleConsumos) {
-      res.render('web/detalleConsumo/success', { detalleConsumos:detalleConsumos});
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) { 
+          detalleConsumo.retrieveAll(req.params.id, function (detalleConsumos) {
+            if (detalleConsumos) {
+              res.render('web/detalleConsumo/success', { 
+                detalleConsumos:detalleConsumos,
+                mensajes: mensaje1,
+                mensajeria: mensaje2
+              });
+            } else {
+              res.send(401, 'No se encontraron Detalles');
+            }
+          }, function (error) {
+            res.send('DetalleConsumo no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'No se encontraron Detalles');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('DetalleConsumo no encontrado');
-  });
+    res.send('Mensaje no encontrado');
+  });    
 };
 //***************************************************************
 exports.getForm2 = function (req, res) {
   var animal = Model.Animal.build();
   var detalleConsumo = Model.DetalleConsumo.build();
   var consumoId = req.params.consumoId;
-  animal.retrieveAll(function (animalQ) {
-    console.log('animalQ',animalQ);
-    if (animalQ) {
-           console.log('soy consumoId',consumoId);
-            res.render('web/detalleConsumo/indexa', {
-                            consumoJ:consumoId,
-                            detalleConsumoJ: detalleConsumo,
-                            selectJ: animalQ
-            });    
-    }else {
-      res.send(401, 'No se Encontraron Consumos');
+   //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          animal.retrieveAll(function (animalQ) {
+            console.log('animalQ',animalQ);
+            if (animalQ) {
+                   console.log('soy consumoId',consumoId);
+                    res.render('web/detalleConsumo/indexa', {
+                                    consumoJ:consumoId,
+                                    detalleConsumoJ: detalleConsumo,
+                                    selectJ: animalQ,
+                                    mensajes: mensaje1,
+                                    mensajeria: mensaje2
+                    });    
+            }else {
+              res.send(401, 'No se Encontraron Consumos');
+            }
+          }, function (error) {
+            res.send('Detalle Consumo no encontrado');
+            }
+          );
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Detalle Consumo no encontrado');
-    }
-  );
+    res.send('Mensaje no encontrado');
+  });   
 };
 // POST /detalleConsumo
 exports.create2 = function (req, res) {
@@ -148,28 +219,51 @@ exports.update = function (req, res) {
 exports.read = function (req, res) {
   var animal = Model.Animal.build();
   var detalleConsumo = Model.DetalleConsumo.build();
-  animal.retrieveAll(function (animal) {
-    if (animal) {
-      detalleConsumo.retrieveById(req.params.detalleConsumoId, function (detalleConsumo) {
-        if (detalleConsumo) {
-          res.render('web/detalleConsumo/edit', {
-                    detalleConsumo:detalleConsumo,
-                    select: animal
-                  });
-        } else {
-          res.send(401, 'Detalle Consumo no encontrado');
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) { 
+          animal.retrieveAll(function (animal) {
+            if (animal) {
+              detalleConsumo.retrieveById(req.params.detalleConsumoId, function (detalleConsumo) {
+                if (detalleConsumo) {
+                  res.render('web/detalleConsumo/edit', {
+                            detalleConsumo:detalleConsumo,
+                            select: animal,
+                            mensajes: mensaje1,
+                            mensajeria: mensaje2
+                          });
+                } else {
+                  res.send(401, 'Detalle Consumo no encontrado');
+                }
+              }, function (error) {
+                res.send('Detalle Consumo no encontrado');
+              });
+
+            } else {
+              res.send(401, 'No se encontraron Detalles');
+            }
+          }, function (error) {
+            console.log(error);
+            res.send('desDetalles no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
         }
       }, function (error) {
-        res.send('Detalle Consumo no encontrado');
+        res.send('Mensaje no encontrado');
       });
-
     } else {
-      res.send(401, 'No se encontraron Detalles');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    console.log(error);
-    res.send('desDetalles no encontrado');
-  });
+    res.send('Mensaje no encontrado');
+  });   
 };
 // DELETE /detalleConsumo/detalleConsumoId
 // Borra el detalleConsumoId

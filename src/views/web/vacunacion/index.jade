@@ -1,27 +1,50 @@
 extends ../../layout 
 block content
-  br
-  br
-  div(class="container-fluid")
-    form(action='/web/vacunacion/add' method="POST")
-     div(class="form-group")
-      label(for="fechaVacunacion") Fecha Vacunacion
-      input(type="text" class="form-control" id="fechaVacunacion" name='fechaVacunacion' value='vacunacion.fechaVacunacion' placeholder="Ingrese la Fecha")
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Vacunación del Animal
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Agregar Vacunación
+    section(class="content")
+      div(class="row")  
+        div(class="col-md-12") 
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Vacunación del Animal   
+            form(class="form-horizontal" action='/web/vacunacion/add' method="POST")
+              div(class="box-body")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="fechaVacunacion") Fecha de la Vacunación:
+                  div(class="col-sm-8")  
+                    div(class="input-group date")
+                      div(class="input-group-addon")
+                        i(class="fa fa-calendar")  
+                      input(type="text"  class="form-control pull-right" id="datepicker" name='fechaVacunacion' required)
 
-     div(class="form-group")
-      label(for="horaVacunacion") Hora Vacunacion
-      input(type="text"  class="form-control" id="horaVacunacion" name='horaVacunacion' value='vacunacion.horaVacunacion' placeholder="Ingrese la Hora") 
+                div(class="form-group")  
+                  label(class="col-sm-4 control-label" for="horaVacunacion") Hora de la Vacunación:
+                  div(class="col-sm-8")
+                    div(class="bootstrap-timepicker")
+                      div(class="input-group")
+                        div(class="input-group-addon")
+                          i(class="fa fa-clock-o")
+                        input(type="text" class="form-control timepicker" name='horaVacunacion' required)   
 
-     div(class="form-group")
-      label(for="costoVacunacion") Costo Vacunacion
-      input(type="text"  class="form-control" id="costoVacunacion" name='costoVacunacion' value='vacunacion.costoVacunacion' placeholder="Ingrese el Costo") 
-
-     div(class="form-group")
-        label(class="control-label col-sm-2" for="email") Proveedor: 
-        div(class="col-sm-10")  
-          select(name='selectJ')
-            option(value="-1" selected) Seleccione Proveedor
-            -for(var j=0; j < selectJ.length; j++) {
-              option(value="#{selectJ[j].idProveedor}") #{selectJ[j].nombreProveedor}
-            -}  
-     button(type="submit" value="submit") Agregar Vacunacion
+                
+                 div(class="form-group")
+                  label(class="control-label col-sm-4" for="email") Proveedor: 
+                  div(class="col-sm-8")  
+                    select(id="selectJ" name='selectJ' class="btn btn-default select2")
+                      option(value="-1" disabled="disabled" selected) Seleccione una opción
+                      -for(var j=0; j < selectJ.length; j++) {
+                        option(value="#{selectJ[j].idProveedor}") #{selectJ[j].nombreProveedor}
+                      -} 
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Guardar
+                    i(class="fa fa-save") 
+                  a(href="/web/vacunacion" class="btn btn-default") Cancelar
+                    i(class="fa fa-remove")

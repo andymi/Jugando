@@ -18,33 +18,6 @@ module.exports = function (sequelize, DataTypes) {
           notEmpty: true
         }
       },
-      nombreConductor: {
-        type: DataTypes.STRING(55),
-        allowNull: false,
-        comment: 'nombre del conductor',
-        validate: {
-          is: ['[a-z]','i'],
-          //notNull: true,
-          notEmpty: true
-        }
-      },
-      cedulaConductor: {
-        type: DataTypes.STRING(45),
-        allowNull: false,
-        comment: 'cedula del conductor'
-        //validate: {
-          //notNull: true
-        //}
-      },
-      cantidadAnimal: {
-        type: DataTypes.INTEGER(11),
-        allowNull: false,
-        comment: 'Cantidad de animales que fueron trasladados',
-        validate: {
-          //notNull: true,
-          notEmpty: true
-        }
-      },
       numeroRUA: {
         type: DataTypes.STRING(55),
         allowNull: false,
@@ -98,28 +71,21 @@ module.exports = function (sequelize, DataTypes) {
           .then(onSuccess).catch(onError);
         },
         add: function (onSuccess, onError) {
-          var fechaTraslado = this.fechaTraslado;
-          var nombreConductor = this.nombreConductor;
-          var cedulaConductor = this.cedulaConductor;
-          var cantidadAnimal = this.cantidadAnimal;          
+          var fechaTraslado = this.fechaTraslado;          
           var numeroRUA = this.numeroRUA;
           var marcaAuto = this.marcaAuto;
           var CiudadIdCiudad = this.CiudadIdCiudad;          
           var FacturaCompraIdCompra = this.FacturaCompraIdCompra;
           var EmpleadoIdEmpleado = this.EmpleadoIdEmpleado;
 
-          Traslado.build({ fechaTraslado: fechaTraslado, nombreConductor: nombreConductor, 
-          cedulaConductor:cedulaConductor,cantidadAnimal:cantidadAnimal, numeroRUA:numeroRUA, 
+          Traslado.build({ fechaTraslado: fechaTraslado, numeroRUA:numeroRUA, 
           marcaAuto:marcaAuto, CiudadIdCiudad: CiudadIdCiudad, FacturaCompraIdCompra: FacturaCompraIdCompra,
           EmpleadoIdEmpleado: EmpleadoIdEmpleado })
           .save().then(onSuccess).catch(onError);
         },
         updateById: function (trasladoId, onSuccess, onError) {
           var idTraslado = trasladoId;
-          var fechaTraslado = this.fechaTraslado;
-          var nombreConductor = this.nombreConductor;
-          var cedulaConductor = this.cedulaConductor;
-          var cantidadAnimal = this.cantidadAnimal;          
+          var fechaTraslado = this.fechaTraslado;          
           var numeroRUA = this.numeroRUA;
           var marcaAuto = this.marcaAuto;
           var CiudadIdCiudad = this.CiudadIdCiudad;          
@@ -127,8 +93,7 @@ module.exports = function (sequelize, DataTypes) {
           var EmpleadoIdEmpleado = this.EmpleadoIdEmpleado;
 
          Traslado.update( { 
-            fechaTraslado: fechaTraslado, nombreConductor: nombreConductor, cedulaConductor:cedulaConductor,
-            cantidadAnimal:cantidadAnimal, numeroRUA:numeroRUA, marcaAuto:marcaAuto, CiudadIdCiudad: CiudadIdCiudad,
+            fechaTraslado: fechaTraslado, numeroRUA:numeroRUA, marcaAuto:marcaAuto, CiudadIdCiudad: CiudadIdCiudad,
             FacturaCompraIdCompra: FacturaCompraIdCompra, EmpleadoIdEmpleado: EmpleadoIdEmpleado
           },{ where: { idTraslado:  trasladoId } })
           .then(onSuccess).catch(onError);

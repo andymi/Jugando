@@ -1,17 +1,37 @@
-form(action='/web/detalleSanitacionInsumo/add' method="POST")
-  input(type="hidden" name='id' value='#{sanitacionJ}')
-  div(class="form-group")
-    label(for="cantidadUtilizada") Cantidad Utilizada
-    input(type="text"  class="form-control" id="cantidadUtilizada" name='cantidadUtilizada' value='detalleSanitacionJ.cantidadUtilizada' placeholder="Ingrese la Observacion") 
-    //detalle del pesaje
-  div(class="form-group")
-    label(class="control-label col-sm-2" for="email") Nombre del Insumo: 
-    div(class="col-sm-10")  
-      select(name='selectJ')
-        option(value="-1" selected) Seleccione Nombre del Insumo
-        -for(var j=0; j < selectJ.length; j++) {
-          option(value="#{selectJ[j].idInsumo}") #{selectJ[j].nombreInsumo}
-        -}  	       
-  
-  button(type="submit" value="submit") Agregar Detalle Sanitacion Insumo
-
+extends ../../layout 
+block content
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Detalle de la Sanitación del Animal(Insumos) 
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Agregar Detalle de la Sanitación del Animal
+    section(class="content")
+      div(class="row")  
+        div(class="col-md-12") 
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Registro Detalle de la Sanitación del Animal
+            form(class="form-horizontal" action='/web/detalleSanitacionInsumo/add' method="POST")
+              div(class="box-body")
+                input(type="hidden" name='id' value='#{sanitacionJ}')
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Nombre del Insumo:
+                  div(class="col-sm-8")
+                    select(name='selectJ' class="btn btn-default select2")
+                      option(value="-1" selected) Seleccione una opción
+                      -for(var j=0; j < selectJ.length; j++) {
+                        option(value="#{selectJ[j].idInsumo}") #{selectJ[j].nombreInsumo}
+                      -}
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Cantidad Utilizada:
+                  div(class="col-sm-8")
+                    input(type="text"  class="form-control" id="cantidadUtilizada" name='cantidadUtilizada'  placeholder="Ingrese la Cantidad Utilizada" required) 
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Guardar
+                    i(class="fa fa-save") 
+                  a(href="/web/sanitacion" class="btn btn-default") Listo
+                    i(class="fa fa-remove")          

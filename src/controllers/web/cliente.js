@@ -13,18 +13,40 @@ var Model = require('../../models/jugando.js');
 exports.getForm =  function (req, res) {
   var cliente = Model.Cliente.build();
   var ciudad = Model.Ciudad.build();
-  ciudad.retrieveAll(function (ciudadQ) {
-    console.log('ciudadQ',ciudadQ);
-    if (ciudadQ) {
-        res.render('web/cliente/index',{
-            selectJ: ciudadQ,
-            cliente: cliente
-        });
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) { 
+          ciudad.retrieveAll(function (ciudadQ) {
+            console.log('ciudadQ',ciudadQ);
+            if (ciudadQ) {
+                res.render('web/cliente/index',{
+                    selectJ: ciudadQ,
+                    cliente: cliente,
+                    mensajes: mensaje1,
+                    mensajeria: mensaje2
+                });
+            }
+          }, function (error) {
+            res.send('Usuario no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Usuario no encontrado');
-    }
-  );
+    res.send('Mensaje no encontrado');
+  });
 };
 
 // POST /cliente
@@ -56,14 +78,39 @@ exports.create = function (req, res) {
 exports.listPag =  function (req, res) {
   var cliente = Model.Cliente.build();
   console.log(req.body);
-  cliente.retrieveAll(function (clientes) {
-    if (clientes) {
-      res.render('web/cliente/success', { clientes: clientes});
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          cliente.retrieveAll(function (clientes) {
+            if (clientes) {
+              res.render('web/cliente/success', { 
+                clientes: clientes,
+                mensajes: mensaje1,
+                mensajeria: mensaje2
+              });
+            } else {
+              res.send(401, 'No se encontraron Clientes');
+            }
+          }, function (error) {
+            res.send('Cliente no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'No se encontraron Clientes');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Cliente no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 /* Rutas que terminan en /cliente/:clienteId
@@ -96,26 +143,49 @@ exports.update =  function (req, res) {
 exports.read = function (req, res) {
   var cliente = Model.Cliente.build();
   var ciudad = Model.Ciudad.build();
-  ciudad.retrieveAll(function (ciudad) {
-    if (ciudad) {
-      cliente.retrieveById(req.params.clienteId, function (clienteq) {
-        if (clienteq) {
-          res.render('web/cliente/edit', {
-                      cliente:clienteq,
-                      select: ciudad
-                    });
-        } else {
-          res.send(401, 'arCliente no encontrado');
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {
+          ciudad.retrieveAll(function (ciudad) {
+            if (ciudad) {
+              cliente.retrieveById(req.params.clienteId, function (clienteq) {
+                if (clienteq) {
+                  res.render('web/cliente/edit', {
+                              cliente:clienteq,
+                              select: ciudad,
+                              mensajes: mensaje1,
+                              mensajeria: mensaje2
+                            });
+                } else {
+                  res.send(401, 'arCliente no encontrado');
+                }
+              }, function (error) {
+                res.send('esCliente no encontrado',error);
+              });
+            } else {
+              res.send(401, 'No se encontraron Clientes');
+            }
+          }, function (error) {
+            console.log(error);
+            res.send('desCliente no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
         }
       }, function (error) {
-        res.send('esCliente no encontrado',error);
+        res.send('Mensaje no encontrado');
       });
     } else {
-      res.send(401, 'No se encontraron Clientes');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    console.log(error);
-    res.send('desCliente no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 

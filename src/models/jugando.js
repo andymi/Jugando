@@ -1,7 +1,9 @@
 'use strict';
-
-var path = require('path');
+var crypto = require('crypto');
 var config = require('../config/config');
+
+var key = config.key;
+var path = require('path');
 
 /*
 var url = process.env.DATABASE_URL.match(/(.*)\:\/\/(.*?)\:(.*)@(.*)\:(.*)\/(.*)/);
@@ -121,6 +123,9 @@ var Insumo = sequelize.import(insumoPath);
 var muertesPath = path.join(__dirname,'muertes');
 var Muertes = sequelize.import(muertesPath);
 // Importar definicion de la tabla Forum
+var mensajePath = path.join(__dirname,'mensaje');
+var Mensaje = sequelize.import(mensajePath);
+// Importar definicion de la tabla Forum
 var nivelPath = path.join(__dirname,'nivel');
 var Nivel = sequelize.import(nivelPath);
 // Importar definicion de la tabla Forum
@@ -132,6 +137,9 @@ var Proveedor = sequelize.import(proveedorPath);
 // Importar definicion de la tabla Forum
 var sanitacionPath = path.join(__dirname,'sanitacion');
 var Sanitacion = sequelize.import(sanitacionPath);
+// Importar definicion de la tabla Session
+var sesionPath = path.join(__dirname,'sesiones');
+var Sesion = sequelize.import(sesionPath);
 // Importar definicion de la tabla Forum
 var stockPath = path.join(__dirname,'stock');
 var Stock = sequelize.import(stockPath);
@@ -148,6 +156,9 @@ var Vacunacion = sequelize.import(vacunacionPath);
 var razaPath = path.join(__dirname,'raza');
 var Raza = sequelize.import(razaPath);
 // Importar definicion de la tabla Forum
+var serviciosPath = path.join(__dirname,'servicios');
+var Servicios = sequelize.import(serviciosPath);
+// Importar definicion de la tabla Forum
 var salidaAnimalPath = path.join(__dirname,'salidaAnimal');
 var SalidaAnimal = sequelize.import(salidaAnimalPath);
 // Importar definicion de la tabla Forum
@@ -157,6 +168,11 @@ var DetalleSalidaAnimal = sequelize.import(detalleSalidaAnimalPath);
 // Usuario - Nivel 
 Usuario.belongsTo(Nivel);
 Nivel.hasMany(Usuario);
+
+// los Sesiones pertenecen a un Usuarios registrado
+Sesion.belongsTo(Usuario);
+Usuario.hasOne(Sesion);
+
 // Usuario - Nivel 
 Animal.belongsTo(Raza);
 Raza.hasMany(Animal);
@@ -268,6 +284,9 @@ FacturaCompra.hasMany(Traslado);
 //Insumo - DetalleCompra 
 DetalleCompra.belongsTo(Insumo);
 Insumo.hasMany(DetalleCompra);
+//Insumo - DetalleCompra 
+DetalleCompra.belongsTo(Servicios);
+Servicios.hasMany(DetalleCompra);
 //Insumo - DetalleVacunacionInsumo 
 DetalleVacunacionInsumo.belongsTo(Insumo);
 Insumo.hasMany(DetalleVacunacionInsumo);
@@ -334,13 +353,16 @@ exports.IngresoAnimal = IngresoAnimal;
 exports.IngresoCorral = IngresoCorral;
 exports.Insumo =Insumo;
 exports.Muertes = Muertes;
+exports.Mensaje = Mensaje;
 exports.Stock = Stock;
 exports.Pesaje = Pesaje;
 exports.Proveedor= Proveedor;
 exports.Sanitacion = Sanitacion;
+exports.Sesion = Sesion;
 exports.Traslado= Traslado;
 exports.Vacunacion = Vacunacion;
 exports.Raza = Raza;
+exports.Servicios = Servicios;
 exports.SalidaAnimal = SalidaAnimal;
 exports.DetalleSalidaAnimal = DetalleSalidaAnimal;
 
@@ -374,6 +396,19 @@ sequelize.sync().then(function () {
           });
         }
       }); //Raza.count()
+  Servicios.count().then(function (count) {
+        if (count === 0) {
+          Servicios.bulkCreate(
+          [
+            { servicios: 'Vacunación' },
+            { servicios: 'Medicación' },
+            { servicios: 'Sanitación' }
+          ]
+          ).then(function () {
+            console.log('Base de datos (tabla Servicios) inicializada');
+          });
+        }
+      }); //Servicios.count()
   Departamento.count().then(function (count) {
         if (count === 0) {
           Departamento.bulkCreate(
@@ -404,9 +439,10 @@ sequelize.sync().then(function () {
         if (count === 0) {
           Insumo.bulkCreate(
           [
-            { nombreInsumo: 'Neubon' , contenidoInsumo: '500ml', precioCompra: 50000, tipoInsumo:'para engorde', presentacionInsumo:'en bolsa', estadoInsumo:'activo' , codigoBarra: '123456' },
-            { nombreInsumo: 'Balanceado ' , contenidoInsumo: '500ml', precioCompra: 50000, tipoInsumo:'para engorde', presentacionInsumo:'en bolsa', estadoInsumo:'activo' , codigoBarra: '123456' },
-            { nombreInsumo: 'Sal Mineral' , contenidoInsumo: '500ml', precioCompra: 50000, tipoInsumo:'para engorde', presentacionInsumo:'en bolsa', estadoInsumo:'activo' , codigoBarra: '123456' }
+            { nombreInsumo: 'Neubon' , contenidoInsumo: '500ml', precioCompra: 50000, tipoInsumo:'Medicamento', presentacionInsumo:'Unidad', estadoInsumo:'activo' , codigoBarra: '123456' },
+            { nombreInsumo: 'Balanceado ' , contenidoInsumo: '500ml', precioCompra: 50000, tipoInsumo:'Balanceado', presentacionInsumo:'Bolsa', estadoInsumo:'activo' , codigoBarra: '123456' },
+            { nombreInsumo: 'Sal Mineral' , contenidoInsumo: '500ml', precioCompra: 50000, tipoInsumo:'Sal Mineral', presentacionInsumo:'Bolsa', estadoInsumo:'activo' , codigoBarra: '123456' },
+            { nombreInsumo: 'Pala' , contenidoInsumo: '1 Kilo', precioCompra: 45000, tipoInsumo:'Varios', presentacionInsumo:'Unidad', estadoInsumo:'activo' , codigoBarra: '123456' }
           ]
           ).then(function () {
             console.log('Base de datos (tabla Insumo) inicializada');
@@ -470,9 +506,9 @@ sequelize.sync().then(function () {
     if (count === 0) {   // la tabla se inicializa solo si está vacía
       Usuario.bulkCreate(
         [
-          { usuario: 'Ignacio@gmail.com', pass: 'Ignacio', NivelIdNivel: 1 , EmpleadoIdEmpleado: 1 },
-          { usuario: 'Juan@gmail.com', pass: 'Juan', NivelIdNivel: 2 , EmpleadoIdEmpleado: 2 },
-          { usuario: 'Maria@gmail.com', pass: 'Maria', NivelIdNivel: 3 , EmpleadoIdEmpleado: 3  }
+          { usuario: 'admin@gmail.com', pass: crypto.createHmac('sha1', key).update('123456').digest('hex') ,NivelId: 1 },
+          { usuario: 'usu@gmail.com', pass: crypto.createHmac('sha1', key).update('123456').digest('hex') ,NivelId: 2 },
+          { usuario: 'usu1@gmail.com', pass: crypto.createHmac('sha1', key).update('123456').digest('hex') ,NivelId: 2 }
         ]
       ).then(function () {
       console.log('Base de datos (tabla usuario) inicializada');

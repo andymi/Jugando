@@ -23,11 +23,17 @@ var detalleVacunacion = require('./web/detalleVacunacion');
 var detalleVacunacionInsumo = require('./web/detalleVacunacionInsumo');
 var facturaCompra = require('./web/facturaCompra');
 var detalleCompra = require('./web/detalleCompra');
+var facturaCompraInsumo = require('./web/facturaCompraInsumo');
+var detalleCompraInsumo = require('./web/detalleCompraInsumo');
+var facturaCompraServicios = require('./web/facturaCompraServicios');
+var detalleCompraServicios = require('./web/detalleCompraServicios');
 var facturaVenta = require('./web/facturaVenta');
 var detalleVenta = require('./web/detalleVenta');
 var ingresoAnimal = require('./web/ingresoAnimal');
 var detalleIngresoAnimal = require('./web/detalleIngresoAnimal');
 var muertes = require('./web/muertes');
+var mensaje = require('./web/mensaje');
+var login = require('./web/sesion');
 var detalleMuerte = require('./web/detalleMuerte');
 var sanitacion = require('./web/sanitacion');
 var detalleSanitacionInsumo = require('./web/detalleSanitacionInsumo');
@@ -35,6 +41,7 @@ var detalleSanitacion = require('./web/detalleSanitacion');
 var traslado = require('./web/traslado');
 var detalleTraslado = require('./web/detalleTraslado');
 var stock = require('./web/stock');
+var servicios = require('./web/servicios');
 var raza = require('./web/raza');
 var salidaAnimal = require('./web/salidaAnimal');
 var detalleSalidaAnimal = require('./web/detalleSalidaAnimal');
@@ -85,6 +92,14 @@ RoutesWEB.post('/detalleCompra/cargar', detalleCompra.create);
 RoutesWEB.get('/detalleCompra/editar/:detalleCompraId', detalleCompra.read);
 RoutesWEB.put('/detalleCompra/:detalleCompraId', detalleCompra.update);
 RoutesWEB.delete('/detalleCompra/:detalleCompraId', detalleCompra.delete);
+
+RoutesWEB.get('/detalleCompraInsumo/cargar', detalleCompraInsumo.getForm);
+RoutesWEB.get('/detalleCompraInsumo/:id', detalleCompraInsumo.listPag);
+RoutesWEB.post('/detalleCompraInsumo/cargar', detalleCompraInsumo.create);
+
+RoutesWEB.get('/detalleCompraServicios/cargar', detalleCompraServicios.getForm);
+RoutesWEB.get('/detalleCompraServicios/:id', detalleCompraServicios.listPag);
+RoutesWEB.post('/detalleCompraServicios/cargar', detalleCompraServicios.create);
 
 RoutesWEB.get('/detalleConsumo/cargar', detalleConsumo.getForm1);
 RoutesWEB.get('/detalleConsumo/animal/:id', detalleConsumo.listPag1);
@@ -208,6 +223,14 @@ RoutesWEB.put('/facturaCompra/:facturaCompraId', facturaCompra.update);
 RoutesWEB.delete('/facturaCompra/:facturaCompraId', facturaCompra.delete);
 RoutesWEB.get('/facturaCompra/:id', facturaCompra.readId);
 
+RoutesWEB.get('/facturaCompraInsumo/cargar', facturaCompraInsumo.getForm);
+RoutesWEB.get('/facturaCompraInsumo/', facturaCompraInsumo.listPag);
+RoutesWEB.post('/facturaCompraInsumo/add', facturaCompraInsumo.create);
+
+RoutesWEB.get('/facturaCompraServicios/cargar', facturaCompraServicios.getForm);
+RoutesWEB.get('/facturaCompraServicios/', facturaCompraServicios.listPag);
+RoutesWEB.post('/facturaCompraServicios/add', facturaCompraServicios.create);
+
 RoutesWEB.get('/facturaVenta/cargar', facturaVenta.getForm);
 RoutesWEB.get('/facturaVenta/', facturaVenta.listPag);
 RoutesWEB.post('/facturaVenta/add', facturaVenta.create);
@@ -292,6 +315,13 @@ RoutesWEB.delete('/sanitacion/:sanitacionId', sanitacion.delete);
 RoutesWEB.get('/sanitacion/animal/:id', sanitacion.listPag1);
 RoutesWEB.get('/sanitacion/insumo/:id', sanitacion.listPag2);
 
+RoutesWEB.get('/servicios/cargar', servicios.getForm);
+RoutesWEB.get('/servicios/', servicios.listPag);
+RoutesWEB.post('/servicios/cargar',servicios.create);
+RoutesWEB.get('/servicios/:serviciosId', servicios.read);
+RoutesWEB.put('/servicios/:serviciosId',  servicios.update);
+RoutesWEB.delete('/servicios/:serviciosId', servicios.delete);
+
 RoutesWEB.get('/usuario/cargar', usuario.getForm);
 RoutesWEB.get('/usuario/', usuario.listPag);
 RoutesWEB.post('/usuario/cargar', usuario.create);
@@ -324,5 +354,25 @@ RoutesWEB.delete('/detalleTraslado/:detalleTrasladoId', detalleTraslado.delete);
 RoutesWEB.get('/detalleTraslado/add/:trasladoId', detalleTraslado.getForm2);
 RoutesWEB.post('/detalleTraslado/add', detalleTraslado.create2);
 RoutesWEB.get('/detalleTraslado/:id', detalleTraslado.readId);
+/*************************************************/
+RoutesWEB.get('/log', login.index);
+RoutesWEB.get('/signin', login.signIn);
+RoutesWEB.post('/signin/ver', login.signIn);
+RoutesWEB.get('/signup', login.signUp);
+RoutesWEB.post('/signup/ver', login.signUpPost);
+//RoutesWEB.get('/signout', login.signOut);
+// 404 not found
+//RoutesWEB.use(login.notFound404);
+/*************************************************/
+/*************************************************/
+RoutesWEB.post('/mensaje/cargar', mensaje.create);
+
+
+RoutesWEB.get('/stock/', stock.listPag);
+RoutesWEB.get('/stock/animal', stock.listPag2);
+//RoutesWEB.get('/signout', login.signOut);
+// 404 not found
+//RoutesWEB.use(login.notFound404);
+/*************************************************/
 
 module.exports = RoutesWEB;

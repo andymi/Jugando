@@ -23,7 +23,7 @@ aside(class="main-sidebar")
         ul(class="treeview-menu")
           li(class="active")
             a(href="/principal")
-              i(class="fa fa-circle-o") Página Principal
+              i(class="fa fa-circle-o text-aqua") Página Principal
       li(class="treeview")
         a(href="#")
           i(class="fa fa-dashboard")
@@ -32,40 +32,44 @@ aside(class="main-sidebar")
         ul(class="treeview-menu")
           li
             a(href="/web/animal")
-              i(class="fa fa-circle-o") ABM Animal
+              i(class="fa fa-circle-o text-green") ABM Animal
           li
             a(href="/web/facturaCompra")
-              i(class="fa fa-circle-o") Compra Animal
+              i(class="fa fa-circle-o text-green") Compra Animal
           li
             a(href="/web/traslado")
-              i(class="fa fa-circle-o") Traslado Animal
+              i(class="fa fa-circle-o text-green") Traslado Animal
           li
             a(href="/web/consumo")
-              i(class="fa fa-circle-o") Consumo Animal
+              i(class="fa fa-circle-o text-green") Consumo Animal
           li
             a(href="/web/pesaje")
-              i(class="fa fa-circle-o") Pesaje Animal
+              i(class="fa fa-circle-o text-green") Pesaje Animal
           li
             a(href="/web/sanitacion")
-              i(class="fa fa-circle-o") Sanitación Animal
+              i(class="fa fa-circle-o text-green") Sanitación Animal
           li
             a(href="/web/vacunacion")
-              i(class="fa fa-circle-o") Vacunación Animal
+              i(class="fa fa-circle-o text-green") Vacunación Animal
           li
             a(href="/web/muertes")
-              i(class="fa fa-circle-o") Mortandad Animal
+              i(class="fa fa-circle-o text-green") Mortandad Animal
           li
             a(href="/web/extraviado")
-              i(class="fa fa-circle-o") Extravío Animal
+              i(class="fa fa-circle-o text-green") Extravío Animal
           li
             a(href="/web/salidaAnimal")
-              i(class="fa fa-circle-o") Salida Animal
+              i(class="fa fa-circle-o text-green") Salida Animal
           li
             a(href="/web/ingresoAnimal")
-              i(class="fa fa-circle-o") Entrada Animal
+              i(class="fa fa-circle-o text-green") Entrada Animal
           li
             a(href="/web/facturaVenta")
-              i(class="fa fa-circle-o") Venta Animal
+              i(class="fa fa-circle-o text-green") Venta Animal
+          li
+            a(href="/web/stock/animal")
+              i(class="fa fa-circle-o text-green") Stock Animal
+              
       li(class="treeview")
         a(href="#")
           i(class="fa fa-files-o")
@@ -74,16 +78,16 @@ aside(class="main-sidebar")
         ul(class="treeview-menu")
           li
             a(href="/web/insumo")
-              i(class="fa fa-circle-o") ABM Insumos
+              i(class="fa fa-circle-o text-yellow") ABM Insumos
           li
             a(href="/web/stock")
-              i(class="fa fa-circle-o") Stock Actual
+              i(class="fa fa-circle-o text-yellow") Stock de Insumos
           li
             a(href="/web/facturaCompraInsumo")
-              i(class="fa fa-circle-o") Factura Compra de Insumos
+              i(class="fa fa-circle-o text-yellow") Factura Compra de Insumos
           li
             a(href="/web/traslado")
-              i(class="fa fa-circle-o") Reporte de Utilización de Insumos 
+              i(class="fa fa-circle-o text-yellow") Reporte de Utilización de Insumos 
       li(class="treeview")
         a(href="#")
           i(class="fa fa-laptop")
@@ -92,10 +96,10 @@ aside(class="main-sidebar")
         ul(class="treeview-menu")
           li
             a(href="/web/empleado")
-              i(class="fa fa-circle-o") ABM Personal
+              i(class="fa fa-circle-o text-red") ABM Personal
           li
             a(href="/web/ingresoCorral")
-              i(class="fa fa-circle-o") Acceso del Personal
+              i(class="fa fa-circle-o text-red") Acceso del Personal
       li(class="treeview")
         a(href="#")
           i(class="fa fa-pie-chart")
@@ -103,8 +107,14 @@ aside(class="main-sidebar")
           i(class="fa fa-angle-left pull-right")
         ul(class="treeview-menu")
           li
+            a(href="/web/servicios")
+              i(class="fa fa-circle-o") ABM Servicios
+          li
             a(href="/web/proveedor")
               i(class="fa fa-circle-o") ABM Proveedor
+          li
+            a(href="/web/facturaCompraServicios")
+              i(class="fa fa-circle-o") Factura Compra de Servicios
           li
             a(href="/web/cliente")
               i(class="fa fa-circle-o") ABM Cliente
@@ -126,7 +136,7 @@ aside(class="main-sidebar")
       li(class="treeview")
         a(href="#")
           i(class="fa fa-edit") 
-          span Mantenimiento
+          span Informes
           i(class="fa fa-angle-left pull-right")
         ul(class="treeview-menu")
           li
@@ -141,7 +151,7 @@ aside(class="main-sidebar")
       li(class="treeview")
         a(href="#")
           i(class="fa fa-table")
-          span Informes
+          span Mantenimiento
           i(class="fa fa-angle-left pull-right")
         ul(class="treeview-menu")
           li
@@ -149,95 +159,25 @@ aside(class="main-sidebar")
               i(class="fa fa-circle-o") Simple tables
           li
             a(href="pages/tables/data.html")
-              i(class="fa fa-circle-o") Data tables
-      li
-        a(href="pages/calendar.html")
-          i(class="fa fa-calendar") 
-          span Calendar
-          small(class="label pull-right bg-red") 3
-      li
-        a(href="pages/mailbox/mailbox.html")
-          i(class="fa fa-envelope") 
-          span Mailbox
-          small(class="label pull-right bg-yellow") 12
-      li(class="treeview")
-        a(href="#")
-          i(class="fa fa-folder")
-          span Examples
-          i(class="fa fa-angle-left pull-right")
-        ul(class="treeview-menu")
-          li
-            a(href="pages/examples/invoice.html")
-              i(class="fa fa-circle-o") Invoice
-          li
-            a(href="pages/examples/profile.html")
-              i(class="fa fa-circle-o") Profile
-          li
-            a(href="pages/examples/login.html")
-              i(class="fa fa-circle-o") Login
-          li
-            a(href="pages/examples/register.html")
-              i(class="fa fa-circle-o") Register
-          li
-            a(href="pages/examples/lockscreen.html")
-              i(class="fa fa-circle-o") Lockscreen
-          li
-            a(href="pages/examples/404.html")
-              i(class="fa fa-circle-o") 404 Error
-          li
-            a(href="pages/examples/500.html")
-              i(class="fa fa-circle-o") 500 Error
-          li
-            a(href="pages/examples/blank.html")
-              i(class="fa fa-circle-o") Blank Page
-          li
-            a(href="pages/examples/pace.html")
-              i(class="fa fa-circle-o") Pace Page
-      li(class="treeview")
-        a(href="#")
-          i(class="fa fa-share")
-          span Multilevel
-          i(class="fa fa-angle-left pull-right")
-        ul(class="treeview-menu")
-          li 
-            a(href="#")
-              i(class="fa fa-circle-o") Level Onea
-          li
-            a(href="#")
-              i(class="fa fa-circle-o") Level One
-                i(class="fa fa-angle-left pull-right")
-            ul(class="treeview-menu")
-              li
-                a(href="#")
-                  i(class="fa fa-circle-o") Level Two
-              li
-                a(href="#")
-                  i(class="fa fa-circle-o") Level Two 
-                    i(class="fa fa-angle-left pull-right")
-                ul(class="treeview-menu")
-                  li
-                    a(href="#")
-                      i(class="fa fa-circle-o") Level Three
-                  li
-                    a(href="#")
-                      i(class="fa fa-circle-o") Level Three
-          li
-            a(href="#") 
-              i(class="fa fa-circle-o") Level One
+              i(class="fa fa-circle-o") Data tables     
       li
         a(href="documentation/index.html") 
           i(class="fa fa-book") 
           span Documentación
-      li(class="header") LABELS
+      li(class="header") A TENER EN CUENTA
       li
         a(href="#")
           i(class="fa fa-circle-o text-red")
-          span Important
+          span Importante
       li
         a(href="#")
           i(class="fa fa-circle-o text-yellow")
-          span Warning
+          span Atención
       li
         a(href="#")
           i(class="fa fa-circle-o text-aqua")
-          span Information
+          span Información
+      li
+        a(href="#")
+          i(class="fa fa-circle-o text-green")
+          span Correcto

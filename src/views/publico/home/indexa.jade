@@ -33,7 +33,8 @@ html(lang="es" class="no-js")
                 span Bonanza
                 div(class="social-media hidden-xs")        
                     p(class="slogan-text text-capitalize") Sistema de Gestión Ganadera
-                    button(class="tero" data-filter="all") Ingresar
+                    form(action='/web/log' method="get")
+                        button(href="/web/log" class="tero" data-filter="all") Ingresar
                 div(class="social-media hidden-xs")
                     a(href="https://www.facebook.com/Bonanza-Sistema-De-Gestion-Ganadera-1767571960144796/?__mref=message_bubble" class="fa fa-facebook" data-toggle="tooltip" title="Facebook")
                     a(href="https://twitter.com/bonanzacomerci2" class="fa fa-twitter" data-toggle="tooltip" title="Twitter")
@@ -44,7 +45,7 @@ html(lang="es" class="no-js")
         <!-- Navigation Menu -->
         div(class="menu")
             div(data-url_target="about_us" class="profile-btn menu_button")
-                img(alt="" src="/img/about.jpg" style="width:100%; height:100%;")
+                img(alt="" src="/img/vacas.png" style="width:100%; height:100%;")
                 div(class="mask")
                 div(class="heading")
                     i(class="ion-ios-people-outline hidden-xs")
@@ -169,21 +170,21 @@ html(lang="es" class="no-js")
                                 div(class="row")
                                     div(class="project-controls")
                                         button(class="filter" data-filter="all") Todas
-                                        button(class="filter" data-filter=".graphic-design") Diseño Gráfico
+                                        button(class="filter" data-filter=".graphic-design") Automatización
                                         button(class="filter" data-filter=".web-design") Diseño Web
-                                        button(class="filter" data-filter=".app-development") Desarrollo de Sistemas
+                                        button(class="filter" data-filter=".app-development") Aplicación
                                     <!-- Portfolio Control Buttons [ END ] -->
                                     div(id="projects" class="projet-items clearfix")
                                         <!-- Portfolio Image -->
                                         div(class="col-lg-4 col-md-6 col-sm-4 col-xs-6 mix graphic-design")
                                             div(class="project")
-                                                img(src="/img/portfolio/thumbs/image_1.jpg" alt="")
+                                                img(src="/img/portfolio/thumbs/lector.jpg" alt="")
                                                 div(class="ovrly")
                                                 div(class="buttons")
                                                     a(href="#portfolio-1" class="fa fa-search show-popup")
                                         <!-- Popup Content -->
                                         div(class="pop-up-box" id="portfolio-1")
-                                            img(alt="" src="/img/portfolio/image_1.jpg" class=" hidden-xs")
+                                            img(alt="" src="/img/portfolio/lector.jpg" class=" hidden-xs")
                                             div(class="popup-content")
                                                 h3 PROJECT NAME
                                                 p Quisque in tempor sapien, et cursus neque. Nunc pulvinar diam ac dapibus mollis. Etiam id iaculis lorem. Donec bibendum volutpat ante, eu consequat nisi suscipit at. Etiam interdum augue dolor, id auctor felis volutpat sed. Phasellus id ex ultrices, tempus leo eget, volutpat diam. In sit amet magna faucibus, molestie nisi in, hendrerit libero. Morbi auctor velit sagittis, elementum lorem eget, imperdiet nisl.
@@ -207,13 +208,13 @@ html(lang="es" class="no-js")
                                         <!-- Portfolio Image -->
                                         div(class="col-lg-4 col-md-6 col-sm-4 col-xs-6 mix app-development")
                                             div(class="project")
-                                                img(src="/img/portfolio/thumbs/image_3.jpg" alt="")
+                                                img(src="/img/portfolio/thumbs/imagen1.png" alt="")
                                                 div(class="ovrly")
                                                 div(class="buttons")
                                                     a(href="#portfolio-3" class="fa fa-search show-popup")
                                         <!-- Popup Content -->
                                         div(class="pop-up-box" id="portfolio-3")
-                                            img(alt="" src="/img/portfolio/image_3.jpg" class=" hidden-xs")
+                                            img(alt="" src="/img/portfolio/imagen1.png" class=" hidden-xs")
                                             div(class="popup-content")
                                                 h3 PROJECT NAME
                                                 p Quisque in tempor sapien, et cursus neque. Nunc pulvinar diam ac dapibus mollis. Etiam id iaculis lorem. Donec bibendum volutpat ante, eu consequat nisi suscipit at. Etiam interdum augue dolor, id auctor felis volutpat sed. Phasellus id ex ultrices, tempus leo eget, volutpat diam. In sit amet magna faucibus, molestie nisi in, hendrerit libero. Morbi auctor velit sagittis, elementum lorem eget, imperdiet nisl.
@@ -222,13 +223,13 @@ html(lang="es" class="no-js")
                                         <!-- Portfolio Image -->
                                         div(class="col-lg-4 col-md-6 col-sm-4 col-xs-6 mix graphic-design")
                                             div(class="project")
-                                                img(src="/img/portfolio/thumbs/image_4.jpg" alt="")
+                                                img(src="/img/portfolio/thumbs/comedero.jpg" alt="")
                                                 div(class="ovrly")
                                                 div(class="buttons")
                                                     a(href="#portfolio-4" class="fa fa-search show-popup")
                                         <!-- Popup Content -->
                                         div(class="pop-up-box" id="portfolio-4")
-                                            img(alt="" src="/img/portfolio/image_4.jpg" class=" hidden-xs")
+                                            img(alt="" src="/img/portfolio/comedero.jpg" class=" hidden-xs")
                                             div(class="popup-content")
                                                 h3 PROJECT NAME
                                                 p Quisque in tempor sapien, et cursus neque. Nunc pulvinar diam ac dapibus mollis. Etiam id iaculis lorem. Donec bibendum volutpat ante, eu consequat nisi suscipit at. Etiam interdum augue dolor, id auctor felis volutpat sed. Phasellus id ex ultrices, tempus leo eget, volutpat diam. In sit amet magna faucibus, molestie nisi in, hendrerit libero. Morbi auctor velit sagittis, elementum lorem eget, imperdiet nisl.
@@ -237,13 +238,13 @@ html(lang="es" class="no-js")
                                         <!-- Portfolio Image -->                                        
                                         div(class="col-lg-4 col-md-6 col-sm-4 col-xs-6 mix web-design")
                                             div(class="project")
-                                                img(src="/img/portfolio/thumbs/image_5.jpg" alt="")
+                                                img(src="/img/portfolio/thumbs/cafe.jpg" alt="")
                                                 div(class="ovrly")
                                                 div(class="buttons")
                                                     a(href="#portfolio-5" class="fa fa-search show-popup")
                                         <!-- Popup Content -->                                        
                                         div(class="pop-up-box" id="portfolio-5")
-                                            img(alt="" src="/img/portfolio/image_5.jpg" class=" hidden-xs")
+                                            img(alt="" src="/img/portfolio/cafe.jpg" class=" hidden-xs")
                                             div(class="popup-content")
                                                 h3 PROJECT NAME
                                                 p Quisque in tempor sapien, et cursus neque. Nunc pulvinar diam ac dapibus mollis. Etiam id iaculis lorem. Donec bibendum volutpat ante, eu consequat nisi suscipit at. Etiam interdum augue dolor, id auctor felis volutpat sed. Phasellus id ex ultrices, tempus leo eget, volutpat diam. In sit amet magna faucibus, molestie nisi in, hendrerit libero. Morbi auctor velit sagittis, elementum lorem eget, imperdiet nisl.
@@ -252,13 +253,13 @@ html(lang="es" class="no-js")
                                         <!-- Portfolio Image -->
                                         div(class="col-lg-4 col-md-6 col-sm-4 col-xs-6 mix app-development")
                                             div(class="project")
-                                                img(src="/img/portfolio/thumbs/image_6.jpg" alt="")
+                                                img(src="/img/portfolio/thumbs/imagen2.png" alt="")
                                                 div(class="ovrly")
                                                 div(class="buttons")
                                                     a(href="#portfolio-6" class="fa fa-search show-popup")
                                         <!-- Popup Content -->
                                         div(class="pop-up-box" id="portfolio-6")
-                                            img(alt="" src="/img/portfolio/image_6.jpg" class=" hidden-xs")
+                                            img(alt="" src="/img/portfolio/imagen2.png" class=" hidden-xs")
                                             div(class="popup-content")
                                                 h3 PROJECT NAME
                                                 p Quisque in tempor sapien, et cursus neque. Nunc pulvinar diam ac dapibus mollis. Etiam id iaculis lorem. Donec bibendum volutpat ante, eu consequat nisi suscipit at. Etiam interdum augue dolor, id auctor felis volutpat sed. Phasellus id ex ultrices, tempus leo eget, volutpat diam. In sit amet magna faucibus, molestie nisi in, hendrerit libero. Morbi auctor velit sagittis, elementum lorem eget, imperdiet nisl.
@@ -283,13 +284,13 @@ html(lang="es" class="no-js")
                                         
                                         div(class="col-lg-4 col-md-6 col-sm-4 col-xs-6 mix graphic-design")
                                             div(class="project")
-                                                img(src="/img/portfolio/thumbs/image_8.jpg" alt="")
+                                                img(src="/img/portfolio/thumbs/balanza.jpg" alt="")
                                                 div(class="ovrly")
                                                 div(class="buttons")
                                                     a(href="#portfolio-8" class="fa fa-search show-popup")
                                         <!-- Popup Content -->
                                         div(class="pop-up-box" id="portfolio-8")
-                                            img(alt="" src="/img/portfolio/image_8.jpg" class=" hidden-xs")
+                                            img(alt="" src="/img/portfolio/balanza.jpg" class=" hidden-xs")
                                             div(class="popup-content")
                                                 h3 PROJECT NAME
                                                 p Quisque in tempor sapien, et cursus neque. Nunc pulvinar diam ac dapibus mollis. Etiam id iaculis lorem. Donec bibendum volutpat ante, eu consequat nisi suscipit at. Etiam interdum augue dolor, id auctor felis volutpat sed. Phasellus id ex ultrices, tempus leo eget, volutpat diam. In sit amet magna faucibus, molestie nisi in, hendrerit libero. Morbi auctor velit sagittis, elementum lorem eget, imperdiet nisl.
@@ -298,13 +299,13 @@ html(lang="es" class="no-js")
                                         <!-- Portfolio Image -->                                        
                                         div(class="col-lg-4 col-md-6 col-sm-4 col-xs-6 mix app-development")
                                             div(class="project")
-                                                img(src="/img/portfolio/thumbs/image_9.jpg" alt="")
+                                                img(src="/img/portfolio/thumbs/movil.jpg" alt="")
                                                 div(class="ovrly")
                                                 div(class="buttons")
                                                     a(href="#portfolio-9" class="fa fa-search show-popup")
                                         <!-- Popup Content -->
                                         div(class="pop-up-box" id="portfolio-9")
-                                            img(alt="" src="/img/portfolio/image_9.jpg" class=" hidden-xs")
+                                            img(alt="" src="/img/portfolio/movil.jpg" class=" hidden-xs")
                                             div(class="popup-content")
                                                 h3 PROJECT NAME
                                                 p Quisque in tempor sapien, et cursus neque. Nunc pulvinar diam ac dapibus mollis. Etiam id iaculis lorem. Donec bibendum volutpat ante, eu consequat nisi suscipit at. Etiam interdum augue dolor, id auctor felis volutpat sed. Phasellus id ex ultrices, tempus leo eget, volutpat diam. In sit amet magna faucibus, molestie nisi in, hendrerit libero. Morbi auctor velit sagittis, elementum lorem eget, imperdiet nisl.
@@ -313,13 +314,13 @@ html(lang="es" class="no-js")
                                         
                                         div(class="col-lg-4 col-md-6 col-sm-4 col-xs-6 mix web-design")
                                             div(class="project")
-                                                img(src="/img/portfolio/thumbs/image_10.jpg" alt="")
+                                                img(src="/img/portfolio/thumbs/diseno.jpg" alt="")
                                                 div(class="ovrly")
                                                 div(class="buttons")
                                                     a(href="#portfolio-10" class="fa fa-search show-popup")
                                         <!-- Popup Content -->
                                         div(class="pop-up-box" id="portfolio-10")
-                                            img(alt="" src="/img/portfolio/image_10.jpg" class=" hidden-xs")
+                                            img(alt="" src="/img/portfolio/diseno.jpg" class=" hidden-xs")
                                             div(class="popup-content")
                                                 h3 PROJECT NAME
                                                 p Quisque in tempor sapien, et cursus neque. Nunc pulvinar diam ac dapibus mollis. Etiam id iaculis lorem. Donec bibendum volutpat ante, eu consequat nisi suscipit at. Etiam interdum augue dolor, id auctor felis volutpat sed. Phasellus id ex ultrices, tempus leo eget, volutpat diam. In sit amet magna faucibus, molestie nisi in, hendrerit libero. Morbi auctor velit sagittis, elementum lorem eget, imperdiet nisl.
@@ -359,30 +360,30 @@ html(lang="es" class="no-js")
                                             div(class="flipper")
                                                 div(class="front")
                                                     i(class="fa fa-mobile")
-                                                    h5 Responsive
+                                                    h5 Identificación y Conteo 
                                                 div(class="back")
-                                                    h5 Responsive
-                                                    p La interfaz de usuario se ajustará a cualquier tamaño de pantalla. Desde los dispositivos móviles hasta en los ordenadores al mismo tiempo. 
+                                                    h5 Identificación y Conteo
+                                                    p La identificación del animal se realiza a través de un dispositivo RFID que es colocado en la oreja del animal, y obtenido por el lector de RFID los datos son transmitidos al celular o Tablet. El conteo se realiza con un dispositivo automático que leerá los tags RFID ubicados en la oreja del animal.
                                 div(class="col-md-4 col-sm-12")
                                     div(class="faq-desc-item")
                                         div(class="flip-container text-center" ontouchstart="this.classList.toggle('hover');")
                                             div(class="flipper")
                                                 div(class="front")
                                                     i(class="fa fa-lightbulb-o")
-                                                    h5 Bootstrap 
+                                                    h5 Automatización
                                                 div(class="back")
-                                                    h5 Bootstrap 
-                                                    p Bootstrap es un primer marco frontal móvil elegante, intuitivo y de gran alcance para el desarrollo web más rápido y más fácil. El Sistema de Gestión Ganadera Bonanza fue construido con esta herramienta que se extiende en gran medida en todo el sistema.
+                                                    h5 Automatización
+                                                    p Mediante la automatización de los silos y la batea, uno puede controlar el horario de consumo, el peso de alimentos descargados, la cantidad consumida y la cantidad de alimentos disponible dentro del silo.
                                 div(class="col-md-4 col-sm-12")
                                     div(class="faq-desc-item")
                                         div(class="flip-container text-center" ontouchstart="this.classList.toggle('hover');")
                                             div(class="flipper")
                                                 div(class="front")
                                                     i(class="fa fa-paint-brush")
-                                                    h5 Mobile First
+                                                    h5 Facturación y Stock
                                                 div(class="back")
-                                                    h5 Mobile First
-                                                    p El diseño se ajusta a medida que se asciende desde dispositivos móviles a las pantallas de escritorio de gran tamaño y no al revés. 
+                                                    h5 Facturación y Stock
+                                                    p Cuenta con un sistema donde realiza el control de sus compras y ventas, así como el control de stock de los productos como los balanceados, sales minerales, suplementos entre otros.
                 div(class="row")
                         div(class="col-md-10 col-md-offset-1 col-sm-12")
                             div(class="row")
@@ -392,30 +393,30 @@ html(lang="es" class="no-js")
                                             div(class="flipper")
                                                 div(class="front")
                                                     i(class="fa fa-plus")
-                                                    h5 Ligera
+                                                    h5 Control de Pesaje 
                                                 div(class="back")
-                                                    h5 Ligera
-                                                    p El Sistema de Gestión Ganadera Bonanza fue creado para ser lo más rápido y ligero posible. Esto mediante la utilización de herramientas que proporcionan una mejor consistencia entre navegadores en el estilo predeterminado de elementos HTML.
+                                                    h5 Control de Pesaje 
+                                                    p Para esto empleamos una báscula electrónica para ganado que envia el pesaje obtenido para ser registrado de manera diaria el aumento de peso de cada animal.
                                 div(class="col-md-4 col-sm-12")
                                     div(class="faq-desc-item")
                                         div(class="flip-container text-center" ontouchstart="this.classList.toggle('hover');")
                                             div(class="flipper")
                                                 div(class="front")
                                                     i(class="fa fa-flickr")
-                                                    h5 Disponibilidad
+                                                    h5 Registros Varios
                                                 div(class="back")
-                                                    h5 Disponibilidad 
-                                                    p Usted prodrá acceder al sistema desde cualquier lugar en el que se encuentre, visualizando todos los movimientos que se realize en su estancia en tiempo real. 
+                                                    h5 Registros Varios 
+                                                    p Contamos con sistemas de registros de clientes, proveedores, veterinarios, registros de usuarios con sus respectivos niveles asignados entre otros registros de actividades realizados en el corral.
                                 div(class="col-md-4 col-sm-12")
                                     div(class="faq-desc-item")
                                         div(class="flip-container text-center" ontouchstart="this.classList.toggle('hover');")
                                             div(class="flipper")
                                                 div(class="front")
                                                     i(class="fa fa-link")
-                                                    h5 Automatización
+                                                    h5 Seguridad
                                                 div(class="back")
-                                                    h5 Automatización
-                                                    p Le ayudamos a ahorrar tiempo y dinero, brindandole además seguridad para que usted pueda visualizar los costos reales de su inversión. 
+                                                    h5 Seguridad
+                                                    p Verificamos el ingreso de las personas autorizadas dentro del corral, implementando cerraduras electromagnéticas en los portones. Cada empleado cuenta con su propia llave para acceder a la misma. 
                 div(class="clearfix")
                     h2(class="small-heading") ELIJA SU PLAN
                     div(class="row")
@@ -473,17 +474,17 @@ html(lang="es" class="no-js")
                             div(id="sponsor-list" class="owl-carousel owl-theme")
 
                                 div(class="item")
-                                    img(src="/img/imprenta.png" alt="sponsor1" class="center-block" style="width: 165px; height: 127px;")
+                                    img(src="/img/imprenta.png" alt="imprenta" class="center-block" style="width: 165px; height: 127px;")
                                 div(class="item")
-                                    img(src="/img/imagill.png" alt="sponsor2" class="center-block" style="width: 165px; height: 127px;")
+                                    img(src="/img/images.png" alt="oclc" class="center-block" style="width: 165px; height: 127px;")
                                 div(class="item")
-                                    img(src="/img/logistica.png" alt="sponsor3" class="center-block" style="width: 165px; height: 127px;")
+                                    img(src="/img/kalko.jpg" alt="kalko" class="center-block" style="width: 165px; height: 127px;")
                                 div(class="item")
-                                    img(src="/img/sponsor4.png" alt="sponsor4" class="center-block" style="width: 165px; height: 127px;" )
+                                    img(src="/img/mega.jpg" alt="mega" class="center-block" style="width: 165px; height: 127px;" )
                                 div(class="item")
-                                    img(src="/img/sponsor5.png" alt="sponsor5" class="center-block" style="width: 165px; height: 127px;")
+                                    img(src="/img/hojas.jpg" alt="hojas" class="center-block" style="width: 165px; height: 127px;")
                                 div(class="item")
-                                    img(src="/img/sponsor6.png" alt="sponsor6" class="center-block" style="width: 165px; height: 127px;")
+                                    img(src="/img/vector.jpg" alt="vector" class="center-block" style="width: 165px; height: 127px;")
                 <!-- end: valuable clients -->
                 <!-- Footer -->
                 div(class="footer clearfix")
@@ -520,22 +521,22 @@ html(lang="es" class="no-js")
                                             br 
                                         div(class="data")
                                             i(class="fa fa-envelope")
-                                            span bonanza@hotmail.com
+                                            span dymifor@hotmail.com
                                         div(class="data")
                                             i(class="fa fa-phone")
                                             span +595- 985 387 789
                                     div(class="col-md-6")
                                         div(id="map-canvas")
                             div(class="row")
-                                form(id="nada" class="contact-form" method="post" action="mailto:bonanzacomercial@hotmail.com")                                    
+                                form(id="nada" class="contact-form" method="post" action='/web/mensaje/cargar')
                                     div(class="col-md-6 col-sm-6")
                                         div(class="form-group")
-                                            input(name="name" type="text" class="form-control" id="name" required="required" placeholder="  Nombre")
+                                            input(name="nombre" type="text" class="form-control" id="nombre" required="required" placeholder="  Nombre")
                                     div(class="col-md-6 col-sm-6")
                                         div(class="form-group")
                                             input(name="email" type="email" class="form-control" id="email" required="required" placeholder="  Email")
                                     div(class="col-md-12 col-sm-12")
-                                        textarea(name="massage" type="text" class="form-control" id="message" rows="5" required="required" placeholder="  Mensaje")
+                                        textarea(name="mensaje" type="text" class="form-control" id="mensaje" rows="5" required="required" placeholder="  Mensaje")
                                     div(class="col-md-4 col-xs-12")
                                         input(type="submit" id="cfsubmit" class="btn btn-send" value="Enviar")
                                     div(id="contactFormResponse" class="col-md-8 col-xs-12")

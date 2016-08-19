@@ -11,18 +11,41 @@ var Model = require('../../models/jugando.js');
 exports.getForm = function (req, res) {
   var cliente = Model.Cliente.build();
   var facturaVenta = Model.FacturaVenta.build();
-  cliente.retrieveAll(function (clienteQ) {
-    console.log('clienteQ',clienteQ);
-    if (clienteQ) {
-        res.render('web/facturaVenta/index', {
-                facturaVentaJ: facturaVenta,
-                selectJ: clienteQ
-        });
-      }
-  },function (error) {
-    res.send('Factura Venta no encontrado');
-  }
-  );    
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) { 
+
+          cliente.retrieveAll(function (clienteQ) {
+            console.log('clienteQ',clienteQ);
+            if (clienteQ) {
+                res.render('web/facturaVenta/index', {
+                        facturaVentaJ: facturaVenta,
+                        selectJ: clienteQ,
+                        mensajes: mensaje1,
+                        mensajeria: mensaje2
+                });
+              }
+          },function (error) {
+            res.send('Factura Venta no encontrado');
+          }); 
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
+    }
+  }, function (error) {
+    res.send('Mensaje no encontrado');
+  });   
 };
 // POST /facturaVenta
 exports.create = function (req, res) {
@@ -57,15 +80,40 @@ exports.create = function (req, res) {
 exports.listPag = function (req, res) {
   var facturaVenta = Model.FacturaVenta.build();
   console.log('request body',req.body);
-  facturaVenta.retrieveAll(function (facturaVenta) {
-    if (facturaVenta) {      
-      res.render('web/facturaVenta/success', { facturaVenta: facturaVenta});
-      console.log('soy facturaVenta retrieveAll',facturaVenta);
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          facturaVenta.retrieveAll(function (facturaVenta) {
+            if (facturaVenta) {      
+              res.render('web/facturaVenta/success', { 
+                facturaVenta: facturaVenta,
+                mensajes: mensaje1,
+                mensajeria: mensaje2
+              });
+              console.log('soy facturaVenta retrieveAll',facturaVenta);
+            } else {
+              res.send(401, 'No se encontraron Pesajes');
+            }
+          }, function (error) {
+            res.send('FacturaVenta no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'No se encontraron Pesajes');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('FacturaVenta no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 
@@ -100,41 +148,87 @@ exports.update = function (req, res) {
 exports.read = function (req, res) {
   var facturaVenta = Model.FacturaVenta.build();
   var cliente = Model.Cliente.build();
-  cliente.retrieveAll(function (cliente) {
-    if (cliente) {
-        facturaVenta.retrieveById(req.params.facturaVentaId, function (facturaVenta) {
-          if (facturaVenta) {
-            res.render('web/facturaVenta/edit', {
-                      facturaVenta:facturaVenta,
-                      select: cliente
-                    });
-          } else {
-            res.send(401, 'facturaVenta no encontrado');
-          }
-        }, function (error) {
-          res.send('facturaVenta no encontrado');
-        });
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          cliente.retrieveAll(function (cliente) {
+            if (cliente) {
+                facturaVenta.retrieveById(req.params.facturaVentaId, function (facturaVenta) {
+                  if (facturaVenta) {
+                    res.render('web/facturaVenta/edit', {
+                              facturaVenta:facturaVenta,
+                              select: cliente,
+                              mensajes: mensaje1,
+                              mensajeria: mensaje2
+                            });
+                  } else {
+                    res.send(401, 'facturaVenta no encontrado');
+                  }
+                }, function (error) {
+                  res.send('facturaVenta no encontrado');
+                });
+            } else {
+              res.send(401, 'No se encontraron Vacunaciones');
+            }
+          }, function (error) {
+            console.log(error);
+            res.send('Vacunacion no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'No se encontraron Vacunaciones');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    console.log(error);
-    res.send('Vacunacion no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 
 exports.readId = function (req, res) {
   var facturaVenta = Model.FacturaVenta.build();
-  facturaVenta.retrieveVerId(req.params.id, function (facturaVentaQ) {
-    if (facturaVentaQ) {
-      res.render('web/detalleVenta/success', {
-                  facturaVenta:facturaVentaQ
-                });
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) { 
+          facturaVenta.retrieveVerId(req.params.id, function (facturaVentaQ) {
+            if (facturaVentaQ) {
+              res.render('web/detalleVenta/success', {
+                          facturaVenta:facturaVentaQ,
+                          mensajes: mensaje1,
+                          mensajeria: mensaje2
+                        });
+            } else {
+              res.send(401, 'FacturaVenta no encontrado');
+            }
+          }, function (error) {
+            res.send('FacturaVenta no encontrado',error);
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'FacturaVenta no encontrado');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('FacturaVenta no encontrado',error);
+    res.send('Mensaje no encontrado');
   });
 };
 // DELETE /facturaVenta/facturaVentaId

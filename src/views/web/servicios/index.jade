@@ -1,0 +1,28 @@
+extends ../../layout 
+block content
+ div(class="content-wrapper")
+    section(class="content-header")
+      h1 Servicios
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Agregar Servicios
+    section(class="content")
+      div(class="row")  
+        div(class="col-md-12") 
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Registro de Servicios
+            form(class="form-horizontal" action='/web/servicios/cargar' method="POST")
+              div(class="box-body")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Servicios: 
+                  div(class="col-sm-8")  
+                    input(type="text" class="form-control" id="servicios" name='servicios' placeholder="Ingrese los Servicios")
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Guardar
+                    i(class="fa fa-save") 
+                  a(href="/web/servicios" class="btn btn-default") Cancelar
+                    i(class="fa fa-remove")

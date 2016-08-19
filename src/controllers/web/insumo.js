@@ -11,7 +11,32 @@ var Model = require('../../models/jugando.js');
 // router.route('/insumo') */
 exports.getForm = function (req, res) {
   var insumo = Model.Insumo.build();
-  res.render('web/insumo/index',{insumo: insumo});
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) { 
+          res.render('web/insumo/index',{
+            insumo: insumo,
+            mensajes: mensaje1,
+            mensajeria: mensaje2
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
+    }
+  }, function (error) {
+    res.send('Mensaje no encontrado');
+  });
 };
 // POST /insumo
 exports.create = function (req, res) {
@@ -45,14 +70,39 @@ exports.create = function (req, res) {
 exports.listPag = function (req, res) {
   var insumo = Model.Insumo.build();
   console.log(req.body);
-  insumo.retrieveAll(function (insumos) {
-    if (insumos) {
-      res.render('web/insumo/success', { insumos: insumos});
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {
+          insumo.retrieveAll(function (insumos) {
+            if (insumos) {
+              res.render('web/insumo/success', { 
+                insumos: insumos,
+                mensajes: mensaje1,
+                mensajeria: mensaje2
+              });
+            } else {
+              res.send(401, 'No se encontraron Insumos');
+            }
+          }, function (error) {
+            res.send('Insumo no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'No se encontraron Insumos');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Insumo no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 /* Rutas que terminan en /insumo/:insumoId
@@ -85,16 +135,40 @@ exports.update = function (req, res) {
 // Toma un insumo por id
 exports.read = function (req, res) {
   var insumo = Model.Insumo.build();
-
-  insumo.retrieveById(req.params.insumoId, function (insumooq) {
-    if (insumooq) {
-      console.log('dentro de editar:*****************');
-      res.render('web/insumo/edit', {insumo:insumooq});
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          insumo.retrieveById(req.params.insumoId, function (insumooq) {
+            if (insumooq) {
+              console.log('dentro de editar:*****************');
+              res.render('web/insumo/edit', {
+                insumo:insumooq,
+                mensajes: mensaje1,
+                mensajeria: mensaje2
+              });
+            } else {
+              res.send(401, 'Insumo no encontrado');
+            }
+          }, function (error) {
+            res.send('Insumo no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'Insumo no encontrado');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Insumo no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 // DELETE /insumo/insumoId

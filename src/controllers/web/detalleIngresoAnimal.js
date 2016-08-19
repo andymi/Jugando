@@ -12,28 +12,50 @@ exports.getForm1 = function (req, res) {
   var animal = Model.Animal.build();
   var detalleIngresoAnimal = Model.DetalleIngresoAnimal.build();
   var ingresoAnimal = Model.IngresoAnimal.build();
-  animal.retrieveAll(function (animalQ) {
-    console.log('animalQ',animalQ);
-    if (animalQ) {
-      ingresoAnimal.retrieveId(function (ingresoAnimalQ) {
-          if (ingresoAnimalQ) {      
-            console.log('soy ingresoAnimal retrieveId',ingresoAnimalQ);
-            res.render('web/detalleIngresoAnimal/index', {
-                            ingresoAnimalJ:ingresoAnimalQ,
-                            detalleIngresoAnimalJ: detalleIngresoAnimal,
-                            selectJ: animalQ
-            });    
-          } else {
-            res.send(401, 'No se encontraron Consumos');
-          }
+   //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) { 
+          animal.retrieveAll(function (animalQ) {
+            console.log('animalQ',animalQ);
+            if (animalQ) {
+              ingresoAnimal.retrieveId(function (ingresoAnimalQ) {
+                  if (ingresoAnimalQ) {      
+                    console.log('soy ingresoAnimal retrieveId',ingresoAnimalQ);
+                    res.render('web/detalleIngresoAnimal/index', {
+                                    ingresoAnimalJ:ingresoAnimalQ,
+                                    detalleIngresoAnimalJ: detalleIngresoAnimal,
+                                    selectJ: animalQ,
+                                    mensajes: mensaje1,
+                                    mensajeria: mensaje2
+                    });    
+                  } else {
+                    res.send(401, 'No se encontraron Consumos');
+                  }
+              });
+            }else {
+              res.send(401, 'No se Encontraron Consumos');
+            }
+          }, function (error) {
+            res.send('Detalle IngresoAnimal no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
       });
-    }else {
-      res.send(401, 'No se Encontraron Consumos');
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Detalle IngresoAnimal no encontrado');
-    }
-  );
+    res.send('Mensaje no encontrado');
+  });
 };
 // POST /detalleIngresoAnimal
 exports.create1 =  function (req, res) {
@@ -63,22 +85,44 @@ exports.getForm2 = function (req, res) {
   var animal = Model.Animal.build();
   var detalleIngresoAnimal = Model.DetalleIngresoAnimal.build();
   var ingresoId = req.params.ingresoId;
-  animal.retrieveAll(function (animalQ) {
-    console.log('animalQ',animalQ);
-    if (animalQ) {
-            console.log('soy ingresoAnimal retrieveId',ingresoId);
-            res.render('web/detalleIngresoAnimal/indexa', {
-                            ingresoAnimalJ:ingresoId,
-                            detalleIngresoAnimalJ: detalleIngresoAnimal,
-                            selectJ: animalQ
-            });   
-    }else {
-      res.send(401, 'No se Encontraron Consumos');
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {
+          animal.retrieveAll(function (animalQ) {
+            console.log('animalQ',animalQ);
+            if (animalQ) {
+                    console.log('soy ingresoAnimal retrieveId',ingresoId);
+                    res.render('web/detalleIngresoAnimal/indexa', {
+                                    ingresoAnimalJ:ingresoId,
+                                    detalleIngresoAnimalJ: detalleIngresoAnimal,
+                                    selectJ: animalQ,
+                                    mensajes: mensaje1,
+                                    mensajeria: mensaje2
+                    });   
+            }else {
+              res.send(401, 'No se Encontraron Consumos');
+            }
+          }, function (error) {
+            res.send('Detalle IngresoAnimal no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Detalle IngresoAnimal no encontrado');
-    }
-  );
+    res.send('Mensaje no encontrado');
+  });
 };
 // POST /detalleIngresoAnimal
 exports.create2 = function (req, res) {
@@ -127,41 +171,88 @@ exports.update = function (req, res) {
 exports.read = function (req, res) {
   var detalleIngresoAnimal =Model.DetalleIngresoAnimal.build();
   var animal = Model.Animal.build();
-  animal.retrieveAll(function (animal) {
-    if (animal) {
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) { 
+          animal.retrieveAll(function (animal) {
+            if (animal) {
+              detalleIngresoAnimal.retrieveById(req.params.idDetalleIAS, function (detalleIngresoAnimal) {
+                if (detalleIngresoAnimal) {
+                  res.render('web/detalleIngresoAnimal/edit', {
+                            detalleIngresoAnimal:detalleIngresoAnimal,
+                            select: animal,
+                            mensajes: mensaje1,
+                            mensajeria: mensaje2
+                          });
+                } else {
+                  res.send(401, 'Detalle Ingreso Animal no encontrado');
+                }
+              }, function (error) {
+                res.send('Detalle Ingreso Animal no encontrado');
+              });
 
-      detalleIngresoAnimal.retrieveById(req.params.idDetalleIAS, function (detalleIngresoAnimal) {
-        if (detalleIngresoAnimal) {
-          res.render('web/detalleIngresoAnimal/edit', {
-                    detalleIngresoAnimal:detalleIngresoAnimal,
-                    select: animal
-                  });
-        } else {
-          res.send(401, 'Detalle Ingreso Animal no encontrado');
+            } else {
+              res.send(401, 'No se encontraron Detalles');
+            }
+          }, function (error) {
+            console.log(error);
+            res.send('desDetalles no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
         }
       }, function (error) {
-        res.send('Detalle Ingreso Animal no encontrado');
+        res.send('Mensaje no encontrado');
       });
-
     } else {
-      res.send(401, 'No se encontraron Detalles');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    console.log(error);
-    res.send('desDetalles no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 exports.readId = function (req, res) {
   var detalleIngresoAnimal = Model.DetalleIngresoAnimal.build();
-  console.log('dentro de get /',req.body);
-  detalleIngresoAnimal.retrieveAll(req.params.id, function (detalleIngresoAnimales) {
-    if (detalleIngresoAnimales) {
-      res.render('web/detalleIngresoAnimal/success', { detalleIngresoAnimales:detalleIngresoAnimales});
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          console.log('dentro de get /',req.body);
+          detalleIngresoAnimal.retrieveAll(req.params.id, function (detalleIngresoAnimales) {
+            if (detalleIngresoAnimales) {
+              res.render('web/detalleIngresoAnimal/success', { 
+                detalleIngresoAnimales:detalleIngresoAnimales,
+                mensajes: mensaje1,
+                mensajeria: mensaje2
+              });
+            } else {
+              res.send(401, 'No se encontraron Detalles');
+            }
+          }, function (error) {
+            res.send('DetalleIngresoAnimal no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'No se encontraron Detalles');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('DetalleIngresoAnimal no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 // DELETE /detalleIngresoAnimal/detalleIngresoAnimalId

@@ -13,53 +13,70 @@ exports.getForm = function (req, res) {
   var facturaCompra = Model.FacturaCompra.build();
   var traslado = Model.Traslado.build();
   var ciudad = Model.Ciudad.build();
-  ciudad.retrieveAll(function (ciudadQ) {
-    console.log('ciudadQ',ciudadQ);
-    if (ciudadQ) {
-      facturaCompra.retrieveAll(function (facturaCompraq) {
-      console.log('facturaCompraq',facturaCompraq);
-      if (facturaCompraq) {
-        empleado.retrieveAll(function (empleadoQ) {
-        console.log('empleadoQ',empleadoQ);
-        if (empleadoQ) {
-          res.render('web/traslado/index', {
-            trasladoJ: traslado,            
-            selectJ: ciudadQ,
-            selectk: empleadoQ,
-            selectN: facturaCompraq
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) { 
+          ciudad.retrieveAll(function (ciudadQ) {
+            console.log('ciudadQ',ciudadQ);
+            if (ciudadQ) {
+              facturaCompra.retrieveAll2(function (facturaCompraq) {
+              console.log('facturaCompraq',facturaCompraq);
+              if (facturaCompraq) {
+                empleado.retrieveAll(function (empleadoQ) {
+                //console.log('empleadoQ',empleadoQ);
+                if (empleadoQ) {
+                  res.render('web/traslado/index', {
+                    trasladoJ: traslado,            
+                    selectJ: ciudadQ,
+                    selectk: empleadoQ,
+                    selectN: facturaCompraq,
+                    mensajes: mensaje1,
+                    mensajeria: mensaje2
+                  });
+                }
+                },function (error) {
+                  res.send('Traslado no encontrado');
+                }); 
+                }
+                },function (error) {
+                    res.send('Traslado no encontrado');
+                }); 
+            }
+          }, function (error) {
+            res.send('Usuario no encontrado');
           });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
         }
-        },function (error) {
-          res.send('Traslado no encontrado');
-        }); 
-        }
-        },function (error) {
-            res.send('Traslado no encontrado');
-        }); 
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Usuario no encontrado');
-  });
+    res.send('Mensaje no encontrado');
+  });   
 };
 // POST /traslado
 exports.create =  function (req, res) {
   console.log(req.body);
   // bodyParser debe hacer la magia
   var fechaTraslado = req.body.fechaTraslado;
-  var nombreConductor = req.body.nombreConductor;
-  var cedulaConductor = req.body.cedulaConductor;
-  var cantidadAnimal = req.body.cantidadAnimal;
   var numeroRUA = req.body.numeroRUA;
   var marcaAuto = req.body.marcaAuto;
-  var CiudadIdCiudad = req.body.select;
-  var EmpleadoIdEmpleado = req.body.selectJ;
+  var CiudadIdCiudad = req.body.selectJ;
+  var EmpleadoIdEmpleado = req.body.selectk;
   var FacturaCompraIdCompra = req.body.selectN;
 
   var index = Model.Traslado.build({
     fechaTraslado: fechaTraslado,
-    nombreConductor: nombreConductor,    
-    cedulaConductor: cedulaConductor,
-    cantidadAnimal: cantidadAnimal,
     numeroRUA: numeroRUA,
     marcaAuto: marcaAuto,
     CiudadIdCiudad: CiudadIdCiudad,
@@ -80,16 +97,41 @@ exports.create =  function (req, res) {
 exports.listPag = function (req, res) {
   var traslado =Model.Traslado.build();
   console.log('request body',req.body);
-  traslado.retrieveAll(function (traslado) {
-    if (traslado) {      
-      res.render('web/traslado/success', { traslado: traslado});
-      console.log('soy traslado retrieveAll',traslado);
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          traslado.retrieveAll(function (traslado) {
+            if (traslado) {      
+              res.render('web/traslado/success', { 
+                traslado: traslado,
+                mensajes: mensaje1,
+                mensajeria: mensaje2
+              });
+              console.log('soy traslado retrieveAll',traslado);
+            } else {
+              res.send(401, 'No se encontraron Traslados');
+            }
+          }, function (error) {
+            res.send('Traslado no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'No se encontraron Traslados');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Traslado no encontrado');
-  });
+    res.send('Mensaje no encontrado');
+  });   
 };
 
 /* Rutas que terminan en /traslado/:trasladoId
@@ -101,9 +143,6 @@ exports.update = function (req, res) {
   var traslado = Model.Traslado.build();
 
   traslado.fechaTraslado = req.body.fechaTraslado;
-  traslado.nombreConductor = req.body.nombreConductor;
-  traslado.cedulaConductor = req.body.cedulaConductor;
-  traslado.cantidadAnimal = req.body.cantidadAnimal;
   traslado.numeroRUA = req.body.numeroRUA;
   traslado.marcaAuto = req.body.marcaAuto;
   traslado.CiudadIdCiudad = req.body.ciudadSele;

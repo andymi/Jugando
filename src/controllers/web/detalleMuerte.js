@@ -12,28 +12,51 @@ exports.getForm1 = function (req, res) {
   var animal = Model.Animal.build();
   var detalleMuerte = Model.DetalleMuerte.build();
   var muerte = Model.Muertes.build();
-  animal.retrieveAll(function (animalQ) {
-    console.log('animalQ',animalQ);
-    if (animalQ) {
-      muerte.retrieveId(function (muerteQ) {
-          if (muerteQ) {      
-            console.log('soy muerte retrieveId',muerteQ);
-            res.render('web/detalleMuerte/index', {
-                            muerteJ:muerteQ,
-                            detalleMuerteJ: detalleMuerte,
-                            selectJ: animalQ
-            });    
-          } else {
-            res.send(401, 'No se encontraron Muertes');
-          }
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          animal.retrieveAll(function (animalQ) {
+            console.log('animalQ',animalQ);
+            if (animalQ) {
+              muerte.retrieveId(function (muerteQ) {
+                  if (muerteQ) {      
+                    console.log('soy muerte retrieveId',muerteQ);
+                    res.render('web/detalleMuerte/index', {
+                                    muerteJ:muerteQ,
+                                    detalleMuerteJ: detalleMuerte,
+                                    selectJ: animalQ,
+                                    mensajes: mensaje1,
+                                    mensajeria: mensaje2
+                    });    
+                  } else {
+                    res.send(401, 'No se encontraron Muertes');
+                  }
+              });
+            }else {
+              res.send(401, 'No se Eencontraron Muertes');
+            }
+          }, function (error) {
+            res.send('Detalle Muerte no encontrado');
+            }
+          );
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
       });
-    }else {
-      res.send(401, 'No se Eencontraron Muertes');
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Detalle Muerte no encontrado');
-    }
-  );
+    res.send('Mensaje no encontrado');
+  });  
 };
 // POST /detalleMuerte
 exports.create1 = function (req, res) {
@@ -71,38 +94,86 @@ exports.create1 = function (req, res) {
 exports.readId = function (req, res) {
   var detalleMuerte = Model.DetalleMuerte.build();
   console.log('dentro de get /',req.body);
-  detalleMuerte.retrieveAll(req.params.id, function (detalleMuertes) {
-    if (detalleMuertes) {
-      console.log('dentro de if');
-      res.render('web/detalleMuerte/success', { detalleMuertes:detalleMuertes});
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {
+          detalleMuerte.retrieveAll(req.params.id, function (detalleMuertes) {
+            if (detalleMuertes) {
+              console.log('dentro de if');
+              res.render('web/detalleMuerte/success', { 
+                detalleMuertes:detalleMuertes,
+                mensajes: mensaje1,
+                mensajeria: mensaje2
+              });
+            } else {
+              res.send(401, 'No se encontraron Detalles');
+            }
+          }, function (error) {
+            res.send('DetalleMuertesss no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'No se encontraron Detalles');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('DetalleMuertesss no encontrado');
-  });
+    res.send('Mensaje no encontrado');
+  });    
 };
 //******************************************
 exports.getForm2 = function (req, res) {
   var animal =Model.Animal.build();
   var detalleMuerte =Model.DetalleMuerte.build();
   var muerteId = req.params.muerteId;
-  animal.retrieveAll(function (animalQ) {
-    console.log('animalQ',animalQ);
-    if (animalQ) {
-            console.log('soy muerte retrieveId',muerteId);
-            res.render('web/detalleMuerte/indexa', {
-                            muerteJ:muerteId,
-                            detalleMuerteJ: detalleMuerte,
-                            selectJ: animalQ
-            });   
-    }else {
-      res.send(401, 'No se Eencontraron Muertes');
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) { 
+          animal.retrieveAll(function (animalQ) {
+            console.log('animalQ',animalQ);
+            if (animalQ) {
+                    console.log('soy muerte retrieveId',muerteId);
+                    res.render('web/detalleMuerte/indexa', {
+                                    muerteJ:muerteId,
+                                    detalleMuerteJ: detalleMuerte,
+                                    selectJ: animalQ,
+                                    mensajes: mensaje1,
+                                    mensajeria: mensaje2
+                    });   
+            }else {
+              res.send(401, 'No se Eencontraron Muertes');
+            }
+          }, function (error) {
+            res.send('Detalle Muerte no encontrado');
+            }
+          );
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Detalle Muerte no encontrado');
-    }
-  );
+    res.send('Mensaje no encontrado');
+  });    
 };
 // POST /detalleMuerte
 exports.create2 = function (req, res) {
@@ -160,28 +231,50 @@ exports.update = function (req, res) {
 exports.read = function (req, res) {
   var detalleMuerte = Model.DetalleMuerte.build();
   var animal = Model.Animal.build();
-  animal.retrieveAll(function (animal) {
-    if (animal) {  
-      detalleMuerte.retrieveById(req.params.detalleMuerteId, function (detalleMuerte) {
-        if (detalleMuerte) {
-          res.render('web/detalleMuerte/edit', {
-                      detalleMuerte:detalleMuerte,
-                      select: animal
-                    });
-        } else {
-          res.send(401, 'Detalle Muerte Animal no encontrado');
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          animal.retrieveAll(function (animal) {
+            if (animal) {  
+              detalleMuerte.retrieveById(req.params.detalleMuerteId, function (detalleMuerte) {
+                if (detalleMuerte) {
+                  res.render('web/detalleMuerte/edit', {
+                              detalleMuerte:detalleMuerte,
+                              select: animal,
+                              mensajes: mensaje1,
+                              mensajeria: mensaje2
+                            });
+                } else {
+                  res.send(401, 'Detalle Muerte Animal no encontrado');
+                }
+              }, function (error) {
+                res.send('Detalle Muerte Animal no encontrado');
+              });
+            } else {
+              res.send(401, 'No se encontraron Detalles');
+            }
+          }, function (error) {
+            console.log(error);
+            res.send('desDetalles no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
         }
       }, function (error) {
-        res.send('Detalle Muerte Animal no encontrado');
+        res.send('Mensaje no encontrado');
       });
     } else {
-      res.send(401, 'No se encontraron Detalles');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    console.log(error);
-    res.send('desDetalles no encontrado');
-  });
-
+    res.send('Mensaje no encontrado');
+  });   
 };
 
 // DELETE /detalleMuerte/detalleMuerteId

@@ -54,8 +54,7 @@ module.exports = function (sequelize, DataTypes) {
         retrieveAll: function (onSuccess, onError) {
           Proveedor.findAll({
             include: [ Model.Ciudad ] 
-          })
-          .then(onSuccess).catch(onError);
+          }).then(onSuccess).catch(onError);
         },
         retrieveById: function (proveedorId, onSuccess, onError) {
           Proveedor.find( { 
@@ -63,8 +62,25 @@ module.exports = function (sequelize, DataTypes) {
            where: { idProveedor: proveedorId } }, { raw: true } )
           .then(onSuccess).catch(onError);
         },
-        retrieveByProveedor: function (proveedor, onSuccess, onError) {
-          Proveedor.find( { where: { nombreProveedor: proveedor} }, { raw: true })
+        retrieveByProveedor: function (onSuccess, onError) {
+          Proveedor.findAll({ 
+            include: [ Model.Ciudad ],
+            where: { tipoProveedor: 'Animal'}
+          })
+          .then(onSuccess).catch(onError);
+        },
+        retrieveByProveedor2: function (onSuccess, onError) {
+          Proveedor.findAll({ 
+            include: [ Model.Ciudad ],
+            where: { tipoProveedor: 'Insumo'}
+          })
+          .then(onSuccess).catch(onError);
+        },
+        retrieveByProveedor3: function (onSuccess, onError) {
+          Proveedor.findAll({ 
+            include: [ Model.Ciudad ],
+            where: { tipoProveedor: 'Servicio'}
+          })
           .then(onSuccess).catch(onError);
         },
         add: function (onSuccess, onError) {

@@ -23,10 +23,11 @@ block content
                       th(class="cell-stat text-center") Descripción
                       th(class="cell-stat text-center") Precio
                       th(class="cell-stat text-center") Cantidad 
-                  
+                      th(class="cell-stat text-center") SubTotal 
                   tbody
                     for detalleVenta in detalleVentas
                       tr
                         td(class="text-center")=detalleVenta.descripcionVenta
                         td(class="text-center")=detalleVenta.precioVenta
                         td(class="text-center")=detalleVenta.cantidadVenta
+                        td(class="text-center")=detalleVenta.subtotalVenta

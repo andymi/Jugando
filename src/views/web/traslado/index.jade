@@ -1,55 +1,67 @@
 extends ../../layout 
 block content
-  br
-  br
-  div(class="container-fluid")
-    form(action='/web/traslado/add' method="POST")
-      div(class="form-group")
-        label(for="fechaTraslado") Fecha del Traslado
-        input(type="text" class="form-control" id="fechaTraslado" name='fechaTraslado' value='traslado.fechaTraslado' placeholder="Ingrese la Fecha del Traslado")
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Traslado de Animales
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Agregar Traslado 
+    section(class="content")
+      div(class="row")  
+        div(class="col-md-12") 
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Traslado de Animales   
+            form(class="form-horizontal" action='/web/traslado/add' method="POST")
+              div(class="box-body")
+                div(class="form-group")
+                    label(class="col-sm-4 control-label" for="fechaTraslado") Fecha del Traslado:
+                    div(class="col-sm-8")  
+                      div(class="input-group date")
+                        div(class="input-group-addon")
+                          i(class="fa fa-calendar")  
+                        input(type="text"  class="form-control pull-right" id="datepicker" name='fechaTraslado' required)
 
-      div(class="form-group")
-        label(for="nombreConductor") Ingrese el Nombre del Conductor
-        input(type="text"  class="form-control" id="nombreConductor" name='nombreConductor' value='traslado.nombreConductor' placeholder="Ingrese el Nombre del Conductor") 
-      div(class="form-group")
-        label(for="cedulaConductor") Ingrese la Cedula del Conductor
-        input(type="text" class="form-control" id="cedulaConductor" name='cedulaConductor' value='traslado.cedulaConductor' placeholder="Ingrese la Cedula del Conductor")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Nº de Compra: 
+                  div(class="col-sm-8")  
+                    select(name='selectN' class="btn btn-default select2" required)
+                      option(value="-1"  disabled="disabled" selected) Seleccione una opción
+                      -for(var j=0; j < selectN.length; j++) {
+                        option(value="#{selectN[j].idCompra}") #{selectN[j].numeroCompra}
+                      -} 
+                      
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="numeroRUA") Número de RUA: 
+                  div(class="col-sm-8")
+                    input(type="text" class="form-control" id="numeroRUA" name='numeroRUA' placeholder="Ingrese el Número de RUA" required)
 
-      div(class="form-group")
-        label(for="cantidadAnimal") Ingrese la Cantidad de Animales 
-        input(type="text"  class="form-control" id="cantidadAnimal" name='cantidadAnimal' value='traslado.cantidadAnimal' placeholder="Ingrese la Cantidad de Animales")
-
-      div(class="form-group")
-        label(for="numeroRUA") Ingrese el Numero de RUA
-        input(type="text" class="form-control" id="numeroRUA" name='numeroRUA' value='traslado.numeroRUA' placeholder="Ingrese el Numero de RUA")
-
-      div(class="form-group")
-        label(for="marcaAuto") Ingrese la Marca del Auto
-        input(type="text"  class="form-control" id="marcaAuto" name='marcaAuto' value='traslado.marcaAuto' placeholder="Ingrese la Marca del Auto")
-
-      div(class="form-group")
-        label(class="control-label col-sm-2" for="email") Ciudad: 
-        div(class="col-sm-10")  
-          select(name='selectJ')
-            option(value="-1" selected) Seleccione Ciudad
-            -for(var j=0; j < selectJ.length; j++) {
-              option(value="#{selectJ[j].idCiudad}") #{selectJ[j].ciudad}
-            -}  
-      div(class="form-group")
-        label(class="control-label col-sm-2" for="email") Empleado: 
-        div(class="col-sm-10")  
-          select(name='selectk')
-            option(value="-1" selected) Seleccione Empleado
-            -for(var j=0; j < selectk.length; j++) {
-              option(value="#{selectk[j].idEmpleado}") #{selectk[j].nombreEmpleado}
-            -} 
-      div(class="form-group")
-        label(class="control-label col-sm-2" for="email") Nº de Compra: 
-        div(class="col-sm-10")  
-          select(name='selectN')
-            option(value="-1" selected) Seleccione Nº de Compra
-            -for(var j=0; j < selectN.length; j++) {
-              option(value="#{selectN[j].idCompra}") #{selectN[j].numeroCompra}
-            -} 
-
-       button(type="submit" value="submit") Agregar Traslado
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="marcaAuto") Marca del Auto: 
+                  div(class="col-sm-8")
+                    input(type="text" class="form-control" id="marcaAuto" name='marcaAuto' placeholder="Ingrese la Marca del Auto" required)
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Ciudad: 
+                  div(class="col-sm-8")
+                      select(name='selectJ' class="btn btn-default select2" required)
+                        option(value="-1" disabled="disabled" selected) Seleccione una opción
+                        -for(var j=0; j < selectJ.length; j++) {
+                          option(value="#{selectJ[j].idCiudad}") #{selectJ[j].ciudad}
+                        -}
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Empleado: 
+                  div(class="col-sm-8")    
+                      select(name='selectk' class="btn btn-default select2" required)
+                        option(value="-1" disabled="disabled" selected) Seleccione una opción
+                        -for(var j=0; j < selectk.length; j++) {
+                          option(value="#{selectk[j].idEmpleado}") #{selectk[j].nombreEmpleado}
+                        -} 
+                
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Guardar
+                    i(class="fa fa-save") 
+                  a(href="/web/traslado" class="btn btn-default") Cancelar
+                    i(class="fa fa-remove")

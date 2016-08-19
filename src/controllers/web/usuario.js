@@ -13,27 +13,49 @@ exports.getForm = function (req, res) {
   var nivel = Model.Nivel.build();
   var usuario = Model.Usuario.build();
   var empleado = Model.Empleado.build();
-  nivel.retrieveAll(function (nivelesQ) {
-    if (nivelesQ) {
-      empleado.retrieveAll(function (empleadosQ) {
-         if (empleadosQ) {
-      
-          res.render('web/usuario/index', {
-              usuarioJ: usuario,
-              selectJ: nivelesQ,
-              selectJN: empleadosQ
-            });
-        }
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          nivel.retrieveAll(function (nivelesQ) {
+            if (nivelesQ) {
+              empleado.retrieveAll(function (empleadosQ) {
+                 if (empleadosQ) {
+              
+                  res.render('web/usuario/index', {
+                      usuarioJ: usuario,
+                      selectJ: nivelesQ,
+                      selectJN: empleadosQ,
+                      mensajes: mensaje1,
+                      mensajeria: mensaje2
+                    });
+                }
 
+              }, function (error) {
+                res.send('Usuario no encontrado');
+              }
+              );
+            }
+          }, function (error) {
+            res.send('Usuario no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
       }, function (error) {
-        res.send('Usuario no encontrado');
-      }
-      );
+        res.send('Mensaje no encontrado');
+      });
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Usuario no encontrado');
-    }
-  );
+    res.send('Mensaje no encontrado');
+  });
 };
 // POST /usuario
 exports.create = function (req, res) {
@@ -67,15 +89,39 @@ exports.create = function (req, res) {
 exports.listPag = function (req, res) {
   var usuario = Model.Usuario.build();
   console.log('request body',req.body);
-  usuario.retrieveAll(function (usuarios) {
-    if (usuarios) {
-      
-      res.render('web/usuario/success', { usuarios: usuarios});
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          usuario.retrieveAll(function (usuarios) {
+            if (usuarios) {              
+              res.render('web/usuario/success', { 
+                usuarios: usuarios,
+                mensajes: mensaje1,
+                mensajeria: mensaje2
+              });
+            } else {
+              res.send(401, 'No se encontraron Usuarios');
+            }
+          }, function (error) {
+            res.send('Usuario no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'No se encontraron Usuarios');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Usuario no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 /* Rutas que terminan en /usuario/:usuarioId
@@ -107,36 +153,59 @@ exports.read = function (req, res) {
   var usuario = Model.Usuario.build();
   var nivel = Model.Nivel.build();
   var empleado = Model.Empleado.build();
-  nivel.retrieveAll(function (niveles) {
-    if (niveles) {
-      empleado.retrieveAll(function (empleados) {
-        if (empleados) {      
-          usuario.retrieveById(req.params.usuarioId, function (usuarioq) {
-            if (usuarioq) {
-              res.render('web/usuario/edit', {
-                          usuario:usuarioq,
-                          select: niveles,
-                          selectN: empleados
-                        });
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          nivel.retrieveAll(function (niveles) {
+            if (niveles) {
+              empleado.retrieveAll(function (empleados) {
+                if (empleados) {      
+                  usuario.retrieveById(req.params.usuarioId, function (usuarioq) {
+                    if (usuarioq) {
+                      res.render('web/usuario/edit', {
+                                  usuario:usuarioq,
+                                  select: niveles,
+                                  selectN: empleados,
+                                  mensajes: mensaje1,
+                                  mensajeria: mensaje2
+                                });
+                    } else {
+                      res.send(401, 'Usuario no encontrado');
+                    }
+                  }, function (error) {
+                    res.send('Usuario no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Usuario');
+                }
+              }, function (error) {
+                console.log(error);
+                res.send('Usuario no encontrado');
+              });
             } else {
-              res.send(401, 'Usuario no encontrado');
+              res.send(401, 'No se encontraron Usuario');
             }
           }, function (error) {
+            console.log(error);
             res.send('Usuario no encontrado');
           });
-        } else {
-          res.send(401, 'No se encontraron Usuario');
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
         }
       }, function (error) {
-        console.log(error);
-        res.send('Usuario no encontrado');
+        res.send('Mensaje no encontrado');
       });
     } else {
-      res.send(401, 'No se encontraron Usuario');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    console.log(error);
-    res.send('Usuario no encontrado');
+    res.send('Mensaje no encontrado');
   });
 
 };

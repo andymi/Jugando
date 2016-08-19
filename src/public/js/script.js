@@ -106,10 +106,10 @@ $(document).ready(function () {
     $('.menu').on('click', '.menu_button' , function () {
         hideBoots4Menu();
     });
-
+    
     var mapCanvas = document.getElementById('map-canvas');
     var mapOptions = {
-        center: new google.maps.LatLng(-26.873765, -56.974911),
+        center: new google.maps.LatLng(-26.8844991,-57.0211705,16),
         zoom: 16,
         scrollwheel: false,
         mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -117,7 +117,7 @@ $(document).ready(function () {
     var map = new google.maps.Map(mapCanvas, mapOptions)
 
     var marker = new google.maps.Marker({
-            position: new google.maps.LatLng(-26.873765, -56.974911),
+            position: new google.maps.LatLng(-26.8844991,-57.0211705,16),
             title:"Boots4 Office"
         });
 
@@ -159,7 +159,7 @@ $(document).ready(function () {
         }, 100);
     });
 
-
+    
 
     $('.menu').on('click','div.contact-btn', function () {
         setTimeout(function(){

@@ -12,7 +12,32 @@ var Model = require('../../models/jugando.js');
 
 exports.getForm = function (req, res) {
   var index = Model.Departamento.build();
-  res.render('web/departamento/index',{index: index});
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) { 
+          res.render('web/departamento/index',{
+            index: index,
+            mensajes: mensaje1,
+            mensajeria: mensaje2
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
+    }
+  }, function (error) {
+    res.send('Mensaje no encontrado');
+  });
 };
 
 // POST /departamento
@@ -39,14 +64,39 @@ exports.create = function (req, res) {
 exports.listPag = function (req, res) {
   var departamento = Model.Departamento.build();
   console.log(req.body);
-  departamento.retrieveAll(function (departamentos) {
-    if (departamentos) {
-      res.render('web/departamento/success', { departamentos: departamentos});
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {
+          departamento.retrieveAll(function (departamentos) {
+            if (departamentos) {
+              res.render('web/departamento/success', { 
+                departamentos: departamentos,
+                mensajes: mensaje1,
+                mensajeria: mensaje2
+              });
+            } else {
+              res.send(401, 'No se encontraron Departamentos');
+            }
+          }, function (error) {
+            res.send('Departamento no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'No se encontraron Departamentos');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Departamento no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 
@@ -76,16 +126,40 @@ exports.update = function (req, res) {
 // Toma un departamento por id
 exports.read = function (req, res) {
   var departamento = Model.Departamento.build();
-
-  departamento.retrieveById(req.params.departamentoId, function (departamentooq) {
-    if (departamentooq) {
-      //res.json(departamento);
-      res.render('web/departamento/edit', {departamento:departamentooq});
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {
+          departamento.retrieveById(req.params.departamentoId, function (departamentooq) {
+            if (departamentooq) {
+              //res.json(departamento);
+              res.render('web/departamento/edit', {
+                departamento:departamentooq,
+                mensajes: mensaje1,
+                mensajeria: mensaje2
+              });
+            } else {
+              res.send(401, 'Departamento no encontrado');
+            }
+          }, function (error) {
+            res.send('Departamento no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'Departamento no encontrado');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Departamento no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 

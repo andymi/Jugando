@@ -19,22 +19,22 @@ block content
                 div(class="form-group")
                   label(class="col-sm-4 control-label" for="email") Código de Barra: 
                   div(class="col-sm-8")  
-                    input(type="text" class="form-control" id="codigoBarra" name='codigoBarra' placeholder="Ingrese el Código de Barras")
+                    input(type="text" class="form-control" id="codigoBarra" name='codigoBarra' placeholder="Ingrese el Código de Barras" required)
 
                 div(class="form-group")
                   label(class="col-sm-4 control-label" for="email") Nombre: 
                   div(class="col-sm-8")  
-                    input(type="text" class="form-control" id="nombreInsumo" name='nombreInsumo' placeholder="Ingrese el Nombre del Insumo")
+                    input(type="text" class="form-control" id="nombreInsumo" name='nombreInsumo' placeholder="Ingrese el Nombre del Insumo" required)
 
                 div(class="form-group")
                   label(class="col-sm-4 control-label" for="email") Contenido: 
                   div(class="col-sm-8")  
-                    input(type="text" class="form-control" id="contenidoInsumo" name='contenidoInsumo' placeholder="Ingrese el Contenido")
+                    input(type="text" class="form-control" id="contenidoInsumo" name='contenidoInsumo' placeholder="Ingrese el Contenido" required)
 
                 div(class="form-group")
                   label(class="col-sm-4 control-label" for="email") Precio: 
                   div(class="col-sm-8")  
-                    input(type="text" class="form-control" id="precioCompra" name='precioCompra' placeholder="Ingrese el Precio")
+                    input(type="text" class="form-control" id="precioCompra" name='precioCompra' placeholder="Ingrese el Precio" required)
 
                 div(class="form-group")
                   label(class="col-sm-4 control-label" for="email") Tipo de Insumo: 
@@ -44,11 +44,12 @@ block content
                       option(value="Medicamento") Medicamento
                       option(value="Sal Mineral") Sal Mineral
                       option(value="Balanceado") Balanceado
+                      option(value="Balanceado") Varios
 
                 div(class="form-group")
                   label(class="col-sm-4 control-label" for="email") Presentación: 
                   div(class="col-sm-8")  
-                    input(type="text" class="form-control" id="presentacionInsumo" name='presentacionInsumo' placeholder="Ingrese la Presentación del Insumo")
+                    input(type="text" class="form-control" id="presentacionInsumo" name='presentacionInsumo' placeholder="Ingrese la Presentación del Insumo" required)
               div(class="box-footer")
                 div(class="btn-group pull-right")
                   button(type="submit" href="javascript:void(0);" class="btn btn-success") Guardar

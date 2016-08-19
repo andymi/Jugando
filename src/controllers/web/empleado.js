@@ -11,18 +11,40 @@ var Model = require('../../models/jugando.js');
 exports.getForm = function (req, res) {
   var empleado = Model.Empleado.build();
   var ciudad = Model.Ciudad.build();
-  ciudad.retrieveAll(function (ciudadQ) {
-    console.log('ciudadQ',ciudadQ);
-    if (ciudadQ) {
-        res.render('web/empleado/index',{
-            selectJ: ciudadQ,
-            empleado: empleado
-        });
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {
+          ciudad.retrieveAll(function (ciudadQ) {
+            console.log('ciudadQ',ciudadQ);
+            if (ciudadQ) {
+                res.render('web/empleado/index',{
+                    selectJ: ciudadQ,
+                    empleado: empleado,
+                    mensajes: mensaje1,
+                    mensajeria: mensaje2
+                });
+            }
+          }, function (error) {
+            res.send('Usuario no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Usuario no encontrado');
-    }
-  );
+    res.send('Mensaje no encontrado');
+  });
 };
 // POST /empleado
 exports.create = function (req, res) {
@@ -54,14 +76,39 @@ exports.create = function (req, res) {
 exports.listPag = function (req, res) {
   var empleado = Model.Empleado.build();
   console.log(req.body);
-  empleado.retrieveAll(function (empleados) {
-    if (empleados) {
-      res.render('web/empleado/success', { empleados: empleados});
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          empleado.retrieveAll(function (empleados) {
+            if (empleados) {
+              res.render('web/empleado/success', { 
+                empleados: empleados,
+                mensajes: mensaje1,
+                mensajeria: mensaje2
+              });
+            } else {
+              res.send(401, 'No se encontraron Empleados');
+            }
+          }, function (error) {
+            res.send('Empleado no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
-      res.send(401, 'No se encontraron Empleados');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    res.send('Empleado no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 /* Rutas que terminan en /empleado/:empleadoId
@@ -98,27 +145,49 @@ exports.read = function (req, res) {
   var ciudad = Model.Ciudad.build();
   console.log('editar:*****************');
   console.log(req.params);
-  
-  ciudad.retrieveAll(function (ciudad) {
-    if (ciudad) {
-      empleado.retrieveById(req.params.empleadoId, function (empleadooq) {
-        if (empleadooq) {
-          res.render('web/empleado/edit', {
-                      empleado:empleadooq,
-                      select: ciudad
-                    });
-        } else {
-          res.send(401, 'arEmpleado no encontrado');
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) { 
+          ciudad.retrieveAll(function (ciudad) {
+            if (ciudad) {
+              empleado.retrieveById(req.params.empleadoId, function (empleadooq) {
+                if (empleadooq) {
+                  res.render('web/empleado/edit', {
+                              empleado:empleadooq,
+                              select: ciudad,
+                              mensajes: mensaje1,
+                              mensajeria: mensaje2
+                            });
+                } else {
+                  res.send(401, 'arEmpleado no encontrado');
+                }
+              }, function (error) {
+                res.send('esEmpleado no encontrado',error);
+              });
+            } else {
+              res.send(401, 'No se encontraron Empleados');
+            }
+          }, function (error) {
+            console.log(error);
+            res.send('desEmpleado no encontrado');
+          });
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
         }
       }, function (error) {
-        res.send('esEmpleado no encontrado',error);
+        res.send('Mensaje no encontrado');
       });
     } else {
-      res.send(401, 'No se encontraron Empleados');
+      res.send(401, 'No se encontraron Mensajes');
     }
   }, function (error) {
-    console.log(error);
-    res.send('desEmpleado no encontrado');
+    res.send('Mensaje no encontrado');
   });
 };
 

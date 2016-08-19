@@ -1,0 +1,38 @@
+extends ../../layout 
+block content
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Detalle de Compra del Animal
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Editar Detalle de la Compra
+    section(class="content")
+      div(class="row")
+        div(class="col-md-12")
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Edición del Detalle de la Compra
+            form(class="form-horizontal" method="post" action="/web/detalleCompra/#{detalleCompra.idDetalleCompra}")
+              div(class="box-body")
+                input(type="hidden" name="_method" value="put")
+                input(type="hidden" name="idDetalleCompra" value='#{detalleCompra.idDetalleCompra}')
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="pesoAnimal") Descripción
+                  div(class="col-sm-8")   
+                    input(type="text" class="form-control" id='descripcionCompra' name='descripcionCompra' value='#{detalleCompra.descripcionCompra}' required="true")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="precioCompra") Precio de Compra
+                  div(class="col-sm-8")
+                    input(type="text" class="form-control" id='precioCompra' name='precioCompra' value='#{detalleCompra.precioCompra}' required="true")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="cantidadCompra") Cantidad
+                  div(class="col-sm-8")
+                    input(type="text" class="form-control" id='cantidadCompra' name='cantidadCompra' value='#{detalleCompra.cantidadCompra}' required="true")       
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Editar Detalle Compra
+                    i(class="fa fa-refresh")
+                  a(href="/web/facturaCompra" class="btn btn-default") Cancelar
+                    i(class="fa fa-remove")       

@@ -1,4 +1,7 @@
 var crypto = require('crypto');
+var config = require('../config/config');
+
+var key = config.key;
 var Model = require('./jugando');
 module.exports = function (sequelize, DataTypes) {
   var Usuario = sequelize.define(
@@ -15,27 +18,62 @@ module.exports = function (sequelize, DataTypes) {
         }
       },
       usuario: {
-        type: DataTypes.STRING(250),
+        type: DataTypes.STRING(255),
         allowNull: false,
-        comment: 'Nombre del usuario',
+        defaultValue: 'correo',
+        comment: 'Correo electrónico del usuario, se utilizará como username',
         validate: {
-          //notNull: true,
-          notEmpty: true
+          notEmpty: { msg: '-> Falta username' },
+          // hay que devolver un mensaje de error si el username ya existe
+          isUnique: function (value, next) {
+            var self = this;
+            Usuario.find({ where: { usuario: value } })
+            .then(function (user) {
+              if (user && self.id !== user.id) {
+                return next('Username ya utilizado');
+              }
+              return next();
+            })
+            .catch(function (err) {
+              return next(err);
+            });
+          }
         }
       },
       pass: {
-        type: DataTypes.STRING(250),
+        type: DataTypes.STRING(255),
         allowNull: false,
+        defaultValue: 'none',
         comment: 'Password del usuario para ingresar al sistema',
         validate: {
-          //notNull: true,
-          isAlphanumeric: true
-          
+          notEmpty: { msg: '-> Falta password' },
+          set: function (pass) {
+            var encripted = crypto.createHmac('sha1', key).update(pass).digest('hex');
+            // Evita passwords vacíos
+            if (pass === '') {
+              encripted = '';
+            }
+            this.setDataValue('pass', encripted);
+            console.log(pass);
+          }
         }
       }
     },
     {
       instanceMethods: {
+        autenticar: function (usuario, pass, onSuccess, onError) {
+          console.log('estoy dentro de autenticar');
+          var encripted = crypto.createHmac('sha1', key).update(pass).digest('hex');
+          console.log('soy encripted', encripted);
+          
+          Usuario.find({
+            where: {
+              usuario: usuario,
+              $and: {pass: encripted} 
+            }
+          }).then(onSuccess).catch(onError);  
+        },
+
         retrieveAll: function (onSuccess, onError) {
           Usuario.findAll( {
             include: [ Model.Nivel, Model.Empleado ]
@@ -48,9 +86,11 @@ module.exports = function (sequelize, DataTypes) {
             where: { idUsuario: userId } }, { raw: true })
           .then(onSuccess).catch(onError);
         },
-        retrieveByEmail: function (userUsuario, onSuccess, onError) {
-          Usuario.find( { where: { usuario: userUsuario } }, { raw: true })
-          .then(onSuccess).catch(onError);
+        retrieveUser: function (usuario, onSuccess, onError) {
+          console.log('estoy adentro de retrieveUser');
+          Usuario.find( { 
+            where: { usuario: usuario}
+          }, { raw: true }).then(onSuccess).catch(onError);          
         },
         add: function (onSuccess, onError) {
           var usuario = this.usuario;
@@ -88,16 +128,7 @@ module.exports = function (sequelize, DataTypes) {
           .then(onSuccess).catch(onError);
         }
       },
-      getterMethods: {
-        nombreCompleto : function () { return this.usuario + ' ' + this.pass; }
-      },
-      setterMethods: {
-        nombreCompleto: function (valor) {
-          var nombres = valor.split(' ');
-          this.setDataValue('usuario', nombres.slice(0,-1).join(' '));
-          this.setDataValue('pass', nombres.slice(-1).join(' '));
-        }
-      },
+      
       timestamps: true,
       paranoid:true,
       createdAt: 'fechaCreacion',
