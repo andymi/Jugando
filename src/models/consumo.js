@@ -28,6 +28,129 @@ module.exports = function (sequelize, DataTypes) {
     },
     {
       instanceMethods: {
+        retrievePie: function (onSuccess, onError) {
+          Model.Insumo.find({
+            attributes: ['idInsumo'],
+            where:{tipoInsumo:'Balanceado'}
+          }).then(function (Insumoi) {
+              Consumo.find({
+                attributes: ['idConsumo'],
+                where:{InsumoIdInsumo: Insumoi.idInsumo}
+              }).then(function (Consumoi) {
+                Model.DetalleConsumo.findAll({
+                  attributes:[[sequelize.fn('SUM', sequelize.col('cantidad')),'cantidad']],
+                  where: { ConsumoIdConsumo: Consumoi.idConsumo }
+                }).then(onSuccess).catch(onError);
+              });
+          });              
+        },
+        retrievePie2: function (onSuccess, onError) {
+          Model.Insumo.find({
+            attributes: ['idInsumo'],
+            where:{tipoInsumo:'Sal Mineral'}
+          }).then(function (Insumoi) {
+              Consumo.find({
+                attributes: ['idConsumo'],
+                where:{InsumoIdInsumo: Insumoi.idInsumo}
+              }).then(function (Consumoi) {
+                Model.DetalleConsumo.findAll({
+                  attributes:[[sequelize.fn('SUM', sequelize.col('cantidad')),'cantidad']],
+                  where: { ConsumoIdConsumo: Consumoi.idConsumo }
+                }).then(onSuccess).catch(onError);
+              });
+          });              
+        },
+        retrieveBar: function (onSuccess, onError) {
+          Consumo.findAll({
+            attributes: ['idConsumo'],
+            order: 'idConsumo DESC LIMIT 7'
+          }).then(function (idConsumo) {
+              var a = idConsumo[0].dataValues['idConsumo'];
+              console.log('soy la aaaaaaaaaa', a);
+              Model.DetalleConsumo.find({
+                attributes:[[sequelize.fn('SUM', sequelize.col('cantidad')),'cantidad']],                
+                where: { ConsumoIdConsumo: a } 
+              }).then(onSuccess).catch(onError);
+           });
+        },
+        retrieveBar2: function (onSuccess, onError) {
+          Consumo.findAll({
+            attributes: ['idConsumo'],
+            order: 'idConsumo DESC LIMIT 7'
+          }).then(function (idConsumo) {
+              var a = idConsumo[1].dataValues['idConsumo'];
+              console.log('soy la aaaaaaaaaa', a);
+              Model.DetalleConsumo.find({
+                attributes:[[sequelize.fn('SUM', sequelize.col('cantidad')),'cantidad']],                
+                where: { ConsumoIdConsumo: a } 
+              }).then(onSuccess).catch(onError);
+           });
+        },
+        retrieveBar3: function (onSuccess, onError) {
+          Consumo.findAll({
+            attributes: ['idConsumo'],
+            order: 'idConsumo DESC LIMIT 7'
+          }).then(function (idConsumo) {
+              var a = idConsumo[2].dataValues['idConsumo'];
+              console.log('soy la aaaaaaaaaa', a);
+              Model.DetalleConsumo.find({
+                attributes:[[sequelize.fn('SUM', sequelize.col('cantidad')),'cantidad']],                
+                where: { ConsumoIdConsumo: a } 
+              }).then(onSuccess).catch(onError);
+           });
+        },
+        retrieveBar4: function (onSuccess, onError) {
+          Consumo.findAll({
+            attributes: ['idConsumo'],
+            order: 'idConsumo DESC LIMIT 7'
+          }).then(function (idConsumo) {
+              var a = idConsumo[3].dataValues['idConsumo'];
+              console.log('soy la aaaaaaaaaa', a);
+              Model.DetalleConsumo.find({
+                attributes:[[sequelize.fn('SUM', sequelize.col('cantidad')),'cantidad']],                
+                where: { ConsumoIdConsumo: a } 
+              }).then(onSuccess).catch(onError);
+           });
+        },
+        retrieveBar5: function (onSuccess, onError) {
+          Consumo.findAll({
+            attributes: ['idConsumo'],
+            order: 'idConsumo DESC LIMIT 7'
+          }).then(function (idConsumo) {
+              var a = idConsumo[4].dataValues['idConsumo'];
+              console.log('soy la aaaaaaaaaa', a);
+              Model.DetalleConsumo.find({
+                attributes:[[sequelize.fn('SUM', sequelize.col('cantidad')),'cantidad']],                
+                where: { ConsumoIdConsumo: a } 
+              }).then(onSuccess).catch(onError);
+           });
+        },
+        retrieveBar6: function (onSuccess, onError) {
+          Consumo.findAll({
+            attributes: ['idConsumo'],
+            order: 'idConsumo DESC LIMIT 7'
+          }).then(function (idConsumo) {
+              var a = idConsumo[5].dataValues['idConsumo'];
+              console.log('soy la aaaaaaaaaa', a);
+              Model.DetalleConsumo.find({
+                attributes:[[sequelize.fn('SUM', sequelize.col('cantidad')),'cantidad']],                
+                where: { ConsumoIdConsumo: a } 
+              }).then(onSuccess).catch(onError);
+           });
+        },
+        retrieveBar7: function (onSuccess, onError) {
+          Consumo.findAll({
+            attributes: ['idConsumo'],
+            order: 'idConsumo DESC LIMIT 7'
+          }).then(function (idConsumo) {
+              var a = idConsumo[6].dataValues['idConsumo'];
+              console.log('soy la aaaaaaaaaa', a);
+              Model.DetalleConsumo.find({
+                attributes:[[sequelize.fn('SUM', sequelize.col('cantidad')),'cantidad']],                
+                where: { ConsumoIdConsumo: a } 
+              }).then(onSuccess).catch(onError);
+           });
+        },
         retrieveAll: function (onSuccess, onError) {
           Consumo.findAll({
             include: [ Model.Insumo ]

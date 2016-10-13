@@ -46,6 +46,11 @@ module.exports = function (sequelize, DataTypes) {
           })
           .then(onSuccess).catch(onError);
         },
+        retrieveSMuerte2: function (onSuccess, onError) {
+          Muertes.findAll({
+            attributes:[[sequelize.fn('SUM', sequelize.col('cantidadTotal')),'cantidadTotal']]
+          }).then(onSuccess).catch(onError);
+        },
         retrieveId: function (onSuccess, onError) {
           Muertes.findAll( {
             attributes: ['idMuerte'],

@@ -61,6 +61,7 @@ exports.getForm = function (req, res) {
 // POST /detalleVacunacionInsumo
 exports.create1 = function (req, res) {
   console.log(req.body);
+  var stock = Model.Stock.build();
   // bodyParser debe hacer la magia
   var cantidadInsumo = req.body.cantidadInsumo; 
   var InsumoIdInsumo = req.body.selectJ;
@@ -74,10 +75,10 @@ exports.create1 = function (req, res) {
 
   index.add(function (success) {
     console.log('dentro de indexxxxxxxxxxx', InsumoIdInsumo);
-    stock.retrieveD(InsumoIdInsumo, function (success) {
+    stock.retrieveVacunacion(InsumoIdInsumo, cantidadInsumo, function (success) {
     if (success) {
-          console.log('tengo la suma de stock', stock);   
-          res.redirect('/web/detalleVacunacion/cargar');
+          console.log('tengo la suma de stock');   
+          //res.redirect('/web/detalleVacunacion/cargar');
     } else {
       res.send(401, 'stock no encontrado');
     }

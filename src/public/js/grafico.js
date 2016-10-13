@@ -13,21 +13,17 @@ $(function () {
   // This will get the first returned node in the jQuery collection.
   var areaChart = new Chart(areaChartCanvas);
 
-  //var andy=$("#valor");
+  var peso = document.getElementById("peso").value;
+  var peso2 = document.getElementById("peso2").value;
+  var peso3 = document.getElementById("peso3").value;
+  var peso4 = document.getElementById("peso4").value;
+  var peso5 = document.getElementById("peso5").value;
+  var peso6 = document.getElementById("peso6").value;
+  var peso7 = document.getElementById("peso7").value;
 
   var areaChartData = {
-    labels: ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+    labels: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
     datasets: [
-      {
-        label: "Electronics",
-        fillColor: "rgba(210, 214, 222, 1)",
-        strokeColor: "rgba(210, 214, 222, 1)",
-        pointColor: "rgba(210, 214, 222, 1)",
-        pointStrokeColor: "#c1c7d1",
-        pointHighlightFill: "#fff",
-        pointHighlightStroke: "rgba(220,220,220,1)",
-        data: [500, 200, 400, 100, 300, 200, 400]
-      },
       {
         label: "Digital Goods",
         fillColor: "rgba(60,141,188,0.9)",
@@ -36,7 +32,7 @@ $(function () {
         pointStrokeColor: "rgba(60,141,188,1)",
         pointHighlightFill: "#fff",
         pointHighlightStroke: "rgba(60,141,188,1)",
-        data: [100, 200, 300, 400, 500,200 , 400]
+        data: [peso7, peso6, peso5, peso4, peso3, peso2, peso]
       }
     ]
   };
@@ -88,9 +84,32 @@ $(function () {
   //--------------
   var lineChartCanvas = $("#lineChart").get(0).getContext("2d");
   var lineChart = new Chart(lineChartCanvas);
+  var consumosBar = document.getElementById("consumosBar").value;
+  var consumosBar2 = document.getElementById("consumosBar2").value;
+  var consumosBar3 = document.getElementById("consumosBar3").value;
+  var consumosBar4 = document.getElementById("consumosBar4").value;
+  var consumosBar5 = document.getElementById("consumosBar5").value;
+  var consumosBar6 = document.getElementById("consumosBar6").value;  
+  var consumosBar7 = document.getElementById("consumosBar7").value;
+  
+  var lineChartData = {
+    labels: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+    datasets: [
+      {
+        label: "Digital Goods",
+        fillColor: "rgba(60,141,188,0.9)",
+        strokeColor: "rgba(60,141,188,0.8)",
+        pointColor: "#3b8bba",
+        pointStrokeColor: "rgba(60,141,188,1)",
+        pointHighlightFill: "#fff",
+        pointHighlightStroke: "rgba(60,141,188,1)",
+        data: [consumosBar, consumosBar2, consumosBar3, consumosBar4, consumosBar5, consumosBar6, consumosBar7]
+      }
+    ]
+  };
   var lineChartOptions = areaChartOptions;
   lineChartOptions.datasetFill = false;
-  lineChart.Line(areaChartData, lineChartOptions);
+  lineChart.Line(lineChartData, lineChartOptions);
 
   //-------------
   //- PIE CHART -
@@ -98,19 +117,22 @@ $(function () {
   // Get context with jQuery - using jQuery's .get() method.
   var pieChartCanvas = $("#pieChart").get(0).getContext("2d");
   var pieChart = new Chart(pieChartCanvas);
+  var valor = document.getElementById("consumo").value;
+  var valor2 = document.getElementById("consumo2").value;
   var PieData = [
     {
-      value: 700,
-      color: "#f56954",
-      highlight: "#f56954",
+      value: valor,
+      color: "#DDA0DD",
+      highlight: "#DDA0DD",
       label: "Balanceado"
     },
     {
-      value: 500,
-      color: "#00a65a",
-      highlight: "#00a65a",
+      value: valor2,
+      color: "#d2d6de",
+      highlight: "#d2d6de",
       label: "Sales Minerales"
-    },
+    }
+    /*,
     {
       value: 400,
       color: "#f39c12",
@@ -140,7 +162,7 @@ $(function () {
       color: "#DDA0DD",
       highlight: "#DDA0DD",
       label: "Navigator"
-    }
+    }*/
   ];
   var pieOptions = {
     //Boolean - Whether we should show a stroke on each segment
@@ -175,7 +197,43 @@ $(function () {
   //-------------
   var barChartCanvas = $("#barChart").get(0).getContext("2d");
   var barChart = new Chart(barChartCanvas);
-  var barChartData = areaChartData;
+  var consumosBar = document.getElementById("consumosBar").value;
+  var consumosBar2 = document.getElementById("consumosBar2").value;
+  var consumosBar3 = document.getElementById("consumosBar3").value;
+  var consumosBar4 = document.getElementById("consumosBar4").value;
+  var consumosBar5 = document.getElementById("consumosBar5").value;
+  var consumosBar6 = document.getElementById("consumosBar6").value;  
+  var consumosBar7 = document.getElementById("consumosBar7").value;
+  
+  var barChartData = {
+    labels: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+    datasets: [
+      {
+        label: "Electronics",
+        fillColor:"rgba(210, 214, 222, 1)",
+        strokeColor:"rgba(210, 214, 222, 1)",
+        pointColor:"rgba(210, 214, 222, 1)",
+        pointStrokeColor: "rgba(60,141,188,1)",
+        pointHighlightFill: "#fff",
+        pointHighlightStroke: "rgba(60,141,188,1)",
+        data: [consumosBar, consumosBar2, consumosBar3, consumosBar4, consumosBar5, consumosBar6, consumosBar7]
+      },
+      {
+        label: "Digital Goods",
+        fillColor: "rgba(60,141,188,0.9)",
+        strokeColor: "rgba(60,141,188,0.8)",
+        pointColor: "#3b8bba",
+        pointStrokeColor: "rgba(60,141,188,1)",
+        pointHighlightFill: "#fff",
+        pointHighlightStroke: "rgba(60,141,188,1)",
+        data: [peso7, peso6, peso5, peso4, peso3, peso2, peso]
+      }
+    ]
+  };
+
+
+
+
   barChartData.datasets[1].fillColor = "#00a65a";
   barChartData.datasets[1].strokeColor = "#00a65a";
   barChartData.datasets[1].pointColor = "#00a65a";

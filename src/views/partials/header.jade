@@ -20,16 +20,16 @@ header(class="main-header")
                   for mensajess in mensajes
                     span(class="label label-success")=mensajess.email
                 ul(class="dropdown-menu")
-                 for mensajess in mensajes 
                   li(class="header") 
+                   for mensajess in mensajes 
                     span Tu tienes 
                     span=mensajess.email 
                     span   mensajes
                   li
                     <!-- inner menu: contains the actual data -->
                     ul(class="menu")
-                      for mensajess in mensajeria
                         li
+                         for mensajess in mensajeria
                           a(href="#")                            
                             small 
                                 i(class="fa fa-clock-o")=mensajess.fechaCreacion
@@ -39,7 +39,7 @@ header(class="main-header")
                               
                             p=mensajess.mensaje
                   li(class="footer")
-                    a(href="#") Ver todos los Mensajes
+                    a(href="/web/mensaje") Ver todos los Mensajes
 
 
         <!-- User Account: style can be found in dropdown.less -->

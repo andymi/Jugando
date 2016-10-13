@@ -15,7 +15,10 @@ block content
           div(class="small-box bg-aqua")
             div(class="inner")
               for stocks in stock
-               h3=stocks.cantidad
+                if stocks.cantidad == null  
+                  h3 0
+                else 
+                  h3=stocks.cantidad
               p Stock de Balanceados 
             div(class="icon")
               i(class="ion ion-bag")
@@ -24,8 +27,11 @@ block content
         div(class="col-lg-3 col-xs-6")
           div(class="small-box bg-green")
             div(class="inner")
-              for stocksS in Stock2
-               h3=stocksS.cantidad
+              for stocks in Stock2
+                if stocks.cantidad == null  
+                  h3 0
+                else 
+                  h3=stocks.cantidad
               p Stock de Sal Mineral 
             div(class="icon")
               i(class="ion ion-stats-bars")
@@ -35,8 +41,11 @@ block content
           <!-- small box -->
           div(class="small-box bg-yellow")
             div(class="inner")
-              for stocksS in Vtock3
-                h3=stocksS.cantidad
+              for stocks in Vtock3
+                if stocks.cantidad == null  
+                  h3 0
+                else 
+                  h3=stocks.cantidad
               p Stock de Medicamentos
             div(class="icon")
               i(class="ion ion-person-add")
@@ -45,8 +54,11 @@ block content
         div(class="col-lg-3 col-xs-6")
           div(class="small-box bg-red")
             div(class="inner")
-              for stocksS in Otock4
-               h3=stocksS.cantidad
+              for stocks in Otock4
+                if stocks.cantidad == null  
+                  h3 0
+                else 
+                  h3=stocks.cantidad
               p Stock de Insumos Varios  
             div(class="icon")
               i(class="ion ion-pie-graph")
@@ -58,15 +70,29 @@ block content
               <!-- AREA CHART -->
               div(class="box box-primary")
                 div(class="box-header with-border")
-                  h3(class="box-title") Area Chart
+                  h3(class="box-title") Suma Total de los Pesajes(Últimos 7 días)
+                  for pesos2 in peso2
+                    input(type="hidden" id="peso2" value='#{pesos2.peso}')
+                  for pesos3 in peso3
+                    input(type="hidden" id="peso3" value='#{pesos3.peso}')   
+                  for pesos4 in peso4
+                    input(type="hidden" id="peso4" value='#{pesos4.peso}') 
+                  for pesos5 in peso5
+                    input(type="hidden" id="peso5" value='#{pesos5.peso}')
+                  for pesos6 in peso6
+                    input(type="hidden" id="peso6" value='#{pesos6.peso}')   
+                  for pesos7 in peso7
+                    input(type="hidden" id="peso7" value='#{pesos7.peso}') 
+                  for pesos in peso
+                    input(type="hidden" id="peso" value='#{pesos.peso}')
+
                 div(class="box-body")
                   div(class="chart")
                     canvas(id="areaChart" style="height:250px")
-                      //span(id="valor" value='[500, 200, 400, 100, 300, 200, 400]')
               <!-- LINE CHART -->
               div(class="box box-info")
                 div(class="box-header with-border")
-                  h3(class="box-title") Line Chart
+                  h3(class="box-title") Cantidad de Alimentos Dispensados(Últimos 7 días)
                 div(class="box-body")
                   div(class="chart")
                     canvas(id="lineChart" style="height:250px")
@@ -75,14 +101,75 @@ block content
               <!-- DONUT CHART -->
               div(class="box box-danger")
                 div(class="box-header with-border")
-                  h3(class="box-title") Donut Chart
+                  h3(class="box-title") Consumo Total de Alimentos
+                  for consumos in consumiendo
+                    input(type="hidden" id="consumo" value='#{consumos.cantidad}')
+                  for consumo2 in consusal
+                    input(type="hidden" id="consumo2" value='#{consumo2.cantidad}')
                 div(class="box-body")
+                  div(class="chart")
                     canvas(id="pieChart" style="height:250px")
               
               <!-- BAR CHART -->
               div(class="box box-success")
                 div(class="box-header with-border")
-                  h3(class="box-title") Bar Chart
+                  h3(class="box-title") Relación Consumo - Pesaje
+                  for consumosBar in consumoBar
+                    input(type="hidden" id="consumosBar" value='#{consumosBar.cantidad}')
+                  for consumosBar2 in consumoBar2
+                    input(type="hidden" id="consumosBar2" value='#{consumosBar2.cantidad}')
+                  for consumosBar3 in consumoBar3
+                    input(type="hidden" id="consumosBar3" value='#{consumosBar3.cantidad}')
+                  for consumosBar4 in consumoBar4
+                    input(type="hidden" id="consumosBar4" value='#{consumosBar4.cantidad}')
+                  for consumosBar5 in consumoBar5
+                    input(type="hidden" id="consumosBar5" value='#{consumosBar5.cantidad}')
+                  for consumosBar6 in consumoBar6
+                    input(type="hidden" id="consumosBar6" value='#{consumosBar6.cantidad}')
+                  for consumosBar7 in consumoBar7
+                    input(type="hidden" id="consumosBar7" value='#{consumosBar7.cantidad}')                  
                 div(class="box-body")
                   div(class="chart")
                     canvas(id="barChart" style="height:230px")
+      div(class="row")
+        div(class="col-xs-12")
+          div(class="box box-solid")
+            div(class="box-header") 
+              i(class="fa fa-bar-chart-o") 
+
+              h3(class="box-title") Datos Actuales
+
+              div(class="box-tools pull-right") 
+                button(type="button" class="btn btn-default btn-sm" data-widget="collapse")
+                  i(class="fa fa-minus")
+                button(type="button" class="btn btn-default btn-sm" data-widget="remove")
+                  i(class="fa fa-times")
+            div(class="box-body")
+              div(class="row")
+                div(class="col-xs-6 col-md-3 text-center")
+                  for animals2 in animal2
+                    input(type="text" id="animals2" class="knob" value='#{animals2.cantidad}' data-width="90" data-height="90" data-fgColor="#3c8dbc")
+                  div(class="knob-label") Cantidad Total de Animales
+                
+                div(class="col-xs-6 col-md-3 text-center")                  
+                  input(type="text"  class="knob" value='52' data-width="90" data-height="90" data-fgColor="#f56954")
+                  div(class="knob-label") Animales Vacunados
+
+                div(class="col-xs-6 col-md-3 text-center") 
+                  input(type="text" class="knob" value="80" data-min="-150" data-max="150" data-width="90" data-height="90" data-fgColor="#00a65a")
+                  div(class="knob-label") Animales Sanitados
+
+                div(class="col-xs-6 col-md-3 text-center")
+                  for muerted2 in muerted                  
+                    input(type="text" id="muerted2" class="knob" value='#{muerted2.cantidadTotal}' data-width="90" data-height="90" data-fgColor="#00c0ef")
+                  div(class="knob-label") Animales Muertos 
+
+              div(class="row") 
+                div(class="col-xs-6 text-center") 
+                  input(type="text" class="knob" value="90" data-width="90" data-height="90" data-fgColor="#932ab6") 
+                  div(class="knob-label") Animales Extraviados
+
+                div(class="col-xs-6 text-center") 
+                  input(type="text" class="knob" value="50" data-width="90" data-height="90" data-fgColor="#39CCCC") 
+                  div(class="knob-label") Animales Vendidos
+                

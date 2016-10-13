@@ -204,8 +204,6 @@ exports.read = function (req, res) {
                             mensajes: mensaje1,
                             mensajeria: mensaje2
                     });
-
-                    //res.json(animal);
                   } else {
                      console.log('dentro de else:*****************');
                     res.send(401, 'Animal no encontrado');

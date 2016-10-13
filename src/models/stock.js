@@ -21,11 +21,6 @@ module.exports = function (sequelize, DataTypes) {
           isNumeric:true
         }
       },
-      lote: {
-        type: DataTypes.DATE,
-        //allowNull: false,
-        comment: 'Fecha de Vencimiento'
-      },
       cantidadMinima: {
         type: DataTypes.INTEGER(11),
         //allowNull: false,
@@ -86,15 +81,26 @@ module.exports = function (sequelize, DataTypes) {
               .then(onSuccess).catch(onError);
           });
         },
-         retrieveVacunacion: function (id, onSuccess, onError) {
+        //**************************
+         retrieveVacunacion: function (id, cantidad, onSuccess, onError) {
           Stock.findAll( {
-            include: [  Model.Insumo ],
-            where: {
-              RazaIdRaza: null              
-            }
-           } )
-          .then(onSuccess).catch(onError);
+            attributes:['idStock',[sequelize.fn('SUM', sequelize.col('cantidad')),'total']],
+            where: { InsumoIdInsumo: id }
+           }).then(function (idinsu) {
+              console.log('valor de idinsuuuuuuu', idinsu);
+              var a = idinsu[1].dataValues['total'] ;
+              var b = this.cantidad;
+              var resta = a - b;
+              console.log('soy la aaaaaaaaaa', a);
+              console.log('soy la bbbbbbbbbb', b);
+              console.log('soy la restaaaaaaaaaa', resta);
+              Stock.update({
+                cantidad: resta
+              },{ where: { idStock: idinsu[0].dataValues['idStock'] } })
+              .then(onSuccess).catch(onError);
+           });
         },
+        //***************************
         retrieveStock: function (onSuccess, onError) {
           Stock.findAll( {
             include: [  Model.Insumo ],
@@ -113,14 +119,13 @@ module.exports = function (sequelize, DataTypes) {
            } )
           .then(onSuccess).catch(onError);
         },
-        retrieveSAnimal: function (onSuccess, onError) {
-          Stock.findAll( {
-            include: [  Model.Raza ],
+        retrieveSAnimal2: function (onSuccess, onError) {
+          Stock.findAll({
+            attributes:[[sequelize.fn('SUM', sequelize.col('cantidad')),'cantidad']],            
             where: {
               InsumoIdInsumo: null              
             }
-           } )
-          .then(onSuccess).catch(onError);
+           }).then(onSuccess).catch(onError);
         },
         
         
@@ -134,24 +139,22 @@ module.exports = function (sequelize, DataTypes) {
         },
         addInsumo: function (onSuccess, onError) {
           var cantidad = this.cantidad;
-          var lote = this.lote;
           var cantidadMinima = this.cantidadMinima;
           var InsumoIdInsumo = this.InsumoIdInsumo;          
           Stock.build({
-            cantidad: cantidad, lote:lote, cantidadMinima:cantidadMinima, InsumoIdInsumo: InsumoIdInsumo            
+            cantidad: cantidad, cantidadMinima:cantidadMinima, InsumoIdInsumo: InsumoIdInsumo            
           })
           .save().then(onSuccess).catch(onError);
         },
         updateById: function (stockId, onSuccess, onError) {
           var idStock = this.idStock;
           var cantidad = this.cantidad;
-          var lote = this.lote;
           var cantidadMinima = this.cantidadMinima;
           var InsumoIdInsumo = this.InsumoIdInsumo;
           var DetalleCompraIdDetalleCompra = this.DetalleCompraIdDetalleCompra;
 
           Stock.update({
-            cantidad: cantidad, lote: lote, cantidadMinima: cantidadMinima,
+            cantidad: cantidad, cantidadMinima: cantidadMinima,
             InsumoIdInsumo: InsumoIdInsumo, DetalleCompraIdDetalleCompra: DetalleCompraIdDetalleCompra
           },{ where: { idStock: idStock } })
           .then(onSuccess).catch(onError);

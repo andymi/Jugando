@@ -30,6 +30,98 @@ module.exports = function (sequelize, DataTypes) {
     },
     {
       instanceMethods: {
+        retrieveLine: function (onSuccess, onError) {
+          Pesaje.findAll({
+            attributes: ['idPesaje'],
+            order: 'idPesaje DESC LIMIT 7'
+          }).then(function (idPesaje) {
+              var a = idPesaje[0].dataValues['idPesaje'];
+              console.log('soy la aaaaaaaaaa', a);
+              Model.DetallePesaje.find({
+                attributes:[[sequelize.fn('SUM', sequelize.col('peso')),'peso']],                
+                where: { PesajeIdPesaje: a } 
+              }).then(onSuccess).catch(onError);
+           });
+        },
+        retrieveLine2: function (onSuccess, onError) {
+          console.log("dentro de retrieveLine2");
+          Pesaje.findAll({
+            attributes: ['idPesaje'],
+            order: 'idPesaje DESC LIMIT 7'
+          }).then(function (idPesaje) {
+              var b = idPesaje[1].dataValues['idPesaje'];
+              console.log('soy la bbbbbbbbbb', b);
+              Model.DetallePesaje.find({
+                attributes:[[sequelize.fn('SUM', sequelize.col('peso')),'peso']],                
+                where: { PesajeIdPesaje: b } 
+              }).then(onSuccess).catch(onError);
+           });
+        },
+        retrieveLine3: function (onSuccess, onError) {
+          Pesaje.findAll({
+            attributes: ['idPesaje'],
+            order: 'idPesaje DESC LIMIT 7'
+          }).then(function (idPesaje) {
+              var c = idPesaje[2].dataValues['idPesaje'];
+              console.log('soy la cccccccccc', c);
+              Model.DetallePesaje.find({
+                attributes:[[sequelize.fn('SUM', sequelize.col('peso')),'peso']],                
+                where: { PesajeIdPesaje: c } 
+              }).then(onSuccess).catch(onError);
+           });
+        },
+        retrieveLine4: function (onSuccess, onError) {
+          Pesaje.findAll({
+            attributes: ['idPesaje'],
+            order: 'idPesaje DESC LIMIT 7'
+          }).then(function (idPesaje) {
+              var d = idPesaje[3].dataValues['idPesaje'];
+              console.log('soy la dddddddddd', d);
+              Model.DetallePesaje.find({
+                attributes:[[sequelize.fn('SUM', sequelize.col('peso')),'peso']],                
+                where: { PesajeIdPesaje: d } 
+              }).then(onSuccess).catch(onError);
+           });
+        },
+        retrieveLine5: function (onSuccess, onError) {
+          Pesaje.findAll({
+            attributes: ['idPesaje'],
+            order: 'idPesaje DESC LIMIT 7'
+          }).then(function (idPesaje) {
+              var e = idPesaje[4].dataValues['idPesaje'];
+              console.log('soy la aaaaaaaaaa', e);
+              Model.DetallePesaje.find({
+                attributes:[[sequelize.fn('SUM', sequelize.col('peso')),'peso']],                
+                where: { PesajeIdPesaje: e } 
+              }).then(onSuccess).catch(onError);
+           });
+        },
+        retrieveLine6: function (onSuccess, onError) {
+          Pesaje.findAll({
+            attributes: ['idPesaje'],
+            order: 'idPesaje DESC LIMIT 7'
+          }).then(function (idPesaje) {
+              var f = idPesaje[5].dataValues['idPesaje'];
+              console.log('soy la ffffffffff', f);
+              Model.DetallePesaje.find({
+                attributes:[[sequelize.fn('SUM', sequelize.col('peso')),'peso']],                
+                where: { PesajeIdPesaje: f } 
+              }).then(onSuccess).catch(onError);
+           });
+        },
+        retrieveLine7: function (onSuccess, onError) {
+          Pesaje.findAll({
+            attributes: ['idPesaje'],
+            order: 'idPesaje DESC LIMIT 7'
+          }).then(function (idPesaje) {
+              var g = idPesaje[6].dataValues['idPesaje'];
+              console.log('soy la gggggggggg', g);
+              Model.DetallePesaje.find({
+                attributes:[[sequelize.fn('SUM', sequelize.col('peso')),'peso']],                
+                where: { PesajeIdPesaje: g } 
+              }).then(onSuccess).catch(onError);
+           });
+        },
         retrieveAll: function (onSuccess, onError) {
           Pesaje.findAll( {
             include: [ Model.Empleado ]

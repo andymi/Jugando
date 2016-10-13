@@ -466,9 +466,9 @@ sequelize.sync().then(function () {
         if (count === 0) {
           Empleado.bulkCreate(
           [
-            { nombreEmpleado: 'Ignacio ', direccionEmpleado:'14 de mayo', cedulaEmpleado:'3818223', CiudadIdCiudad: 1 , codigoLlave: '123456' },
-            { nombreEmpleado: 'Juan', direccionEmpleado:'14 de mayo', cedulaEmpleado:'3818222', CiudadIdCiudad: 2 , codigoLlave: '123456' },
-            { nombreEmpleado: 'Maria', direccionEmpleado:'14 de mayo', cedulaEmpleado:'3818221', CiudadIdCiudad: 3 , codigoLlave: '123456'}
+            { nombreEmpleado: 'Ignacio ', codigoLlave: '123456', direccionEmpleado:'14 de mayo', cedulaEmpleado:'3818223', CiudadIdCiudad: 1 },
+            { nombreEmpleado: 'Juan', codigoLlave: '123456', direccionEmpleado:'14 de mayo', cedulaEmpleado:'3818222', CiudadIdCiudad: 2 },
+            { nombreEmpleado: 'Maria', codigoLlave: '123456', direccionEmpleado:'14 de mayo', cedulaEmpleado:'3818221', CiudadIdCiudad: 3 }
           ]
           ).then(function () {
             console.log('Base de datos (tabla Empleado) inicializada');

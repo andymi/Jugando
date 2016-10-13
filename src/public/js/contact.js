@@ -30,7 +30,7 @@ $(document).ready(function () {
                 },
                 error: function(data)
                 {
-                    alert("Error occurd! Please try again");
+                    alert("Ocurrió un Error! Por favor intente nuevamente");
                 }
             });
 

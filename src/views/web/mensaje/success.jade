@@ -1,0 +1,41 @@
+extends ../../layout 
+block content
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Mensajes
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Tabla de Mensajes Recibidos
+    section(class="content")
+      div(class="row")
+        div(class="col-xs-12")
+          div(class="box")
+            div(class="box-header")
+              h3(class="box-title") Tabla de Mensajes Recibidos
+              <!-- /.box-header -->
+            div(class="box-body")
+              div(class="table-responsive")
+                table(id="example1" class="table table-bordered table-striped")
+                  thead
+                    tr(class="success")
+                      th(class="text-center") Nombre       
+                      th(class="text-center") Email
+                      th(class="text-center") Mensajes
+                      th(class="text-center") Eliminar Registro
+                  
+                  tbody
+                    for mensaje in mensajeria
+                      tr
+                        td(class="text-center")=mensaje.nombre
+                        td(class="text-center")=mensaje.email
+                        td(class="text-center")=mensaje.mensaje 
+                        form(id="topicForm" method="post" action="/web/mensaje/#{mensaje.idMensaje}")
+                          input(type="hidden" name="_method" value="delete")
+                          input(type="hidden" name="idMensaje" value='#{mensaje.idMensaje}')               
+                          td(class="text-center")
+                            a(href="/web/mensaje/#{mensaje.idMensaje}" class="btn btn-success" role="button")
+                              p(data-placement="top" data-toggle="tooltip" title="Borrar Mensaje")
+                                button(type="submit" name="committ" value="Form" class="btn btn-success")
+                                  i(class="fa fa-remove")

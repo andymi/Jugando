@@ -1,145 +1,84 @@
-'use strict';
+module.exports = function(grunt){
+ 
+    grunt.initConfig({
+      pkg: grunt.file.readJSON('package.json'),
 
-module.exports = function(grunt) {
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-stylus');
-  grunt.loadNpmTasks('grunt-contrib-csslint');
-  grunt.loadNpmTasks('grunt-bower-task');
-  grunt.loadNpmTasks('grunt-csscomb');
-  grunt.loadNpmTasks('grunt-jscs');
-  grunt.loadNpmTasks('grunt-githooks');
-//  grunt.loadNpmTasks('grunt-karma');
-//  grunt.loadNpmTasks('grunt-mocha-test');
-  grunt.loadNpmTasks('grunt-shell');
-  grunt.loadTasks('grunt');
-
-  grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
-    jscs: {
-      options: {
-        config: '.jscsrc',
-        reporter: 'checkstyle'
-      },
-      src: [
-        'GruntFile.js',
-        'src/**/*.js',
-        '!src/public/lib/**',
-        '!src/public/css/**',
-        '!src/public/js/**',
-        '!src/stylus/**'
-      ]    },
-    jshint: {
-      options: {
-        jshintrc: '.jshintrc',
-        reporter: 'checkstyle'
-      },
-      src: [
-        'GruntFile.js',
-        'src/**/*.js',
-        '!src/public/lib/**',
-        '!src/public/js/**',
-        '!src/stylus/**',
-        '!src/public/css/**'
-      ]
-    },
-    githooks: {
-      all: {
+      uglify: {
         options: {
-          endMarker: ''
+          mangle: false
         },
-        'pre-commit': 'analyze',
-        'post-checkout': 'shell:gitlog',
-        'post-commit': 'shell:gitlog',
-        'post-merge': 'shell:gitlog shell:npminstall'
-      }
-    },
-    shell: {
-      gitlog: {
-        command: 'git log -1 > git-info.txt'
-      },
-      npminstall: {
-        command: 'npm install'
-      },
-      logClean: {
-        command: 'rm -f logs/*.log'
-      },
-      cpcss: {
-        command: 'cp src/stylus/museo.css src/public/css'
-      }
-    },
-    mochaTest: {
-      all: {
-        options: {
-          reporter: 'spec'
-        },
-        src: ['test/**/*Test.js', '!test/public/js/**/*Test.js']
-      }
-    },
-    karma: {
-      client: {
-        configFile: 'karma.conf.js'
-      }
-    },
-    stylus: {
-      compile: {
-        options: {
-          compress: true,
-          paths: ['src/stylus']
-        },
-        files: {
-          'src/stylus/museo.css': 'src/stylus/museo.styl'
+        build: {
+          src: ['src/controllers/web/*.js','src/controllers/routesWEB.js','src/models/*.js','src/public/js/*.js'],
+          dest: 'doc/scripts.min.js'
         }
-      }
-    },
-    bower: {
-      install: {
-        options: {
-          targetDir: 'src/public/lib',
-          layout: 'byType',
-          install: true,
-          verbose: false,
-          cleanTargetDir: false,
-          cleanBowerDir: true,
-          bowerOptions: { forceLatest:true }
-        }
-      }
-    },
-    csscomb: {
-      museo: {
-          files: {
-              'src/stylus/museo.css': ['src/public/css/museo.css'],
+      },
+      watch: { 
+        scripts: {       
+          files: ['src/controllers/*.js','src/models/*.js','src/public/js/*.js'],
+          tasks: ['uglify'],
+          options: {
+            spawn: false,
           }
-      }
-    },
-
-    csslint: {
-       options: {
-           force: true,
-           absoluteFilePathsForFormatters: true,
-           formatters: [
-               {id: 'compact', dest: 'quality/report/css/compact.xml'}
-           ]
-       },
-       strict:{
-           options:{
-               force: true,
-               import:2,
-               'box-model':false,
-           },
-           src:['src/public/css/*.css'],
-       },
-       lax: {
+        } //scripts
+      }, //watch  */ 
+      imagemin: { 
+        main: {     
+          files: [{
+            expand: true,
+            cwd: 'src/public/img/',
+            src: ['src/public/img/*.{png,jpg,gif,.svg}'],
+            dest: 'src/public/style/'
+          }]     
+        }     
+      }, //imagemin
+      watch: {
+        images: {     
+            files: ['src/public/img/*.{png,jpg,gif}'],
+            tasks: ['newer:imagemin'],
             options: {
-                import: false
-            },
-       src: ['src/public/css/museo.css']
-      }
-    }
-  });
-
-  grunt.registerTask('default', ['analyze']);
-  grunt.registerTask('bower', ['bower']);
-  grunt.registerTask('css', ['stylus', 'shell:cpcss', 'csscomb', 'csslint']);
-  grunt.registerTask('test', 'Runs unit tests', ['mochaTest', 'karma:client']);
-  grunt.registerTask('analyze', 'Validate code style', ['jshint', 'jscs']);
+                spawn: false,
+            }     
+        }//images
+      },// watch
+      browserSync: {       
+        dev: {        
+          bsFiles: {
+            src : [
+              'src/controllers/web/*.js',
+              'src/controllers/routesWEB.js',
+              'src/models/*.js',
+              'src/public/css/*.css',
+              'src/public/img/*.jpg',
+              'src/public/img/*.png',
+              'src/public/img/*.svg',
+              'src/public/js/*.js',
+              'src/views/partials/*.jade',
+              'src/views/publico/home/*.jade',
+              'src/views/web/**/*.jade'
+            ]
+          },
+          options: {
+              watchTask: true,
+              debugInfo: true,
+              logConnections: true,
+              notify: true,
+              ghostMode: {
+                scroll: true,
+                links: true,
+                forms: true
+              }       
+          }        
+        } //dev
+      } // browserSync */
+    });
+    
+        
+    
+ grunt.loadNpmTasks('grunt-contrib-uglify');
+ grunt.loadNpmTasks('grunt-contrib-watch');
+ grunt.loadNpmTasks('grunt-contrib-imagemin');
+ grunt.loadNpmTasks('grunt-newer');
+ grunt.loadNpmTasks('grunt-browser-sync');
+ grunt.registerTask('default', [, "watch"]);
+ grunt.registerTask('default', ['uglify','watch','browserSync']);
 };

@@ -35,11 +35,26 @@ exports.create = function (req, res) {
 
 
 exports.listPag =  function (req, res) {
-  var mensaje = Model.Mensaje.build();
-  console.log(req.body);
-  mensaje.retrieveAll(function (mensajes) {
-    if (mensajes) {
-      res.render('web/mensaje/success', { mensajes: mensajes});
+ var mensaje = Model.Mensaje.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          console.log(req.body);
+              res.render('web/mensaje/success', { 
+                mensajes: mensaje1,
+                mensajeria: mensaje2
+              });
+            
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
     } else {
       res.send(401, 'No se encontraron Mensajes');
     }
@@ -68,8 +83,8 @@ exports.read = function (req, res) {
 // DELETE /nivel/mensajeId
 // Borra el mensajeId
 exports.delete = function (req, res) {
-  var mensaje = Model.Mensaje.build();
-
+ var mensaje = Model.Mensaje.build();
+ console.log('dentro de delete:*****************');
  mensaje.removeById(req.params.mensajeId, function (mensaje) {
     if (mensaje) {
       console.log('dentro de borrar:*****************');
@@ -81,3 +96,4 @@ exports.delete = function (req, res) {
     res.send('Mensaje no encontrado');
   });
 };
+    

@@ -5,10 +5,12 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
-var session = require('express-session');
 
-//var SerialPort = require("serialport");
-//var port = new SerialPort('/dev/tty-usbserial1');
+/*var SerialPort = require('serialport');
+var serialport = new SerialPort("/COM13", {
+  baudRate: 115200
+});*/
+
 
 var config = require('./config/config');
 /**********empezamos a declarar nuestro controlador****************/
@@ -116,24 +118,75 @@ app.use(function (err, req, res, next) {
     error: {}
   });
 });
+/*****************************/
+/*
+var buffer = new Buffer(5);
+buffer[0] = 0xA0;   
+buffer[1] = 0x03;  
+buffer[2] = 0xFF;  
+buffer[3] = 0x79;   
+buffer[4] = 0xE5;
 
-/*port.on('open', function() {
-  port.write('main screen turn on', function(err) {
+var buffer2 = new Buffer(6);
+buffer2[0] = 0xA0;   
+buffer2[1] = 0x04;  
+buffer2[2] = 0x01;  
+buffer2[3] = 0x74;   
+buffer2[4] = 0x00;
+buffer2[5] = 0xE7;
+
+var buffer3 = new Buffer(6);
+buffer3[0] = 0xA0;   
+buffer3[1] = 0x04;  
+buffer3[2] = 0x01;  
+buffer3[3] = 0x89;   
+buffer3[4] = 0x01;
+buffer3[5] = 0xD1;
+
+serialport.on('open', function() {
+  serialport.write('main screen turn on', function(err) {
     if (err) {
-      return console.log('Error on write: ', err.message);
+      return console.log('Error no conectado: ', err.message);
     }
-    console.log('message written');
+    console.log('conectado');
+  }); 
+  serialport.write(buffer, function (err, result) {
+    if (err) {
+        console.log('Error1: ' + err);
+    }
+    //if (result) {
+        console.log('Entregado1');
+    //}    
   });
-});
+  serialport.write(buffer2, function (err, result) {
+    if (err) {
+        console.log('Error2: ' + err);
+    }
+    //if (result) {
+        console.log('Entregado2');
+    //}    
+  });
+  serialport.write(buffer3, function (err, result) {
+    if (err) {
+        console.log('Error3: ' + err);
+    }
+    //if (result) {
+        console.log('Entregado3');
+    //}    
+  });
+  serialport.on('data', function(data) {
+   var buff = new Buffer(data, 'utf8'); //no sure about this
+   console.log('data received: ' + buff.toString('hex'));
+  }); 
 
+  /*serialport.on('data', function(buffer) {
+      console.log(buffer.toString('hex'));
+  });*/
+  
+/*});
 // open errors will be emitted as an error event
-port.on('error', function(err) {
+serialport.on('error', function(err) {
   console.log('Error: ', err.message);
-});
-
-var port = new SerialPort('/dev/tty-usbserial1', {
-  parser: SerialPort.parsers.readline('\n')
-});
-*/
+});*/
 
 module.exports = app;

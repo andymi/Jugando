@@ -75,7 +75,7 @@ exports.create = function (req, res) {
   console.log(subtotalCompra);
   var InsumoIdInsumo = req.body.selectJ;
   var cantidadMinima = req.body.cantidadMinima;
-  var lote = req.body.lote;
+  
 
   var index = Model.DetalleCompra.build({
     precioCompra: precioCompra,    
@@ -86,7 +86,6 @@ exports.create = function (req, res) {
   });
   var stock = Model.Stock.build({
     cantidad: cantidadCompra,
-    lote: lote,
     cantidadMinima: cantidadMinima,
     InsumoIdInsumo: InsumoIdInsumo
   });

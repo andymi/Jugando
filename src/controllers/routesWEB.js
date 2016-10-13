@@ -365,8 +365,9 @@ RoutesWEB.post('/signup/ver', login.signUpPost);
 //RoutesWEB.use(login.notFound404);
 /*************************************************/
 /*************************************************/
+RoutesWEB.get('/mensaje/', mensaje.listPag);
 RoutesWEB.post('/mensaje/cargar', mensaje.create);
-
+RoutesWEB.delete('/mensaje/:mensajeId', mensaje.delete);
 
 RoutesWEB.get('/stock/', stock.listPag);
 RoutesWEB.get('/stock/animal', stock.listPag2);
