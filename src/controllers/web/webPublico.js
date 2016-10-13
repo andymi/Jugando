@@ -47,6 +47,10 @@ router.get('/principal', function (req, res) {
   var consumo = Model.Consumo.build();
   var pesaje = Model.Pesaje.build();
   var muerte = Model.Muertes.build();
+  var extraviado = Model.Extraviado.build();
+  var sanitacion = Model.Sanitacion.build();  
+  var vacunacion = Model.Vacunacion.build();
+  var ventas = Model.FacturaVenta.build();
 
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
@@ -119,33 +123,73 @@ router.get('/principal', function (req, res) {
                                                                                             if (pesaje) { 
                                                                                               muerte.retrieveSMuerte2(function (muertes) {
                                                                                                 console.log('muertes', muertes);
-                                                                                                if (muertes) {                                                                                       
-                                                                                                  res.render('web/index/PaginaPrincipal',{ 
-                                                                                                    mensajes: mensaje1,
-                                                                                                    mensajeria: mensaje2,
-                                                                                                    peso2: pesaje2,
-                                                                                                    peso3: pesaje3,
-                                                                                                    peso4: pesaje4,
-                                                                                                    peso5: pesaje5,
-                                                                                                    peso6: pesaje6,
-                                                                                                    peso7: pesaje7,
-                                                                                                    consumoBar: consumobar,
-                                                                                                    consumoBar2: consumobar2,
-                                                                                                    consumoBar3: consumobar3,
-                                                                                                    consumoBar4: consumobar4,
-                                                                                                    consumoBar5: consumobar5,
-                                                                                                    consumoBar6: consumobar6,
-                                                                                                    consumoBar7: consumobar7,                                                                                                   
-                                                                                                    stock: stockQ,
-                                                                                                    Stock2: stockN,
-                                                                                                    Vtock3: stockL,
-                                                                                                    consumiendo: consumir,
-                                                                                                    Otock4: stockO,
-                                                                                                    consusal: consumir2,
-                                                                                                    animal2: animal2,
-                                                                                                    peso: pesaje,
-                                                                                                    muerted: muertes                                                                         
-                                                                                                  });
+                                                                                                if (muertes) {
+                                                                                                  extraviado.retrieveExtraviado(function (extraviado) {
+                                                                                                    console.log('extraviado', extraviado);
+                                                                                                    if (extraviado) {
+                                                                                                      sanitacion.retrieveSanitacion(function (sanitacion) {
+                                                                                                        console.log('sanitacion', sanitacion);
+                                                                                                        if (sanitacion) {
+                                                                                                          vacunacion.retrieveVacunacion(function (vacunacion) {
+                                                                                                            console.log('vacunacion', vacunacion);
+                                                                                                            if (vacunacion) {
+                                                                                                              ventas.retrieveVenta(function (ventas) {
+                                                                                                                console.log('ventas', ventas);
+                                                                                                                if (ventas) {
+                                                                                                                  res.render('web/index/PaginaPrincipal',{ 
+                                                                                                                    mensajes: mensaje1,
+                                                                                                                    mensajeria: mensaje2,
+                                                                                                                    peso2: pesaje2,
+                                                                                                                    peso3: pesaje3,
+                                                                                                                    peso4: pesaje4,
+                                                                                                                    peso5: pesaje5,
+                                                                                                                    peso6: pesaje6,
+                                                                                                                    peso7: pesaje7,
+                                                                                                                    consumoBar: consumobar,
+                                                                                                                    consumoBar2: consumobar2,
+                                                                                                                    consumoBar3: consumobar3,
+                                                                                                                    consumoBar4: consumobar4,
+                                                                                                                    consumoBar5: consumobar5,
+                                                                                                                    consumoBar6: consumobar6,
+                                                                                                                    consumoBar7: consumobar7,                                                                                                   
+                                                                                                                    stock: stockQ,
+                                                                                                                    Stock2: stockN,
+                                                                                                                    Vtock3: stockL,
+                                                                                                                    consumiendo: consumir,
+                                                                                                                    Otock4: stockO,
+                                                                                                                    consusal: consumir2,
+                                                                                                                    animal2: animal2,
+                                                                                                                    peso: pesaje,
+                                                                                                                    muerted: muertes,
+                                                                                                                    extraviados: extraviado,
+                                                                                                                    sanitaciones: sanitacion,
+                                                                                                                    vacunaciones: vacunacion, 
+                                                                                                                    ventass: ventas                                                                      
+                                                                                                                  });
+                                                                                                                } else {
+                                                                                                                  res.send(401, 'No se Encontraron Ventas de Animales');
+                                                                                                                }
+                                                                                                              }, function (error) {
+                                                                                                                res.send('Ventas no encontrado');
+                                                                                                              });
+                                                                                                            } else {
+                                                                                                              res.send(401, 'No se Encontraron Vacunacion de Animales');
+                                                                                                            }
+                                                                                                          }, function (error) {
+                                                                                                            res.send('Vacunacion no encontrado');
+                                                                                                          });
+                                                                                                        } else {
+                                                                                                          res.send(401, 'No se Encontraron Sanitacion de Animales');
+                                                                                                        }
+                                                                                                      }, function (error) {
+                                                                                                        res.send('Sanitacion no encontrado');
+                                                                                                      });
+                                                                                                    } else {
+                                                                                                      res.send(401, 'No se Encontraron Extraviados de Animales');
+                                                                                                    }
+                                                                                                  }, function (error) {
+                                                                                                    res.send('Extraviados no encontrado');
+                                                                                                  }); 
                                                                                                 } else {
                                                                                                   res.send(401, 'No se Encontraron Muertes de Animales');
                                                                                                 }

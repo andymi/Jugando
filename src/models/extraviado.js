@@ -60,6 +60,11 @@ module.exports = function (sequelize, DataTypes) {
           })
           .then(onSuccess).catch(onError);
         },
+        retrieveExtraviado: function (onSuccess, onError) {
+          Extraviado.findAll({
+            attributes:[[sequelize.fn('SUM', sequelize.col('cantidadTotal')),'cantidadTotal']]
+          }).then(onSuccess).catch(onError);
+        },
         retrieveId: function (onSuccess, onError) {
           Extraviado.findAll( {
             attributes: ['idExtraviado'],

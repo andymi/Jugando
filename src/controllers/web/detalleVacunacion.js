@@ -74,7 +74,15 @@ exports.create1 = function (req, res) {
   });
 
   index.add(function (success) {
-    res.redirect('/web/detalleVacunacionInsumo/cargar');
+    index.retriveCount(VacunacionIdVacunacion, function (detalleVacunacion) {
+      if (detalleVacunacion) {
+        res.redirect('/web/detalleVacunacionInsumo/cargar');    
+      } else {
+        res.send(401, 'No anda tu count amigo');
+      }
+    },function (err) {
+        res.send('errores aaaa');
+    });
   },
   function (err) {
     res.send(err);
@@ -183,7 +191,15 @@ exports.create2 = function (req, res) {
   });
 
   index.add(function (success) {
-    res.redirect('/web/vacunacion');
+    index.retriveCount(VacunacionIdVacunacion, function (detalleVacunacion) {
+      if (detalleVacunacion) {
+        res.redirect('/web/vacunacion');       
+      } else {
+        res.send(401, 'No anda tu count amigo');
+      }
+    },function (err) {
+        res.send('errores aaaa');
+    });
   },
   function (err) {
     res.send(err);

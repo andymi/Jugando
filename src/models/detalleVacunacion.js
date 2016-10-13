@@ -32,6 +32,17 @@ module.exports = function (sequelize, DataTypes) {
     },
     {
       instanceMethods: {
+        retriveCount: function(id, onSuccess, onError){
+          DetalleVacunacion.findAndCountAll({
+            include: [ Model.Animal , Model.Vacunacion ],
+            where: { VacunacionIdVacunacion:id }
+          }).then(function (DetalleVacunacion) {
+                Model.Vacunacion.update( { 
+                 cantidadTotal: DetalleVacunacion.count
+                },{ where: { idVacunacion: id } })
+                .then(onSuccess).catch(onError);
+                });
+        },
         retrieveAll: function (id, onSuccess, onError) {
           DetalleVacunacion.findAll( {
             include: [ Model.Animal , Model.Vacunacion],

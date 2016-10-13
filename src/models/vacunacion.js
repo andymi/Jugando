@@ -26,6 +26,16 @@ module.exports = function (sequelize, DataTypes) {
           //notNull: true,
           notEmpty: true
         }
+      },
+      cantidadTotal: {
+        type: DataTypes.INTEGER(11),
+        allowNull: false,
+        comment: 'Cantidad total de vacunacion',
+        defaultValue: '0',
+        validate: {
+          //notNull: true,
+          notEmpty: true
+        }
       }
     },
     {
@@ -35,6 +45,11 @@ module.exports = function (sequelize, DataTypes) {
             include: [ Model.Proveedor ]
           })
           .then(onSuccess).catch(onError);
+        },
+        retrieveVacunacion: function (onSuccess, onError) {
+            Vacunacion.findAll({
+            attributes:[[sequelize.fn('SUM', sequelize.col('cantidadTotal')),'cantidadTotal']]
+          }).then(onSuccess).catch(onError);
         },
         retrieveId: function (onSuccess, onError) {
           Vacunacion.findAll( {

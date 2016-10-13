@@ -69,7 +69,19 @@ exports.create1 = function (req, res) {
   index.add(function (success) {
     index.retriveSum(FacturaVentaIdVenta, function (detalleVentas) {
       if (detalleVentas) {
-        res.redirect('/web/detalleVenta/cargar');
+        index.retriveCan(FacturaVentaIdVenta, function (detalleVentass) {
+          if (detalleVentass) {
+            //stock.add(function (success) {
+              res.redirect('/web/detalleVenta/cargar');        
+            /*}, function (err) {
+              res.send('stock error',err);
+            });*/            
+          } else {
+            res.send(401, 'No se puede cargar la cantidad total de animales');
+          }
+        },function (err) {
+            res.send('Error en cantidad total de animales',err);
+        });
       } else {
         res.send(401, 'No anda tu count amigo');
       }
@@ -173,9 +185,28 @@ exports.create2 =  function (req, res) {
   });
 
   index.add(function (success) {
-    res.redirect('/web/facturaVenta');
-  },
-  function (err) {
+    index.retriveSum(FacturaVentaIdVenta, function (detalleVentas) {
+      if (detalleVentas) {
+        index.retriveCan(FacturaVentaIdVenta, function (detalleVentas) {
+          if (detalleVentas) {
+            stock.add(function (success) {
+              res.redirect('/web/facturaVenta');        
+            }, function (err) {
+              res.send('stock error',err);
+            });            
+          } else {
+            res.send(401, 'No se puede cargar la cantidad total de animales');
+          }
+        },function (err) {
+            res.send('Error en cantidad total de animales',err);
+        });
+      } else {
+        res.send(401, 'No anda tu count amigo');
+      }
+    },function (err) {
+        res.send('errores aaaa',err);
+    }); 
+  },function (err) {
     res.send(err);
   });
 };

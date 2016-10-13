@@ -75,16 +75,16 @@ exports.create1 = function (req, res) {
 
   index.add(function (success) {
     console.log('dentro de indexxxxxxxxxxx', InsumoIdInsumo);
-    stock.retrieveVacunacion(InsumoIdInsumo, cantidadInsumo, function (success) {
-    if (success) {
+    //stock.retrieveVacunacion(InsumoIdInsumo, cantidadInsumo, function (success) {
+    //if (success) {
           console.log('tengo la suma de stock');   
-          //res.redirect('/web/detalleVacunacion/cargar');
-    } else {
+          res.redirect('/web/detalleVacunacion/cargar');
+    /*} else {
       res.send(401, 'stock no encontrado');
     }
     },function (err) {
       res.send('hay error en stock',err);
-    });
+    });*/
   },
   function (err) {
     res.send('hay error en index', err);

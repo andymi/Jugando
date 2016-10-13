@@ -65,6 +65,18 @@ module.exports = function (sequelize, DataTypes) {
             .then(onSuccess).catch(onError);
             });
         },
+        retriveCan: function(id, onSuccess, onError){
+          DetalleVenta.findAll({
+            attributes:[[sequelize.fn('SUM', sequelize.col('cantidadVenta')),'TOTAL']],
+            where: { FacturaVentaIdVenta:id }
+          }).then(function (detalleVenta) {
+            console.log('dentro de update',detalleVenta[0].dataValues['TOTAL']);
+            Model.FacturaVenta.update( { 
+             cantidadTotalVenta: detalleVenta[0].dataValues['TOTAL']
+            },{ where: { idVenta: id } })
+            .then(onSuccess).catch(onError);
+            });
+        },
         retrieveAll: function (id, onSuccess, onError) {
           DetalleVenta.findAll({
             include: [ Model.FacturaVenta],

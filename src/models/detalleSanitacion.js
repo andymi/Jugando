@@ -30,6 +30,17 @@ module.exports = function (sequelize, DataTypes) {
           })
           .then(onSuccess).catch(onError);
         },
+        retriveCount: function(id, onSuccess, onError){
+          DetalleSanitacion.findAndCountAll({
+            include: [ Model.Animal , Model.Sanitacion ],
+            where: { SanitacionIdSanitacion:id }
+          }).then(function (DetalleSanitacion) {
+                Model.Sanitacion.update( { 
+                 cantidadTotal: DetalleSanitacion.count
+                },{ where: { idSanitacion: id } })
+                .then(onSuccess).catch(onError);
+                });
+        },
         retrieveId: function (onSuccess, onError) {
           DetalleSanitacion.findAll( {
             attributes: ['idDetalleSanitacion'],

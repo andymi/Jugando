@@ -151,12 +151,14 @@ block content
                     input(type="text" id="animals2" class="knob" value='#{animals2.cantidad}' data-width="90" data-height="90" data-fgColor="#3c8dbc")
                   div(class="knob-label") Cantidad Total de Animales
                 
-                div(class="col-xs-6 col-md-3 text-center")                  
-                  input(type="text"  class="knob" value='52' data-width="90" data-height="90" data-fgColor="#f56954")
+                div(class="col-xs-6 col-md-3 text-center")  
+                  for vacunaciones2 in vacunaciones  
+                    input(type="text"  class="knob" value='#{vacunaciones2.cantidadTotal}' data-min="-150" data-max="150" data-width="90" data-height="90" data-fgColor="#f56954")
                   div(class="knob-label") Animales Vacunados
 
                 div(class="col-xs-6 col-md-3 text-center") 
-                  input(type="text" class="knob" value="80" data-min="-150" data-max="150" data-width="90" data-height="90" data-fgColor="#00a65a")
+                  for sanitaciones2 in sanitaciones                  
+                    input(type="text" class="knob" value='#{sanitaciones2.cantidadTotal}' data-min="-150" data-max="150" data-width="90" data-height="90" data-fgColor="#00a65a")
                   div(class="knob-label") Animales Sanitados
 
                 div(class="col-xs-6 col-md-3 text-center")
@@ -166,10 +168,12 @@ block content
 
               div(class="row") 
                 div(class="col-xs-6 text-center") 
-                  input(type="text" class="knob" value="90" data-width="90" data-height="90" data-fgColor="#932ab6") 
+                  for extraviadoss in extraviados  
+                    input(type="text" class="knob" value='#{extraviadoss.cantidadTotal}' data-width="90" data-height="90" data-fgColor="#932ab6") 
                   div(class="knob-label") Animales Extraviados
 
-                div(class="col-xs-6 text-center") 
-                  input(type="text" class="knob" value="50" data-width="90" data-height="90" data-fgColor="#39CCCC") 
+                div(class="col-xs-6 text-center")
+                  for ventas2 in ventass                     
+                    input(type="text" class="knob" value='#{ventas2.cantidadTotalVenta}' data-width="90" data-height="90" data-fgColor="#39CCCC") 
                   div(class="knob-label") Animales Vendidos
                 

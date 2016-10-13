@@ -72,7 +72,15 @@ exports.create1 = function (req, res) {
   });
 
   index.add(function (success) {
-    res.redirect('/web/detalleSanitacionInsumo/cargar');
+    index.retriveCount(SanitacionIdSanitacion, function (detalleSanitacion) {
+      if (detalleSanitacion) {
+        res.redirect('/web/detalleSanitacionInsumo/cargar');
+      } else {
+        res.send(401, 'No anda tu count amigo');
+      }
+    },function (err) {
+        res.send('errores aaaa');
+    });
   },
   function (err) {
     res.send(err);
@@ -179,7 +187,15 @@ exports.create2 = function (req, res) {
   });
 
   index.add(function (success) {
-    res.redirect('/web/sanitacion');
+    index.retriveCount(SanitacionIdSanitacion, function (detalleSanitacion) {
+      if (detalleSanitacion) {
+        res.redirect('/web/sanitacion');
+      } else {
+        res.send(401, 'No anda tu count amigo');
+      }
+    },function (err) {
+        res.send('errores aaaa');
+    });
   },
   function (err) {
     res.send(err);

@@ -26,7 +26,8 @@ block content
                   thead
                     tr(class="success")
                       th(class="cell-stat text-center") Fecha de la Vacunación
-                      th(class="cell-stat text-center") Hora de la Vacunación 
+                      th(class="cell-stat text-center") Hora de la Vacunación                       
+                      th(class="cell-stat text-center") Cantidad Total 
                       th(class="cell-stat text-center") Veterinario
                       th(class="cell-stat text-center") Agregar Detalle
                       th(class="cell-stat text-center") Ver Detalle
@@ -37,7 +38,8 @@ block content
                     for vacunaciones in vacunacion
                       tr
                         td(class="text-center")=vacunaciones.fechaVacunacion
-                        td(class="text-center")=vacunaciones.horaVacunacion  
+                        td(class="text-center")=vacunaciones.horaVacunacion
+                        td(class="text-center")=vacunaciones.cantidadTotal    
                         if vacunaciones.Proveedor == null  
                           td(class="text-center") sin Proveedor
                         else 

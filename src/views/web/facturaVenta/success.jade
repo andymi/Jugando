@@ -30,6 +30,7 @@ block content
                       th(class="text-center") Condición
                       th(class="text-center") Forma de Cobro 
                       th(class="text-center") Número de Venta 
+                      th(class="text-center") Total de Animales Vendidos 
                       th(class="text-center") Monto Total de la Venta 
                       th(class="text-center") Cliente
                       th(class="text-center") Ver Detalle
@@ -42,7 +43,8 @@ block content
                         td(class="text-center")=facturaVentas.horaVenta                        
                         td(class="text-center")=facturaVentas.condicionVenta
                         td(class="text-center")=facturaVentas.formaCobro
-                        td(class="text-center")=facturaVentas.numeroVenta    
+                        td(class="text-center")=facturaVentas.numeroVenta  
+                        td(class="text-center")=facturaVentas.cantidadTotalVenta  
                         td(class="text-center")=facturaVentas.totalVenta    
                         if facturaVentas.Cliente == null  
                           td(class="text-center") sin Cliente

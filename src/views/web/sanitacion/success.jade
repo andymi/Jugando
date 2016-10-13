@@ -26,7 +26,8 @@ block content
                   thead
                     tr(class="success")
                       th(class="cell-stat text-center") Fecha de la Sanitación
-                      th(class="cell-stat text-center") Hora de la Sanitación          
+                      th(class="cell-stat text-center") Hora de la Sanitación
+                      th(class="cell-stat text-center") Cantidad Total 
                       th(class="cell-stat text-center") Empleado
                       th(class="cell-stat text-center") Proveedor
                       th(class="cell-stat text-center") Agregar Detalle
@@ -38,7 +39,8 @@ block content
                     for sanitaciones in sanitacion
                       tr
                         td(class="text-center")=sanitaciones.fechaSanitacion
-                        td(class="text-center")=sanitaciones.horaSanitacion        
+                        td(class="text-center")=sanitaciones.horaSanitacion                         
+                        td(class="text-center")=sanitaciones.cantidadTotal       
                         if sanitaciones.Empleado == null  
                           td(class="text-center") Sin Empleado
                         else 

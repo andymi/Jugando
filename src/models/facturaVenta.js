@@ -67,6 +67,16 @@ module.exports = function (sequelize, DataTypes) {
         validate: {
           notEmpty: true
         }
+      },
+      cantidadTotalVenta: {
+        type: DataTypes.INTEGER(11),
+        allowNull: false,
+        comment: 'Cantidad total de Animales Vendidos',
+        defaultValue: '0',
+        validate: {
+          //notNull: true,
+          notEmpty: true
+        }
       }
     },
     {
@@ -76,6 +86,11 @@ module.exports = function (sequelize, DataTypes) {
             include: [ Model.Cliente ]
           })
           .then(onSuccess).catch(onError);
+        },
+        retrieveVenta: function (onSuccess, onError) {
+          FacturaVenta.findAll({
+            attributes:[[sequelize.fn('SUM', sequelize.col('cantidadTotalVenta')),'cantidadTotalVenta']]
+          }).then(onSuccess).catch(onError);
         },
         retrieveId: function (onSuccess, onError) {
           FacturaVenta.findAll( {
