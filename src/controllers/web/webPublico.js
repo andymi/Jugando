@@ -6,28 +6,35 @@ var express = require('express');
 var router = express.Router();
 var Model = require('../../models/jugando.js');
 
-/*var SerialPort = require('serialport');
+var SerialPort = require('serialport');
 var serialport = new SerialPort("/COM14");
-var enviar ="";
+var enviar="";
 
-serialport.on('data', function(data){
-      var cadena = data;
-      var imprimir = cadena.toString();
-      enviar = imprimir.substring(1)
-      console.log('Hora: ' + enviar); 
-      serialport.write('>1');  
-});
-serialport.on('close', function() {
-   console.log('port closed.');
+serialport.on('open', function() {
+  serialport.write('main screen turn on', function(err) {
+    if (err) {
+      return console.log('Error no conectado: ', err.message);
+    }
+    console.log('conectado');
+  });
+  serialport.on('data', function(data){
+        var cadena = data;
+        var imprimir = cadena.toString();
+        var corto = imprimir.trim();
+        enviar = corto.substring(1);
+        setTimeout(function() {
+          console.log(enviar); 
+          serialport.write(">1");
+        }, 2000);  
+  });
 });
 // open errors will be emitted as an error event
 serialport.on('error', function(err) {
   console.log('Error: ', err.message);
-});*/
+});
 
 
-
-
+/***************************************************/
 /*
 Rutas que terminan en /web
 GET /
@@ -35,11 +42,33 @@ GET /
 router.get('/', function (req, res) {
   res.render('publico/home/indexa.jade');
 });
-/*router.get('/comedero', function(req, res) {
-  res.render('web/index/Comedero.jade',{
-                horaComedero: enviar
+
+router.get('/comedero', function(req, res) {
+  var mensaje = Model.Mensaje.build();
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {
+          res.render('web/index/Comedero.jade',{
+            mensajes: mensaje1,
+            mensajeria: mensaje2,
+            horas: enviar
+          });          
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensajes no encontrado');
+      });
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
+    }
+  }, function (error) {
+    res.send('Mensaje no encontrado');
   });
-});*/
+});
 //página principal del admin, panel de administración
 router.get('/principal', function (req, res) {
 	var mensaje = Model.Mensaje.build();

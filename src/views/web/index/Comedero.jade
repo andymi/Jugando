@@ -20,7 +20,11 @@ block content
                 div(class="col-lg-3 col-xs-6")
                   div(class="small-box bg-maroon")
                     div(class="inner")
-                      h3 44%
+                      //for nivel in NivelActual
+                        if nivel == null  
+                          h3 0
+                        else 
+                          h3=nivel 
                       p Nivel Actual del Tanque 
                     div(class="icon")
                       i(class="fa fa-signal")
@@ -39,7 +43,11 @@ block content
                   <!-- small box -->
                   div(class="small-box bg-gray")
                     div(class="inner")
-                      h3 2 kg
+                      //for peso in PesoaDescargar
+                        if peso == null  
+                          h3 0
+                        else 
+                          h3=peso kg
                       p Peso a descargar(Ración)  
                     div(class="icon")
                       i(class="fa fa-bitbucket")
@@ -47,13 +55,11 @@ block content
                       i(class="fa fa-arrow-circle-right")
                 div(class="col-lg-3 col-xs-6")
                   div(class="small-box bg-orange")
-                    div(class="inner")
-                      for horaComederos in horaComedero
-                        if horaComederos == null  
-                          h3 Sin Hora
-                        else 
-                          h3=horaComederos
-                       //h3 16:36:14
+                    div(class="inner") 
+                      if horas == null  
+                        h3 0
+                      else 
+                        h3=horas
                       p Hora actual del comedero 
                     div(class="icon")
                       i(class="fa fa-clock-o")
@@ -100,7 +106,8 @@ block content
                 li
                   a(href="#") Ajustar Horario de Raciones 
                     span(class="pull-right badge bg-gray")
-                      i(class="fa fa-clock-o") 
+                      i(class="fa fa-clock-o")
+
                     
                  
               
