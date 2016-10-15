@@ -6,26 +6,68 @@ var express = require('express');
 var router = express.Router();
 var Model = require('../../models/jugando.js');
 
-var SerialPort = require('serialport');
-var serialport = new SerialPort("/COM14");
+var serialport = require('serialport');
+var SerialPort = serialport.SerialPort;
+var parsers = serialport.parsers;
 var enviar="";
+var port = new SerialPort('/COM14', {
+  baudrate: 9600,
+  parser: parsers.readline('\r\n')
+});
 
-serialport.on('open', function() {
+port.on('open', function() {
+  port.write('main screen turn on', function(err) {
+     if (err) {
+       return console.log('Error: ', err.message);
+     }
+     console.log('message written');
+  });
+  setTimeout(function(){
+      port.write('>1');
+  }, 2000); 
+});
+
+port.on('data', function(data) {
+  console.log(data);
+  var imprimir = data.toString();
+  enviar = imprimir.substring(1);            
+  console.log(enviar);             
+  //serialport.close();
+});
+
+
+
+
+
+
+/*conectandome con el comedero atravez del puerto /COM14*/
+/*var SerialPort = require('serialport');
+var serialport = new SerialPort("/COM14");
+/*Variable auxiliar para enviar la hora obtenida del comedero al renderizar la pagina*/
+//var enviar="";
+/*abriendo coneccion*/
+/*serialport.on('open', function() {
   serialport.write('main screen turn on', function(err) {
     if (err) {
       return console.log('Error no conectado: ', err.message);
     }
     console.log('conectado');
   });
-  serialport.on('data', function(data){
-        var cadena = data;
-        var imprimir = cadena.toString();
-        var corto = imprimir.trim();
-        enviar = corto.substring(1);
+  /*recibiendo la hora del comedero*/
+ /*serialport.on('data', function(data){
+        /*lo recibido paso a una variable cadena para luego pasar a string*/
+        //var cadena = data;
+        //var imprimir = cadena.toString();
+        /*quitando espacios de la cadena*/
+        //var corto = imprimir.trim();
+        /*obviando el primer valor obtenido de la cadena*/
+        //enviar = corto.substring(1);            
+        /*temporizador para enviar el comando al comedero e imprimir el resultado cada 2 seg */
+        /*console.log(enviar);             
         setTimeout(function() {
-          console.log(enviar); 
-          serialport.write(">1");
-        }, 2000);  
+          serialport.write(">1");          
+        }, 2000);
+        serialport.close();        
   });
 });
 // open errors will be emitted as an error event
@@ -42,7 +84,8 @@ GET /
 router.get('/', function (req, res) {
   res.render('publico/home/indexa.jade');
 });
-
+/*ruta para redireccionar al comedero donde al renderizar la pagina le paso la 
+variable enviar a una variable de la vista llamada horas*/
 router.get('/comedero', function(req, res) {
   var mensaje = Model.Mensaje.build();
   mensaje.retriveCount(function (mensaje1) { 
@@ -55,7 +98,7 @@ router.get('/comedero', function(req, res) {
             mensajes: mensaje1,
             mensajeria: mensaje2,
             horas: enviar
-          });          
+          });        
         }else {
           res.send(401, 'No se encontraron Mensajes');
         }
