@@ -17,44 +17,33 @@ block content
               h3(class="box-title") Registro del Comedero
             form(class="form-horizontal")
               div(class="box-body")
-                div(class="col-lg-3 col-xs-6")
+                div(class="col-lg-4 col-xs-6")
                   div(class="small-box bg-maroon")
                     div(class="inner")
-                      //for nivel in NivelActual
-                        if nivel == null  
-                          h3 0
-                        else 
-                          h3=nivel 
+                      if niveles == null  
+                        h3 0
+                      else 
+                        h3=niveles
                       p Nivel Actual del Tanque 
                     div(class="icon")
                       i(class="fa fa-signal")
-                    a(href="#" class="small-box-footer") Actualizar 
-                      i(class="fa fa-refresh")
-                div(class="col-lg-3 col-xs-6")
-                  div(class="small-box bg-teal")
-                    div(class="inner")
-                      h3 5%
-                      p Nivel Mínimo 
-                    div(class="icon")
-                      i(class="fa fa-sort-amount-desc")
-                    a(href="#" class="small-box-footer") Ajustar Nivel Mínimo   
-                      i(class="fa fa-arrow-circle-right")
-                div(class="col-lg-3 col-xs-6")
+                    a(href="#" class="small-box-footer")  
+                      //i(class="fa fa-refresh")
+                div(class="col-lg-4 col-xs-6")
                   <!-- small box -->
                   div(class="small-box bg-gray")
                     div(class="inner")
-                      //for peso in PesoaDescargar
-                        if peso == null  
-                          h3 0
-                        else 
-                          h3=peso kg
+                      if pesoRacion == null  
+                        h3 0
+                      else 
+                        h3=pesoRacion
                       p Peso a descargar(Ración)  
                     div(class="icon")
                       i(class="fa fa-bitbucket")
-                    a(href="#" class="small-box-footer") Ajustar Peso de la Ración 
-                      i(class="fa fa-arrow-circle-right")
-                div(class="col-lg-3 col-xs-6")
-                  div(class="small-box bg-orange")
+                    a(href="#" class="small-box-footer") 
+                      //i(class="fa fa-arrow-circle-right")
+                div(class="col-lg-4 col-xs-6")
+                  div(class="small-box bg-green")
                     div(class="inner") 
                       if horas == null  
                         h3 0
@@ -63,26 +52,8 @@ block content
                       p Hora actual del comedero 
                     div(class="icon")
                       i(class="fa fa-clock-o")
-                    a(href="#" class="small-box-footer") Ajustar Hora del Comedero 
-                      i(class="fa fa-arrow-circle-right")
-                div(class="col-lg-3 col-xs-6")
-                  div(class="small-box bg-primary")
-                    div(class="inner")
-                      h3 -1%
-                      p Nivel Máximo del Tanque  
-                    div(class="icon")
-                      i(class="fa fa-hourglass-start")
-                    a(href="#" class="small-box-footer") Ajustar Nivel actual a 100% 
-                      i(class="fa fa-arrow-circle-right")
-                div(class="col-lg-3 col-xs-6")
-                  div(class="small-box bg-purple")
-                    div(class="inner")
-                      h3 -44%
-                      p Nivel Mínimo del Tanque   
-                    div(class="icon")
-                      i(class="fa fa-hourglass-3")
-                    a(href="#" class="small-box-footer") Ajustar Nivel actual a 0%  
-                      i(class="fa fa-arrow-circle-right")
+                    a(href="#" class="small-box-footer")
+                      //i(class="fa fa-arrow-circle-right")
     section(class="content")
       div(class="row")
         div(class="col-md-12")
@@ -92,22 +63,14 @@ block content
             div(class="box-footer no-padding") 
               ul(class="nav nav-stacked") 
                 li
-                  button(onclick="liberar()") Liberar Ración Manualmente
+                  a(id="liberar" href="/liberar" role="button") Liberar Ración Manualmente
                     span(class="pull-right badge bg-gray")  
                       i(class="fa fa-hand-paper-o")                    
                 li
-                  button(onclick="abrir()") Abrir Compuerta Manualmente
+                  a(id="abrir" href="/abrir" role="button") Abrir Compuerta Manualmente
                     span(class="pull-right badge bg-gray") 
                       i(class="fa fa-key") 
                 li
-                  button(onclick="cerrar()") Cerrar Compuerta Manualmente  
+                  a(id="cerrar" href="/cerrar" role="button") Cerrar Compuerta Manualmente  
                     span(class="pull-right badge bg-gray")
                       i(class="fa fa-lock")
-                li
-                  a(href="#") Ajustar Horario de Raciones 
-                    span(class="pull-right badge bg-gray")
-                      i(class="fa fa-clock-o")
-
-                    
-                 
-              

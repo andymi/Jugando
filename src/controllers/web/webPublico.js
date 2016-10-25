@@ -5,82 +5,114 @@
 var express = require('express');
 var router = express.Router();
 var Model = require('../../models/jugando.js');
-
 var serialport = require('serialport');
 var SerialPort = serialport.SerialPort;
 var parsers = serialport.parsers;
-var enviar="";
+var horaC="";
+var nivelC="";
+var pesoRacionC="";
 var port = new SerialPort('/COM14', {
   baudrate: 9600,
   parser: parsers.readline('\r\n')
 });
-
-port.on('open', function() {
-  port.write('main screen turn on', function(err) {
-     if (err) {
-       return console.log('Error: ', err.message);
-     }
-     console.log('message written');
+/**********************************************************************************/
+leerNivel();
+leerHora();
+leerPesoyRacion();
+/************************leer el nivel actual del comedero************************/
+function leerNivel(){
+  port.on('open', function() {
+    port.write('main screen turn on', function(err) {
+       if (err) {
+         return console.log('Error: ', err.message);
+       }
+       console.log('mensaje 2 escrito');
+    });
+    setTimeout(function(){
+      port.write('>2', function(err) {
+        if (err) {
+          return console.log('Error: ', err.message);
+        }
+        console.log('cmd 2');
+      });
+    }, 1000);
   });
-  setTimeout(function(){
-      port.write('>1');
-  }, 2000); 
-});
-
-port.on('data', function(data) {
-  console.log(data);
-  var imprimir = data.toString();
-  enviar = imprimir.substring(1);            
-  console.log(enviar);             
-  //serialport.close();
-});
-
-
-
-
-
-
-/*conectandome con el comedero atravez del puerto /COM14*/
-/*var SerialPort = require('serialport');
-var serialport = new SerialPort("/COM14");
-/*Variable auxiliar para enviar la hora obtenida del comedero al renderizar la pagina*/
-//var enviar="";
-/*abriendo coneccion*/
-/*serialport.on('open', function() {
-  serialport.write('main screen turn on', function(err) {
-    if (err) {
-      return console.log('Error no conectado: ', err.message);
-    }
-    console.log('conectado');
+}
+/*************leer la hora actual del comedero*******************/
+function leerHora(){
+  port.on('open', function() {
+    port.write('main screen turn on', function(err) {
+       if (err) {
+         return console.log('Error: ', err.message);
+       }
+       console.log('mensaje 1 escrito');
+    });
+    setTimeout(function(){
+      port.write('>1', function(err) {
+        if (err) {
+          return console.log('Error: ', err.message);
+        }
+        console.log('cmd 1');
+      });
+    }, 2000);
   });
-  /*recibiendo la hora del comedero*/
- /*serialport.on('data', function(data){
-        /*lo recibido paso a una variable cadena para luego pasar a string*/
-        //var cadena = data;
-        //var imprimir = cadena.toString();
-        /*quitando espacios de la cadena*/
-        //var corto = imprimir.trim();
-        /*obviando el primer valor obtenido de la cadena*/
-        //enviar = corto.substring(1);            
-        /*temporizador para enviar el comando al comedero e imprimir el resultado cada 2 seg */
-        /*console.log(enviar);             
-        setTimeout(function() {
-          serialport.write(">1");          
-        }, 2000);
-        serialport.close();        
+}
+/*************leer el peso actual del comedero********************/
+function leerPesoyRacion(){
+  port.on('open', function() {
+    port.write('main screen turn on', function(err) {
+       if (err) {
+         return console.log('Error: ', err.message);
+       }
+       console.log('mensaje 4 escrito');
+    });
+    setTimeout(function(){
+      port.write('>4', function(err) {
+        if (err) {
+          return console.log('Error: ', err.message);
+        }
+        console.log('cmd 4');
+      });
+    }, 3000);
   });
+}
+/***************funcion para leer datos recibidos del comedero********************/
+setTimeout(function(){
+  port.on('data', function(data) {
+    var imprimir = data.toString();
+    var cmd = imprimir.charAt(0);
+    var enviar = imprimir.substring(1);
+    if (cmd == 1) {
+      console.log('dentro de cmd 1',cmd); 
+      horaC = enviar;
+      console.log('horaC', horaC);
+    } else if(cmd == 2){
+      console.log('dentro de cmd 2',cmd); 
+      nivelC = enviar;
+      console.log('nivelC', nivelC);
+    } else if(cmd == 4){
+      console.log('dentro de cmd 4',cmd); 
+      pesoRacionC = enviar;
+      console.log('pesoRacionC', pesoRacionC);
+    }          
+  });
+}, 1000);
+/*********************************************************************/
+router.get('/abrir', function (req, res) {
+  console.log('dentro de abrir');
+  port.write('>i');
 });
-// open errors will be emitted as an error event
-serialport.on('error', function(err) {
-  console.log('Error: ', err.message);
+/*********************************************************************/
+router.get('/cerrar', function (req, res) {
+  console.log('dentro de cerrar');
+  port.write('>j');
 });
-
-
-/***************************************************/
-/*
-Rutas que terminan en /web
-GET /
-*/
+/*********************************************************************/
+router.get('/liberar', function (req, res) {
+  console.log('dentro de liberar');
+  port.write('>x');
+});
+/***************************************************************************/
 router.get('/', function (req, res) {
   res.render('publico/home/indexa.jade');
 });
@@ -97,7 +129,9 @@ router.get('/comedero', function(req, res) {
           res.render('web/index/Comedero.jade',{
             mensajes: mensaje1,
             mensajeria: mensaje2,
-            horas: enviar
+            niveles: nivelC,
+            horas: horaC,
+            pesoRacion: pesoRacionC          
           });        
         }else {
           res.send(401, 'No se encontraron Mensajes');
