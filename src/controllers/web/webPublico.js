@@ -5,21 +5,26 @@
 var express = require('express');
 var router = express.Router();
 var Model = require('../../models/jugando.js');
+/*****************************************************************************/
+var horaC="";
+var horasC="";
+var nivelC="";
+var pesoRacionC="";
+var pesoBateaC="";
 var serialport = require('serialport');
 var SerialPort = serialport.SerialPort;
 var parsers = serialport.parsers;
-var horaC="";
-var nivelC="";
-var pesoRacionC="";
-var port = new SerialPort('/COM14', {
-  baudrate: 9600,
+var port = new SerialPort("/COM14", {
+  baudRate: 9600,
   parser: parsers.readline('\r\n')
 });
-/**********************************************************************************/
+/*****************************************************************************/
+/*********************************************************************************/
 leerNivel();
-leerHora();
 leerPesoyRacion();
-/************************leer el nivel actual del comedero************************/
+leerHora();
+
+/************************leer el nivel actual del comedero***********************/
 function leerNivel(){
   port.on('open', function() {
     port.write('main screen turn on', function(err) {
@@ -38,7 +43,7 @@ function leerNivel(){
     }, 1000);
   });
 }
-/*************leer la hora actual del comedero*******************/
+/*************leer la hora actual del comedero*********************/
 function leerHora(){
   port.on('open', function() {
     port.write('main screen turn on', function(err) {
@@ -54,7 +59,7 @@ function leerHora(){
         }
         console.log('cmd 1');
       });
-    }, 2000);
+    }, 3000);
   });
 }
 /*************leer el peso actual del comedero********************/
@@ -73,28 +78,48 @@ function leerPesoyRacion(){
         }
         console.log('cmd 4');
       });
-    }, 3000);
+    }, 2000);
   });
 }
-/***************funcion para leer datos recibidos del comedero********************/
+/***************funcion para leer datos recibidos del comedero*******************/
 setTimeout(function(){
   port.on('data', function(data) {
     var imprimir = data.toString();
     var cmd = imprimir.charAt(0);
-    var enviar = imprimir.substring(1);
+    var enviar = imprimir.substring(1); 
+    //console.log('valor**************', imprimir);   
     if (cmd == 1) {
       console.log('dentro de cmd 1',cmd); 
-      horaC = enviar;
-      console.log('horaC', horaC);
+      horaC = enviar.trim();
+      console.log('hora:', horaC);
     } else if(cmd == 2){
       console.log('dentro de cmd 2',cmd); 
-      nivelC = enviar;
-      console.log('nivelC', nivelC);
+      nivelC = enviar.trim();
+      console.log('nivel:', nivelC);
     } else if(cmd == 4){
       console.log('dentro de cmd 4',cmd); 
-      pesoRacionC = enviar;
-      console.log('pesoRacionC', pesoRacionC);
-    }          
+      pesoRacionC = enviar.trim();
+      console.log('pesoRacion:', pesoRacionC);
+    } else if(cmd == "x"){
+      console.log('dentro de cmd x',cmd); 
+      horasC = imprimir.substring(1,9);
+      console.log('horas:', horasC);
+      pesoBateaC = imprimir.slice(-4);      
+      console.log('pesoBatea:', pesoBateaC);
+      
+      var index = Model.Consumo.build({
+        fechaConsumo: "2016-11-01",
+        horaConsumo: horasC,
+        InsumoIdInsumo: 3
+      });
+      index.add(function (success) {
+        //res.redirect('/web/detalleConsumo/cargar');
+        console.log("listo cabecera");
+      },
+      function (err) {
+        res.send(err);
+      });
+    }   
   });
 }, 1000);
 /*********************************************************************/
@@ -102,12 +127,12 @@ router.get('/abrir', function (req, res) {
   console.log('dentro de abrir');
   port.write('>i');
 });
-/*********************************************************************/
+/********************************************************************/
 router.get('/cerrar', function (req, res) {
   console.log('dentro de cerrar');
   port.write('>j');
 });
-/*********************************************************************/
+/********************************************************************/
 router.get('/liberar', function (req, res) {
   console.log('dentro de liberar');
   port.write('>x');

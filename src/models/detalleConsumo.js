@@ -32,7 +32,6 @@ module.exports = function (sequelize, DataTypes) {
     },
     {
       instanceMethods: {
-        
         retrieveAll: function (id, onSuccess, onError) {
           DetalleConsumo.findAll({
             include: [ Model.Animal , Model.Consumo ],

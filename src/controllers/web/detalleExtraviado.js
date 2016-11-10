@@ -61,6 +61,8 @@ exports.getForm1 = function (req, res) {
 exports.create1 = function (req, res) {
   console.log(req.body);
   // bodyParser debe hacer la magia
+  var stock =Model.Stock.build();
+
   var observacionExtraviado = req.body.observacionExtraviado; 
   var AnimalIdAnimal = req.body.selectJ;
   var ExtraviadoIdExtraviado = req.body.id;
@@ -74,7 +76,15 @@ exports.create1 = function (req, res) {
   index.add(function (success) {
     index.retriveCount(ExtraviadoIdExtraviado, function (detalleExtraviados) {
       if (detalleExtraviados) {
-        res.redirect('/web/detalleExtraviado/cargar');    
+        stock.retrieveByAnimal(AnimalIdAnimal, function (detalleAnimal) {
+          if (detalleAnimal) {
+            res.redirect('/web/detalleExtraviado/cargar');
+          } else {
+            res.send(401, 'No se encontraron registros');
+          }
+        },function (err) {
+            res.send('errores verifique');
+        });    
       } else {
         res.send(401, 'No anda tu count amigo');
       }
@@ -176,6 +186,9 @@ exports.getForm2 = function (req, res) {
 exports.create2 = function (req, res) {
   console.log(req.body);
   // bodyParser debe hacer la magia
+
+  var stock =Model.Stock.build();
+
   var observacionExtraviado = req.body.observacionExtraviado; 
   var AnimalIdAnimal = req.body.selectJ;
   var ExtraviadoIdExtraviado = req.body.id;
@@ -189,7 +202,15 @@ exports.create2 = function (req, res) {
   index.add(function (success) {
     index.retriveCount(ExtraviadoIdExtraviado, function (detalleExtraviados) {
       if (detalleExtraviados) {
-        res.redirect('/web/extraviado');   
+        stock.retrieveByAnimal(AnimalIdAnimal, function (detalleAnimal) {
+          if (detalleAnimal) {
+            res.redirect('/web/extraviado'); 
+          } else {
+            res.send(401, 'No se encontraron registros');
+          }
+        },function (err) {
+            res.send('errores verifique');
+        });
       } else {
         res.send(401, 'No anda tu count amigo');
       }

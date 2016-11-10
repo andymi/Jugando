@@ -57,7 +57,7 @@ module.exports = function (sequelize, DataTypes) {
           DetalleCompra.findAll({
             attributes:[[sequelize.fn('SUM', sequelize.col('subtotalCompra')),'TOTAL']],
             where: { FacturaCompraIdCompra:id }
-          }).then(function (detalleCompra) {
+          }).then(function (detalleCompra){
             console.log('dentro de update',detalleCompra[0].dataValues['TOTAL']);
             Model.FacturaCompra.update( { 
              totalCompra: detalleCompra[0].dataValues['TOTAL']

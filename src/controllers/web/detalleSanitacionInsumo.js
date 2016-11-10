@@ -60,6 +60,8 @@ exports.getForm = function (req, res) {
 // POST /detalleSanitacionInsumo
 exports.create1 = function (req, res) {
   console.log(req.body);
+
+  var stock = Model.Stock.build();
   // bodyParser debe hacer la magia
   var cantidadUtilizada = req.body.cantidadUtilizada; 
   var InsumoIdInsumo = req.body.selectJ;
@@ -72,7 +74,17 @@ exports.create1 = function (req, res) {
   });
 
   index.add(function (success) {
-    res.redirect('/web/detalleSanitacion/cargar');
+    console.log('dentro de indexxxxxxxxxxx', InsumoIdInsumo);
+    stock.retrieveByVacunacion(InsumoIdInsumo, cantidadUtilizada, function (success) {
+      if (success) {
+            console.log('tengo la suma de stock');   
+            res.redirect('/web/detalleSanitacion/cargar');
+      } else {
+        res.send(401, 'stock no encontrado');
+      }
+    },function (err) {
+      res.send('hay error en stock',err);
+    });
   },
   function (err) {
     res.send(err);
@@ -166,6 +178,8 @@ exports.getForm2 = function (req, res) {
 // POST /detalleSanitacionInsumo
 exports.create2 = function (req, res) {
   console.log(req.body);
+
+  var stock = Model.Stock.build();
   // bodyParser debe hacer la magia
   var cantidadUtilizada = req.body.cantidadUtilizada; 
   var InsumoIdInsumo = req.body.selectJ;
@@ -178,7 +192,17 @@ exports.create2 = function (req, res) {
   });
 
   index.add(function (success) {
-    res.redirect('/web/sanitacion');
+    console.log('dentro de indexxxxxxxxxxx', InsumoIdInsumo);
+    stock.retrieveByVacunacion(InsumoIdInsumo, cantidadUtilizada, function (success) {
+      if (success) {
+            console.log('tengo la suma de stock');   
+            res.redirect('/web/sanitacion');
+      } else {
+        res.send(401, 'stock no encontrado');
+      }
+    },function (err) {
+      res.send('hay error en stock',err);
+    });
   },
   function (err) {
     res.send(err);

@@ -5,12 +5,16 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
-/*
-var SerialPort = require('serialport');
-var serialport = new SerialPort("/COM13", {
-  baudRate: 115200
-});*/
 
+/*var SerialPort = require('serialport');
+  var serialport = new SerialPort("/COM13", {
+  baudRate: 115200
+});
+
+var SerialPort = require('serialport');
+var serialport = new SerialPort("/COM14", {
+  baudRate: 9600
+});*/
 
 var config = require('./config/config');
 /**********empezamos a declarar nuestro controlador****************/
@@ -118,8 +122,8 @@ app.use(function (err, req, res, next) {
     error: {}
   });
 });
-/*****************************/
-/*
+/**************valores en buffer de los comandos para leer el id de la orejera**************
+
 var buffer = new Buffer(5);
 buffer[0] = 0xA0;   
 buffer[1] = 0x03;  
@@ -144,49 +148,45 @@ buffer3[4] = 0x01;
 buffer3[5] = 0xD1;
 
 serialport.on('open', function() {
-  serialport.write('main screen turn on', function(err) {
-    if (err) {
-      return console.log('Error no conectado: ', err.message);
-    }
-    console.log('conectado');
-  }); 
+  console.log('conectado');
+ 
   serialport.write(buffer, function (err, result) {
     if (err) {
         console.log('Error1: ' + err);
     }
-    //if (result) {
-        console.log('Entregado1');
-    //}    
+    console.log('Entregado1');   
   });
   serialport.write(buffer2, function (err, result) {
     if (err) {
         console.log('Error2: ' + err);
     }
-    //if (result) {
-        console.log('Entregado2');
-    //}    
+    console.log('Entregado2');   
   });
   serialport.write(buffer3, function (err, result) {
     if (err) {
         console.log('Error3: ' + err);
     }
-    //if (result) {
-        console.log('Entregado3');
-    //}    
+    console.log('Entregado3');   
   });
+
   serialport.on('data', function(data) {
    var buff = new Buffer(data, 'utf8'); //no sure about this
    console.log('data received: ' + buff.toString('hex'));
   }); 
 
-  /*serialport.on('data', function(buffer) {
-      console.log(buffer.toString('hex'));
+  /*serialport.on('data', function(buffer) {      
+      var imprimir = buffer.toString('hex');
+      console.log('imprimir' + imprimir);
   });*/
-  
+
 /*});
 // open errors will be emitted as an error event
 serialport.on('error', function(err) {
   console.log('Error: ', err.message);
 });*/
+
+
+
+
 
 module.exports = app;

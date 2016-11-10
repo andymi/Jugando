@@ -75,16 +75,16 @@ exports.create1 = function (req, res) {
 
   index.add(function (success) {
     console.log('dentro de indexxxxxxxxxxx', InsumoIdInsumo);
-    //stock.retrieveVacunacion(InsumoIdInsumo, cantidadInsumo, function (success) {
-    //if (success) {
-          console.log('tengo la suma de stock');   
-          res.redirect('/web/detalleVacunacion/cargar');
-    /*} else {
-      res.send(401, 'stock no encontrado');
-    }
+    stock.retrieveByVacunacion(InsumoIdInsumo, cantidadInsumo, function (success) {
+      if (success) {
+            console.log('tengo la suma de stock');   
+            res.redirect('/web/detalleVacunacion/cargar');
+      } else {
+        res.send(401, 'stock no encontrado');
+      }
     },function (err) {
       res.send('hay error en stock',err);
-    });*/
+    });
   },
   function (err) {
     res.send('hay error en index', err);
@@ -178,6 +178,8 @@ exports.getForm2 = function (req, res) {
 // POST /detalleVacunacionInsumo
 exports.create2 = function (req, res) {
   console.log(req.body);
+  
+  var stock = Model.Stock.build();
   // bodyParser debe hacer la magia
   var cantidadInsumo = req.body.cantidadInsumo; 
   var InsumoIdInsumo = req.body.selectJ;
@@ -190,7 +192,17 @@ exports.create2 = function (req, res) {
   });
 
   index.add(function (success) {
-    res.redirect('/web/vacunacion');
+    console.log('dentro de indexxxxxxxxxxx', InsumoIdInsumo);
+    stock.retrieveByVacunacion(InsumoIdInsumo, cantidadInsumo, function (success) {
+      if (success) {
+            console.log('tengo la suma de stock');   
+            res.redirect('/web/vacunacion');
+      } else {
+        res.send(401, 'stock no encontrado');
+      }
+    },function (err) {
+      res.send('hay error en stock',err);
+    });
   },
   function (err) {
     res.send(err);

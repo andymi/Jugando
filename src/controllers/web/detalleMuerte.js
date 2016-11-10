@@ -63,6 +63,7 @@ exports.create1 = function (req, res) {
   console.log(req.body);
   // bodyParser debe hacer la magia
   var muertes =Model.Muertes.build();
+  var stock =Model.Stock.build();
 
   var observacion = req.body.observacion; 
   var AnimalIdAnimal = req.body.selectJ;
@@ -77,7 +78,15 @@ exports.create1 = function (req, res) {
   index.add(function (success) {
     index.retriveCount(MuerteIdMuerte, function (detalleMuertes) {
       if (detalleMuertes) {
-        res.redirect('/web/detalleMuerte/cargar'); 
+        stock.retrieveByAnimal(AnimalIdAnimal, function (detalleAnimal) {
+          if (detalleAnimal) {
+            res.redirect('/web/detalleMuerte/cargar'); 
+          } else {
+            res.send(401, 'No se encontraron registros');
+          }
+        },function (err) {
+            res.send('errores verifique');
+        });
       } else {
         res.send(401, 'No anda tu count amigo');
       }
@@ -179,6 +188,9 @@ exports.getForm2 = function (req, res) {
 exports.create2 = function (req, res) {
   console.log(req.body);
   // bodyParser debe hacer la magia
+
+  var stock =Model.Stock.build();
+  
   var observacion = req.body.observacion; 
   var AnimalIdAnimal = req.body.selectJ;
   var MuerteIdMuerte = req.body.id;
@@ -192,7 +204,15 @@ exports.create2 = function (req, res) {
   index.add(function (success) {
     index.retriveCount(MuerteIdMuerte, function (detalleMuertes) {
       if (detalleMuertes) {
-        res.redirect('/web/muertes');
+        stock.retrieveByAnimal(AnimalIdAnimal, function (detalleAnimal) {
+          if (detalleAnimal) {
+            res.redirect('/web/muertes'); 
+          } else {
+            res.send(401, 'No se encontraron registros');
+          }
+        },function (err) {
+            res.send('errores verifique');
+        });
       } else {
         res.send(401, 'No anda tu count amigo');
       }

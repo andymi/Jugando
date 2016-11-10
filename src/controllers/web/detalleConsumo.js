@@ -62,8 +62,9 @@ exports.getForm1 = function (req, res) {
 // POST /detalleConsumo
 exports.create1 = function (req, res) {
   console.log(req.body);
-  // bodyParser debe hacer la magia
-  
+  // bodyParser debe hacer la magia 
+  var stock = Model.Stock.build();
+
   var cantidad = req.body.cantidad;
   var observacion = req.body.observacion;
   var AnimalIdAnimal = req.body.selectJ;
@@ -77,10 +78,20 @@ exports.create1 = function (req, res) {
   });
 
   index.add(function (success) {
-    res.redirect('/web/detalleConsumo/cargar');
+    console.log("dentro"); 
+    stock.retrieveByInsumo(ConsumoIdConsumo, cantidad, function (detalleConsumos) {
+      if (detalleConsumos) { 
+        console.log("listo xfin");      
+        res.redirect('/web/detalleConsumo/cargar');
+      } else {
+        res.send(401, 'No se encontraron detalles');
+      }
+    }, function (error) {
+      res.send('Detalle no encontrado');
+    }); 
   },
   function (err) {
-    res.send(err);
+    res.send('error aca', err);
   });
 };
 /* (trae todos los detalleConsumo)
@@ -171,6 +182,8 @@ exports.getForm2 = function (req, res) {
 // POST /detalleConsumo
 exports.create2 = function (req, res) {
   console.log(req.body);
+  
+  var stock = Model.Stock.build();
   // bodyParser debe hacer la magia
   var cantidad = req.body.cantidad;
   var observacion = req.body.observacion;
@@ -185,7 +198,17 @@ exports.create2 = function (req, res) {
   });
 
   index.add(function (success) {
-    res.redirect('/web/consumo');
+    console.log("dentro"); 
+    stock.retrieveByInsumo(ConsumoIdConsumo, cantidad, function (detalleConsumos) {
+      if (detalleConsumos) { 
+        console.log("listo xfin");      
+        res.redirect('/web/consumo');
+      } else {
+        res.send(401, 'No se encontraron detalles');
+      }
+    }, function (error) {
+      res.send('Detalle no encontrado');
+    }); 
   },
   function (err) {
     res.send(err);

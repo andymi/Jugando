@@ -81,25 +81,6 @@ module.exports = function (sequelize, DataTypes) {
               .then(onSuccess).catch(onError);
           });
         },
-        //**************************
-         retrieveVacunacion: function (id, cantidad, onSuccess, onError) {
-          Stock.findAll( {
-            attributes:['idStock',[sequelize.fn('SUM', sequelize.col('cantidad')),'total']],
-            where: { InsumoIdInsumo: id }
-           }).then(function (idinsu) {
-              console.log('valor de idinsuuuuuuu', idinsu);
-              var a = idinsu[1].dataValues['total'] ;
-              var b = this.cantidad;
-              var resta = a - b;
-              console.log('soy la aaaaaaaaaa', a);
-              console.log('soy la bbbbbbbbbb', b);
-              console.log('soy la restaaaaaaaaaa', resta);
-              Stock.update({
-                cantidad: resta
-              },{ where: { idStock: idinsu[0].dataValues['idStock'] } })
-              .then(onSuccess).catch(onError);
-           });
-        },
         //***************************
         retrieveStock: function (onSuccess, onError) {
           Stock.findAll( {
@@ -127,8 +108,90 @@ module.exports = function (sequelize, DataTypes) {
             }
            }).then(onSuccess).catch(onError);
         },
-        
-        
+        retrieveByInsumo: function (consumoId, cantidad, onSuccess, onError) {
+          console.log("dentro de model*****************");
+          Model.Consumo.find({
+            attributes: ['InsumoIdInsumo'],
+            where: { idConsumo: consumoId } 
+          }).then(function (InsumoD){
+              console.log("dentro de model2*****************", InsumoD.InsumoIdInsumo);
+              Stock.find({
+                attributes:['idStock','cantidad'],            
+                where: {
+                  InsumoIdInsumo: InsumoD.InsumoIdInsumo           
+                }
+               }).then(function (idinsumo) {
+                  console.log("dentro de model3*****************", idinsumo.idStock);
+                  
+                  var a = idinsumo.cantidad;
+                  console.log("dentro de model3*****************", a);
+                  
+                  var b = cantidad;
+                  console.log("dentro de model3*****************", b);
+                  
+                  var resta = a - b;
+                  Stock.update({
+                    cantidad: resta
+                  },{ where: { idStock: idinsumo.idStock } })
+                  .then(onSuccess).catch(onError);
+               });
+          });
+        },
+        retrieveByAnimal: function (animal, onSuccess, onError) {
+          console.log("dentro de model*****************");
+          Model.Animal.find({
+            attributes: ['RazaIdRaza'],
+            where: { idAnimal: animal } 
+          }).then(function (InsumoD){
+              console.log("dentro de model2*****************", InsumoD.RazaIdRaza);
+              Stock.find({
+                attributes:['idStock','cantidad'],            
+                where: {
+                  RazaIdRaza: InsumoD.RazaIdRaza           
+                }
+               }).then(function (idinsumo) {
+                  console.log("dentro de model3*****************", idinsumo.idStock);
+                  
+                  var a = idinsumo.cantidad;
+                  console.log("dentro de model3*****************", a);
+                  
+                  var b = 1;
+                  console.log("dentro de model3*****************", b);
+                  
+                  var resta = a - b;
+                  Stock.update({
+                    cantidad: resta
+                  },{ where: { idStock: idinsumo.idStock } })
+                  .then(onSuccess).catch(onError);
+               });
+          });
+        },
+        /********************************************************/
+        retrieveByVacunacion: function (insumo, cantidad, onSuccess, onError) {
+          console.log("dentro de model*****************");          
+          Stock.find({
+            attributes:['idStock','cantidad'],            
+            where: {
+              InsumoIdInsumo: insumo           
+            }
+          }).then(function (idinsumo) {
+              console.log("dentro de model3*****************", idinsumo.idStock);
+              
+              var a = idinsumo.cantidad;
+              console.log("dentro de model3*****************", a);
+              
+              var b = cantidad;
+              console.log("dentro de model3*****************", b);
+              
+              var resta = a - b;
+              Stock.update({
+                cantidad: resta
+              },{ where: { idStock: idinsumo.idStock } })
+              .then(onSuccess).catch(onError);
+          });
+         
+        },
+        /*************************************************************/
         add: function (onSuccess, onError) {
           var cantidad = this.cantidad;
           var RazaIdRaza = this.RazaIdRaza;          
