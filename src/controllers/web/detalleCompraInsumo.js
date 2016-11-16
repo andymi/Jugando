@@ -66,6 +66,8 @@ exports.getForm = function (req, res) {
 exports.create = function (req, res) {
   console.log(req.body);
   // bodyParser debe hacer la magia
+  var insumo = Model.Insumo.build();
+
   var precioCompra = req.body.precioCompra;
   var cantidadCompra = req.body.cantidadCompra;  
   var subtotalCompra = cantidadCompra*precioCompra;
@@ -94,13 +96,68 @@ exports.create = function (req, res) {
     index.retriveSum(FacturaCompraIdCompra, function (detalleCompras) {
       if (detalleCompras) {
         index.retriveCan(FacturaCompraIdCompra, function (detalleCompras) {
-          if (detalleCompras) {
+          if (detalleCompras) {            
+              stock.retrieveByCompraInsumo(InsumoIdInsumo, function (detalle) {
+                console.log("detalleee***********", detalle);
+                if (detalle) {
+                  console.log("dentroooo1***********", detalle.idStock);
+                  console.log("dentroooo2***********", detalle.cantidad);
+                  var id = detalle.idStock;
+                  var cantidad1 = detalle.cantidad;
+                  /******************************************************/
+                  insumo.retrieveByContenido(InsumoIdInsumo, function (detalle) {
+                    console.log("insumooooo1***********", detalle.contenidoInsumo);
+                    console.log("insumooooo2***********", detalle.presentacionInsumo);
+                    var presentacion = detalle.presentacionInsumo;
+                    var contenido = parseInt(detalle.contenidoInsumo);
+                    var cantidades = parseInt(cantidadCompra);
+                    if (presentacion == "Bolsa") {
+                        var resultado = contenido * cantidades;
+                        console.log("soy resultadoooo", resultado);
+                        stock.retrieveByActualizarCompra(id, cantidad1, resultado, function (detalle) {
+                          res.redirect('/web/detalleCompraInsumo/cargar');
+                        },function (err) {
+                          res.send('Error en cantidad total de animales',err);
+                        });
+                    }else{
+                      stock.retrieveByActualizarCompra(id, cantidad1, cantidadCompra, function (detalle) {
+                        res.redirect('/web/detalleCompraInsumo/cargar');
+                      },function (err) {
+                        res.send('Error en cantidad total de animales',err);
+                      });
+                    }
+                  },function (err) {
+                    res.send('Error en cantidad total de animales',err);
+                  });
+                  /****************************************************************/
+                } else {
+                  console.log("elseeeeee***********"); 
+                  insumo.retrieveByContenido(InsumoIdInsumo, function (detalle) {
+                    console.log("insumooooo1***********", detalle.contenidoInsumo);
+                    console.log("insumooooo2***********", detalle.presentacionInsumo);
+                    var presentacion = detalle.presentacionInsumo;
+                    var contenido = parseInt(detalle.contenidoInsumo);
+                    var cantidades = parseInt(cantidadCompra);
+                    if (presentacion == "Bolsa") {
+                        var resultado = contenido * cantidades;
+                        console.log("soy resultadoooo", resultado);
+                        stock.addInsumo2(resultado, function (success) {
+                          res.redirect('/web/detalleCompraInsumo/cargar');
+                        });
+                    }else{
+                        stock.addInsumo(function (success) {
+                          res.redirect('/web/detalleCompraInsumo/cargar');
+                        });
+                    }
+                  },function (err) {
+                    res.send('Error en cantidad total de animales',err);
+                  });                  
+                }
+              },function (err) {
+                  res.send('Error en cantidad total de animales',err);
+              });
 
-            stock.addInsumo(function (success) {
-              res.redirect('/web/detalleCompraInsumo/cargar');
-            }, function (err) {
-              res.send('stock error',err);
-            });
+
           } else {
             res.send(401, 'No se puede cargar la cantidad total de insumos');
           }

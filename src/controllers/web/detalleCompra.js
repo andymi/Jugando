@@ -93,13 +93,28 @@ exports.create = function (req, res) {
       if (detalleCompras) {
         index.retriveCan(FacturaCompraIdCompra, function (detalleCompras) {
           if (detalleCompras) {
-
-            stock.add(function (success) {
-              res.redirect('/web/detalleCompra/cargar');
-            }, function (err) {
-              res.send('stock error',err);
+            stock.retrieveByCompra(RazaIdRaza, function (detalle) {
+              console.log("detalleee***********", detalle);
+              if (detalle) {
+                console.log("dentroooo1***********", detalle.idStock);
+                console.log("dentroooo2***********", detalle.cantidad);
+                var id = detalle.idStock;
+                var cantidad1 = detalle.cantidad;
+                
+                stock.retrieveByActualizarCompra(id, cantidad1, cantidadCompra, function (detalle) {
+                  res.redirect('/web/detalleCompra/cargar');
+                },function (err) {
+                  res.send('Error en cantidad total de animales',err);
+                });
+              } else {
+                console.log("elseeeeee***********");                
+                stock.add(function (success) {
+                  res.redirect('/web/detalleCompra/cargar');
+                });
+              }
+            },function (err) {
+                res.send('Error en cantidad total de animales',err);
             });
-            
           } else {
             res.send(401, 'No se puede cargar la cantidad total de animales');
           }

@@ -17,16 +17,14 @@ block content
             form(class="form-horizontal" action='/web/detalleVacunacion/add' method="POST")
               div(class="box-body")
                 input(type="hidden" name='id' value='#{vacunacionJ}')
-
                 div(class="form-group")
-                  label(class="col-sm-4 control-label" for="email") RP Animal:
-                  div(class="col-sm-8")
-                    select(name='selectJ' class="btn btn-default select2")
-                      option(value="-1" disabled="disabled" selected) Seleccione una opción
+                  label(class="control-label col-sm-4" for="email") Rp Animal:
+                  div(class="col-sm-8")  
+                    select(name='selectJ'  class="btn btn-default select2")
+                      option(value="-1" selected) Seleccione una opción
                       -for(var j=0; j < selectJ.length; j++) {
                         option(value="#{selectJ[j].idAnimal}") #{selectJ[j].rpAnimal}
                       -} 
-
                 div(class="form-group")
                   label(class="col-sm-4 control-label" for="email") Certificado Nº:
                   div(class="col-sm-8")

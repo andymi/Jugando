@@ -59,7 +59,7 @@ exports.getForm = function (req, res) {
 };
 // POST /sanitacion
 exports.create = function (req, res) {
-  console.log(req.body);
+  //console.log(req.body);
   // bodyParser debe hacer la magia
   var fechaSanitacion = req.body.fechaSanitacion;
   var horaSanitacion = req.body.horaSanitacion; 

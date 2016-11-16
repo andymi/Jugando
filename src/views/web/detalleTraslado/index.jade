@@ -19,14 +19,6 @@ block content
                 for traslados in notaTrasladoJ
                   input(type="hidden" name='id' value='#{traslados.idTraslado}')
                 div(class="form-group")
-                  label(class="col-sm-4 control-label" for="email") RP Animal:
-                  div(class="col-sm-8")
-                    select(name='selectJ' class="btn btn-default select2")
-                      option(value="-1" disabled="disabled" selected) Seleccione una opción
-                      -for(var j=0; j < selectJ.length; j++) {
-                        option(value="#{selectJ[j].idAnimal}") #{selectJ[j].rpAnimal}
-                      -}
-                div(class="form-group")
                   label(class="col-sm-4 control-label" for="descripcion") Descripción:
                   div(class="col-sm-8")
                     input(type="text" class="form-control" id="descripcion" name='descripcion' placeholder="Ingrese la Descripción" required)
@@ -34,5 +26,7 @@ block content
                 div(class="btn-group pull-right")
                   button(type="submit" href="javascript:void(0);" class="btn btn-success") Guardar
                     i(class="fa fa-save") 
+                  a(href="/web/detalleTraslado/cargar" class="btn btn-primary") Leer Etiqueta  
+                    i(class="fa fa-refresh")
                   a(href="/web/traslado" class="btn btn-default") Listo
                     i(class="fa fa-remove")       

@@ -466,9 +466,9 @@ sequelize.sync().then(function () {
         if (count === 0) {
           Empleado.bulkCreate(
           [
-            { nombreEmpleado: 'Ignacio ', codigoLlave: '123456', direccionEmpleado:'14 de mayo', cedulaEmpleado:'3818223', CiudadIdCiudad: 4 },
-            { nombreEmpleado: 'Juan', codigoLlave: '123456', direccionEmpleado:'14 de mayo', cedulaEmpleado:'3818222', CiudadIdCiudad: 5 },
-            { nombreEmpleado: 'Maria', codigoLlave: '123456', direccionEmpleado:'14 de mayo', cedulaEmpleado:'3818221', CiudadIdCiudad: 6 }
+            { nombreEmpleado: 'Ignacio ', codigoLlave: '123456', direccionEmpleado:'14 de mayo', cedulaEmpleado:'3818223', CiudadIdCiudad: 1 },
+            { nombreEmpleado: 'Juan', codigoLlave: '123456', direccionEmpleado:'14 de mayo', cedulaEmpleado:'3818222', CiudadIdCiudad: 1 },
+            { nombreEmpleado: 'Maria', codigoLlave: '123456', direccionEmpleado:'14 de mayo', cedulaEmpleado:'3818221', CiudadIdCiudad: 1 }
           ]
           ).then(function () {
             console.log('Base de datos (tabla Empleado) inicializada');
@@ -479,9 +479,9 @@ sequelize.sync().then(function () {
         if (count === 0) {
           Cliente.bulkCreate(
           [
-            { nombreCliente: 'Ignacio ', direccionCliente:'14 de mayo', rucCliente:'3818223', CiudadIdCiudad: 4 },
-            { nombreCliente: 'Juan', direccionCliente:'14 de mayo', rucCliente:'3818222', CiudadIdCiudad: 5 },
-            { nombreCliente: 'Maria', direccionCliente:'14 de mayo', rucCliente:'3818221', CiudadIdCiudad: 6 }
+            { nombreCliente: 'Ignacio ', direccionCliente:'14 de mayo', rucCliente:'3818223', CiudadIdCiudad: 1 },
+            { nombreCliente: 'Juan', direccionCliente:'14 de mayo', rucCliente:'3818222', CiudadIdCiudad: 1 },
+            { nombreCliente: 'Maria', direccionCliente:'14 de mayo', rucCliente:'3818221', CiudadIdCiudad: 1 }
           ]
           ).then(function () {
             console.log('Base de datos (tabla Cliente) inicializada');
@@ -492,9 +492,9 @@ sequelize.sync().then(function () {
         if (count === 0) {
           Proveedor.bulkCreate(
           [
-            { nombreProveedor: 'Ganadera la Negra ', direccionProveedor:'14 de mayo', rucProveedor:'3818223', tipoProveedor:'Animal',  CiudadIdCiudad: 4 },
-            { nombreProveedor: 'El Toke', direccionProveedor:'14 de mayo', rucProveedor:'3818222', tipoProveedor:'Insumo', CiudadIdCiudad: 5 },
-            { nombreProveedor: 'Agustin Chaparro', direccionProveedor:'14 de mayo', rucProveedor:'3818221', tipoProveedor:'Servicio', CiudadIdCiudad: 6 }
+            { nombreProveedor: 'Ganadera la Negra ', direccionProveedor:'14 de mayo', rucProveedor:'3818223', tipoProveedor:'Animal',  CiudadIdCiudad: 1 },
+            { nombreProveedor: 'El Toke', direccionProveedor:'14 de mayo', rucProveedor:'3818222', tipoProveedor:'Insumo', CiudadIdCiudad: 1 },
+            { nombreProveedor: 'Agustin Chaparro', direccionProveedor:'14 de mayo', rucProveedor:'3818221', tipoProveedor:'Servicio', CiudadIdCiudad: 1 }
           ]
           ).then(function () {
             console.log('Base de datos (tabla Proveedor) inicializada');

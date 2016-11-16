@@ -130,8 +130,11 @@ module.exports = function (sequelize, DataTypes) {
                   console.log("dentro de model3*****************", b);
                   
                   var resta = a - b;
+                  console.log("RESTA**********", resta);
+                  var redondeado= Math.round(resta);
+                  console.log("REDONDEADO**********", redondeado);
                   Stock.update({
-                    cantidad: resta
+                    cantidad: redondeado
                   },{ where: { idStock: idinsumo.idStock } })
                   .then(onSuccess).catch(onError);
                });
@@ -165,6 +168,62 @@ module.exports = function (sequelize, DataTypes) {
                   .then(onSuccess).catch(onError);
                });
           });
+        },
+        retrieveByVenta: function (id, cantidad, onSuccess, onError) {
+          console.log("dentro de model*****************");          
+          Stock.find({
+            attributes:['idStock','cantidad'],            
+            where: {
+              RazaIdRaza: id          
+            }
+           }).then(function (idinsumo) {
+              console.log("dentro de model3*****************", idinsumo.idStock);
+              
+              var a = idinsumo.cantidad;
+              console.log("dentro de model3*****************", a);
+              
+              var b = cantidad;
+              console.log("dentro de model3*****************", b);
+              
+              var resta = a - b;
+              Stock.update({
+                cantidad: resta
+              },{ where: { idStock: idinsumo.idStock } })
+              .then(onSuccess).catch(onError);
+           });          
+        },
+        retrieveByCompra: function (id, onSuccess, onError) {
+          console.log("dentro de model*****************");          
+          Stock.find({
+            attributes:['idStock','cantidad'],            
+            where: {
+              RazaIdRaza: id          
+            }
+           }).then(onSuccess).catch(onError);                     
+        },
+        retrieveByCompraInsumo: function (id, onSuccess, onError) {
+          console.log("dentro de model*****************");          
+          Stock.find({
+            attributes:['idStock','cantidad'],            
+            where: {
+              InsumoIdInsumo: id          
+            }
+           }).then(onSuccess).catch(onError);                     
+        },
+        retrieveByActualizarCompra: function (id, cantidad1, cantidad, onSuccess, onError) {
+          console.log("dentro de model3*****************", id);
+              
+              var a = parseInt(cantidad1);
+              console.log("dentro de model3*****************", a);
+              
+              var b = parseInt(cantidad);
+              console.log("dentro de model3*****************", b);
+              
+              var suma = a + b;
+              Stock.update({
+                cantidad: suma
+              },{ where: { idStock: id } })
+              .then(onSuccess).catch(onError);                     
         },
         /********************************************************/
         retrieveByVacunacion: function (insumo, cantidad, onSuccess, onError) {
@@ -202,6 +261,15 @@ module.exports = function (sequelize, DataTypes) {
         },
         addInsumo: function (onSuccess, onError) {
           var cantidad = this.cantidad;
+          var cantidadMinima = this.cantidadMinima;
+          var InsumoIdInsumo = this.InsumoIdInsumo;          
+          Stock.build({
+            cantidad: cantidad, cantidadMinima:cantidadMinima, InsumoIdInsumo: InsumoIdInsumo            
+          })
+          .save().then(onSuccess).catch(onError);
+        },
+        addInsumo2: function (resultado, onSuccess, onError) {
+          var cantidad = resultado;
           var cantidadMinima = this.cantidadMinima;
           var InsumoIdInsumo = this.InsumoIdInsumo;          
           Stock.build({

@@ -78,7 +78,7 @@ exports.create1 = function (req, res) {
     stock.retrieveByVacunacion(InsumoIdInsumo, cantidadUtilizada, function (success) {
       if (success) {
             console.log('tengo la suma de stock');   
-            res.redirect('/web/detalleSanitacion/cargar');
+            res.redirect('/web/detalleSanitacionInsumo/cargar');
       } else {
         res.send(401, 'stock no encontrado');
       }

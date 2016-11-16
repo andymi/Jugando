@@ -23,6 +23,14 @@ block content
                   div(class="col-sm-8")
                     input(type="text" class="form-control" id="descripcionVenta" name='descripcionVenta' placeholder="Ingrese la Descripcion")
                 div(class="form-group")
+                  label(class="col-sm-4 control-label" for="email") Raza: 
+                  div(class="col-sm-8")  
+                    select(id="selectJ" name='selectJ' class="btn btn-default select2")
+                      option(value="-1" disabled="disabled" selected) Seleccione una opción
+                      -for(var j=0; j < selectJ.length; j++) {
+                        option(value="#{selectJ[j].idRaza}") #{selectJ[j].raza}
+                      -}
+                div(class="form-group")
                   label(class="col-sm-4 control-label" for="email") Precio Venta
                   div(class="col-sm-8")
                     input(type="text"  class="form-control" id="precioVenta" name='precioVenta' placeholder="Ingrese el Precio") 

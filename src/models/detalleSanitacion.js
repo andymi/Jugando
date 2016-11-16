@@ -59,7 +59,8 @@ module.exports = function (sequelize, DataTypes) {
           var observacionSanitacion = this.observacionSanitacion;
           var AnimalIdAnimal = this.AnimalIdAnimal;
           var SanitacionIdSanitacion = this.SanitacionIdSanitacion;
-
+          console.log('estoy dentro de model y AnimalIdAnimal es--------',AnimalIdAnimal);
+  
           DetalleSanitacion.build({ observacionSanitacion: observacionSanitacion,
            AnimalIdAnimal: AnimalIdAnimal,SanitacionIdSanitacion:SanitacionIdSanitacion })
           .save().then(onSuccess).catch(onError);

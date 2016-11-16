@@ -20,15 +20,6 @@ block content
                   input(type="hidden" name='id' value='#{vacunaciones.idVacunacion}')
 
                 div(class="form-group")
-                  label(class="col-sm-4 control-label" for="email") RP Animal: 
-                  div(class="col-sm-8")
-                    select(name='selectJ' class="btn btn-default select2")
-                      option(value="-1" disabled="disabled" selected) Seleccione una opción
-                      -for(var j=0; j < selectJ.length; j++) {
-                        option(value="#{selectJ[j].idAnimal}") #{selectJ[j].rpAnimal}
-                      -}
-
-                div(class="form-group")
                   label(class="col-sm-4 control-label" for="email") Certificado Nº:
                   div(class="col-sm-8")
                     input(type="text" class="form-control" id="numeroCertificado" name='numeroCertificado' placeholder="Ingrese el Número del Certificado" required)
@@ -41,5 +32,7 @@ block content
                 div(class="btn-group pull-right")
                   button(type="submit" href="javascript:void(0);" class="btn btn-success") Guardar
                     i(class="fa fa-save") 
+                  a(href="/web/detalleVacunacion/cargar" class="btn btn-primary") Leer tag  
+                    i(class="fa fa-refresh")                  
                   a(href="/web/vacunacion" class="btn btn-default") Listo
                     i(class="fa fa-remove")

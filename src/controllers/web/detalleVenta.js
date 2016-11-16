@@ -11,6 +11,7 @@ var Model = require('../../models/jugando.js');
 exports.getForm1 = function (req, res) {
   var facturaVenta = Model.FacturaVenta.build();
   var detalleVenta = Model.DetalleVenta.build();
+  var raza = Model.Raza.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -21,15 +22,24 @@ exports.getForm1 = function (req, res) {
         console.log('mensaje2', mensaje2);
         if (mensaje2) { 
           facturaVenta.retrieveId(function (FacturaVentaq) {
-            console.log('FacturaVentaq',FacturaVentaq);
-
             if (FacturaVentaq) {
-                res.render('web/detalleVenta/index', {
-                    detalleVentaJ: detalleVenta,
-                    facturaVentaJ: FacturaVentaq,
-                    mensajes: mensaje1,
-                    mensajeria: mensaje2
-                });
+              console.log('FacturaVentaq',FacturaVentaq);
+              raza.retrieveAll(function (razaQ) {
+                console.log('razaQ',razaQ);
+                  if (razaQ) {                 
+                      res.render('web/detalleVenta/index', {
+                          detalleVentaJ: detalleVenta,
+                          facturaVentaJ: FacturaVentaq,
+                          mensajes: mensaje1,
+                          selectJ:razaQ,
+                          mensajeria: mensaje2
+                      });
+                  } else {
+                      res.send(401, 'No se encontraron Razas');
+                  }
+              }, function (error) {
+                res.send('Animal no encontrado');
+              }); 
             }
           }, function (error) {
             res.send('DetalleVenta no encontrado');
@@ -50,12 +60,14 @@ exports.getForm1 = function (req, res) {
 // POST /detalleVenta
 exports.create1 = function (req, res) {
   console.log(req.body);
+  var stock = Model.Stock.build();
   // bodyParser debe hacer la magia
   var descripcionVenta = req.body.descripcionVenta;
   var precioVenta = req.body.precioVenta;
   var cantidadVenta = req.body.cantidadVenta;
   var subtotalVenta =cantidadVenta*precioVenta; 
   var FacturaVentaIdVenta = req.body.id; 
+  var RazaIdRaza = req.body.selectJ;
   console.log('subtotalVenta',subtotalVenta);
 
   var index = Model.DetalleVenta.build({
@@ -71,11 +83,18 @@ exports.create1 = function (req, res) {
       if (detalleVentas) {
         index.retriveCan(FacturaVentaIdVenta, function (detalleVentass) {
           if (detalleVentass) {
-            //stock.add(function (success) {
-              res.redirect('/web/detalleVenta/cargar');        
-            /*}, function (err) {
+            console.log("DENTROOOOOOOOOOOOO");
+            stock.retrieveByVenta(RazaIdRaza, cantidadVenta, function (detalleAnimal) {
+              if (detalleAnimal) {
+                console.log("X FIIIIN DENTROOOOOOOOOOOOO");
+            
+                res.redirect('/web/detalleVenta/cargar'); 
+              } else {
+                res.send(401, 'No se encontraron registros');
+              }       
+            }, function (err) {
               res.send('stock error',err);
-            });*/            
+            });            
           } else {
             res.send(401, 'No se puede cargar la cantidad total de animales');
           }

@@ -70,6 +70,12 @@ module.exports = function (sequelize, DataTypes) {
             where: { idAnimal: animalId } }, { raw: true })
           .then(onSuccess).catch(onError);
         },
+        retrieveByTag: function (idlector, onSuccess, onError) {
+          Animal.find( {
+            attributes: ['idAnimal'], 
+            where: { numeroTag: idlector } }, { raw: true })
+          .then(onSuccess).catch(onError);
+        },
         add: function (onSuccess, onError) {
           var pesoInicial = this.pesoInicial;
           var rpAnimal = this.rpAnimal;

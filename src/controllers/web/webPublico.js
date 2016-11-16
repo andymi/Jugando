@@ -5,12 +5,14 @@
 var express = require('express');
 var router = express.Router();
 var Model = require('../../models/jugando.js');
-/*****************************************************************************/
+/*****************************************************************************
 var horaC="";
 var horasC="";
 var nivelC="";
 var pesoRacionC="";
 var pesoBateaC="";
+var idInsumoC="";
+var consumoId="";
 var serialport = require('serialport');
 var SerialPort = serialport.SerialPort;
 var parsers = serialport.parsers;
@@ -19,12 +21,12 @@ var port = new SerialPort("/COM14", {
   parser: parsers.readline('\r\n')
 });
 /*****************************************************************************/
-/*********************************************************************************/
+/*********************************************************************************
 leerNivel();
 leerPesoyRacion();
 leerHora();
 
-/************************leer el nivel actual del comedero***********************/
+/************************leer el nivel actual del comedero***********************
 function leerNivel(){
   port.on('open', function() {
     port.write('main screen turn on', function(err) {
@@ -43,7 +45,7 @@ function leerNivel(){
     }, 1000);
   });
 }
-/*************leer la hora actual del comedero*********************/
+/*************leer la hora actual del comedero*********************
 function leerHora(){
   port.on('open', function() {
     port.write('main screen turn on', function(err) {
@@ -62,7 +64,7 @@ function leerHora(){
     }, 3000);
   });
 }
-/*************leer el peso actual del comedero********************/
+/*************leer el peso actual del comedero********************
 function leerPesoyRacion(){
   port.on('open', function() {
     port.write('main screen turn on', function(err) {
@@ -81,7 +83,7 @@ function leerPesoyRacion(){
     }, 2000);
   });
 }
-/***************funcion para leer datos recibidos del comedero*******************/
+/***************funcion para leer datos recibidos del comedero*******************
 setTimeout(function(){
   port.on('data', function(data) {
     var imprimir = data.toString();
@@ -104,35 +106,71 @@ setTimeout(function(){
       console.log('dentro de cmd x',cmd); 
       horasC = imprimir.substring(1,9);
       console.log('horas:', horasC);
-      pesoBateaC = imprimir.slice(-4);      
+      pesoBateaC = imprimir.slice(9,-1);      
       console.log('pesoBatea:', pesoBateaC);
-      
+      idInsumoC = imprimir.slice(-1); 
+      console.log('idInsumo:', idInsumoC);      
+      /*********************************
+      var f = new Date();
+      var fecha = f.getFullYear() + "/" + (f.getMonth() +1) + "/" + f.getDate();
+      var consumo = Model.Consumo.build();
+      var stock = Model.Stock.build();
+      /*********************************    
       var index = Model.Consumo.build({
-        fechaConsumo: "2016-11-01",
+        fechaConsumo: fecha,
         horaConsumo: horasC,
-        InsumoIdInsumo: 3
-      });
+        InsumoIdInsumo: idInsumoC
+      });      
       index.add(function (success) {
-        //res.redirect('/web/detalleConsumo/cargar');
         console.log("listo cabecera");
+        consumo.retrieveId(function (consumoQ) {
+          if (consumoQ) { 
+              consumoId = consumoQ[0].dataValues['idConsumo'];
+              console.log("soy consumoId*********", consumoId);
+              var index2 = Model.DetalleConsumo.build({
+                cantidad: pesoBateaC,
+                observacion: "Consumo de Balanceados",
+                AnimalIdAnimal: 1,
+                ConsumoIdConsumo: consumoId
+              });         
+        
+              index2.add(function (success) {
+                console.log("dentro"); 
+                  stock.retrieveByInsumo(consumoId, pesoBateaC, function (detalleConsumos) {
+                    if (detalleConsumos) { 
+                      console.log("listo xfin");      
+                    } else {
+                      console.log('No se encontraron detalles');
+                    }
+                  }, function (error) {
+                    console.log('Detalle no encontrado');
+                  }); 
+              },
+              function (err) {
+                console.log('error aca', err);
+              });
+          }else {
+            console.log('No se encontraron Consumos');
+          }
+        });
       },
       function (err) {
-        res.send(err);
+        console.log(err);
       });
     }   
   });
 }, 1000);
-/*********************************************************************/
+/*********************************************************************
 router.get('/abrir', function (req, res) {
   console.log('dentro de abrir');
   port.write('>i');
 });
-/********************************************************************/
+/********************************************************************
 router.get('/cerrar', function (req, res) {
   console.log('dentro de cerrar');
   port.write('>j');
 });
-/********************************************************************/
+/********************************************************************
 router.get('/liberar', function (req, res) {
   console.log('dentro de liberar');
   port.write('>x');
@@ -142,7 +180,7 @@ router.get('/', function (req, res) {
   res.render('publico/home/indexa.jade');
 });
 /*ruta para redireccionar al comedero donde al renderizar la pagina le paso la 
-variable enviar a una variable de la vista llamada horas*/
+variable enviar a una variable de la vista llamada horas*
 router.get('/comedero', function(req, res) {
   var mensaje = Model.Mensaje.build();
   mensaje.retriveCount(function (mensaje1) { 
@@ -170,7 +208,7 @@ router.get('/comedero', function(req, res) {
   }, function (error) {
     res.send('Mensaje no encontrado');
   });
-});
+});*/
 //página principal del admin, panel de administración
 router.get('/principal', function (req, res) {
 	var mensaje = Model.Mensaje.build();
