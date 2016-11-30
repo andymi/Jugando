@@ -21,6 +21,7 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.INTEGER(11),
         allowNull: false,
         comment: 'Cantidad de animales que salieron del corral',
+        defaultValue: '0',
         validate: {
           //notNull: true,
           notEmpty: true
@@ -76,22 +77,20 @@ module.exports = function (sequelize, DataTypes) {
         },
         add: function (onSuccess, onError) {
           var horaSalida = this.horaSalida;
-          var cantidadSalida = this.cantidadSalida;
           var fechaSalida = this.fechaSalida;
           var observacion = this.observacion;
 
-          SalidaAnimal.build({ horaSalida: horaSalida, cantidadSalida: cantidadSalida, fechaSalida: fechaSalida, observacion: observacion })
+          SalidaAnimal.build({ horaSalida: horaSalida, fechaSalida: fechaSalida, observacion: observacion })
           .save().then(onSuccess).catch(onError);
         },
         updateById: function (salidaAnimalId, onSuccess, onError) {
           var idSalidaAnimal = salidaAnimalId;
           var horaSalida = this.horaSalida;
-          var cantidadSalida = this.cantidadSalida;
           var fechaSalida = this.fechaSalida;
           var observacion = this.observacion;
 
           SalidaAnimal.update( { 
-            horaSalida: horaSalida, cantidadSalida: cantidadSalida, fechaSalida: fechaSalida, observacion: observacion
+            horaSalida: horaSalida, fechaSalida: fechaSalida, observacion: observacion
           },{ where: { idSalidaAnimal:  salidaAnimalId } })
           .then(onSuccess).catch(onError);
         },

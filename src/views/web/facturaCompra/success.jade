@@ -27,12 +27,12 @@ block content
                     tr(class="success")
                       th(class="text-center") Fecha de Compra
                       th(class="text-center") Condición 
-                      th(class="text-center") Forma de Pago 
                       th(class="text-center") Número de Compra 
                       th(class="text-center") Total de Animales Comprados 
                       th(class="text-center") Monto Total de la Compra         
                       th(class="text-center") Proveedor
                       th(class="text-center") Ver Detalle
+                      th(class="text-center") Imprimir Compra
                       th(class="text-center") Eliminar Registro
                   
                   tbody
@@ -40,7 +40,6 @@ block content
                       tr
                         td(class="text-center")=facturaCompras.fechaCompra
                         td(class="text-center")=facturaCompras.condicionCompra
-                        td(class="text-center")=facturaCompras.formaPago
                         td(class="text-center")=facturaCompras.numeroCompra 
                         td(class="text-center")=facturaCompras.cantidadTotalCompra
                         td(class="text-center")=facturaCompras.totalCompra        
@@ -53,6 +52,11 @@ block content
                             p(data-placement="top" data-toggle="tooltip" title="Ver Detalle")
                               button(type="button" class="btn btn-success")
                                 i(class="fa fa-eye") 
+                        td(class="text-center")
+                          a(href="/reportes/compra/#{facturaCompras.idCompra}" class="btn btn-success" role="button")
+                            p(data-placement="top" data-toggle="tooltip" title="Imprimir Compra")
+                              button(type="button" class="btn btn-success")
+                                i(class="fa fa-print")
                               
                         form(id="topicForm" method="post" action="/web/facturaCompra/#{facturaCompras.idCompra}")
                           input(type="hidden" name="_method" value="delete")

@@ -4,8 +4,9 @@
 // =============================================================================
 var express = require('express');
 var router = express.Router();
+var request = require('request');
 var Model = require('../../models/jugando.js');
-/*****************************************************************************/
+/*******************************************************************************/
 var horaC="";
 var horasC="";
 var nivelC="";
@@ -13,13 +14,13 @@ var pesoRacionC="";
 var pesoBateaC="";
 var idInsumoC="";
 var consumoId="";
+/*******************************************************************************/
 var SerialPort = require('serialport');
 var parsers = require('serialport').parsers;
-var port = new SerialPort("/COM14", {
+var port = new SerialPort("/COM11", {
   baudRate: 9600,
   parser: parsers.readline('\r\n')
 });
-/*****************************************************************************/
 /*********************************************************************************/
 leerNivel();
 leerPesoyRacion();
@@ -109,12 +110,11 @@ setTimeout(function(){
       console.log('pesoBatea:', pesoBateaC);
       idInsumoC = imprimir.slice(-1); 
       console.log('idInsumo:', idInsumoC);      
-      /********************************/
       var f = new Date();
       var fecha = f.getFullYear() + "/" + (f.getMonth() +1) + "/" + f.getDate();
       var consumo = Model.Consumo.build();
       var stock = Model.Stock.build();
-      /*********************************/   
+      /***********************************/
       var index = Model.Consumo.build({
         fechaConsumo: fecha,
         horaConsumo: horasC,
@@ -156,7 +156,7 @@ setTimeout(function(){
       function (err) {
         console.log(err);
       });
-    }   
+    }
   });
 }, 1000);
 /*********************************************************************/

@@ -43,7 +43,6 @@ var servicios = require('./web/servicios');
 var raza = require('./web/raza');
 var salidaAnimal = require('./web/salidaAnimal');
 var detalleSalidaAnimal = require('./web/detalleSalidaAnimal');
-
 /*
   este router va a estar montado bajo /api, es decir router.use( '/usuario', usuario )
   va a montar el controlador usuario bajo /api/usuario.

@@ -72,7 +72,15 @@ exports.create1 =  function (req, res) {
   });
 
   index.add(function (success) {
-    res.redirect('/web/detalleIngresoAnimal/cargar');
+    index.retriveCount(IngresoAnimalIdIngresoAnimal, function (detalleIA) {
+      if (detalleIA) {
+        res.redirect('/web/detalleIngresoAnimal/cargar');
+      } else {
+        res.send(401, 'No anda tu count amigo');
+      }
+    },function (err) {
+        res.send('errores aaaa');
+    });
   },
   function (err) {
     res.send(err);
@@ -139,7 +147,15 @@ exports.create2 = function (req, res) {
   });
 
   index.add(function (success) {
-    res.redirect('/web/ingresoAnimal');
+    index.retriveCount(IngresoAnimalIdIngresoAnimal, function (detalleIA) {
+      if (detalleIA) {
+        res.redirect('/web/ingresoAnimal');
+      } else {
+        res.send(401, 'No anda tu count amigo');
+      }
+    },function (err) {
+        res.send('errores aaaa');
+    });
   },
   function (err) {
     res.send(err);

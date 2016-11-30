@@ -6,19 +6,12 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 
-/*var SerialPort = require('serialport');
-  var serialport = new SerialPort("/COM13", {
-  baudRate: 115200
-});
-/*var SerialPort = require('serialport');
-var serialport = new SerialPort("/COM14", {
-  baudRate: 9600
-});*/
+require('jsreport')({ httpPort: 2000 }).init();
 
-//enviar3();
 var config = require('./config/config');
 /**********empezamos a declarar nuestro controlador****************/
 var webPublico = require('./controllers/web/webPublico');
+var reportes = require('./controllers/web/reportes');
 var routesAPI = require('./controllers/routesAPI');
 var routesWEB = require('./controllers/routesWEB');
 var app = express();
@@ -84,7 +77,7 @@ app.use(function (req, res, next) {
 app.use('/api', routesAPI);
 app.use('/web', routesWEB);
 app.use('/', webPublico);
-
+app.use('/reportes', reportes);
 
 /*
   esta ruta es para el controlador de páginas estáticas, va a estar montada en la raíz
@@ -122,90 +115,5 @@ app.use(function (err, req, res, next) {
     error: {}
   });
 });
-/**************valores en buffer de los comandos para leer el id de la orejera**************/
-/*var buffer = new Buffer(5);
-buffer[0] = 0xA0;   
-buffer[1] = 0x03;  
-buffer[2] = 0xFF;  
-buffer[3] = 0x79;   
-buffer[4] = 0xE5;
-var buffer2 = new Buffer(6);
-buffer2[0] = 0xA0;   
-buffer2[1] = 0x04;  
-buffer2[2] = 0x01;  
-buffer2[3] = 0x74;   
-buffer2[4] = 0x00;
-buffer2[5] = 0xE7;
-var buffer3 = new Buffer(6);
-buffer3[0] = 0xA0;   
-buffer3[1] = 0x04;  
-buffer3[2] = 0x01;  
-buffer3[3] = 0x89;   
-buffer3[4] = 0x01;
-buffer3[5] = 0xD1;
-
-/*function enviar1(){
-  serialport.on('open', function() {
-    console.log('conectado a enviar1');
-    setTimeout(function(){
-      serialport.write(buffer, function(err) {
-        if (err) {
-          return console.log('Error: ', err.message);
-        }
-        console.log('B1');
-      });
-    }, 1000);
-  });
-}
-function enviar2(){
-  serialport.on('open', function() {
-    console.log('conectado a enviar1');
-    setTimeout(function(){
-      serialport.write(buffer2, function(err) {
-        if (err) {
-          return console.log('Error: ', err.message);
-        }
-        console.log('B2');
-      });
-    }, 2000);
-  });
-}
-function enviar3(){
-  serialport.on('open', function() {
-    console.log('conectado a enviar1');
-    setTimeout(function(){
-      serialport.write(buffer3, function(err) {
-        if (err) {
-          return console.log('Error: ', err.message);
-        }
-        console.log('B3');
-      });
-    }, 1000);
-  });
-}
-
-serialport.on('data', function(data) {
-  var buff = new Buffer(data, 'utf8'); //no sure about this
-  
-  var imprimir = buff.toString('hex');
-  var cmd = imprimir.charAt(3);
-  var enviar = imprimir.slice(14,-4); 
-  console.log('este es cmd********', cmd);
-  //console.log('valor**************', enviar);
-  if(cmd == 3){
-    console.log('soy id del lector',enviar);
-  }else{
-    console.log('soy el detalle', enviar);
-  }
-
-}); 
-// open errors will be emitted as an error event
-serialport.on('error', function(err) {
-  console.log('Error: ', err.message);
-});
-*/
-
-
-
 
 module.exports = app;

@@ -6,7 +6,7 @@
     "start": "node ./bin/www"
   },
   "engines": {
-    "node": "4.x.x",
+    "node": "7.x.x",
     "npm": "3.x.x"
   },
   "dependencies": {
@@ -16,6 +16,7 @@
     "express": "~4.13.1",
     "express-session": "^1.14.0",
     "jade": "~1.11.0",
+    "jsreport": "^1.1.0",
     "method-override": "^2.3.5",
     "morgan": "~1.6.1",
     "mysql": "^2.10.2",
@@ -23,7 +24,9 @@
     "passport-facebook": "^2.1.1",
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
+    "request": "^2.79.0",
     "sequelize": "^3.17.1",
+    "serialport": "^4.0.6",
     "serve-favicon": "~2.3.0",
     "stylus": "0.42.3"
   },

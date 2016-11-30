@@ -37,7 +37,7 @@ config.db            = {};
 
 config.db.name     = 'bonanza';
 config.db.user     = 'root';
-config.db.pwd      = '';
+config.db.pwd      = 'root';
 config.db.dialect  = 'mysql';
 config.db.protocol = 'mysql';
 config.db.port     = '3306';

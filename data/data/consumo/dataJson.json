@@ -1,0 +1,15 @@
+{
+    "fields": [{
+        "fecha": "fecha",
+        "type": "date"
+    },{
+        "hora": "hora",
+        "type": "string"
+    },{
+        "insumo": "insumo",
+        "type": "number"
+    },{
+        "cantidad": "cantidad",
+        "type": "number"
+    }]
+}

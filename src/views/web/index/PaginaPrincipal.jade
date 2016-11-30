@@ -148,32 +148,49 @@ block content
               div(class="row")
                 div(class="col-xs-6 col-md-3 text-center")
                   for animals2 in animal2
-                    input(type="text" id="animals2" class="knob" value='#{animals2.cantidad}' data-width="90" data-height="90" data-fgColor="#3c8dbc")
+                    if animals2.cantidad == null  
+                      input(type="text" id="animals2" class="knob" value='0' data-width="90" data-height="90" data-fgColor="#3c8dbc")
+                    else 
+                      input(type="text" id="animals2" class="knob" value='#{animals2.cantidad}' data-width="90" data-height="90" data-fgColor="#3c8dbc")                    
                   div(class="knob-label") Cantidad Total de Animales
                 
                 div(class="col-xs-6 col-md-3 text-center")  
                   for vacunaciones2 in vacunaciones  
-                    input(type="text"  class="knob" value='#{vacunaciones2.cantidadTotal}' data-min="-150" data-max="150" data-width="90" data-height="90" data-fgColor="#f56954")
+                    if vacunaciones2.cantidadTotal == null  
+                      input(type="text"  class="knob" value='0' data-min="-150" data-max="150" data-width="90" data-height="90" data-fgColor="#f56954")
+                    else 
+                      input(type="text"  class="knob" value='#{vacunaciones2.cantidadTotal}' data-min="-150" data-max="150" data-width="90" data-height="90" data-fgColor="#f56954") 
                   div(class="knob-label") Animales Vacunados
 
                 div(class="col-xs-6 col-md-3 text-center") 
-                  for sanitaciones2 in sanitaciones                  
-                    input(type="text" class="knob" value='#{sanitaciones2.cantidadTotal}' data-min="-150" data-max="150" data-width="90" data-height="90" data-fgColor="#00a65a")
+                  for sanitaciones2 in sanitaciones   
+                    if sanitaciones2.cantidadTotal == null  
+                      input(type="text" class="knob" value='0' data-min="-150" data-max="150" data-width="90" data-height="90" data-fgColor="#00a65a")
+                    else 
+                      input(type="text" class="knob" value='#{sanitaciones2.cantidadTotal}' data-min="-150" data-max="150" data-width="90" data-height="90" data-fgColor="#00a65a")
                   div(class="knob-label") Animales Sanitados
 
                 div(class="col-xs-6 col-md-3 text-center")
-                  for muerted2 in muerted                  
-                    input(type="text" id="muerted2" class="knob" value='#{muerted2.cantidadTotal}' data-width="90" data-height="90" data-fgColor="#00c0ef")
+                  for muerted2 in muerted     
+                    if muerted2.cantidadTotal == null  
+                      input(type="text" id="muerted2" class="knob" value='0' data-width="90" data-height="90" data-fgColor="#00c0ef")
+                    else 
+                      input(type="text" id="muerted2" class="knob" value='#{muerted2.cantidadTotal}' data-width="90" data-height="90" data-fgColor="#00c0ef")
                   div(class="knob-label") Animales Muertos 
 
               div(class="row") 
                 div(class="col-xs-6 text-center") 
-                  for extraviadoss in extraviados  
-                    input(type="text" class="knob" value='#{extraviadoss.cantidadTotal}' data-width="90" data-height="90" data-fgColor="#932ab6") 
+                  for extraviadoss in extraviados 
+                    if extraviadoss.cantidadTotal == null  
+                      input(type="text" class="knob" value='0' data-width="90" data-height="90" data-fgColor="#932ab6")
+                    else 
+                      input(type="text" class="knob" value='#{extraviadoss.cantidadTotal}' data-width="90" data-height="90" data-fgColor="#932ab6")
                   div(class="knob-label") Animales Extraviados
 
                 div(class="col-xs-6 text-center")
-                  for ventas2 in ventass                     
-                    input(type="text" class="knob" value='#{ventas2.cantidadTotalVenta}' data-width="90" data-height="90" data-fgColor="#39CCCC") 
+                  for ventas2 in ventass    
+                    if ventas2.cantidadTotalVenta == null  
+                      input(type="text" class="knob" value='0' data-width="90" data-height="90" data-fgColor="#39CCCC") 
+                    else 
+                      input(type="text" class="knob" value='#{ventas2.cantidadTotalVenta}' data-width="90" data-height="90" data-fgColor="#39CCCC")
                   div(class="knob-label") Animales Vendidos
-                

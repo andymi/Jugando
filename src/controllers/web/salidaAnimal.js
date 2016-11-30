@@ -42,13 +42,11 @@ exports.create =  function (req, res) {
   console.log(req.body);
   // bodyParser debe hacer la magia
   var horaSalida = req.body.horaSalida;
-  var cantidadSalida = req.body.cantidadSalida;
   var fechaSalida = req.body.fechaSalida;
   var observacion = req.body.observacion;
 
   var index = Model.SalidaAnimal.build({
     horaSalida: horaSalida,
-    cantidadSalida: cantidadSalida,    
     fechaSalida: fechaSalida,
     observacion: observacion,
   });
@@ -112,7 +110,6 @@ exports.update = function (req, res) {
   var salidaAnimal = Model.SalidaAnimal.build();
 
   salidaAnimal.horaSalida = req.body.horaSalida;
-  salidaAnimal.cantidadSalida = req.body.cantidadSalida;
   salidaAnimal.fechaSalida = req.body.fechaSalida;
   salidaAnimal.observacion = req.body.observacion;
 

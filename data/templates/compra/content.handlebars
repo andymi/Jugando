@@ -1,0 +1,23 @@
+<div align="center">
+  <img style='padding: 10px;'src='{#image logos}'/>
+</div>
+<h3 style='text-align: center;'><u>Detalles de la Compra Numero: {{id}}</u></h3>
+
+<table style='border-style:solid; width:100%; border-spacing: 5px;'>
+    <tr>
+        <th style='background-color:lightGray; text-align: center; padding: 15px;'>Fecha</th>
+        <th style='background-color:lightGray; text-align: center; padding: 15px;'>Condicion</th>
+        <th style='background-color:lightGray; text-align: center; padding: 15px;'>Forma de Pago</th>
+        <th style='background-color:lightGray; text-align: center; padding: 15px;'>Total de Animales Comprados</th>
+        <th style='background-color:lightGray; text-align: center; padding: 15px;'>Monto Total</th>
+    </tr>
+    {{#each compra}}
+        <tr>
+            <td style='text-align: center; padding: 15px;'>{{fecha}}</td>
+            <td style='text-align: center; padding: 15px;'>{{condicion}}</td>
+            <td style='text-align: center; padding: 15px;'>{{forma}}</td>
+            <td style='text-align: center; padding: 15px;'>{{total}}</td>
+            <td style='text-align: center; padding: 15px;'>{{monto}}</td>
+        </tr>
+    {{/each}}
+</table>

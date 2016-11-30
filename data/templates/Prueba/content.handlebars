@@ -1,0 +1,25 @@
+<div align="center">
+  <img style='padding: 10px;'src='{#image logos}'/>
+</div>
+<h3 style='text-align: center;'><u>Ficha de Ingreso del Animal</u></h3>
+
+<table style='border-style:solid; width:100%; border-spacing: 5px;'>
+    <tr>
+        <th style='background-color:lightGray; text-align: center; padding: 15px;'>RP</th>
+        <th style='background-color:lightGray; text-align: center; padding: 15px;'>Presencia de Cuernos</th>
+        <th style='background-color:lightGray; text-align: center; padding: 15px;'>Peso Inicial</th>
+        <th style='background-color:lightGray; text-align: center; padding: 15px;'>Sexo</th>
+        <th style='background-color:lightGray; text-align: center; padding: 15px;'>Etiqueta</th>
+        <th style='background-color:lightGray; text-align: center; padding: 15px;'>Fecha de Ingreso</th>
+    </tr>
+    {{#each animal}}
+        <tr>
+            <td style='text-align: center; padding: 15px;'>{{rp}}</td>
+            <td style='text-align: center; padding: 15px;'>{{cuerno}}</td>
+            <td style='text-align: center; padding: 15px;'>{{peso}}</td>
+            <td style='text-align: center; padding: 15px;'>{{sexo}}</td>
+            <td style='text-align: center; padding: 15px;'>{{tag}}</td>
+            <td style='text-align: center; padding: 15px;'>{{fecha}}</td>
+        </tr>
+    {{/each}}
+</table>

@@ -23,6 +23,17 @@ module.exports = function (sequelize, DataTypes) {
     },
     {
       instanceMethods: {
+        retriveCount: function(id, onSuccess, onError){
+          DetalleIngresoAnimal.findAndCountAll({
+            include: [ Model.Animal , Model.IngresoAnimal ],
+            where: { IngresoAnimalIdIngresoAnimal:id }
+          }).then(function (DetalleIngresoAnimal) {
+                Model.IngresoAnimal.update( { 
+                 cantidadEntrada: DetalleIngresoAnimal.count
+                },{ where: { idIngresoAnimal: id } })
+                .then(onSuccess).catch(onError);
+                });
+        },
         retrieveAll: function (id, onSuccess, onError) {
           DetalleIngresoAnimal.findAll({
             include: [ Model.Animal , Model.IngresoAnimal ],

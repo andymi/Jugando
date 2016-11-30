@@ -73,7 +73,15 @@ exports.create1 = function (req, res) {
   });
 
   index.add(function (success) {
-    res.redirect('/web/detalleSalidaAnimal/cargar');
+     index.retriveCount(SalidaAnimalIdSalidaAnimal, function (detalleIA) {
+      if (detalleIA) {
+        res.redirect('/web/detalleSalidaAnimal/cargar');
+      } else {
+        res.send(401, 'No anda tu count amigo');
+      }
+    },function (err) {
+        res.send('errores aaaa');
+    });
   },
   function (err) {
     res.send(err);
@@ -143,7 +151,15 @@ exports.create2 = function (req, res) {
   });
 
   index.add(function (success) {
-    res.redirect('/web/salidaAnimal');
+    index.retriveCount(SalidaAnimalIdSalidaAnimal, function (detalleIA) {
+      if (detalleIA) {
+        res.redirect('/web/salidaAnimal');
+      } else {
+        res.send(401, 'No anda tu count amigo');
+      }
+    },function (err) {
+        res.send('errores aaaa');
+    });
   },
   function (err) {
     res.send(err);

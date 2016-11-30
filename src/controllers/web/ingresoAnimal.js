@@ -19,10 +19,11 @@ exports.getForm = function (req, res) {
       mensaje.retrieveAll(function (mensaje2) {
         console.log('mensaje2', mensaje2);
         if (mensaje2) {  
+          console.log(req.body);  
           res.render('web/ingresoAnimal/index',{
-            ingresoAnimal: ingresoAnimal,
             mensajes: mensaje1,
-            mensajeria: mensaje2
+            mensajeria: mensaje2,
+            ingresoAnimal: ingresoAnimal
           });
         }else {
           res.send(401, 'No se encontraron Mensajes');
@@ -43,13 +44,11 @@ exports.create = function (req, res) {
   // bodyParser debe hacer la magia
   var fechaEntrada = req.body.fechaEntrada;  
   var horaEntrada = req.body.horaEntrada;
-  var cantidadEntrada = req.body.cantidadEntrada;
   var observacion = req.body.observacion;
 
   var index = Model.IngresoAnimal.build({
     fechaEntrada: fechaEntrada,
     horaEntrada: horaEntrada,
-    cantidadEntrada: cantidadEntrada,
     observacion: observacion
   });
 
@@ -108,7 +107,6 @@ exports.update = function (req, res) {
   var ingresoAnimal = Model.IngresoAnimal.build();
   ingresoAnimal.fechaEntrada = req.body.fechaEntrada;
   ingresoAnimal.horaEntrada = req.body.horaEntrada;
-  ingresoAnimal.cantidadEntrada = req.body.cantidadEntrada;
   ingresoAnimal.observacion = req.body.observacion;
 
   ingresoAnimal.updateById(req.params.ingresoAnimalId, function (success) {

@@ -11,7 +11,6 @@ var SerialPort = require('serialport');
 var serialport = new SerialPort("/COM13", {
   baudRate: 115200
 });
-//enviar3();
 var buffer3 = new Buffer(6);
 buffer3[0] = 0xA0;   
 buffer3[1] = 0x04;  

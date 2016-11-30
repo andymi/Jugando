@@ -1,0 +1,5 @@
+{
+  "venta": [
+    {"fecha": "2016-05-01", "condicion": "Contado", "forma": "Efectivo","total": 1,"monto": 3000000}
+  ]
+}
