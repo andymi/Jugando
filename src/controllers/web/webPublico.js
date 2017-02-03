@@ -4,9 +4,9 @@
 // =============================================================================
 var express = require('express');
 var router = express.Router();
-var request = require('request');
+//var request = require('request');
 var Model = require('../../models/jugando.js');
-/*******************************************************************************/
+/*******************************************************************************
 var horaC="";
 var horasC="";
 var nivelC="";
@@ -14,19 +14,19 @@ var pesoRacionC="";
 var pesoBateaC="";
 var idInsumoC="";
 var consumoId="";
-/*******************************************************************************/
+/*******************************************************************************
 var SerialPort = require('serialport');
 var parsers = require('serialport').parsers;
 var port = new SerialPort("/COM11", {
   baudRate: 9600,
   parser: parsers.readline('\r\n')
 });
-/*********************************************************************************/
+/*********************************************************************************
 leerNivel();
 leerPesoyRacion();
 leerHora();
 
-/************************leer el nivel actual del comedero***********************/
+/************************leer el nivel actual del comedero***********************
 function leerNivel(){
   port.on('open', function() {
     port.write('main screen turn on', function(err) {
@@ -45,7 +45,7 @@ function leerNivel(){
     }, 1000);
   });
 }
-/*************leer la hora actual del comedero*********************/
+/*************leer la hora actual del comedero*********************
 function leerHora(){
   port.on('open', function() {
     port.write('main screen turn on', function(err) {
@@ -64,7 +64,7 @@ function leerHora(){
     }, 3000);
   });
 }
-/*************leer el peso actual del comedero********************/
+/*************leer el peso actual del comedero********************
 function leerPesoyRacion(){
   port.on('open', function() {
     port.write('main screen turn on', function(err) {
@@ -83,7 +83,7 @@ function leerPesoyRacion(){
     }, 2000);
   });
 }
-/***************funcion para leer datos recibidos del comedero*******************/
+/***************funcion para leer datos recibidos del comedero*******************
 setTimeout(function(){
   port.on('data', function(data) {
     var imprimir = data.toString();
@@ -114,7 +114,7 @@ setTimeout(function(){
       var fecha = f.getFullYear() + "/" + (f.getMonth() +1) + "/" + f.getDate();
       var consumo = Model.Consumo.build();
       var stock = Model.Stock.build();
-      /***********************************/
+      /***********************************
       var index = Model.Consumo.build({
         fechaConsumo: fecha,
         horaConsumo: horasC,
@@ -159,17 +159,17 @@ setTimeout(function(){
     }
   });
 }, 1000);
-/*********************************************************************/
+/*********************************************************************
 router.get('/abrir', function (req, res) {
   console.log('dentro de abrir');
   port.write('>i');
 });
-/********************************************************************/
+/********************************************************************
 router.get('/cerrar', function (req, res) {
   console.log('dentro de cerrar');
   port.write('>j');
 });
-/********************************************************************/
+/********************************************************************
 router.get('/liberar', function (req, res) {
   console.log('dentro de liberar');
   port.write('>x');
@@ -179,7 +179,7 @@ router.get('/', function (req, res) {
   res.render('publico/home/indexa.jade');
 });
 /*ruta para redireccionar al comedero donde al renderizar la pagina le paso la 
-variable enviar a una variable de la vista llamada horas*/
+variable enviar a una variable de la vista llamada horas*
 router.get('/comedero', function(req, res) {
   var mensaje = Model.Mensaje.build();
   mensaje.retriveCount(function (mensaje1) { 
@@ -207,7 +207,7 @@ router.get('/comedero', function(req, res) {
   }, function (error) {
     res.send('Mensaje no encontrado');
   });
-});
+});*/
 //página principal del admin, panel de administración
 router.get('/principal', function (req, res) {
 	var mensaje = Model.Mensaje.build();
