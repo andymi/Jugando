@@ -14,7 +14,7 @@ var pesoRacionC="";
 var pesoBateaC="";
 var idInsumoC="";
 var consumoId="";
-/*******************************************************************************
+/*******************************************************************************/
 var SerialPort = require('serialport');
 var parsers = require('serialport').parsers;
 var port = new SerialPort("/COM11", {
@@ -83,14 +83,14 @@ function leerPesoyRacion(){
     }, 2000);
   });
 }
-/***************funcion para leer datos recibidos del comedero*******************
+/***************funcion para leer datos recibidos del comedero*******************/
 setTimeout(function(){
   port.on('data', function(data) {
     var imprimir = data.toString();
     var cmd = imprimir.charAt(0);
     var enviar = imprimir.substring(1); 
-    //console.log('valor**************', imprimir);   
-    if (cmd == 1) {
+    console.log('valor**************', imprimir);   
+    /*if (cmd == 1) {
       console.log('dentro de cmd 1',cmd); 
       horaC = enviar.trim();
       console.log('hora:', horaC);
@@ -155,8 +155,8 @@ setTimeout(function(){
       },
       function (err) {
         console.log(err);
-      });
-    }
+      });*/
+    //}
   });
 }, 1000);
 /*********************************************************************
@@ -164,10 +164,20 @@ router.get('/abrir', function (req, res) {
   console.log('dentro de abrir');
   port.write('>i');
 });
+*/
+router.get('/abrir', function (req, res) {
+  console.log('dentro de abrir');
+  port.write('<1');
+});
 /********************************************************************
 router.get('/cerrar', function (req, res) {
   console.log('dentro de cerrar');
   port.write('>j');
+});
+*/
+router.get('/cerrar', function (req, res) {
+  console.log('dentro de cerrar');
+  port.write('<0');
 });
 /********************************************************************
 router.get('/liberar', function (req, res) {
@@ -179,7 +189,7 @@ router.get('/', function (req, res) {
   res.render('publico/home/indexa.jade');
 });
 /*ruta para redireccionar al comedero donde al renderizar la pagina le paso la 
-variable enviar a una variable de la vista llamada horas*
+variable enviar a una variable de la vista llamada horas*/
 router.get('/comedero', function(req, res) {
   var mensaje = Model.Mensaje.build();
   mensaje.retriveCount(function (mensaje1) { 
@@ -190,10 +200,10 @@ router.get('/comedero', function(req, res) {
         if (mensaje2) {
           res.render('web/index/Comedero.jade',{
             mensajes: mensaje1,
-            mensajeria: mensaje2,
-            niveles: nivelC,
-            horas: horaC,
-            pesoRacion: pesoRacionC          
+            mensajeria: mensaje2
+            //niveles: nivelC,
+            //horas: horaC,
+            //pesoRacion: pesoRacionC          
           });        
         }else {
           res.send(401, 'No se encontraron Mensajes');
@@ -207,7 +217,7 @@ router.get('/comedero', function(req, res) {
   }, function (error) {
     res.send('Mensaje no encontrado');
   });
-});*/
+});
 //página principal del admin, panel de administración
 router.get('/principal', function (req, res) {
 	var mensaje = Model.Mensaje.build();
