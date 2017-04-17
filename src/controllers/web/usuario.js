@@ -14,6 +14,8 @@ exports.getForm = function (req, res) {
   var usuario = Model.Usuario.build();
   var empleado = Model.Empleado.build();
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -26,16 +28,35 @@ exports.getForm = function (req, res) {
             if (nivelesQ) {
               empleado.retrieveAll(function (empleadosQ) {
                  if (empleadosQ) {
-              
-                  res.render('web/usuario/index', {
-                      usuarioJ: usuario,
-                      selectJ: nivelesQ,
-                      selectJN: empleadosQ,
-                      mensajes: mensaje1,
-                      mensajeria: mensaje2
-                    });
+                  alarma.retriveCount(function (alarma1) { 
+                    console.log('alarma1', alarma1);
+                    if (alarma1) {     
+                      alarma.retrieveAll(function (alarma2) {
+                        console.log('alarma2', alarma2);
+                        if (alarma2) {  
+                          console.log(req.body);                    
+                          res.render('web/usuario/index', {
+                              usuarioJ: usuario,
+                              selectJ: nivelesQ,
+                              selectJN: empleadosQ,
+                              mensajes: mensaje1,
+                              alarmas1: alarma1,
+                              alarmas2: alarma2,
+                              mensajeria: mensaje2
+                            });
+                        }else {
+                          res.send(401, 'No se encontraron Alarmas');
+                        }
+                      }, function (error) {
+                        res.send('Alarma no encontrado');
+                      });
+                    } else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });                  
                 }
-
               }, function (error) {
                 res.send('Usuario no encontrado');
               }
@@ -90,6 +111,8 @@ exports.listPag = function (req, res) {
   var usuario = Model.Usuario.build();
   console.log('request body',req.body);
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -99,12 +122,33 @@ exports.listPag = function (req, res) {
         console.log('mensaje2', mensaje2);
         if (mensaje2) {  
           usuario.retrieveAll(function (usuarios) {
-            if (usuarios) {              
-              res.render('web/usuario/success', { 
-                usuarios: usuarios,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
-              });
+            if (usuarios) {   
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);                             
+                      res.render('web/usuario/success', { 
+                        usuarios: usuarios,
+                        mensajes: mensaje1,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2,
+                        mensajeria: mensaje2
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });              
             } else {
               res.send(401, 'No se encontraron Usuarios');
             }
@@ -154,6 +198,8 @@ exports.read = function (req, res) {
   var nivel = Model.Nivel.build();
   var empleado = Model.Empleado.build();
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -168,13 +214,34 @@ exports.read = function (req, res) {
                 if (empleados) {      
                   usuario.retrieveById(req.params.usuarioId, function (usuarioq) {
                     if (usuarioq) {
-                      res.render('web/usuario/edit', {
+                      alarma.retriveCount(function (alarma1) { 
+                        console.log('alarma1', alarma1);
+                        if (alarma1) {     
+                          alarma.retrieveAll(function (alarma2) {
+                            console.log('alarma2', alarma2);
+                            if (alarma2) {  
+                              console.log(req.body);
+                              res.render('web/usuario/edit', {
                                   usuario:usuarioq,
                                   select: niveles,
                                   selectN: empleados,
                                   mensajes: mensaje1,
+                                  alarmas1: alarma1,
+                                  alarmas2: alarma2,
                                   mensajeria: mensaje2
                                 });
+                            }else {
+                              res.send(401, 'No se encontraron Alarmas');
+                            }
+                          }, function (error) {
+                            res.send('Alarma no encontrado');
+                          });
+                        } else {
+                          res.send(401, 'No se encontraron Alarmas');
+                        }
+                      }, function (error) {
+                        res.send('Alarma no encontrado');
+                      });
                     } else {
                       res.send(401, 'Usuario no encontrado');
                     }

@@ -83,6 +83,11 @@ module.exports = function (sequelize, DataTypes) {
     },
     {
       instanceMethods: {
+        retrieveTodo: function (onSuccess, onError) {
+          FacturaCompra.findAll({
+            include: [ Model.Proveedor ]
+          }).then(onSuccess).catch(onError);          
+        },
         retrieveAll: function (onSuccess, onError) {
           Model.Proveedor.find({
             attributes: ['idProveedor'],

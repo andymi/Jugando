@@ -16,6 +16,8 @@ exports.getForm = function (req, res) {
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
     if (mensaje1) {     
@@ -23,19 +25,44 @@ exports.getForm = function (req, res) {
         console.log('mensaje2', mensaje2);
         if (mensaje2) {  
           console.log(req.body);
-            raza.retrieveAll(function (razaQ) {
-              console.log('razaQ',razaQ);
-              if (razaQ) {
-                  res.render('web/animal/index',{
-                      animal: animal,
-                      selectJ:razaQ,
-                      mensajes: mensaje1,
-                      mensajeria: mensaje2
+
+          alarma.retriveCount(function (alarma1) { 
+            console.log('alarma1', alarma1);
+            if (alarma1) {     
+              alarma.retrieveAll(function (alarma2) {
+                console.log('alarma2', alarma2);
+                if (alarma2) {  
+                  console.log(req.body);
+
+                  raza.retrieveAll(function (razaQ) {
+                    console.log('razaQ',razaQ);
+                    if (razaQ) {
+                        res.render('web/animal/index',{
+                            animal: animal,
+                            selectJ:razaQ,
+                            alarmas1: alarma1,
+                            alarmas2: alarma2,
+                            mensajes: mensaje1,
+                            mensajeria: mensaje2                            
+                        });
+                    }
+                  }, function (error) {
+                    res.send('Animal no encontrado');
                   });
-              }
-            }, function (error) {
-              res.send('Animal no encontrado');
-            });
+                  
+                }else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });
+            } else {
+              res.send(401, 'No se encontraron Alarmas');
+            }
+          }, function (error) {
+            res.send('Alarma no encontrado');
+          });
+          
         }else {
           res.send(401, 'No se encontraron Mensajes');
         }
@@ -93,6 +120,8 @@ exports.create = function (req, res) {
 // GET /animal */
 exports.listPag = function (req, res) {
   var animal = Model.Animal.build();
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -103,19 +132,43 @@ exports.listPag = function (req, res) {
         console.log('mensaje2', mensaje2);
         if (mensaje2) {  
           console.log(req.body);
-          animal.retrieveAll(function (animales) {
-            if (animales) {
-              res.render('web/animal/success', { 
-                animales: animales,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
+          alarma.retriveCount(function (alarma1) { 
+            console.log('alarma1', alarma1);
+            if (alarma1) {     
+              alarma.retrieveAll(function (alarma2) {
+                console.log('alarma2', alarma2);
+                if (alarma2) {  
+                  console.log(req.body);
+                  animal.retrieveAll(function (animales) {
+                    if (animales) {
+                      res.render('web/animal/success', { 
+                        animales: animales,
+                        mensajes: mensaje1,
+                        mensajeria: mensaje2,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2                            
+                      });
+                    } else {
+                      res.send(401, 'No se encontraron Animales');
+                    }
+                  }, function (error) {
+                    res.send('Animal no encontrado');
+                  });
+
+                }else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
               });
             } else {
-              res.send(401, 'No se encontraron Animales');
+              res.send(401, 'No se encontraron Alarmas');
             }
           }, function (error) {
-            res.send('Animal no encontrado');
+            res.send('Alarma no encontrado');
           });
+
+
         }else {
           res.send(401, 'No se encontraron Mensajes');
         }
@@ -183,6 +236,8 @@ exports.read = function (req, res) {
   console.log('editar:*****************');
   console.log(req.params);
   var raza = Model.Raza.build();
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -193,26 +248,46 @@ exports.read = function (req, res) {
         console.log('mensaje2', mensaje2);
         if (mensaje2) {  
           raza.retrieveAll(function (raza) {
-          if (raza) {
-                animal.retrieveById(req.params.animalId, function (animaloq) {
-                  if (animaloq) {
-
-                    console.log('dentro de editar:*****************');
-                    res.render('web/animal/edit', {
-                            animal:animaloq,
-                            select: raza,
-                            mensajes: mensaje1,
-                            mensajeria: mensaje2
-                    });
-                  } else {
-                     console.log('dentro de else:*****************');
-                    res.send(401, 'Animal no encontrado');
-                  }
-                }, function (error) {
-                  res.send('Animal no encontrado');
-                });
-              } else {
-              res.send(401, 'No se encontraron Razas');
+            if (raza) {
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      animal.retrieveById(req.params.animalId, function (animaloq) {
+                        if (animaloq) {
+                          console.log('dentro de editar:*****************');
+                          res.render('web/animal/edit', {
+                                  animal:animaloq,
+                                  select: raza,
+                                  mensajes: mensaje1,
+                                  mensajeria: mensaje2,
+                                  alarmas1: alarma1,
+                                  alarmas2: alarma2     
+                          });
+                        } else {
+                           console.log('dentro de else:*****************');
+                          res.send(401, 'Animal no encontrado');
+                        }
+                      }, function (error) {
+                        res.send('Animal no encontrado');
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });
+            } else {
+                res.send(401, 'No se encontraron Razas');
             }
           }, function (error) {
             console.log(error);

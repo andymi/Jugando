@@ -12,6 +12,8 @@ exports.getForm1 = function (req, res) {
   var facturaVenta = Model.FacturaVenta.build();
   var detalleVenta = Model.DetalleVenta.build();
   var raza = Model.Raza.build();
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -26,14 +28,35 @@ exports.getForm1 = function (req, res) {
               console.log('FacturaVentaq',FacturaVentaq);
               raza.retrieveAll(function (razaQ) {
                 console.log('razaQ',razaQ);
-                  if (razaQ) {                 
-                      res.render('web/detalleVenta/index', {
-                          detalleVentaJ: detalleVenta,
-                          facturaVentaJ: FacturaVentaq,
-                          mensajes: mensaje1,
-                          selectJ:razaQ,
-                          mensajeria: mensaje2
+                  if (razaQ) {  
+                    alarma.retriveCount(function (alarma1) { 
+                    console.log('alarma1', alarma1);
+                    if (alarma1) {     
+                      alarma.retrieveAll(function (alarma2) {
+                        console.log('alarma2', alarma2);
+                        if (alarma2) {  
+                          console.log(req.body);               
+                          res.render('web/detalleVenta/index', {
+                              detalleVentaJ: detalleVenta,
+                              facturaVentaJ: FacturaVentaq,
+                              mensajes: mensaje1,
+                              selectJ:razaQ,
+                              mensajeria: mensaje2,
+                              alarmas1: alarma1,
+                              alarmas2: alarma2
+                          });
+                        }else {
+                          res.send(401, 'No se encontraron Alarmas');
+                        }
+                      }, function (error) {
+                        res.send('Alarma no encontrado');
                       });
+                    } else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
                   } else {
                       res.send(401, 'No se encontraron Razas');
                   }
@@ -117,6 +140,8 @@ exports.create1 = function (req, res) {
 exports.listPag1 =  function (req, res) {
   var detalleVenta = Model.DetalleVenta.build();
   console.log('dentro de get /',req.params.id);
+  //************************************ 
+  var alarma = Model.Alarma.build();
    //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -128,10 +153,31 @@ exports.listPag1 =  function (req, res) {
         if (mensaje2) { 
           detalleVenta.retrieveAll(req.params.id, function (detalleVentas) {
             if (detalleVentas) {
-              res.render('web/detalleVenta/success', { 
-                detalleVentas:detalleVentas,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      res.render('web/detalleVenta/success', { 
+                        detalleVentas:detalleVentas,
+                        mensajes: mensaje1,
+                        mensajeria: mensaje2,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
               });
             } else {
               res.send(401, 'No se encontraron Detalles');
@@ -156,6 +202,8 @@ exports.listPag1 =  function (req, res) {
 exports.getForm2 = function (req, res) {
   var ventaId = req.params.ventaId;
   var detalleVenta = Model.DetalleVenta.build();
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -166,12 +214,33 @@ exports.getForm2 = function (req, res) {
         console.log('mensaje2', mensaje2);
         if (mensaje2) {  
           console.log('ventaId',ventaId);
-            res.render('web/detalleVenta/indexa', {
-                detalleVentaJ: detalleVenta,
-                ventaJ: ventaId,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
-            });
+          alarma.retriveCount(function (alarma1) { 
+            console.log('alarma1', alarma1);
+            if (alarma1) {     
+              alarma.retrieveAll(function (alarma2) {
+                console.log('alarma2', alarma2);
+                if (alarma2) {  
+                  console.log(req.body);
+                  res.render('web/detalleVenta/indexa', {
+                      detalleVentaJ: detalleVenta,
+                      ventaJ: ventaId,
+                      mensajes: mensaje1,
+                      mensajeria: mensaje2,
+                      alarmas1: alarma1,
+                      alarmas2: alarma2
+                  });
+                }else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });
+            } else {
+              res.send(401, 'No se encontraron Alarmas');
+            }
+          }, function (error) {
+            res.send('Alarma no encontrado');
+          });
         }else {
           res.send(401, 'No se encontraron Mensajes');
         }
@@ -261,6 +330,8 @@ exports.update = function (req, res) {
 // Toma un detalleVenta por id
 exports.read = function (req, res) {
   var detalleVenta = Model.DetalleVenta.build();
+  //************************************ 
+  var alarma = Model.Alarma.build();
    //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -272,9 +343,30 @@ exports.read = function (req, res) {
         if (mensaje2) {  
           detalleVenta.retrieveById(req.params.detalleVentaId, function (detalleVenta) {
             if (detalleVenta) {
-              res.render('web/detalleVenta/edit', {
-                              detalleVenta:detalleVenta
-                            });
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      res.render('web/detalleVenta/edit', {
+                              detalleVenta:detalleVenta,
+                              alarmas1: alarma1,
+                              alarmas2: alarma2
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });
             } else {
               res.send(401, 'Detalle Venta no encontrado');
             }

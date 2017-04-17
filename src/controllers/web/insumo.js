@@ -12,6 +12,8 @@ var Model = require('../../models/jugando.js');
 exports.getForm = function (req, res) {
   var insumo = Model.Insumo.build();
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -20,10 +22,31 @@ exports.getForm = function (req, res) {
       mensaje.retrieveAll(function (mensaje2) {
         console.log('mensaje2', mensaje2);
         if (mensaje2) { 
-          res.render('web/insumo/index',{
-            insumo: insumo,
-            mensajes: mensaje1,
-            mensajeria: mensaje2
+          alarma.retriveCount(function (alarma1) { 
+            console.log('alarma1', alarma1);
+            if (alarma1) {     
+              alarma.retrieveAll(function (alarma2) {
+                console.log('alarma2', alarma2);
+                if (alarma2) {  
+                  console.log(req.body);                  
+                  res.render('web/insumo/index',{
+                    insumo: insumo,
+                    mensajes: mensaje1,
+                    mensajeria: mensaje2,
+                    alarmas1: alarma1,
+                    alarmas2: alarma2
+                  });
+                }else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });
+            } else {
+              res.send(401, 'No se encontraron Alarmas');
+            }
+          }, function (error) {
+            res.send('Alarma no encontrado');
           });
         }else {
           res.send(401, 'No se encontraron Mensajes');
@@ -71,6 +94,8 @@ exports.listPag = function (req, res) {
   var insumo = Model.Insumo.build();
   console.log(req.body);
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -81,11 +106,32 @@ exports.listPag = function (req, res) {
         if (mensaje2) {
           insumo.retrieveAll(function (insumos) {
             if (insumos) {
-              res.render('web/insumo/success', { 
-                insumos: insumos,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
-              });
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);                  
+                      res.render('web/insumo/success', { 
+                        insumos: insumos,
+                        mensajes: mensaje1,
+                        mensajeria: mensaje2,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });              
             } else {
               res.send(401, 'No se encontraron Insumos');
             }
@@ -136,6 +182,8 @@ exports.update = function (req, res) {
 exports.read = function (req, res) {
   var insumo = Model.Insumo.build();
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -146,12 +194,33 @@ exports.read = function (req, res) {
         if (mensaje2) {  
           insumo.retrieveById(req.params.insumoId, function (insumooq) {
             if (insumooq) {
-              console.log('dentro de editar:*****************');
-              res.render('web/insumo/edit', {
-                insumo:insumooq,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
-              });
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);                  
+                      console.log('dentro de editar:*****************');
+                      res.render('web/insumo/edit', {
+                        insumo:insumooq,
+                        mensajes: mensaje1,
+                        mensajeria: mensaje2,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });              
             } else {
               res.send(401, 'Insumo no encontrado');
             }

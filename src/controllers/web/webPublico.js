@@ -6,6 +6,144 @@ var express = require('express');
 var router = express.Router();
 //var request = require('request');
 var Model = require('../../models/jugando.js');
+/***********************alarma***************************/
+var http = require('http');
+var url = require('url');
+
+
+
+var SerialPort = require("serialport");
+var com = new SerialPort("COM12");
+
+var usuario1 = '_e4_0e_09_6f';
+var alarma = 0;
+/*************************probando*************************/
+
+/*****************alarma*******************/
+http.createServer(function(peticion, respuesta){ 
+   var query = url.parse(peticion.url,true).query;
+   var puerta = query.puerta;
+   var codigo = query.codigo;
+   var actual = query.actual;
+
+   console.log("puertaaaaaaaaaaaaaaaaaaaaaaaaaaaa",puerta);
+   console.log("codigoooooooooooooooooooooooooooo",codigo);
+   console.log("codigoooooooooooooooooooooooooooo",actual);
+   
+   respuesta.writeHead(200, {'Content-Type': 'text/html'});
+   respuesta.end(puerta);
+   if (puerta === '0') {
+      console.log('Puerta abierta');
+      if (alarma === 0) {
+        console.log('Entrada habilitada.');
+      } else {
+        com.write('<1'); 
+        /*************************************/  
+        console.log('Alarma activada!.');  
+        var nombre = "Alarma Activada!. La Puerta está abierta"; 
+        var alarma = "Alarma de Portón"; 
+
+        var index = Model.Alarma.build({
+          nombre: nombre,
+          alarma: alarma
+        });
+
+        index.add(function (success) {
+            console.log('Se guardo la alarma'); 
+        },
+        function (err) {
+          console.log(err);
+        });
+        /*************************************/          
+      }
+   }
+   if (puerta === '1') {
+      console.log('Puerta igual a cerrada');
+      alarma = 1;
+   }
+  if (codigo ==='a' && puerta === '3') {
+    if (actual === '0') {
+      console.log('Puerta abierta');
+      com.write('<1');
+    }
+    if (actual === '1') {
+      console.log('Puerta cerrada'); 
+      alarma = 1;        
+    }
+  }
+   /*************************************leyendo para el lector********************************************************/
+      var empleado = Model.Empleado.build();
+      console.log("codigo",codigo);
+      //************************************  
+      empleado.retrieveByCodigo(codigo, function (empleadooq) {
+        if (empleadooq) {
+          alarma = 0;
+          console.log('Usuario registrado. Alarma desbloqueada.');
+          com.write('<0');
+          var f = new Date();
+          //new Date().toJSON().slice(0,10)
+          var fechaIngreso =  f.getFullYear() + "/" + (f.getMonth() +1) + "/" + f.getDate();  
+          var horaIngreso = f.getHours()+":"+f.getMinutes()+":"+f.getSeconds();
+          var observacionIngreso = "Ingreso del Usuario al Corral";
+          var EmpleadoIdEmpleado=  empleadooq[0].Empleado.idEmpleado;
+
+          var index = Model.IngresoCorral.build({
+            fechaIngreso: fechaIngreso,
+            horaIngreso: horaIngreso,
+            observacionIngreso: observacionIngreso,
+            EmpleadoIdEmpleado: EmpleadoIdEmpleado
+          });
+
+          index.add(function (success) {
+            console.log('Se guardo el acceso');
+          },
+          function (err) {
+            console.log(err);
+          });
+        } else{
+          alarma = 1;   
+          console.log('Alarma activada!.');
+        }
+      }, function (error) {
+        console.log('Empleado no encontrado',error);
+      });
+}).listen(8000);
+console.log('Servidor iniciado.');
+
+com.on('error', function(err){
+   console.log('Error: ', err.message);
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*******************************************************************************
 var horaC="";
 var horasC="";
@@ -14,10 +152,10 @@ var pesoRacionC="";
 var pesoBateaC="";
 var idInsumoC="";
 var consumoId="";
-/*******************************************************************************/
+/*******************************************************************************
 var SerialPort = require('serialport');
 var parsers = require('serialport').parsers;
-var port = new SerialPort("/COM11", {
+var port = new SerialPort("/COM12", {
   baudRate: 9600,
   parser: parsers.readline('\r\n')
 });
@@ -83,7 +221,7 @@ function leerPesoyRacion(){
     }, 2000);
   });
 }
-/***************funcion para leer datos recibidos del comedero*******************/
+/***************funcion para leer datos recibidos del comedero*******************
 setTimeout(function(){
   port.on('data', function(data) {
     var imprimir = data.toString();
@@ -157,14 +295,14 @@ setTimeout(function(){
         console.log(err);
       });*/
     //}
-  });
-}, 1000);
+  //});
+//}, 1000);
 /*********************************************************************
 router.get('/abrir', function (req, res) {
   console.log('dentro de abrir');
   port.write('>i');
 });
-*/
+
 router.get('/abrir', function (req, res) {
   console.log('dentro de abrir');
   port.write('<1');
@@ -174,7 +312,7 @@ router.get('/cerrar', function (req, res) {
   console.log('dentro de cerrar');
   port.write('>j');
 });
-*/
+
 router.get('/cerrar', function (req, res) {
   console.log('dentro de cerrar');
   port.write('<0');
@@ -188,8 +326,61 @@ router.get('/liberar', function (req, res) {
 router.get('/', function (req, res) {
   res.render('publico/home/indexa.jade');
 });
+router.get('/reportes', function (req, res) {
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
+  mensaje.retriveCount(function (mensaje1) { 
+    console.log('mensaje1', mensaje1);
+    if (mensaje1) {     
+      mensaje.retrieveAll(function (mensaje2) {
+        console.log('mensaje2', mensaje2);
+        if (mensaje2) {  
+          console.log(req.body);
+
+          alarma.retriveCount(function (alarma1) { 
+            console.log('alarma1', alarma1);
+            if (alarma1) {     
+              alarma.retrieveAll(function (alarma2) {
+                console.log('alarma2', alarma2);
+                if (alarma2) {  
+                  console.log(req.body);
+                  res.render('web/index/reportes.jade',{
+                    alarmas1: alarma1,
+                    alarmas2: alarma2,
+                    mensajes: mensaje1,
+                    mensajeria: mensaje2
+                  });
+                }else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });
+            } else {
+              res.send(401, 'No se encontraron Alarmas');
+            }
+          }, function (error) {
+            res.send('Alarma no encontrado');
+          });
+          
+        }else {
+          res.send(401, 'No se encontraron Mensajes');
+        }
+      }, function (error) {
+        res.send('Mensaje no encontrado');
+      });
+    } else {
+      res.send(401, 'No se encontraron Mensajes');
+    }
+  }, function (error) {
+    res.send('Mensaje no encontrado');
+  });
+});
 /*ruta para redireccionar al comedero donde al renderizar la pagina le paso la 
-variable enviar a una variable de la vista llamada horas*/
+variable enviar a una variable de la vista llamada horas
 router.get('/comedero', function(req, res) {
   var mensaje = Model.Mensaje.build();
   mensaje.retriveCount(function (mensaje1) { 
@@ -217,7 +408,7 @@ router.get('/comedero', function(req, res) {
   }, function (error) {
     res.send('Mensaje no encontrado');
   });
-});
+});*/
 //página principal del admin, panel de administración
 router.get('/principal', function (req, res) {
 	var mensaje = Model.Mensaje.build();
@@ -229,6 +420,11 @@ router.get('/principal', function (req, res) {
   var sanitacion = Model.Sanitacion.build();  
   var vacunacion = Model.Vacunacion.build();
   var ventas = Model.FacturaVenta.build();
+  //************************************
+  var alarma = Model.Alarma.build();
+  
+  leerCantidadMinima();
+  leerHerramienta();
 
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
@@ -314,35 +510,56 @@ router.get('/principal', function (req, res) {
                                                                                                               ventas.retrieveVenta(function (ventas) {
                                                                                                                 console.log('ventas', ventas);
                                                                                                                 if (ventas) {
-                                                                                                                  res.render('web/index/PaginaPrincipal',{ 
-                                                                                                                    mensajes: mensaje1,
-                                                                                                                    mensajeria: mensaje2,
-                                                                                                                    peso2: pesaje2,
-                                                                                                                    peso3: pesaje3,
-                                                                                                                    peso4: pesaje4,
-                                                                                                                    peso5: pesaje5,
-                                                                                                                    peso6: pesaje6,
-                                                                                                                    peso7: pesaje7,
-                                                                                                                    consumoBar: consumobar,
-                                                                                                                    consumoBar2: consumobar2,
-                                                                                                                    consumoBar3: consumobar3,
-                                                                                                                    consumoBar4: consumobar4,
-                                                                                                                    consumoBar5: consumobar5,
-                                                                                                                    consumoBar6: consumobar6,
-                                                                                                                    consumoBar7: consumobar7,                                                                                                   
-                                                                                                                    stock: stockQ,
-                                                                                                                    Stock2: stockN,
-                                                                                                                    Vtock3: stockL,
-                                                                                                                    consumiendo: consumir,
-                                                                                                                    Otock4: stockO,
-                                                                                                                    consusal: consumir2,
-                                                                                                                    animal2: animal2,
-                                                                                                                    peso: pesaje,
-                                                                                                                    muerted: muertes,
-                                                                                                                    extraviados: extraviado,
-                                                                                                                    sanitaciones: sanitacion,
-                                                                                                                    vacunaciones: vacunacion, 
-                                                                                                                    ventass: ventas                                                                      
+                                                                                                                  alarma.retriveCount(function (alarma1) { 
+                                                                                                                    console.log('alarma1', alarma1);
+                                                                                                                    if (alarma1) {     
+                                                                                                                      alarma.retrieveAll(function (alarma2) {
+                                                                                                                        console.log('alarma2', alarma2);
+                                                                                                                        if (alarma2) {  
+                                                                                                                          console.log(req.body);
+                                                                                                                          res.render('web/index/PaginaPrincipal',{ 
+                                                                                                                            mensajes: mensaje1,
+                                                                                                                            mensajeria: mensaje2,
+                                                                                                                            peso2: pesaje2,
+                                                                                                                            peso3: pesaje3,
+                                                                                                                            peso4: pesaje4,
+                                                                                                                            peso5: pesaje5,
+                                                                                                                            peso6: pesaje6,
+                                                                                                                            peso7: pesaje7,
+                                                                                                                            consumoBar: consumobar,
+                                                                                                                            consumoBar2: consumobar2,
+                                                                                                                            consumoBar3: consumobar3,
+                                                                                                                            consumoBar4: consumobar4,
+                                                                                                                            consumoBar5: consumobar5,
+                                                                                                                            consumoBar6: consumobar6,
+                                                                                                                            consumoBar7: consumobar7,                                                                                                   
+                                                                                                                            stock: stockQ,
+                                                                                                                            Stock2: stockN,
+                                                                                                                            Vtock3: stockL,
+                                                                                                                            consumiendo: consumir,
+                                                                                                                            Otock4: stockO,
+                                                                                                                            consusal: consumir2,
+                                                                                                                            animal2: animal2,
+                                                                                                                            peso: pesaje,
+                                                                                                                            muerted: muertes,
+                                                                                                                            extraviados: extraviado,
+                                                                                                                            sanitaciones: sanitacion,
+                                                                                                                            vacunaciones: vacunacion, 
+                                                                                                                            alarmas1: alarma1,
+                                                                                                                            alarmas2: alarma2,
+                                                                                                                            ventass: ventas                                                                      
+                                                                                                                          });
+                                                                                                                        }else {
+                                                                                                                          res.send(401, 'No se encontraron Alarmas');
+                                                                                                                        }
+                                                                                                                      }, function (error) {
+                                                                                                                        res.send('Alarma no encontrado');
+                                                                                                                      });
+                                                                                                                    } else {
+                                                                                                                      res.send(401, 'No se encontraron Alarmas');
+                                                                                                                    }
+                                                                                                                  }, function (error) {
+                                                                                                                    res.send('Alarma no encontrado');
                                                                                                                   });
                                                                                                                 } else {
                                                                                                                   res.send(401, 'No se Encontraron Ventas de Animales');
@@ -514,40 +731,77 @@ router.get('/principal', function (req, res) {
   });
 });
 
-//página principal del capataz
+//---------------------------alarmas
 
-/* 
-//users page (http://localhost:1337/admin/users)
-router.get('/users', function (req, res) {
- res.send('¡Muestro todos los usuarios!');
-});
+function leerCantidadMinima(){
+  var stockA = Model.Stock.build();
+  var alarmaA = Model.Alarma.build();
+  stockA.retrieveAlarma(function (stock) {
+    if (stock) { 
+      console.log("soy stock*********", stock[0].Insumo.nombreInsumo);
+      alarmaA.retrieveByAlarma(stock[0].Insumo.nombreInsumo, function (alarma1) {
+        if (alarma1) { 
+          console.log("ya existe la alarma");
+        }else {
+          console.log("no existe la alarma, guardando...", stock[0].Insumo.nombreInsumo);
+          var alarma2 = Model.Alarma.build({
+              nombre: "Cantidad Minima Alcanzada",
+              alarma: stock[0].Insumo.nombreInsumo
+          });
 
-/*
-router.get('/fundacion', function (req, res) {
-  res.render('publico/museo/fundacion',{ title: 'Bienvenidos' });
-});
+          alarma2.add(function (success) {
+            console.log("Se guardo alarma");
+          },
+          function (err) {
+            console.log(err);
+          });
+        }
+      }, function (error) {
+        console.log('Alarma no encontrado');
+      });
+    }else {
+      console.log(401, 'No se encontraron Alarmas');
+    }
+  }, function (error) {
+    console.log('Cantidad Minima no encontrado');
+  });
+}
 
-router.get('/informacion-practica', function (req, res) {
-  res.render('./publico/informacion/informacion-practica',{ title: 'Bienvenidos' });
-});
+function leerHerramienta(){
+  var herramienta = Model.Herramienta.build();
+  var alarmaA = Model.Alarma.build();
+  var mantenimiento =  new Date().toJSON().slice(0,10);  
+  console.log("soy mantenimiento*********", mantenimiento);
+      
+  herramienta.retrieveByAlarma(mantenimiento, function (herramientasq) {
+    if (herramientasq) { 
+      console.log("soy herramienta*********", herramientasq.nombre);
+      alarmaA.retrieveByAlarma(herramientasq.nombre, function (alarma1) {
+        if (alarma1) { 
+          console.log("ya existe la alarma");
+        }else {
+          console.log("no existe la alarma, guardando...", herramientasq.nombre);
+          var alarma2 = Model.Alarma.build({
+              nombre: "Realizar Mantenimiento",
+              alarma: herramientasq.nombre
+          });
 
-router.get('/horarios-tarifas', function (req, res) {
-  res.render('./publico/informacion/horarios-tarifas',{ title: 'Bienvenidos' });
-});
-
-router.get('/visitas-guiadas', function (req, res) {
-  res.render('./publico/informacion/visitas-guiadas',{ title: 'Bienvenidos' });
-});
-
-router.get('/planos', function (req, res) {
-  res.render('./publico/informacion/planos',{ title: 'Bienvenidos' });
-});
-
-router.get('/normas', function (req, res) {
-  res.render('./publico/informacion/normas',{ title: 'Bienvenidos' });
-});*/
-/* (trae todos los usuarios)
-// GET /usuario */
-
+          alarma2.add(function (success) {
+            console.log("Se guardo la alarma");
+          },
+          function (err) {
+            console.log(err);
+          });
+        }
+      }, function (error) {
+        console.log('Alarma no encontrado');
+      });
+    }else {
+      console.log(401, 'No se encontraron Herramientas');
+    }
+  }, function (error) {
+    console.log('Herramienta no encontrado');
+  });
+}
 
 module.exports = router;

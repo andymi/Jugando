@@ -12,7 +12,9 @@ exports.getForm1 = function (req, res) {
   var animal = Model.Animal.build();
   var detalleIngresoAnimal = Model.DetalleIngresoAnimal.build();
   var ingresoAnimal = Model.IngresoAnimal.build();
-   //************************************
+  //************************************ 
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -25,18 +27,39 @@ exports.getForm1 = function (req, res) {
             console.log('animalQ',animalQ);
             if (animalQ) {
               ingresoAnimal.retrieveId(function (ingresoAnimalQ) {
-                  if (ingresoAnimalQ) {      
-                    console.log('soy ingresoAnimal retrieveId',ingresoAnimalQ);
-                    res.render('web/detalleIngresoAnimal/index', {
-                                    ingresoAnimalJ:ingresoAnimalQ,
-                                    detalleIngresoAnimalJ: detalleIngresoAnimal,
-                                    selectJ: animalQ,
-                                    mensajes: mensaje1,
-                                    mensajeria: mensaje2
-                    });    
-                  } else {
-                    res.send(401, 'No se encontraron Consumos');
-                  }
+                if (ingresoAnimalQ) {      
+                  console.log('soy ingresoAnimal retrieveId',ingresoAnimalQ);
+                  alarma.retriveCount(function (alarma1) { 
+                    console.log('alarma1', alarma1);
+                    if (alarma1) {     
+                      alarma.retrieveAll(function (alarma2) {
+                        console.log('alarma2', alarma2);
+                        if (alarma2) {  
+                          console.log(req.body);                  
+                          res.render('web/detalleIngresoAnimal/index', {
+                                          ingresoAnimalJ:ingresoAnimalQ,
+                                          detalleIngresoAnimalJ: detalleIngresoAnimal,
+                                          selectJ: animalQ,
+                                          mensajes: mensaje1,
+                                          mensajeria: mensaje2,
+                                          alarmas1: alarma1,
+                                          alarmas2: alarma2 
+                          }); 
+                        }else {
+                          res.send(401, 'No se encontraron Alarmas');
+                        }
+                      }, function (error) {
+                        res.send('Alarma no encontrado');
+                      });
+                    } else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });   
+                } else {
+                  res.send(401, 'No se encontraron Consumos');
+                }
               });
             }else {
               res.send(401, 'No se Encontraron Consumos');
@@ -93,6 +116,8 @@ exports.getForm2 = function (req, res) {
   var animal = Model.Animal.build();
   var detalleIngresoAnimal = Model.DetalleIngresoAnimal.build();
   var ingresoId = req.params.ingresoId;
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -105,14 +130,35 @@ exports.getForm2 = function (req, res) {
           animal.retrieveAll(function (animalQ) {
             console.log('animalQ',animalQ);
             if (animalQ) {
-                    console.log('soy ingresoAnimal retrieveId',ingresoId);
-                    res.render('web/detalleIngresoAnimal/indexa', {
-                                    ingresoAnimalJ:ingresoId,
-                                    detalleIngresoAnimalJ: detalleIngresoAnimal,
-                                    selectJ: animalQ,
-                                    mensajes: mensaje1,
-                                    mensajeria: mensaje2
-                    });   
+              console.log('soy ingresoAnimal retrieveId',ingresoId);                      
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      res.render('web/detalleIngresoAnimal/indexa', {
+                                      ingresoAnimalJ:ingresoId,
+                                      detalleIngresoAnimalJ: detalleIngresoAnimal,
+                                      selectJ: animalQ,
+                                      mensajes: mensaje1,
+                                      mensajeria: mensaje2,
+                                      alarmas1: alarma1,
+                                      alarmas2: alarma2 
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });   
             }else {
               res.send(401, 'No se Encontraron Consumos');
             }
@@ -187,6 +233,8 @@ exports.update = function (req, res) {
 exports.read = function (req, res) {
   var detalleIngresoAnimal =Model.DetalleIngresoAnimal.build();
   var animal = Model.Animal.build();
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -200,12 +248,33 @@ exports.read = function (req, res) {
             if (animal) {
               detalleIngresoAnimal.retrieveById(req.params.idDetalleIAS, function (detalleIngresoAnimal) {
                 if (detalleIngresoAnimal) {
-                  res.render('web/detalleIngresoAnimal/edit', {
+                   alarma.retriveCount(function (alarma1) { 
+                    console.log('alarma1', alarma1);
+                    if (alarma1) {     
+                      alarma.retrieveAll(function (alarma2) {
+                        console.log('alarma2', alarma2);
+                        if (alarma2) {  
+                          console.log(req.body);
+                          res.render('web/detalleIngresoAnimal/edit', {
                             detalleIngresoAnimal:detalleIngresoAnimal,
                             select: animal,
                             mensajes: mensaje1,
-                            mensajeria: mensaje2
+                            mensajeria: mensaje2,
+                            alarmas1: alarma1,
+                            alarmas2: alarma2
                           });
+                        }else {
+                          res.send(401, 'No se encontraron Alarmas');
+                        }
+                      }, function (error) {
+                        res.send('Alarma no encontrado');
+                      });
+                    } else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
                 } else {
                   res.send(401, 'Detalle Ingreso Animal no encontrado');
                 }
@@ -235,6 +304,8 @@ exports.read = function (req, res) {
 };
 exports.readId = function (req, res) {
   var detalleIngresoAnimal = Model.DetalleIngresoAnimal.build();
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -247,10 +318,31 @@ exports.readId = function (req, res) {
           console.log('dentro de get /',req.body);
           detalleIngresoAnimal.retrieveAll(req.params.id, function (detalleIngresoAnimales) {
             if (detalleIngresoAnimales) {
-              res.render('web/detalleIngresoAnimal/success', { 
-                detalleIngresoAnimales:detalleIngresoAnimales,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      res.render('web/detalleIngresoAnimal/success', { 
+                        detalleIngresoAnimales:detalleIngresoAnimales,
+                        mensajes: mensaje1,
+                        mensajeria: mensaje2,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2
+                      });                      
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
               });
             } else {
               res.send(401, 'No se encontraron Detalles');

@@ -12,6 +12,8 @@ exports.getForm = function (req, res) {
   var insumo = Model.Insumo.build();
   var detalleVacunacionInsumo = Model.DetalleVacunacionInsumo.build();
   var vacunacion = Model.DetalleVacunacion.build();
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -24,20 +26,41 @@ exports.getForm = function (req, res) {
           insumo.retrieveByMedicamento(function (insumoQ) {
             console.log('insumoQ',insumoQ);
             if (insumoQ) {
-              vacunacion.retrieveId(function (vacunacion) {
-                  if (vacunacion) {      
-                    console.log('soy ************************** retrieveId',mensaje2);
-                    console.log('soy -------------------------- retrieveId',mensaje1);
-                    res.render('web/detalleVacunacionInsumo/index', {
-                                    vacunacionJ:vacunacion,
-                                    detalleVacunacionInsumoJ: detalleVacunacionInsumo,
-                                    selectJ: insumoQ,
-                                    mensajes: mensaje1,
-                                    mensajeria: mensaje2
-                    });    
-                  } else {
-                    res.send(401, 'No se encontraron Sanitaciones');
-                  }
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      vacunacion.retrieveId(function (vacunacion) {
+                        if (vacunacion) {      
+                          console.log('soy ************************** retrieveId',mensaje2);
+                          console.log('soy -------------------------- retrieveId',mensaje1);
+                          res.render('web/detalleVacunacionInsumo/index', {
+                                          vacunacionJ:vacunacion,
+                                          detalleVacunacionInsumoJ: detalleVacunacionInsumo,
+                                          selectJ: insumoQ,
+                                          mensajes: mensaje1,
+                                          mensajeria: mensaje2,
+                                          alarmas1: alarma1,
+                                          alarmas2: alarma2 
+                          });                            
+                        } else {
+                          res.send(401, 'No se encontraron Sanitaciones');
+                        }
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
               });
             }else {
               res.send(401, 'No se Eencontraron Sanitaciones');
@@ -96,6 +119,8 @@ exports.create1 = function (req, res) {
 exports.listPag1 = function (req, res) {
   var detalleVacunacionInsumo = Model.DetalleVacunacionInsumo.build();
   console.log('dentro de get /',req.body);
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -107,10 +132,31 @@ exports.listPag1 = function (req, res) {
         if (mensaje2) { 
           detalleVacunacionInsumo.retrieveAll(req.params.id, function (detalleVacunaciones) {
             if (detalleVacunaciones) {
-              res.render('web/detalleVacunacionInsumo/success', { 
-                detalleVacunaciones:detalleVacunaciones,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      res.render('web/detalleVacunacionInsumo/success', { 
+                        detalleVacunaciones:detalleVacunaciones,
+                        mensajes: mensaje1,
+                        mensajeria: mensaje2,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2 
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
               });
             } else {
               res.send(401, 'No se encontraron Detalles');
@@ -136,6 +182,8 @@ exports.getForm2 = function (req, res) {
   var insumo = Model.Insumo.build();
   var detalleVacunacionInsumo = Model.DetalleVacunacionInsumo.build();
   var vacunacionId = req.params.vacunacionId;
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -147,15 +195,36 @@ exports.getForm2 = function (req, res) {
         if (mensaje2) {
           insumo.retrieveAll(function (insumoQ) {
             console.log('insumoQ',insumoQ);
-            if (insumoQ) {     
-                    console.log('soy vacunacion retrieveId',vacunacionId);
-                    res.render('web/detalleVacunacionInsumo/indexa', {
+            if (insumoQ) { 
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);    
+                      console.log('soy vacunacion retrieveId',vacunacionId);
+                      res.render('web/detalleVacunacionInsumo/indexa', {
                                     vacunacionJ:vacunacionId,
                                     detalleVacunacionInsumoJ: detalleVacunacionInsumo,
                                     selectJ: insumoQ,
                                     mensajes: mensaje1,
-                                    mensajeria: mensaje2
-                    });    
+                                    mensajeria: mensaje2,
+                                    alarmas1: alarma1,
+                                    alarmas2: alarma2
+                      });   
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              }); 
             }else {
               res.send(401, 'No se Eencontraron Sanitaciones');
             }
@@ -237,6 +306,8 @@ exports.update = function (req, res) {
 exports.read = function (req, res) {
   var detalleVacunacionInsumo = Model.DetalleVacunacionInsumo.build();
   var insumo = Model.Insumo.build();
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -250,12 +321,33 @@ exports.read = function (req, res) {
             if (insumo) { 
               detalleVacunacionInsumo.retrieveById(req.params.detalleVacunacionInsumoId, function (detalleVacunacionInsumo) {
                 if (detalleVacunacionInsumo) {
-                  res.render('web/detalleVacunacionInsumo/edit', {
+                  alarma.retriveCount(function (alarma1) { 
+                    console.log('alarma1', alarma1);
+                    if (alarma1) {     
+                      alarma.retrieveAll(function (alarma2) {
+                        console.log('alarma2', alarma2);
+                        if (alarma2) {  
+                          console.log(req.body);
+                          res.render('web/detalleVacunacionInsumo/edit', {
                               detalleVacunacionInsumo:detalleVacunacionInsumo,
                               select: insumo,
                               mensajes: mensaje1,
-                              mensajeria: mensaje2
-                            });
+                              mensajeria: mensaje2,
+                              alarmas1: alarma1,
+                              alarmas2: alarma2
+                          });
+                        }else {
+                          res.send(401, 'No se encontraron Alarmas');
+                        }
+                      }, function (error) {
+                        res.send('Alarma no encontrado');
+                      });
+                    } else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
                 } else {
                   res.send(401, 'Detalle Vacunacion Insumo no encontrado');
                 }

@@ -13,6 +13,8 @@ exports.getForm = function (req, res) {
   var detalleCompra = Model.DetalleCompra.build();
   var servicios = Model.Servicios.build();
   var facturaCompra = Model.FacturaCompra.build();
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -23,18 +25,39 @@ exports.getForm = function (req, res) {
         console.log('mensaje2', mensaje2);
         if (mensaje2) {  
           facturaCompra.retrieveId(function (facturaCompraQ) {
-              if (facturaCompraQ) {     
+              if (facturaCompraQ) {  
+                console.log('soy facturaCompra retrieveId',facturaCompraQ);   
                 servicios.retrieveAll(function (serviciosQ) {
                   console.log('SERVICEQ',serviciosQ);
                   if (serviciosQ) { 
-                    console.log('soy facturaCompra retrieveId',facturaCompraQ);
-                    res.render('web/detalleCompraServicios/indexb', {
-                                    facturaCompraJ:facturaCompraQ,
-                                    detalleCompraJ: detalleCompra,
-                                    mensajes: mensaje1,
-                                    mensajeria: mensaje2,
-                                    selectJ: serviciosQ
-                    });  
+                    alarma.retriveCount(function (alarma1) { 
+                      console.log('alarma1', alarma1);
+                      if (alarma1) {     
+                        alarma.retrieveAll(function (alarma2) {
+                          console.log('alarma2', alarma2);
+                          if (alarma2) {  
+                            console.log(req.body);
+                            res.render('web/detalleCompraServicios/indexb', {
+                                            facturaCompraJ:facturaCompraQ,
+                                            detalleCompraJ: detalleCompra,
+                                            mensajes: mensaje1,
+                                            mensajeria: mensaje2,
+                                            selectJ: serviciosQ,
+                                            alarmas1: alarma1,
+                                            alarmas2: alarma2 
+                            }); 
+                          }else {
+                            res.send(401, 'No se encontraron Alarmas');
+                          }
+                        }, function (error) {
+                          res.send('Alarma no encontrado');
+                        });
+                      } else {
+                        res.send(401, 'No se encontraron Alarmas');
+                      }
+                    }, function (error) {
+                      res.send('Alarma no encontrado');
+                    });
                   } else {
                     res.send(401, 'No se encontraron insumos');
                   }
@@ -111,6 +134,8 @@ exports.create = function (req, res) {
 exports.listPag =  function (req, res) {
   var detalleCompra = Model.DetalleCompra.build();
   console.log('dentro de get /',req.body);
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -123,10 +148,31 @@ exports.listPag =  function (req, res) {
           detalleCompra.retrieveAll3(req.params.id, function (detalleCompras) {
             if (detalleCompras) {
               console.log('dentro de detalleCompras', detalleCompras);
-              res.render('web/detalleCompraServicios/success', { 
-                detalleCompras:detalleCompras,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      res.render('web/detalleCompraServicios/success', { 
+                        detalleCompras:detalleCompras,
+                        mensajes: mensaje1,
+                        mensajeria: mensaje2,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2
+                      });
+                    }else {
+                        res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
               });
             } else {
               res.send(401, 'No se encontraron Detalles');

@@ -12,6 +12,8 @@ exports.getForm = function (req, res) {
   var insumo = Model.Insumo.build();
   var detalleSanitacionInsumo = Model.DetalleSanitacionInsumo.build();
   var sanitacion = Model.DetalleSanitacion.build();
+   //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -25,14 +27,35 @@ exports.getForm = function (req, res) {
             console.log('insumoQ',insumoQ);
             if (insumoQ) {
               sanitacion.retrieveId(function (sanitacion) {
-                  if (sanitacion) {      
-                    console.log('soy sanitacion retrieveId',sanitacion);
-                    res.render('web/detalleSanitacionInsumo/index', {
+                  if (sanitacion) { 
+                    alarma.retriveCount(function (alarma1) { 
+                      console.log('alarma1', alarma1);
+                      if (alarma1) {     
+                        alarma.retrieveAll(function (alarma2) {
+                          console.log('alarma2', alarma2);
+                          if (alarma2) {  
+                            console.log(req.body);     
+                            console.log('soy sanitacion retrieveId',sanitacion);
+                            res.render('web/detalleSanitacionInsumo/index', {
                                     sanitacionJ:sanitacion,
                                     detalleSanitacionInsumoJ: detalleSanitacionInsumo,
                                     selectJ: insumoQ,
                                     mensajes: mensaje1,
-                                    mensajeria: mensaje2
+                                    mensajeria: mensaje2,
+                                    alarmas1: alarma1,
+                                    alarmas2: alarma2
+                            });
+                          }else {
+                            res.send(401, 'No se encontraron Alarmas');
+                          }
+                        }, function (error) {
+                          res.send('Alarma no encontrado');
+                        });
+                      } else {
+                        res.send(401, 'No se encontraron Alarmas');
+                      }
+                    }, function (error) {
+                      res.send('Alarma no encontrado');
                     });    
                   } else {
                     res.send(401, 'No se encontraron Sanitaciones');
@@ -96,6 +119,8 @@ exports.create1 = function (req, res) {
 exports.listPag1 = function (req, res) {
   var detalleSanitacionInsumo = Model.DetalleSanitacionInsumo.build();
   console.log('dentro de get /',req.body);
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -107,10 +132,31 @@ exports.listPag1 = function (req, res) {
         if (mensaje2) {
           detalleSanitacionInsumo.retrieveAll(req.params.id, function (detalleSanitaciones) {
             if (detalleSanitaciones) {
-              res.render('web/detalleSanitacionInsumo/success', { 
-                detalleSanitaciones:detalleSanitaciones,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      res.render('web/detalleSanitacionInsumo/success', { 
+                        detalleSanitaciones:detalleSanitaciones,
+                        mensajes: mensaje1,
+                        mensajeria: mensaje2,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2 
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
               });
             } else {
               res.send(401, 'No se encontraron Detalles');
@@ -136,6 +182,8 @@ exports.getForm2 = function (req, res) {
   var insumo = Model.Insumo.build();
   var detalleSanitacionInsumo =Model.DetalleSanitacionInsumo.build();
   var sanitacionId = req.params.sanitacionId;
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -148,14 +196,35 @@ exports.getForm2 = function (req, res) {
           insumo.retrieveAll(function (insumoQ) {
             console.log('insumoQ',insumoQ);
             if (insumoQ) {
-                    console.log('soy sanitacionId',sanitacionId);
-                    res.render('web/detalleSanitacionInsumo/indexa', {
-                                    sanitacionJ:sanitacionId,
-                                    detalleSanitacionInsumoJ: detalleSanitacionInsumo,
-                                    selectJ: insumoQ,
-                                    mensajes: mensaje1,
-                                    mensajeria: mensaje2
-                    });    
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      console.log('soy sanitacionId',sanitacionId);
+                      res.render('web/detalleSanitacionInsumo/indexa', {
+                            sanitacionJ:sanitacionId,
+                            detalleSanitacionInsumoJ: detalleSanitacionInsumo,
+                            selectJ: insumoQ,
+                            mensajes: mensaje1,
+                            mensajeria: mensaje2,
+                            alarmas1: alarma1,
+                            alarmas2: alarma2 
+                      }); 
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });   
             }else {
               res.send(401, 'No se Eencontraron Sanitaciones');
             }
@@ -236,6 +305,8 @@ exports.update = function (req, res) {
 exports.read = function (req, res) {
   var detalleSanitacionInsumo = Model.DetalleSanitacionInsumo.build();
   var insumo = Model.Insumo.build();
+   //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -249,12 +320,33 @@ exports.read = function (req, res) {
             if (insumo) { 
                 detalleSanitacionInsumo.retrieveById(req.params.detalleSanitacionInsumoId, function (detalleSanitacionInsumo) {
                   if (detalleSanitacionInsumo) {
-                    res.render('web/detalleSanitacionInsumo/edit', {
+                    alarma.retriveCount(function (alarma1) { 
+                      console.log('alarma1', alarma1);
+                      if (alarma1) {     
+                        alarma.retrieveAll(function (alarma2) {
+                          console.log('alarma2', alarma2);
+                          if (alarma2) {  
+                            console.log(req.body);
+                            res.render('web/detalleSanitacionInsumo/edit', {
                               detalleSanitacionInsumo:detalleSanitacionInsumo,
                               select: insumo,
                               mensajes: mensaje1,
-                              mensajeria: mensaje2
+                              mensajeria: mensaje2,
+                              alarmas1: alarma1,
+                              alarmas2: alarma2 
                             });
+                          }else {
+                            res.send(401, 'No se encontraron Alarmas');
+                          }
+                        }, function (error) {
+                          res.send('Alarma no encontrado');
+                        });
+                      } else {
+                        res.send(401, 'No se encontraron Alarmas');
+                      }
+                    }, function (error) {
+                      res.send('Alarma no encontrado');
+                    });
                   } else {
                     res.send(401, 'Detalle Sanitacion Insumo no encontrado');
                   }

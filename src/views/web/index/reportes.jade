@@ -1,0 +1,202 @@
+extends ../../layout 
+block content  
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Inicio
+        small Página de Informes
+      ol(class="breadcrumb")
+        li
+          a(href="#") 
+            i(class="fa fa-dashboard") Inicio
+        li(class="active") Página de Informes
+    section(class="content")
+      div(class="row")
+        div(class="col-md-3")
+          div(class="box box-warning")
+            div(class="box-header with-border")
+              h3(class="box-title") Registro del Animal             
+              div(class="box-tools pull-right") 
+                button(class="btn btn-box-tool" data-widget="collapse")
+                  i(class="fa fa-minus")
+            div(class="box-body") 
+              div(class="input-group")
+                input(id="rpAnimal" name="rpAnimal" type="text" placeholder="Ingrese el Rp del Animal" class="form-control")
+                span(class="input-group-btn")
+                  button(onClick="reporteAnimal();" type="button" class="btn btn-warning btn-flat") Listo
+        div(class="col-md-3")
+          div(class="box box-warning") 
+            div(class="box-header with-border") 
+              h3(class="box-title") Pesaje del Animal
+              div(class="box-tools pull-right") 
+                button(class="btn btn-box-tool" data-widget="collapse")
+                  i(class="fa fa-minus")
+            div(class="box-body") 
+              div(class="input-group")
+                input(id="pesoAnimal" name="pesoAnimal" type="text" placeholder="Ingrese el Rp del Animal" class="form-control")
+                span(class="input-group-btn")
+                  button(onClick="reportePesaje();" type="button" class="btn btn-warning btn-flat") Listo
+        div(class="col-md-3")
+          div(class="box box-warning") 
+            div(class="box-header with-border") 
+              h3(class="box-title") Sanitación del Animal
+              div(class="box-tools pull-right") 
+                button(class="btn btn-box-tool" data-widget="collapse")
+                  i(class="fa fa-minus")
+            div(class="box-body") 
+              div(class="input-group")
+                input(id="saniAnimal" name="saniAnimal" type="text" placeholder="Ingrese el Rp del Animal" class="form-control")
+                span(class="input-group-btn")
+                  button(onClick="reporteSanitacion();" type="button" class="btn btn-warning btn-flat") Listo
+        div(class="col-md-3")
+          div(class="box box-warning") 
+            div(class="box-header with-border") 
+              h3(class="box-title") Consumo del Animal
+              div(class="box-tools pull-right") 
+                button(class="btn btn-box-tool" data-widget="collapse")
+                  i(class="fa fa-minus")
+            div(class="box-body") 
+              div(class="input-group")
+                input(id="consuAnimal" name="consuAnimal" type="text" placeholder="Ingrese el Rp del Animal" class="form-control")
+                span(class="input-group-btn")
+                  button(onClick="reporteConsumo();" type="button" class="btn btn-warning btn-flat") Listo
+        div(class="col-md-3")
+          div(class="box box-warning") 
+            div(class="box-header with-border") 
+              h3(class="box-title") Vacunación del Animal
+              div(class="box-tools pull-right") 
+                button(class="btn btn-box-tool" data-widget="collapse")
+                  i(class="fa fa-minus")
+            div(class="box-body") 
+              div(class="input-group")
+                input(id="vacuAnimal" name="vacuAnimal" type="text" placeholder="Ingrese el Rp del Animal" class="form-control")
+                span(class="input-group-btn")
+                  button(onClick="reporteVacunacion();" type="button" class="btn btn-warning btn-flat") Listo
+        div(class="col-md-3")
+          div(class="box box-warning") 
+            div(class="box-header with-border") 
+              h3(class="box-title") Ingreso al corral del Animal
+              div(class="box-tools pull-right") 
+                button(class="btn btn-box-tool" data-widget="collapse")
+                  i(class="fa fa-minus")
+            div(class="box-body") 
+              div(class="input-group")
+                input(id="ingresoAnimal" name="ingresoAnimal" type="text" placeholder="Ingrese el Rp del Animal" class="form-control")
+                span(class="input-group-btn")
+                  button(onClick="reporteIngreso();" type="button" class="btn btn-warning btn-flat") Listo
+        div(class="col-md-3")
+          div(class="box box-warning") 
+            div(class="box-header with-border") 
+              h3(class="box-title") Salida del corral del Animal
+              div(class="box-tools pull-right") 
+                button(class="btn btn-box-tool" data-widget="collapse")
+                  i(class="fa fa-minus")
+            div(class="box-body") 
+              div(class="input-group")
+                input(id="salidaAnimal" name="salidaAnimal" type="text" placeholder="Ingrese el Rp del Animal" class="form-control")
+                span(class="input-group-btn")
+                  button(onClick="reporteSalida();" type="button" class="btn btn-warning btn-flat") Listo
+        div(class="col-md-3")
+          div(class="box box-warning") 
+            div(class="box-header with-border") 
+              h3(class="box-title") Accesos del Empleado
+              div(class="box-tools pull-right") 
+                button(class="btn btn-box-tool" data-widget="collapse")
+                  i(class="fa fa-minus")
+            div(class="box-body") 
+              div(class="input-group")
+                input(id="ingresoEmple" name="ingresoEmple" type="text" placeholder="Ingrese el Nombre" class="form-control")
+                span(class="input-group-btn")
+                  button(onClick="reporteAcceso();" type="button" class="btn btn-warning btn-flat") Listo
+    section(class="content")
+      div(class="row")
+        div(class="col-md-12")
+          div(class="box box-widget widget-user-2")
+            div(class="widget-user-header bg-yellow")
+              h3(class="widget-user-username") Listado de Informes Completos              
+            div(class="box-footer no-padding") 
+              ul(class="nav nav-stacked") 
+                li
+                  a(href="/reportes/animal" role="button")   Listado Completo de Animales
+                    span(class="pull-left badge bg-orange")  
+                      i(class="fa fa-file-pdf-o")                    
+                li
+                  a(href="/reportes/pesaje" role="button")   Listado Completo de Pesajes
+                    span(class="pull-left badge bg-orange") 
+                      i(class="fa fa-file-pdf-o") 
+                li
+                  a(href="/reportes/sanitacion" role="button")   Listado Completo de Sanitaciones  
+                    span(class="pull-left badge bg-orange")
+                      i(class="fa fa-file-pdf-o")
+                li
+                  a(href="/reportes/consumo" role="button")   Listado Completo de Consumos
+                    span(class="pull-left badge bg-orange")  
+                      i(class="fa fa-file-pdf-o")                    
+                li
+                  a(href="/reportes/extraviado" role="button")   Listado Completo de Animales Extraviados
+                    span(class="pull-left badge bg-orange") 
+                      i(class="fa fa-file-pdf-o") 
+                li
+                  a(href="/reportes/muertes" role="button")   Listado Completo de Muertes  
+                    span(class="pull-left badge bg-orange")
+                      i(class="fa fa-file-pdf-o")
+                li
+                  a(href="/reportes/vacunacion" role="button")   Listado Completo de Vacunación
+                    span(class="pull-left badge bg-orange")  
+                      i(class="fa fa-file-pdf-o")                    
+                li
+                  a(href="/reportes/compras" role="button")   Listado Completo de Compras
+                    span(class="pull-left badge bg-orange") 
+                      i(class="fa fa-file-pdf-o") 
+                li
+                  a(href="/reportes/ventas" role="button")   Listado Completo de Ventas 
+                    span(class="pull-left badge bg-orange")
+                      i(class="fa fa-file-pdf-o")
+                li
+                  a(href="/reportes/cliente" role="button")   Listado Completo de Clientes
+                    span(class="pull-left badge bg-orange")  
+                      i(class="fa fa-file-pdf-o") 
+                li
+                  a(href="/reportes/proveedor" role="button")   Listado Completo de Proveedores 
+                    span(class="pull-left badge bg-orange")
+                      i(class="fa fa-file-pdf-o")                   
+                li
+                  a(href="/reportes/empleado" role="button")   Listado Completo de Empleados
+                    span(class="pull-left badge bg-orange") 
+                      i(class="fa fa-file-pdf-o") 
+                li
+                  a(href="/reportes/insumo" role="button")   Listado Completo de Insumos  
+                    span(class="pull-left badge bg-orange")
+                      i(class="fa fa-file-pdf-o")
+                li
+                  a(href="/reportes/herramienta" role="button")   Listado Completo de Herramientas
+                    span(class="pull-left badge bg-orange") 
+                      i(class="fa fa-file-pdf-o") 
+                li
+                  a(href="/reportes/stock" role="button")   Stock Completo de Insumos
+                    span(class="pull-left badge bg-orange")  
+                      i(class="fa fa-file-pdf-o")                    
+                li
+                  a(href="/reportes/stockAnimal" role="button")   Stock Completo de Animales
+                    span(class="pull-left badge bg-orange") 
+                      i(class="fa fa-file-pdf-o") 
+                li
+                  a(href="/reportes/stockMinimo" role="button")   Stock Mínimo de Insumos  
+                    span(class="pull-left badge bg-orange")
+                      i(class="fa fa-file-pdf-o")
+                li
+                  a(href="/reportes/ingresoAnimal" role="button")   Listado Completo de Ingreso de Animales  
+                    span(class="pull-left badge bg-orange")
+                      i(class="fa fa-file-pdf-o")
+                li
+                  a(href="/reportes/salidaAnimal" role="button")   Listado Completo de Salida de Animales  
+                    span(class="pull-left badge bg-orange")
+                      i(class="fa fa-file-pdf-o")
+                li
+                  a(href="/reportes/ingresoEmpleado" role="button")   Listado Completo de Ingreso del Empleado
+                    span(class="pull-left badge bg-orange") 
+                      i(class="fa fa-file-pdf-o") 
+                li
+                  a(href="/reportes/traslado" role="button")   Listado Completo de Traslados de Animales  
+                    span(class="pull-left badge bg-orange")
+                      i(class="fa fa-file-pdf-o")              
+    

@@ -36,7 +36,9 @@ exports.create = function (req, res) {
 
 exports.listPag =  function (req, res) {
  var mensaje = Model.Mensaje.build();
-  //************************************
+ //************************************
+  var alarma = Model.Alarma.build();
+//************************************
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
     if (mensaje1) {     
@@ -44,11 +46,31 @@ exports.listPag =  function (req, res) {
         console.log('mensaje2', mensaje2);
         if (mensaje2) {  
           console.log(req.body);
-              res.render('web/mensaje/success', { 
-                mensajes: mensaje1,
-                mensajeria: mensaje2
+          alarma.retriveCount(function (alarma1) { 
+            console.log('alarma1', alarma1);
+            if (alarma1) {     
+              alarma.retrieveAll(function (alarma2) {
+                console.log('alarma2', alarma2);
+                if (alarma2) {  
+                  console.log(req.body);
+                  res.render('web/mensaje/success', { 
+                    mensajes: mensaje1,
+                    alarmas1: alarma1,
+                    alarmas2: alarma2,
+                    mensajeria: mensaje2
+                  });
+                }else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
               });
-            
+            } else {
+              res.send(401, 'No se encontraron Alarmas');
+            }
+          }, function (error) {
+            res.send('Alarma no encontrado');
+          });            
         }else {
           res.send(401, 'No se encontraron Mensajes');
         }

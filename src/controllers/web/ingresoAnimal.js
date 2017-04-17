@@ -11,6 +11,8 @@ var Model = require('../../models/jugando.js');
 exports.getForm = function (req, res) {
   var ingresoAnimal = Model.IngresoAnimal.build();
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -20,10 +22,31 @@ exports.getForm = function (req, res) {
         console.log('mensaje2', mensaje2);
         if (mensaje2) {  
           console.log(req.body);  
-          res.render('web/ingresoAnimal/index',{
-            mensajes: mensaje1,
-            mensajeria: mensaje2,
-            ingresoAnimal: ingresoAnimal
+          alarma.retriveCount(function (alarma1) { 
+            console.log('alarma1', alarma1);
+            if (alarma1) {     
+              alarma.retrieveAll(function (alarma2) {
+                console.log('alarma2', alarma2);
+                if (alarma2) {  
+                  console.log(req.body);                  
+                  res.render('web/ingresoAnimal/index',{
+                    mensajes: mensaje1,
+                    mensajeria: mensaje2,
+                    ingresoAnimal: ingresoAnimal,
+                    alarmas1: alarma1,
+                    alarmas2: alarma2
+                  });
+                }else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });
+            } else {
+              res.send(401, 'No se encontraron Alarmas');
+            }
+          }, function (error) {
+            res.send('Alarma no encontrado');
           });
         }else {
           res.send(401, 'No se encontraron Mensajes');
@@ -65,6 +88,8 @@ exports.listPag = function (req, res) {
   var ingresoAnimal = Model.IngresoAnimal.build();
   console.log(req.body);
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -75,11 +100,32 @@ exports.listPag = function (req, res) {
         if (mensaje2) { 
           ingresoAnimal.retrieveAll(function (ingresoanimales) {
             if (ingresoanimales) {
-              res.render('web/ingresoAnimal/success', { 
-                ingresoanimales: ingresoanimales,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
-              });
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);                  
+                      res.render('web/ingresoAnimal/success', { 
+                        ingresoanimales: ingresoanimales,
+                        mensajes: mensaje1,
+                        mensajeria: mensaje2,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });              
             } else {
               res.send(401, 'No se encontraron Animales');
             }
@@ -126,6 +172,8 @@ exports.read = function (req, res) {
   var ingresoAnimal = Model.IngresoAnimal.build();
   console.log('soy get edit',req.body);
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -136,11 +184,32 @@ exports.read = function (req, res) {
         if (mensaje2) {
           ingresoAnimal.retrieveById(req.params.ingresoAnimalId, function (ingresoAnimal) {
             if (ingresoAnimal) {
-              res.render('web/ingresoAnimal/edit', {
-                ingresoAnimal:ingresoAnimal,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
-              });
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);                  
+                      res.render('web/ingresoAnimal/edit', {
+                        ingresoAnimal:ingresoAnimal,
+                        mensajes: mensaje1,
+                        mensajeria: mensaje2,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });              
             } else {
               res.send(401, 'IngresoAnimal no encontrado');
             }
@@ -165,6 +234,8 @@ exports.readId = function (req, res) {
   var ingresoAnimal = Model.IngresoAnimal.build();
   console.log('dentro de get id', req.body);
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -175,11 +246,32 @@ exports.readId = function (req, res) {
         if (mensaje2) { 
           ingresoAnimal.retrieveVerId(req.params.id, function (ingresoAnimalQ) {
             if (ingresoAnimalQ) {
-              res.render('web/detalleIngresoAnimal/success', {
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      res.render('web/detalleIngresoAnimal/success', {
                           ingresoAnimal:ingresoAnimalQ,
                           mensajes: mensaje1,
-                          mensajeria: mensaje2
+                          mensajeria: mensaje2,
+                          alarmas1: alarma1,
+                          alarmas2: alarma2
                         });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });              
             } else {
               res.send(401, 'IngresoAnimal no encontrado');
             }

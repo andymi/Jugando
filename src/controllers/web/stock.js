@@ -11,6 +11,8 @@ var Model = require('../../models/jugando.js');
 exports.listPag = function (req, res) {
   var stock = Model.Stock.build();
   console.log(req.body);
+  //************************************
+  var alarma = Model.Alarma.build();
    //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -22,11 +24,32 @@ exports.listPag = function (req, res) {
         if (mensaje2) { 
          stock.retrieveStock(function (stock) {
             if (stock) {
-              res.render('web/stock/success', { 
-                stocks: stock,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
-              });
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);                  
+                      res.render('web/stock/success', { 
+                        stocks: stock,
+                        mensajes: mensaje1,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2,
+                        mensajeria: mensaje2
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });              
             } else {
               res.send(401, 'No se encontraron Insumos');
             }
@@ -51,6 +74,8 @@ exports.listPag = function (req, res) {
 exports.listPag2 = function (req, res) {
   var stock = Model.Stock.build();
   console.log(req.body);
+  //************************************
+  var alarma = Model.Alarma.build();
    //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -62,11 +87,32 @@ exports.listPag2 = function (req, res) {
         if (mensaje2) { 
          stock.retrieveSAnimal(function (stock) {
             if (stock) {
-              res.render('web/stock/lista', { 
-                stocks: stock,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
-              });
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);                  
+                      res.render('web/stock/lista', { 
+                        stocks: stock,
+                        mensajes: mensaje1,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2,
+                        mensajeria: mensaje2
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });              
             } else {
               res.send(401, 'No se encontraron Animales');
             }
@@ -86,10 +132,6 @@ exports.listPag2 = function (req, res) {
     res.send('Mensaje no encontrado');
   });
 };
-
-
-
-
 
 /* (trae todos los stock)
 // GET /stock */

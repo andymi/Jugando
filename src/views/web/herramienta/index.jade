@@ -1,0 +1,39 @@
+extends ../../layout 
+block content
+ div(class="content-wrapper")
+    section(class="content-header")
+      h1 Herramienta
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Agregar Herramienta
+    section(class="content")
+      div(class="row")  
+        div(class="col-md-12") 
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Registro de Herramienta
+            form(class="form-horizontal" action='/web/herramienta/cargar' method="POST")
+              div(class="box-body")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="nombre") Herramienta: 
+                  div(class="col-sm-8")  
+                    input(type="text" class="form-control" id="nombre" name='nombre' placeholder="Ingrese la Herramienta")
+              div(class="box-body")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="vidaUtil") Vida Útil: 
+                  div(class="col-sm-8")  
+                    input(type="text" class="form-control" id="vidaUtil" name='vidaUtil' placeholder="Ingrese la  Vida Útil")
+              div(class="box-body")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="mantenimiento") Fecha de Próximo Mantenimiento: 
+                  div(class="col-sm-8")  
+                    input(type="text" class="form-control" id="mantenimiento" name='mantenimiento' placeholder="Ingrese el Mantenimiento")
+              
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Guardar
+                    i(class="fa fa-save") 
+                  a(href="/web/herramienta" class="btn btn-default") Cancelar
+                    i(class="fa fa-remove")

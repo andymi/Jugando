@@ -2,10 +2,10 @@ var http = require('http');
 var url = require('url');
 
 var SerialPort = require("serialport");
-var com = new SerialPort("COM11");
+var com = new SerialPort("COM12");
 
-var usuario1 = '_e4_0e_09_6f'
-var alarma = 0
+var usuario1 = '_e4_0e_09_6f';
+var alarma = 0;
 
 http.createServer(function(peticion, respuesta){ 
    var query = url.parse(peticion.url,true).query;
@@ -33,7 +33,7 @@ http.createServer(function(peticion, respuesta){
       com.write('<0');
    }  
    
-}).listen(3000);
+}).listen(8000);
 console.log('Servidor iniciado.');
 
 com.on('error', function(err){

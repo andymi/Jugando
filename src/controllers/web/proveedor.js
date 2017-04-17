@@ -13,6 +13,8 @@ exports.getForm = function (req, res) {
   var proveedor = Model.Proveedor.build();
   var ciudad = Model.Ciudad.build();
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -24,12 +26,33 @@ exports.getForm = function (req, res) {
           ciudad.retrieveAll(function (ciudadQ) {
             console.log('ciudadQ',ciudadQ);
             if (ciudadQ) {
-                res.render('web/proveedor/index',{
-                    proveedor: proveedor,
-                    selectJ: ciudadQ,
-                    mensajes: mensaje1,
-                    mensajeria: mensaje2
-                });
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);                  
+                      res.render('web/proveedor/index',{
+                          proveedor: proveedor,
+                          selectJ: ciudadQ,
+                          mensajes: mensaje1,
+                          mensajeria: mensaje2,
+                          alarmas1: alarma1,
+                          alarmas2: alarma2
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });              
             }
           }, function (error) {
             res.send('Proveedor no encontrado');
@@ -79,6 +102,8 @@ exports.create = function (req, res) {
 exports.listPag = function (req, res) {
   var proveedor = Model.Proveedor.build();
   console.log(req.body);
+  //************************************
+  var alarma = Model.Alarma.build();
    //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -90,11 +115,32 @@ exports.listPag = function (req, res) {
         if (mensaje2) { 
           proveedor.retrieveAll(function (proveedores) {
             if (proveedores) {
-              res.render('web/proveedor/success', { 
-                proveedores: proveedores,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
-              });
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);                  
+                      res.render('web/proveedor/success', { 
+                        proveedores: proveedores,
+                        mensajes: mensaje1,
+                        mensajeria: mensaje2,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });              
             } else {
               res.send(401, 'No se encontraron Proveedores');
             }
@@ -144,6 +190,8 @@ exports.read = function (req, res) {
   var proveedor = Model.Proveedor.build();
   var ciudad = Model.Ciudad.build();
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -156,12 +204,33 @@ exports.read = function (req, res) {
             if (ciudad) {
               proveedor.retrieveById(req.params.proveedorId, function (proveedoroq) {
                 if (proveedoroq) {
-                  res.render('web/proveedor/edit', {
+                  alarma.retriveCount(function (alarma1) { 
+                    console.log('alarma1', alarma1);
+                    if (alarma1) {     
+                      alarma.retrieveAll(function (alarma2) {
+                        console.log('alarma2', alarma2);
+                        if (alarma2) {  
+                          console.log(req.body);
+                          res.render('web/proveedor/edit', {
                               proveedor:proveedoroq,
                               select: ciudad,
                               mensajes: mensaje1,
-                              mensajeria: mensaje2
+                              mensajeria: mensaje2,
+                              alarmas1: alarma1,
+                              alarmas2: alarma2
                             });
+                        }else {
+                          res.send(401, 'No se encontraron Alarmas');
+                        }
+                      }, function (error) {
+                        res.send('Alarma no encontrado');
+                      });
+                    } else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });                  
                 } else {
                   res.send(401, 'arProveedor no encontrado');
                 }

@@ -16,24 +16,49 @@ exports.getForm = function (req, res) {
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
+  //************************************ 
+  var alarma = Model.Alarma.build();
+  //************************************
+  
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
     if (mensaje1) {     
       mensaje.retrieveAll(function (mensaje2) {
         console.log('mensaje2', mensaje2);
         if (mensaje2) { 
-          departamento.retrieveAll(function (departamentoQ) {
-            console.log('departamentoQ',departamentoQ);
-            if (departamentoQ) {
-                res.render('web/ciudad/index', {
-                    ciudadJ: ciudad,
-                    selectJ: departamentoQ,
-                    mensajes: mensaje1,
-                    mensajeria: mensaje2
-                });
+          alarma.retriveCount(function (alarma1) { 
+            console.log('alarma1', alarma1);
+            if (alarma1) {     
+              alarma.retrieveAll(function (alarma2) {
+                console.log('alarma2', alarma2);
+                if (alarma2) {  
+                  console.log(req.body);
+                  departamento.retrieveAll(function (departamentoQ) {
+                    console.log('departamentoQ',departamentoQ);
+                    if (departamentoQ) {
+                        res.render('web/ciudad/index', {
+                            ciudadJ: ciudad,
+                            selectJ: departamentoQ,
+                            mensajes: mensaje1,
+                            mensajeria: mensaje2,
+                            alarmas1: alarma1,
+                            alarmas2: alarma2
+                        });
+                    }
+                  }, function (error) {
+                    res.send('Usuario no encontrado');
+                  });
+                }else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });
+            } else {
+              res.send(401, 'No se encontraron Alarmas');
             }
           }, function (error) {
-            res.send('Usuario no encontrado');
+            res.send('Alarma no encontrado');
           });
         }else {
           res.send(401, 'No se encontraron Mensajes');
@@ -71,6 +96,8 @@ exports.create = function (req, res) {
 exports.listPag = function (req, res) {
   var ciudad = Model.Ciudad.build();
   console.log('dentro de get /',req.body);
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -80,18 +107,39 @@ exports.listPag = function (req, res) {
       mensaje.retrieveAll(function (mensaje2) {
         console.log('mensaje2', mensaje2);
         if (mensaje2) { 
-          ciudad.retrieveAll(function (ciudades) {
-            if (ciudades) {
-              res.render('web/ciudad/success', { 
-                ciudades: ciudades,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
+          alarma.retriveCount(function (alarma1) { 
+            console.log('alarma1', alarma1);
+            if (alarma1) {     
+              alarma.retrieveAll(function (alarma2) {
+                console.log('alarma2', alarma2);
+                if (alarma2) {  
+                  console.log(req.body);
+                  ciudad.retrieveAll(function (ciudades) {
+                    if (ciudades) {
+                      res.render('web/ciudad/success', { 
+                        ciudades: ciudades,
+                        mensajes: mensaje1,
+                        mensajeria: mensaje2,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2
+                      });
+                    } else {
+                      res.send(401, 'No se encontraron Ciudades');
+                    }
+                  }, function (error) {
+                    res.send('Ciudad no encontrado');
+                  });
+                }else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
               });
             } else {
-              res.send(401, 'No se encontraron Ciudades');
+              res.send(401, 'No se encontraron Alarmas');
             }
           }, function (error) {
-            res.send('Ciudad no encontrado');
+            res.send('Alarma no encontrado');
           });
         }else {
           res.send(401, 'No se encontraron Mensajes');
@@ -136,6 +184,8 @@ exports.read = function (req, res) {
   var ciudad = Model.Ciudad.build();
   //************************************
   var mensaje = Model.Mensaje.build();
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
@@ -145,19 +195,40 @@ exports.read = function (req, res) {
         if (mensaje2) {
           departamento.retrieveAll(function (departamento) {
             if (departamento) {
-              ciudad.retrieveById(req.params.ciudadId, function (ciudadq) {
-                if (ciudadq) {
-                  res.render('web/ciudad/edit', {
-                              ciudad:ciudadq,
-                              select: departamento,
-                              mensajes: mensaje1,
-                              mensajeria: mensaje2
-                            });
+               alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      ciudad.retrieveById(req.params.ciudadId, function (ciudadq) {
+                        if (ciudadq) {
+                          res.render('web/ciudad/edit', {
+                            ciudad:ciudadq,
+                            select: departamento,
+                            mensajes: mensaje1,
+                            mensajeria: mensaje2,
+                            alarmas1: alarma1,
+                            alarmas2: alarma2    
+                          });
+                        } else {
+                          res.send(401, 'arCiudad no encontrado');
+                        }
+                      }, function (error) {
+                        res.send('esCiudad no encontrado',error);
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
                 } else {
-                  res.send(401, 'arCiudad no encontrado');
+                  res.send(401, 'No se encontraron Alarmas');
                 }
               }, function (error) {
-                res.send('esCiudad no encontrado',error);
+                res.send('Alarma no encontrado');
               });
             } else {
               res.send(401, 'No se encontraron Ciudades');

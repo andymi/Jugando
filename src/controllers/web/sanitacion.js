@@ -13,6 +13,8 @@ exports.getForm = function (req, res) {
   var proveedor = Model.Proveedor.build();
   var sanitacion = Model.Sanitacion.build();
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -27,19 +29,39 @@ exports.getForm = function (req, res) {
               empleado.retrieveAll(function (empleadoQ) {
                 console.log('empleadoQ',empleadoQ);
                 if (empleadoQ) {
-                    res.render('web/sanitacion/index', {
+                  alarma.retriveCount(function (alarma1) { 
+                    console.log('alarma1', alarma1);
+                    if (alarma1) {     
+                      alarma.retrieveAll(function (alarma2) {
+                        console.log('alarma2', alarma2);
+                        if (alarma2) {  
+                          console.log(req.body);
+                          res.render('web/sanitacion/index', {
                             sanitacionJ: sanitacion,
                             selectJ: empleadoQ,
                             selectN: proveedorQ,
                             mensajes: mensaje1,
-                            mensajeria: mensaje2
-                    });
+                            mensajeria: mensaje2,
+                            alarmas1: alarma1,
+                            alarmas2: alarma2
+                          });
+                        }else {
+                          res.send(401, 'No se encontraron Alarmas');
+                        }
+                      }, function (error) {
+                        res.send('Alarma no encontrado');
+                      });
+                    } else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });                  
                 }
 
               },function (error) {
                 res.send('Sanitacion no encontrado');
-              }
-              ); 
+              }); 
             }
           },function (error) {
               res.send('Sanitacion no encontrado');
@@ -62,13 +84,15 @@ exports.create = function (req, res) {
   //console.log(req.body);
   // bodyParser debe hacer la magia
   var fechaSanitacion = req.body.fechaSanitacion;
-  var horaSanitacion = req.body.horaSanitacion; 
+  var horaSanitacion = req.body.horaSanitacion;
+  var observacion = req.body.observacion; 
   var EmpleadoIdEmpleado = req.body.selectJ;
   var ProveedorIdProveedor = req.body.selectN;
 
   var index = Model.Sanitacion.build({
     fechaSanitacion: fechaSanitacion,
     horaSanitacion: horaSanitacion,
+    observacion: observacion,
     EmpleadoIdEmpleado: EmpleadoIdEmpleado,
     ProveedorIdProveedor: ProveedorIdProveedor
   });
@@ -86,6 +110,8 @@ exports.listPag = function (req, res) {
   var sanitacion = Model.Sanitacion.build();
   console.log('request body',req.body);
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -95,12 +121,33 @@ exports.listPag = function (req, res) {
         console.log('mensaje2', mensaje2);
         if (mensaje2) {
           sanitacion.retrieveAll(function (sanitacion) {
-            if (sanitacion) {      
-              res.render('web/sanitacion/success', { 
-                sanitacion: sanitacion,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
-              });
+            if (sanitacion) {   
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);   
+                      res.render('web/sanitacion/success', { 
+                        sanitacion: sanitacion,
+                        mensajes: mensaje1,
+                        mensajeria: mensaje2,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });              
               console.log('soy sanitacion retrieveAll',sanitacion);
             } else {
               res.send(401, 'No se encontraron Sanitaciones');
@@ -131,6 +178,7 @@ exports.update = function (req, res) {
 
   sanitacion.fechaSanitacion = req.body.fechaSanitacion;
   sanitacion.horaSanitacion = req.body.horaSanitacion;
+  sanitacion.observacion = req.body.observacion;
   sanitacion.EmpleadoIdEmpleado = req.body.empleadoSele;
   sanitacion.ProveedorIdProveedor = req.body.proveedorSele;
   
@@ -153,6 +201,8 @@ exports.read = function (req, res) {
   var empleado = Model.Empleado.build();
   var proveedor = Model.Proveedor.build();
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -167,13 +217,34 @@ exports.read = function (req, res) {
                   if (empleado) {
                     sanitacion.retrieveById(req.params.sanitacionId, function (sanitacion) {
                       if (sanitacion) {
-                        res.render('web/sanitacion/edit', {
-                              sanitacion:sanitacion,
-                              selectJ: empleado,
-                              select: proveedor,
-                              mensajes: mensaje1,
-                              mensajeria: mensaje2
-                        });
+                        alarma.retriveCount(function (alarma1) { 
+                          console.log('alarma1', alarma1);
+                          if (alarma1) {     
+                            alarma.retrieveAll(function (alarma2) {
+                              console.log('alarma2', alarma2);
+                              if (alarma2) {  
+                                console.log(req.body);                  
+                                res.render('web/sanitacion/edit', {
+                                      sanitacion:sanitacion,
+                                      selectJ: empleado,
+                                      select: proveedor,
+                                      mensajes: mensaje1,
+                                      mensajeria: mensaje2,
+                                      alarmas1: alarma1,
+                                      alarmas2: alarma2
+                                });
+                              }else {
+                                res.send(401, 'No se encontraron Alarmas');
+                              }
+                            }, function (error) {
+                              res.send('Alarma no encontrado');
+                            });
+                          } else {
+                            res.send(401, 'No se encontraron Alarmas');
+                          }
+                        }, function (error) {
+                          res.send('Alarma no encontrado');
+                        });                        
                       } else {
                         res.send(401, 'Sanitacion no encontrado');
                       }
@@ -210,6 +281,8 @@ exports.read = function (req, res) {
 exports.listPag1 = function (req, res) {
   var sanitacion = Model.Sanitacion.build();
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -220,11 +293,33 @@ exports.listPag1 = function (req, res) {
         if (mensaje2) {
           sanitacion.retrieveVerId(req.params.id, function (sanitacionq) {
             if (sanitacionq) {
-              res.render('web/detalleSanitacion/success', {
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      res.render('web/detalleSanitacion/success', {
                           sanitacion:sanitacionq,
                           mensajes: mensaje1,
-                          mensajeria: mensaje2
+                          mensajeria: mensaje2,
+                          alarmas1: alarma1,
+                          alarmas2: alarma2
                         });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });
+
             } else {
               res.send(401, 'arPesaje no encontrado');
             }
@@ -247,6 +342,8 @@ exports.listPag1 = function (req, res) {
 exports.listPag2 = function (req, res) {
   var sanitacion = Model.Sanitacion.build();
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -257,11 +354,32 @@ exports.listPag2 = function (req, res) {
         if (mensaje2) {  
           sanitacion.retrieveVerId(req.params.id, function (sanitacionq) {
             if (sanitacionq) {
-              res.render('web/detalleSanitacionInsumo/success', {
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      res.render('web/detalleSanitacionInsumo/success', {
                           sanitacion:sanitacionq,
                           mensajes: mensaje1,
-                          mensajeria: mensaje2
+                          mensajeria: mensaje2,
+                          alarmas1: alarma1,
+                          alarmas2: alarma2
                         });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });              
             } else {
               res.send(401, 'arPesaje no encontrado');
             }

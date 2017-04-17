@@ -12,6 +12,8 @@ exports.getForm = function (req, res) {
   var cliente = Model.Cliente.build();
   var facturaVenta = Model.FacturaVenta.build();
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -20,17 +22,37 @@ exports.getForm = function (req, res) {
       mensaje.retrieveAll(function (mensaje2) {
         console.log('mensaje2', mensaje2);
         if (mensaje2) { 
-
           cliente.retrieveAll(function (clienteQ) {
             console.log('clienteQ',clienteQ);
             if (clienteQ) {
-                res.render('web/facturaVenta/index', {
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      res.render('web/facturaVenta/index', {
                         facturaVentaJ: facturaVenta,
                         selectJ: clienteQ,
                         mensajes: mensaje1,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2,
                         mensajeria: mensaje2
-                });
-              }
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });              
+            }
           },function (error) {
             res.send('Factura Venta no encontrado');
           }); 
@@ -81,6 +103,8 @@ exports.listPag = function (req, res) {
   var facturaVenta = Model.FacturaVenta.build();
   console.log('request body',req.body);
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -90,12 +114,33 @@ exports.listPag = function (req, res) {
         console.log('mensaje2', mensaje2);
         if (mensaje2) {  
           facturaVenta.retrieveAll(function (facturaVenta) {
-            if (facturaVenta) {      
-              res.render('web/facturaVenta/success', { 
-                facturaVenta: facturaVenta,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
-              });
+            if (facturaVenta) {
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);                        
+                      res.render('web/facturaVenta/success', { 
+                        facturaVenta: facturaVenta,
+                        mensajes: mensaje1,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2,
+                        mensajeria: mensaje2
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });              
               console.log('soy facturaVenta retrieveAll',facturaVenta);
             } else {
               res.send(401, 'No se encontraron Pesajes');
@@ -149,6 +194,8 @@ exports.read = function (req, res) {
   var facturaVenta = Model.FacturaVenta.build();
   var cliente = Model.Cliente.build();
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -161,12 +208,33 @@ exports.read = function (req, res) {
             if (cliente) {
                 facturaVenta.retrieveById(req.params.facturaVentaId, function (facturaVenta) {
                   if (facturaVenta) {
-                    res.render('web/facturaVenta/edit', {
+                    alarma.retriveCount(function (alarma1) { 
+                      console.log('alarma1', alarma1);
+                      if (alarma1) {     
+                        alarma.retrieveAll(function (alarma2) {
+                          console.log('alarma2', alarma2);
+                          if (alarma2) {  
+                            console.log(req.body);
+                            res.render('web/facturaVenta/edit', {
                               facturaVenta:facturaVenta,
                               select: cliente,
                               mensajes: mensaje1,
+                              alarmas1: alarma1,
+                              alarmas2: alarma2,
                               mensajeria: mensaje2
                             });
+                          }else {
+                            res.send(401, 'No se encontraron Alarmas');
+                          }
+                        }, function (error) {
+                          res.send('Alarma no encontrado');
+                        });
+                      } else {
+                        res.send(401, 'No se encontraron Alarmas');
+                      }
+                    }, function (error) {
+                      res.send('Alarma no encontrado');
+                    });                    
                   } else {
                     res.send(401, 'facturaVenta no encontrado');
                   }
@@ -197,6 +265,8 @@ exports.read = function (req, res) {
 exports.readId = function (req, res) {
   var facturaVenta = Model.FacturaVenta.build();
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -207,11 +277,32 @@ exports.readId = function (req, res) {
         if (mensaje2) { 
           facturaVenta.retrieveVerId(req.params.id, function (facturaVentaQ) {
             if (facturaVentaQ) {
-              res.render('web/detalleVenta/success', {
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      res.render('web/detalleVenta/success', {
                           facturaVenta:facturaVentaQ,
                           mensajes: mensaje1,
+                          alarmas1: alarma1,
+                          alarmas2: alarma2,
                           mensajeria: mensaje2
-                        });
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });
             } else {
               res.send(401, 'FacturaVenta no encontrado');
             }

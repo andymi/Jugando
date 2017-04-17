@@ -26,10 +26,27 @@ module.exports = function (sequelize, DataTypes) {
           //notNull: true,
           notEmpty: true
         }
+      },
+      pesajeTotal: {
+        type: DataTypes.INTEGER(11),
+        allowNull: false,
+        comment: 'Pesaje total de Animales',
+        defaultValue: '0',
+        validate: {
+          //notNull: true,
+          notEmpty: true
+        }
       }
     },
     {
       instanceMethods: {
+        retrieveReporteTodo: function (onSuccess, onError) {
+          console.log('dentro de detalle');   
+          Pesaje.findAll({
+            include: [ Model.Empleado]
+          }).then(onSuccess).catch(onError);
+        },
+            
         retrieveLine: function (onSuccess, onError) {
           Pesaje.findAll({
             attributes: ['idPesaje'],

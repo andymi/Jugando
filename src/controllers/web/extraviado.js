@@ -12,6 +12,8 @@ exports.getForm = function (req, res) {
   var empleado = Museo.Empleado.build();
   var extraviado = Museo.Extraviado.build();
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Museo.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -23,13 +25,34 @@ exports.getForm = function (req, res) {
           empleado.retrieveAll(function (empleadoQ) {
             //console.log('empleadoQ',empleadoQ);
             if (empleadoQ) {
-                res.render('web/extraviado/index', {
-                        extraviadoJ: extraviado,
-                        selectJ: empleadoQ,
-                        mensajes: mensaje1,
-                        mensajeria: mensaje2
-                });
-              }
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      res.render('web/extraviado/index', {
+                              extraviadoJ: extraviado,
+                              selectJ: empleadoQ,
+                              mensajes: mensaje1,
+                              mensajeria: mensaje2,
+                              alarmas1: alarma1,
+                              alarmas2: alarma2
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });
+            }
           },function (error) {
             res.send('Extraviado no encontrado');
           });  
@@ -80,6 +103,8 @@ exports.listPag = function (req, res) {
   var extraviado = Museo.Extraviado.build();
   console.log('request body',req.body);
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Museo.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -89,13 +114,34 @@ exports.listPag = function (req, res) {
         console.log('mensaje2', mensaje2);
         if (mensaje2) { 
           extraviado.retrieveAll(function (extraviado) {
-            if (extraviado) {      
-              res.render('web/extraviado/success', { 
-                extraviado: extraviado,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
-              });
-              console.log('soy extraviado retrieveAll',extraviado);
+            if (extraviado) {    
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);  
+                      res.render('web/extraviado/success', { 
+                        extraviado: extraviado,
+                        mensajes: mensaje1,
+                        mensajeria: mensaje2,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2
+                      });
+                      console.log('soy extraviado retrieveAll',extraviado);
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });              
             } else {
               res.send(401, 'No se encontraron Pesajes');
             }
@@ -147,6 +193,8 @@ exports.read = function (req, res) {
   var extraviado = Museo.Extraviado.build();
   var empleado = Museo.Empleado.build();
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Museo.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -159,12 +207,33 @@ exports.read = function (req, res) {
             if (empleado) {
               extraviado.retrieveById(req.params.extraviadoId, function (extraviado) {
                 if (extraviado) {
-                  res.render('web/extraviado/edit', {
+                  alarma.retriveCount(function (alarma1) { 
+                    console.log('alarma1', alarma1);
+                    if (alarma1) {     
+                      alarma.retrieveAll(function (alarma2) {
+                        console.log('alarma2', alarma2);
+                        if (alarma2) {  
+                          console.log(req.body);
+                          res.render('web/extraviado/edit', {
                               extraviado:extraviado,
                               select: empleado,
                               mensajes: mensaje1,
-                              mensajeria: mensaje2
+                              mensajeria: mensaje2,
+                              alarmas1: alarma1,
+                              alarmas2: alarma2
                             });
+                        }else {
+                          res.send(401, 'No se encontraron Alarmas');
+                        }
+                      }, function (error) {
+                        res.send('Alarma no encontrado');
+                      });
+                    } else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });                  
                 } else {
                   res.send(401, 'Extraviado no encontrado');
                 }
@@ -195,6 +264,8 @@ exports.read = function (req, res) {
 exports.readId = function (req, res) {
   var extraviado = Museo.Extraviado.build();
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Museo.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -205,11 +276,32 @@ exports.readId = function (req, res) {
         if (mensaje2) { 
           extraviado.retrieveVerId(req.params.id, function (extraviadoq) {
             if (extraviadoq) {
-              res.render('web/detalleExtraviado/success', {
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      res.render('web/detalleExtraviado/success', {
                           extraviado:extraviadoq,
                           mensajes: mensaje1,
-                          mensajeria: mensaje2
+                          mensajeria: mensaje2,
+                          alarmas1: alarma1,
+                          alarmas2: alarma2
                         });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });              
             } else {
               res.send(401, 'Extraviado no encontrado');
             }

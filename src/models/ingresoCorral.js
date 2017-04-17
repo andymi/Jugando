@@ -52,6 +52,16 @@ module.exports = function (sequelize, DataTypes) {
             where: { idIngresoCorral: ingresoCorralId } }, { raw: true } )
           .then(onSuccess).catch(onError);
         },
+        retrieveByEmpleado: function (ingresoId, onSuccess, onError) {
+          Model.Empleado.find({ 
+            where:{ cedulaEmpleado: ingresoId }
+          }).then(function (DetalleSalida) {
+            IngresoCorral.findAll({ 
+              include: [ Model.Empleado ],
+              where: { EmpleadoIdEmpleado: DetalleSalida.idEmpleado } 
+            }).then(onSuccess).catch(onError);
+          });
+        },
         retrieveByIngresoCorral: function (ingreso, onSuccess, onError) {
           IngresoCorral.find( { where: { fechaIngreso: ingreso} }, { raw: true })
           .then(onSuccess).catch(onError);

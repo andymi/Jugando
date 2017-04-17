@@ -15,6 +15,8 @@ exports.getForm =  function (req, res) {
   var ciudad = Model.Ciudad.build();
   //************************************
   var mensaje = Model.Mensaje.build();
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
@@ -22,18 +24,39 @@ exports.getForm =  function (req, res) {
       mensaje.retrieveAll(function (mensaje2) {
         console.log('mensaje2', mensaje2);
         if (mensaje2) { 
-          ciudad.retrieveAll(function (ciudadQ) {
-            console.log('ciudadQ',ciudadQ);
-            if (ciudadQ) {
-                res.render('web/cliente/index',{
-                    selectJ: ciudadQ,
-                    cliente: cliente,
-                    mensajes: mensaje1,
-                    mensajeria: mensaje2
-                });
+          alarma.retriveCount(function (alarma1) { 
+            console.log('alarma1', alarma1);
+            if (alarma1) {     
+              alarma.retrieveAll(function (alarma2) {
+                console.log('alarma2', alarma2);
+                if (alarma2) { 
+                  console.log(req.body);                      
+                  ciudad.retrieveAll(function (ciudadQ) {
+                    console.log('ciudadQ',ciudadQ);
+                    if (ciudadQ) {
+                        res.render('web/cliente/index',{
+                            selectJ: ciudadQ,
+                            cliente: cliente,
+                            mensajes: mensaje1,
+                            mensajeria: mensaje2,
+                            alarmas1: alarma1,
+                            alarmas2: alarma2 
+                        });
+                    }
+                  }, function (error) {
+                    res.send('Usuario no encontrado');
+                  });
+                }else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });
+            } else {
+              res.send(401, 'No se encontraron Alarmas');
             }
           }, function (error) {
-            res.send('Usuario no encontrado');
+            res.send('Alarma no encontrado');
           });
         }else {
           res.send(401, 'No se encontraron Mensajes');
@@ -78,6 +101,8 @@ exports.create = function (req, res) {
 exports.listPag =  function (req, res) {
   var cliente = Model.Cliente.build();
   console.log(req.body);
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -86,19 +111,40 @@ exports.listPag =  function (req, res) {
     if (mensaje1) {     
       mensaje.retrieveAll(function (mensaje2) {
         console.log('mensaje2', mensaje2);
-        if (mensaje2) {  
-          cliente.retrieveAll(function (clientes) {
-            if (clientes) {
-              res.render('web/cliente/success', { 
-                clientes: clientes,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
+        if (mensaje2) {
+          alarma.retriveCount(function (alarma1) { 
+            console.log('alarma1', alarma1);
+            if (alarma1) {     
+              alarma.retrieveAll(function (alarma2) {
+                console.log('alarma2', alarma2);
+                if (alarma2) {  
+                  console.log(req.body);          
+                  cliente.retrieveAll(function (clientes) {
+                    if (clientes) {
+                      res.render('web/cliente/success', { 
+                        clientes: clientes,
+                        mensajes: mensaje1,
+                        mensajeria: mensaje2,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2
+                      });
+                    } else {
+                      res.send(401, 'No se encontraron Clientes');
+                    }
+                  }, function (error) {
+                    res.send('Cliente no encontrado');
+                  });
+                }else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
               });
             } else {
-              res.send(401, 'No se encontraron Clientes');
+              res.send(401, 'No se encontraron Alarmas');
             }
           }, function (error) {
-            res.send('Cliente no encontrado');
+            res.send('Alarma no encontrado');
           });
         }else {
           res.send(401, 'No se encontraron Mensajes');
@@ -143,6 +189,8 @@ exports.update =  function (req, res) {
 exports.read = function (req, res) {
   var cliente = Model.Cliente.build();
   var ciudad = Model.Ciudad.build();
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -154,19 +202,40 @@ exports.read = function (req, res) {
         if (mensaje2) {
           ciudad.retrieveAll(function (ciudad) {
             if (ciudad) {
-              cliente.retrieveById(req.params.clienteId, function (clienteq) {
-                if (clienteq) {
-                  res.render('web/cliente/edit', {
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      cliente.retrieveById(req.params.clienteId, function (clienteq) {
+                        if (clienteq) {
+                          res.render('web/cliente/edit', {
                               cliente:clienteq,
                               select: ciudad,
                               mensajes: mensaje1,
-                              mensajeria: mensaje2
-                            });
+                              mensajeria: mensaje2,
+                              alarmas1: alarma1,
+                              alarmas2: alarma2 
+                          });
+                        } else {
+                          res.send(401, 'arCliente no encontrado');
+                        }
+                      }, function (error) {
+                        res.send('esCliente no encontrado',error);
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
                 } else {
-                  res.send(401, 'arCliente no encontrado');
+                  res.send(401, 'No se encontraron Alarmas');
                 }
               }, function (error) {
-                res.send('esCliente no encontrado',error);
+                res.send('Alarma no encontrado');
               });
             } else {
               res.send(401, 'No se encontraron Clientes');

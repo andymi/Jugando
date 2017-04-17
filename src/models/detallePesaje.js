@@ -32,12 +32,42 @@ module.exports = function (sequelize, DataTypes) {
     },
     {
       instanceMethods: {
+        guardar: function(id, onSuccess, onError){
+          DetallePesaje.findAll({
+            attributes:[[sequelize.fn('SUM', sequelize.col('peso')),'TOTAL']],
+            where: { PesajeIdPesaje:id }
+          }).then(function (detallePesaje){
+            console.log('dentro de update',detallePesaje[0].dataValues['TOTAL']);
+            Model.Pesaje.update( { 
+             pesajeTotal: detallePesaje[0].dataValues['TOTAL']
+            },{ where: { idPesaje: id } })
+            .then(onSuccess).catch(onError);
+            });
+        },
         retrieveAll: function (id, onSuccess, onError) {
           DetallePesaje.findAll( {
             include: [ Model.Animal , Model.Pesaje ],
             where: { PesajeIdPesaje:id }
            } )
           .then(onSuccess).catch(onError);
+        },
+        retrieveAnimal: function (id, onSuccess, onError) {
+          DetallePesaje.findAll( {
+            include: [ Model.Animal , Model.Pesaje ],
+            where: { AnimalIdAnimal:id }
+           } )
+          .then(onSuccess).catch(onError);
+        },
+        retrieveByRp: function (id, onSuccess, onError) {
+          Model.Animal.find({ 
+            where:{ rpAnimal: id }
+          }).then(function (DetallePesajes) {
+            DetallePesaje.findAll( {
+              include: [ Model.Animal , Model.Pesaje ],
+              where: { AnimalIdAnimal: DetallePesajes.idAnimal }
+             } )
+            .then(onSuccess).catch(onError);
+          });
         },
         retrieveById: function (detallePesajeId, onSuccess, onError) {
           DetallePesaje.find( {

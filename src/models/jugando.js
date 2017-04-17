@@ -48,6 +48,9 @@ var sequelize = new Sequelize(dbName, user, pwd,
 var animalPath = path.join(__dirname,'animal');
 var Animal = sequelize.import(animalPath);
 // Importar definicion de la tabla Forum
+var alarmaPath = path.join(__dirname,'alarma');
+var Alarma = sequelize.import(alarmaPath);
+// Importar definicion de la tabla Forum
 var auditoriaPath = path.join(__dirname,'auditoria');
 var Auditoria = sequelize.import(auditoriaPath);
 // Importar definicion de la tabla Forum
@@ -110,6 +113,9 @@ var FacturaCompra = sequelize.import(facturaCompraPath);
 // Importar definicion de la tabla Forum
 var facturaVentaPath = path.join(__dirname,'facturaVenta');
 var FacturaVenta = sequelize.import(facturaVentaPath);
+// Importar definicion de la tabla Forum
+var herramientaPath = path.join(__dirname,'herramienta');
+var Herramienta = sequelize.import(herramientaPath);
 // Importar definicion de la tabla Forum
 var ingresoAnimalPath = path.join(__dirname,'ingresoAnimal');
 var IngresoAnimal = sequelize.import(ingresoAnimalPath);
@@ -326,6 +332,7 @@ Animal.hasMany(DetalleSalidaAnimal);
 
 // exportar tablas
 exports.Animal = Animal;
+exports.Alarma = Alarma;
 exports.Auditoria = Auditoria;
 exports.Nivel = Nivel;
 exports.Usuario = Usuario;
@@ -349,6 +356,7 @@ exports.Empleado = Empleado;
 exports.Extraviado = Extraviado;
 exports.FacturaCompra = FacturaCompra;
 exports.FacturaVenta = FacturaVenta;
+exports.Herramienta = Herramienta;
 exports.IngresoAnimal = IngresoAnimal;
 exports.IngresoCorral = IngresoCorral;
 exports.Insumo =Insumo;

@@ -12,6 +12,8 @@ var Model = require('../../models/jugando.js');
 
 exports.getForm = function (req, res) {
   var index = Model.Departamento.build();
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -21,10 +23,31 @@ exports.getForm = function (req, res) {
       mensaje.retrieveAll(function (mensaje2) {
         console.log('mensaje2', mensaje2);
         if (mensaje2) { 
-          res.render('web/departamento/index',{
-            index: index,
-            mensajes: mensaje1,
-            mensajeria: mensaje2
+          alarma.retriveCount(function (alarma1) { 
+            console.log('alarma1', alarma1);
+            if (alarma1) {     
+              alarma.retrieveAll(function (alarma2) {
+                console.log('alarma2', alarma2);
+                if (alarma2) {  
+                  console.log(req.body);
+                  res.render('web/departamento/index',{
+                    index: index,
+                    mensajes: mensaje1,
+                    mensajeria: mensaje2,
+                    alarmas1: alarma1,
+                    alarmas2: alarma2  
+                  });
+                }else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });
+            } else {
+              res.send(401, 'No se encontraron Alarmas');
+            }
+          }, function (error) {
+            res.send('Alarma no encontrado');
           });
         }else {
           res.send(401, 'No se encontraron Mensajes');
@@ -64,6 +87,8 @@ exports.create = function (req, res) {
 exports.listPag = function (req, res) {
   var departamento = Model.Departamento.build();
   console.log(req.body);
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -75,10 +100,31 @@ exports.listPag = function (req, res) {
         if (mensaje2) {
           departamento.retrieveAll(function (departamentos) {
             if (departamentos) {
-              res.render('web/departamento/success', { 
-                departamentos: departamentos,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);              
+                      res.render('web/departamento/success', { 
+                        departamentos: departamentos,
+                        mensajes: mensaje1,
+                        mensajeria: mensaje2,                        
+                        alarmas1: alarma1,
+                        alarmas2: alarma2     
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
               });
             } else {
               res.send(401, 'No se encontraron Departamentos');
@@ -128,6 +174,10 @@ exports.read = function (req, res) {
   var departamento = Model.Departamento.build();
   //************************************
   var mensaje = Model.Mensaje.build();
+  //************************************ 
+  var alarma = Model.Alarma.build();
+  //************************************
+  
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
@@ -137,11 +187,32 @@ exports.read = function (req, res) {
         if (mensaje2) {
           departamento.retrieveById(req.params.departamentoId, function (departamentooq) {
             if (departamentooq) {
-              //res.json(departamento);
-              res.render('web/departamento/edit', {
-                departamento:departamentooq,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      //res.json(departamento);
+                      res.render('web/departamento/edit', {
+                        departamento:departamentooq,
+                        mensajes: mensaje1,
+                        mensajeria: mensaje2,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
               });
             } else {
               res.send(401, 'Departamento no encontrado');

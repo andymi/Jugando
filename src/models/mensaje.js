@@ -42,7 +42,9 @@ module.exports = function (sequelize, DataTypes) {
     {
       instanceMethods: {
         retrieveAll: function (onSuccess, onError) {
-          Mensaje.findAll({})
+          Mensaje.findAll({
+            order: 'idMensaje DESC'
+          })
           .then(onSuccess).catch(onError);
         },
 

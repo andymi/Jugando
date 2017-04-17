@@ -36,6 +36,13 @@ module.exports = function (sequelize, DataTypes) {
           //notNull: true,
           notEmpty: true
         }
+      },
+      observacion: {
+        type: DataTypes.STRING(250),
+        comment: 'observacion',
+        validate: {
+          notEmpty: true
+        }
       }
     },
     {
@@ -46,6 +53,13 @@ module.exports = function (sequelize, DataTypes) {
           })
           .then(onSuccess).catch(onError);
         },
+        retrieveTodo: function (onSuccess, onError) {
+          Sanitacion.findAll({
+            include: [ Model.Proveedor, Model.Empleado],
+            order: 'idSanitacion DESC'
+          })
+          .then(onSuccess).catch(onError);
+        },    
         retrieveSanitacion: function (onSuccess, onError) {
           Sanitacion.findAll({
             attributes:[[sequelize.fn('SUM', sequelize.col('cantidadTotal')),'cantidadTotal']]
@@ -78,10 +92,11 @@ module.exports = function (sequelize, DataTypes) {
         add: function (onSuccess, onError) {
           var fechaSanitacion = this.fechaSanitacion;
           var horaSanitacion = this.horaSanitacion;
+          var observacion = this.observacion;
           var ProveedorIdProveedor = this.ProveedorIdProveedor;
           var EmpleadoIdEmpleado = this.EmpleadoIdEmpleado;
 
-          Sanitacion.build({ fechaSanitacion: fechaSanitacion, horaSanitacion: horaSanitacion, 
+          Sanitacion.build({ fechaSanitacion: fechaSanitacion, horaSanitacion: horaSanitacion, observacion: observacion,
             ProveedorIdProveedor: ProveedorIdProveedor, EmpleadoIdEmpleado: EmpleadoIdEmpleado })
           .save().then(onSuccess).catch(onError);
         },
@@ -89,11 +104,12 @@ module.exports = function (sequelize, DataTypes) {
           var idSanitacion = sanitacionId;
           var fechaSanitacion = this.fechaSanitacion;
           var horaSanitacion = this.horaSanitacion;
+          var observacion = observacion;
           var ProveedorIdProveedor = this.ProveedorIdProveedor;
           var EmpleadoIdEmpleado = this.EmpleadoIdEmpleado;
 
           Sanitacion.update( { 
-            fechaSanitacion: fechaSanitacion, horaSanitacion: horaSanitacion, 
+            fechaSanitacion: fechaSanitacion, horaSanitacion: horaSanitacion, observacion: observacion, 
             ProveedorIdProveedor: ProveedorIdProveedor, EmpleadoIdEmpleado: EmpleadoIdEmpleado
           },{ where: { idSanitacion:  sanitacionId } })
           .then(onSuccess).catch(onError);

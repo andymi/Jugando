@@ -26,7 +26,8 @@ block content
                   thead
                     tr
                       th(class="text-center") Fecha del Consumo
-                      th(class="text-center") Hora del Consumo  
+                      th(class="text-center") Hora del Consumo
+                      th(class="text-center") Cantidad Total Consumida 
                       th(class="text-center") Insumo      
                       th(class="text-center") Agregar Detalle
                       th(class="text-center") Ver Detalle
@@ -37,7 +38,8 @@ block content
                     for consumos in consumo
                       tr
                         td(class="text-center")=consumos.fechaConsumo
-                        td(class="text-center")=consumos.horaConsumo  
+                        td(class="text-center")=consumos.horaConsumo 
+                        td(class="text-center")=consumos.cantidadTotal  
                         if consumos.Insumo == null  
                           td(class="text-center") sin Insumo
                         else 

@@ -12,6 +12,8 @@ var Model = require('../../models/jugando.js');
 exports.getForm = function (req, res) {
   var empleado = Model.Empleado.build();
   var pesaje = Model.Pesaje.build();
+  //************************************
+  var alarma = Model.Alarma.build();
    //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -24,13 +26,34 @@ exports.getForm = function (req, res) {
           empleado.retrieveAll(function (empleadoQ) {
             console.log('empleadoQ',empleadoQ);
             if (empleadoQ) {
-                res.render('web/pesaje/index', {
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      res.render('web/pesaje/index', {
                         pesajeJ: pesaje,
                         selectJ: empleadoQ,
                         mensajes: mensaje1,
-                        mensajeria: mensaje2
-                });
-              }
+                        mensajeria: mensaje2,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });              
+            }
           },function (error) {
             res.send('Pesaje no encontrado');
           }
@@ -78,6 +101,8 @@ exports.listPag = function (req, res) {
   var pesaje = Model.Pesaje.build();
   console.log('request body',req.body);
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -87,13 +112,34 @@ exports.listPag = function (req, res) {
         console.log('mensaje2', mensaje2);
         if (mensaje2) { 
           pesaje.retrieveAll(function (pesaje) {
-            if (pesaje) {      
-              res.render('web/pesaje/success', { 
-                pesaje: pesaje,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
-              });
-              console.log('soy pesaje retrieveAll',pesaje);
+            if (pesaje) { 
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);                       
+                      res.render('web/pesaje/success', { 
+                        pesaje: pesaje,
+                        mensajes: mensaje1,
+                        mensajeria: mensaje2,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2
+                      });
+                      console.log('soy pesaje retrieveAll',pesaje);
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });              
             } else {
               res.send(401, 'No se encontraron Pesajes');
             }
@@ -143,6 +189,8 @@ exports.read = function (req, res) {
   var pesaje = Model.Pesaje.build();
   var empleado = Model.Empleado.build();
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -155,12 +203,33 @@ exports.read = function (req, res) {
             if (empleado) {
               pesaje.retrieveById(req.params.pesajeId, function (pesajeq) {
                 if (pesajeq) {
-                  res.render('web/pesaje/edit', {
+                  alarma.retriveCount(function (alarma1) { 
+                    console.log('alarma1', alarma1);
+                    if (alarma1) {     
+                      alarma.retrieveAll(function (alarma2) {
+                        console.log('alarma2', alarma2);
+                        if (alarma2) {  
+                          console.log(req.body);
+                          res.render('web/pesaje/edit', {
                               pesaje:pesajeq,
                               select: empleado,
                               mensajes: mensaje1,
-                              mensajeria: mensaje2
+                              mensajeria: mensaje2,
+                              alarmas1: alarma1,
+                              alarmas2: alarma2
                             });
+                        }else {
+                          res.send(401, 'No se encontraron Alarmas');
+                        }
+                      }, function (error) {
+                        res.send('Alarma no encontrado');
+                      });
+                    } else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });                  
                 } else {
                   res.send(401, 'arPesaje no encontrado');
                 }
@@ -191,6 +260,8 @@ exports.read = function (req, res) {
 exports.readId = function (req, res) {
   var pesaje = Model.Pesaje.build();
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -201,11 +272,32 @@ exports.readId = function (req, res) {
         if (mensaje2) {
           pesaje.retrieveVerId(req.params.id, function (pesajeq) {
             if (pesajeq) {
-              res.render('web/detallePesaje/success', {
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                        res.render('web/detallePesaje/success', {
                           pesaje:pesajeq,
                           mensajes: mensaje1,
-                          mensajeria: mensaje2
+                          mensajeria: mensaje2,
+                          alarmas1: alarma1,
+                          alarmas2: alarma2
                         });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });              
             } else {
               res.send(401, 'arPesaje no encontrado');
             }

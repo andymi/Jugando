@@ -13,6 +13,9 @@ exports.getForm = function (req, res) {
   var detalleCompra = Model.DetalleCompra.build();
   var facturaCompra = Model.FacturaCompra.build();
   var raza = Model.Raza.build();
+  //************************************ 
+  var alarma = Model.Alarma.build();
+  //************************************
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -23,17 +26,38 @@ exports.getForm = function (req, res) {
         console.log('mensaje2', mensaje2);
         if (mensaje2) {  
           facturaCompra.retrieveId(function (facturaCompraQ) {
-              if (facturaCompraQ) {  
+              if (facturaCompraQ) { 
+                console.log('soy facturaCompra retrieveId',facturaCompraQ); 
                 raza.retrieveAll(function (razaQ) {
                   console.log('razaQ',razaQ);
-                  if (razaQ) {    
-                    console.log('soy facturaCompra retrieveId',facturaCompraQ);
-                    res.render('web/detalleCompra/indexb', {
-                                    facturaCompraJ:facturaCompraQ,
-                                    detalleCompraJ: detalleCompra,
-                                    selectJ:razaQ,
-                                    mensajes: mensaje1,
-                                    mensajeria: mensaje2
+                  if (razaQ) { 
+                    alarma.retriveCount(function (alarma1) { 
+                      console.log('alarma1', alarma1);
+                      if (alarma1) {     
+                        alarma.retrieveAll(function (alarma2) {
+                          console.log('alarma2', alarma2);
+                          if (alarma2) {  
+                            console.log(req.body);
+                            res.render('web/detalleCompra/indexb', {
+                                            facturaCompraJ:facturaCompraQ,
+                                            detalleCompraJ: detalleCompra,
+                                            selectJ:razaQ,
+                                            mensajes: mensaje1,
+                                            mensajeria: mensaje2,
+                                            alarmas1: alarma1,
+                                            alarmas2: alarma2
+                            });
+                          }else{
+                            res.send(401, 'No se encontraron Alarmas');
+                          }
+                        }, function (error) {
+                          res.send('Alarma no encontrado');
+                        });
+                      } else {
+                        res.send(401, 'No se encontraron Alarmas');
+                      }
+                    }, function (error) {
+                      res.send('Alarma no encontrado');
                     });
                   } else {
                     res.send(401, 'No se encontraron Razas');
@@ -137,6 +161,8 @@ exports.create = function (req, res) {
 exports.listPag =  function (req, res) {
   var detalleCompra = Model.DetalleCompra.build();
   console.log('dentro de get /',req.body);
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -148,10 +174,31 @@ exports.listPag =  function (req, res) {
         if (mensaje2) {  
           detalleCompra.retrieveAll2(req.params.id, function (detalleCompras) {
             if (detalleCompras) {
-              res.render('web/detalleCompra/success', { 
-                detalleCompras:detalleCompras,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      res.render('web/detalleCompra/success', { 
+                        detalleCompras:detalleCompras,
+                        mensajes: mensaje1,
+                        mensajeria: mensaje2,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2
+                      });
+                    }else {
+                        res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
               });
             } else {
               res.send(401, 'No se encontraron Detalles');
@@ -194,15 +241,39 @@ exports.update = function (req, res) {
 exports.read = function (req, res) {
   var detalleCompra = Model.DetalleCompra.build();
   var raza = Model.Raza.build();
+  //************************************ 
+  var alarma = Model.Alarma.build();
+  
         detalleCompra.retrieveById(req.params.detalleCompraId, function (detalleCompra) {
           if (detalleCompra) {
             console.log('dentro de if Compra');
             raza.retrieveAll(function (razaQ) {
                   console.log('razaQ',razaQ);
-                  if (razaQ) {    
-                    res.render('web/detalleCompra/edit', {
-                              detalleCompra:detalleCompra
+                  if (razaQ) { 
+                    alarma.retriveCount(function (alarma1) { 
+                      console.log('alarma1', alarma1);
+                      if (alarma1) {     
+                        alarma.retrieveAll(function (alarma2) {
+                          console.log('alarma2', alarma2);
+                          if (alarma2) {  
+                            console.log(req.body);
+                            res.render('web/detalleCompra/edit', {
+                              detalleCompra:detalleCompra,
+                              alarmas1: alarma1,
+                              alarmas2: alarma2
                             });
+                          }else {
+                            res.send(401, 'No se encontraron Alarmas');
+                          }
+                        }, function (error) {
+                          res.send('Alarma no encontrado');
+                        });
+                      } else {
+                        res.send(401, 'No se encontraron Alarmas');
+                      }
+                    }, function (error) {
+                      res.send('Alarma no encontrado');
+                    });
                   } else {
                     res.send(401, 'No se encontraron Razas');
                   }

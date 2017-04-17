@@ -24,10 +24,27 @@ module.exports = function (sequelize, DataTypes) {
         //validate: {
           //notNull: true
         //}
+      },
+      cantidadTotal: {
+        type: DataTypes.INTEGER(11),
+        allowNull: false,
+        comment: 'Cantidad de Consumo',
+        defaultValue: '0',
+        validate: {
+          isNumeric:true
+          //notNull: true
+        }
       }
     },
     {
       instanceMethods: {
+        retrieveTodo: function (onSuccess, onError) {
+          Consumo.findAll({
+            include: [ Model.Insumo ],
+            order: 'idConsumo DESC'
+          }).then(onSuccess).catch(onError);
+        },        
+        /*************************************************/
         retrievePie: function (onSuccess, onError) {
           Model.Insumo.find({
             attributes: ['idInsumo'],

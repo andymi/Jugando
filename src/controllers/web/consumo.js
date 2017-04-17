@@ -12,6 +12,8 @@ var Model = require('../../models/jugando.js');
 exports.getForm =  function (req, res) {
   var insumo = Model.Insumo.build();
   var consumo = Model.Consumo.build();
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -21,20 +23,40 @@ exports.getForm =  function (req, res) {
       mensaje.retrieveAll(function (mensaje2) {
         console.log('mensaje2', mensaje2);
         if (mensaje2) {  
-          insumo.retrieveByInsumo(function (insumoQ) {
-            console.log('insumoQ',insumoQ);
-            if (insumoQ) {
-                res.render('web/consumo/index', {
-                        pesajeJ: consumo,
-                        selectJ: insumoQ,
-                        mensajes: mensaje1,
-                        mensajeria: mensaje2
-                });
-              }
-          },function (error) {
-            res.send('Consumo no encontrado');
-          }
-          ); 
+          alarma.retriveCount(function (alarma1) { 
+            console.log('alarma1', alarma1);
+            if (alarma1) {     
+              alarma.retrieveAll(function (alarma2) {
+                console.log('alarma2', alarma2);
+                if (alarma2) {  
+                  console.log(req.body);
+                  insumo.retrieveByInsumo(function (insumoQ) {
+                    console.log('insumoQ',insumoQ);
+                    if (insumoQ) {
+                        res.render('web/consumo/index', {
+                                pesajeJ: consumo,
+                                selectJ: insumoQ,
+                                mensajes: mensaje1,
+                                mensajeria: mensaje2,
+                                alarmas1: alarma1,
+                                alarmas2: alarma2
+                        });
+                      }
+                  },function (error) {
+                    res.send('Consumo no encontrado');
+                  }); 
+                }else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });
+            } else {
+              res.send(401, 'No se encontraron Alarmas');
+            }
+          }, function (error) {
+            res.send('Alarma no encontrado');
+          });
         }else {
           res.send(401, 'No se encontraron Mensajes');
         }
@@ -74,6 +96,8 @@ exports.create = function (req, res) {
 exports.listPag = function (req, res) {
   var consumo = Model.Consumo.build();
   console.log('request body',req.body);
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -83,20 +107,41 @@ exports.listPag = function (req, res) {
       mensaje.retrieveAll(function (mensaje2) {
         console.log('mensaje2', mensaje2);
         if (mensaje2) { 
-          consumo.retrieveAll(function (consumo) {
-            console.log('estoy dentro de consumo retrieveAll');
-            if (consumo) {      
-              res.render('web/consumo/success', { 
-                consumo: consumo,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
+          alarma.retriveCount(function (alarma1) { 
+            console.log('alarma1', alarma1);
+            if (alarma1) {     
+              alarma.retrieveAll(function (alarma2) {
+                console.log('alarma2', alarma2);
+                if (alarma2) {  
+                  console.log(req.body);
+                  consumo.retrieveAll(function (consumo) {
+                    console.log('estoy dentro de consumo retrieveAll');
+                    if (consumo) {      
+                      res.render('web/consumo/success', { 
+                        consumo: consumo,
+                        mensajes: mensaje1,
+                        mensajeria: mensaje2,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2
+                      });
+                      console.log('soy consumo retrieveAll',consumo);
+                    } else {
+                      res.send(401, 'No se encontraron Consumo');
+                    }
+                  }, function (error) {
+                    res.send('Consumo no encontrado');
+                  });
+                }else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
               });
-              console.log('soy consumo retrieveAll',consumo);
             } else {
-              res.send(401, 'No se encontraron Consumo');
+              res.send(401, 'No se encontraron Alarmas');
             }
           }, function (error) {
-            res.send('Consumo no encontrado');
+            res.send('Alarma no encontrado');
           });
         }else {
           res.send(401, 'No se encontraron Mensajes');
@@ -140,6 +185,8 @@ exports.update = function (req, res) {
 exports.read = function (req, res) {
   var consumo = Model.Consumo.build(); 
   var insumo = Model.Insumo.build();
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -150,20 +197,41 @@ exports.read = function (req, res) {
         console.log('mensaje2', mensaje2);
         if (mensaje2) {  
           insumo.retrieveAll(function (insumo) {
-            if (insumo) {  
-              consumo.retrieveById(req.params.consumoId, function (consumo) {
-                if (consumo) {
-                  res.render('web/consumo/edit', {
-                              consumo:consumo,
-                              select: insumo,
-                              mensajes: mensaje1,
-                              mensajeria: mensaje2
-                            });
+            if (insumo) {
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      consumo.retrieveById(req.params.consumoId, function (consumo) {
+                        if (consumo) {
+                          res.render('web/consumo/edit', {
+                                      consumo:consumo,
+                                      select: insumo,
+                                      mensajes: mensaje1,
+                                      mensajeria: mensaje2,
+                                      alarmas1: alarma1,
+                                      alarmas2: alarma2 
+                                    });
+                        } else {
+                          res.send(401, 'Consumo no encontrado');
+                        }
+                      }, function (error) {
+                        res.send('Consumo no encontrado');
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
                 } else {
-                  res.send(401, 'Consumo no encontrado');
+                  res.send(401, 'No se encontraron Alarmas');
                 }
               }, function (error) {
-                res.send('Consumo no encontrado');
+                res.send('Alarma no encontrado');
               });
             } else {
               res.send(401, 'No se encontraron Consumos');

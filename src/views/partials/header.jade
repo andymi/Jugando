@@ -15,31 +15,56 @@ header(class="main-header")
     div(class="navbar-custom-menu") 
       ul(class="nav navbar-nav") 
         li(class="dropdown messages-menu")
-                a(href="#" class="dropdown-toggle" data-toggle="dropdown")
-                  i(class="fa fa-envelope-o")
-                   for mensajess in mensajes
-                    span(class="label label-success")=mensajess.email
-                ul(class="dropdown-menu")
-                  li(class="header") 
-                   for mensajess in mensajes 
-                    span Tu tienes 
-                    span=mensajess.email 
-                    span   mensajes
-                  li
-                    <!-- inner menu: contains the actual data -->
-                    ul(class="menu")
-                        li
-                         for mensajess in mensajeria
-                          a(href="#")                            
-                            small 
-                                i(class="fa fa-clock-o")=mensajess.fechaCreacion
-                            div(class="pull-left")
-                              i(class="fa fa-envelope-o")
-                            h4=mensajess.nombre
-                              
-                            p=mensajess.mensaje
-                  li(class="footer")
-                    a(href="/web/mensaje") Ver todos los Mensajes
+          a(href="#" class="dropdown-toggle" data-toggle="dropdown")
+            i(class="fa fa-envelope-o")
+            for mensajess in mensajes
+             span(class="label label-warning")=mensajess.email
+          ul(class="dropdown-menu")
+            li(class="header") 
+             for mensajess in mensajes 
+              span Tu tienes 
+              span=mensajess.email 
+              span   mensajes
+            li
+              ul(class="menu")
+                li
+                  for mensajess in mensajeria
+                    a(href="#")                            
+                      small 
+                        i(class="fa fa-clock-o")=mensajess.fechaCreacion
+                      div(class="pull-left")
+                        i(class="fa fa-envelope-o")
+                      h4=mensajess.nombre
+                        
+                      p=mensajess.mensaje
+            li(class="footer")
+              a(href="/web/mensaje") Ver todos los Mensajes
+
+        li(class="dropdown notifications-menu")
+          a(href="#" class="dropdown-toggle" data-toggle="dropdown")
+            i(class="fa fa-bell-o")
+            for alarmass in alarmas1
+             span(class="label label-danger")=alarmass.nombre
+          ul(class="dropdown-menu")
+            li(class="header") 
+             for alarmass in alarmas1
+              span Tu tienes 
+              span=alarmass.nombre
+              span    alarmas
+            li
+              ul(class="menu")
+                li
+                  for alarmass in alarmas2
+                    a(href="#")
+                      small 
+                        i(class="fa fa-clock-o")=alarmass.fechaCreacion
+                      h4=alarmass.nombre
+                      
+                      i(class="fa fa-warning text-red")=alarmass.alarma
+                
+            li(class="footer")
+              a(href="/web/alarma") Ver todas las alarmas del sistema
+            
 
 
         <!-- User Account: style can be found in dropdown.less -->

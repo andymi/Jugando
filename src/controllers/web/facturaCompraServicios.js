@@ -12,6 +12,8 @@ exports.getForm = function (req, res) {
   var proveedor = Model.Proveedor.build();
   var facturaCompra = Model.FacturaCompra.build();
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -23,13 +25,34 @@ exports.getForm = function (req, res) {
           proveedor.retrieveByProveedor3(function (proveedorQ) {
             console.log('proveedorQ',proveedorQ);
             if (proveedorQ) {
-                res.render('web/facturaCompraServicios/index', {
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      res.render('web/facturaCompraServicios/index', {
                         facturaCompraJ: facturaCompra,
                         selectJ: proveedorQ,
                         mensajes: mensaje1,
-                        mensajeria: mensaje2
-                });
-              }
+                        mensajeria: mensaje2,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });
+            }
           },function (error) {
             res.send('FacturaCompra no encontrado');
           }
@@ -88,6 +111,8 @@ exports.listPag = function (req, res) {
   var facturaCompra = Model.FacturaCompra.build();
   console.log('request body',req.body);
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -97,12 +122,33 @@ exports.listPag = function (req, res) {
         console.log('mensaje2', mensaje2);
         if (mensaje2) { 
           facturaCompra.retrieveAll3(function (facturaCompra) {
-            if (facturaCompra) {      
-              res.render('web/facturaCompraServicios/success', { 
-                facturaCompra: facturaCompra,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
-              });
+            if (facturaCompra) { 
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);                       
+                      res.render('web/facturaCompraServicios/success', { 
+                        facturaCompra: facturaCompra,
+                        mensajes: mensaje1,
+                        mensajeria: mensaje2,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });              
               console.log('soy facturaCompra retrieveAll',facturaCompra);
             } else {
               res.send(401, 'No se encontraron Pesajes');
@@ -154,6 +200,8 @@ exports.read = function (req, res) {
   var facturaCompra = Model.FacturaCompra.build();
   var proveedor = Model.Proveedor.build();
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -166,12 +214,33 @@ exports.read = function (req, res) {
             if (proveedor) {
               facturaCompra.retrieveById(req.params.facturaCompraId, function (facturaCompra) {
                 if (facturaCompra) {
-                  res.render('web/facturaCompraServicios/edit', {
+                  alarma.retriveCount(function (alarma1) { 
+                    console.log('alarma1', alarma1);
+                    if (alarma1) {     
+                      alarma.retrieveAll(function (alarma2) {
+                        console.log('alarma2', alarma2);
+                        if (alarma2) {  
+                          console.log(req.body);
+                          res.render('web/facturaCompraServicios/edit', {
                               facturaCompra:facturaCompra,
                               select: proveedor,
                               mensajes: mensaje1,
-                              mensajeria: mensaje2
-                            });
+                              mensajeria: mensaje2,
+                              alarmas1: alarma1,
+                              alarmas2: alarma2
+                          });
+                        }else {
+                          res.send(401, 'No se encontraron Alarmas');
+                        }
+                      }, function (error) {
+                        res.send('Alarma no encontrado');
+                      });
+                    } else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });                  
                 } else {
                   res.send(401, 'FacturaCompra no encontrado');
                 }
@@ -201,11 +270,57 @@ exports.read = function (req, res) {
 
 exports.readId = function (req, res) {
   var facturaCompra = Model.FacturaCompra.build();
+  //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
+  var mensaje = Model.Mensaje.build();
+  
   facturaCompra.retrieveVerId(req.params.id, function (facturaCompraQ) {
     if (facturaCompraQ) {
-      res.render('web/detalleCompraServicios/success', {
-                  facturaCompra:facturaCompraQ
-                });
+      alarma.retriveCount(function (alarma1) { 
+        console.log('alarma1', alarma1);
+        if (alarma1) {     
+          alarma.retrieveAll(function (alarma2) {
+            console.log('alarma2', alarma2);
+            if (alarma2) { 
+              mensaje.retriveCount(function (mensaje1) { 
+                console.log('mensaje1', mensaje1);
+                if (mensaje1) {     
+                  mensaje.retrieveAll(function (mensaje2) {
+                    console.log('mensaje2', mensaje2);
+                    if (mensaje2) {          
+                      console.log(req.body);
+                      res.render('web/detalleCompraServicios/success', {
+                          facturaCompra:facturaCompraQ,
+                          mensajes: mensaje1,
+                          mensajeria: mensaje2,
+                          alarmas1: alarma1,
+                          alarmas2: alarma2
+                        });
+                    }else {
+                      res.send(401, 'No se encontraron Mensajes');
+                    }
+                  }, function (error) {
+                    res.send('Mensaje no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Mensajes');
+                }
+              }, function (error) {
+                res.send('Mensaje no encontrado');
+              }); 
+            }else {
+              res.send(401, 'No se encontraron Alarmas');
+            }
+          }, function (error) {
+            res.send('Alarma no encontrado');
+          });
+        } else {
+          res.send(401, 'No se encontraron Alarmas');
+        }
+      }, function (error) {
+        res.send('Alarma no encontrado');
+      });
     } else {
       res.send(401, 'FacturaCompra no encontrado');
     }

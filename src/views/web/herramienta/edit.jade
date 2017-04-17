@@ -1,0 +1,39 @@
+extends ../../layout 
+block content
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Herramienta
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Editar Herramienta
+    section(class="content")
+      div(class="row")
+        div(class="col-md-12")
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Edición de la Herramienta
+            form(class="form-horizontal" method="post" action="/web/herramienta/#{herramienta.idHerramienta}")
+              div(class="box-body")
+                input(type="hidden" name="_method" value="put")
+                input(type="hidden" name="idHerramienta" value='#{herramienta.idHerramienta}')
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="nombre") Herramienta: 
+                  div(class="col-sm-8")
+                    input(type="text" class="form-control" id='nombre' name='nombre' value='#{herramienta.nombre}' required="true")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="vidaUtil") Vida Útil:
+                  div(class="col-sm-8") 
+                    input(type="text" class="form-control" id="vidaUtil" name='vidaUtil' value='#{herramienta.vidaUtil}' required="true")
+                div(class="form-group")
+                  label(class="col-sm-4 control-label" for="mantenimiento") Fecha de Próximo Mantenimiento:
+                  div(class="col-sm-8") 
+                    input(type="text" class="form-control" id="mantenimiento" name='mantenimiento' value='#{herramienta.mantenimiento}' required="true")
+
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Editar Herramienta
+                    i(class="fa fa-refresh")
+                  a(href="/web/herramienta" class="btn btn-default") Cancelar
+                    i(class="fa fa-remove")

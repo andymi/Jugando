@@ -33,6 +33,25 @@ module.exports = function (sequelize, DataTypes) {
     },
     {
       instanceMethods: {
+        retrieveAlarma: function (onSuccess, onError) {          
+          Stock.findAll({
+            include: [  Model.Insumo ],
+            attributes: ['Insumo.nombreInsumo'],
+            where: {
+              cantidad: { $lte: 10},
+              RazaIdRaza: null          
+            }
+           }).then(onSuccess).catch(onError);                     
+        },
+        retrieveMinimo: function (onSuccess, onError) {          
+          Stock.findAll({
+            include: [  Model.Insumo ],
+            where: {
+              cantidad: { $lte: 10},
+              RazaIdRaza: null          
+            }
+           }).then(onSuccess).catch(onError);                     
+        },
         retrieveAll: function (onSuccess, onError) {
           Model.Insumo.find({
             attributes: ['idInsumo'],

@@ -12,6 +12,8 @@ exports.getForm1 = function (req, res) {
   var animal = Model.Animal.build();
   var detalleExtraviado = Model.DetalleExtraviado.build();
   var extraviado = Model.Extraviado.build();
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -25,18 +27,39 @@ exports.getForm1 = function (req, res) {
             console.log('animalQ',animalQ);
             if (animalQ) {
               extraviado.retrieveId(function (extraviadoQ) {
-                  if (extraviadoQ) {      
-                    //console.log('soy extraviado retrieveId',extraviadoQ);
-                    res.render('web/detalleExtraviado/index', {
-                                    extraviadoJ:extraviadoQ,
-                                    detalleExtraviadoJ: detalleExtraviado,
-                                    selectJ: animalQ,
-                                    mensajes: mensaje1,
-                                    mensajeria: mensaje2
-                    });    
-                  } else {
-                    res.send(401, 'No se encontraron Extraviado');
-                  }
+                if (extraviadoQ) {  
+                  alarma.retriveCount(function (alarma1) { 
+                    console.log('alarma1', alarma1);
+                    if (alarma1) {     
+                      alarma.retrieveAll(function (alarma2) {
+                        console.log('alarma2', alarma2);
+                        if (alarma2) {  
+                          console.log(req.body);    
+                          //console.log('soy extraviado retrieveId',extraviadoQ);
+                          res.render('web/detalleExtraviado/index', {
+                                          extraviadoJ:extraviadoQ,
+                                          detalleExtraviadoJ: detalleExtraviado,
+                                          selectJ: animalQ,
+                                          mensajes: mensaje1,
+                                          mensajeria: mensaje2,
+                                          alarmas1: alarma1,
+                                          alarmas2: alarma2
+                          }); 
+                        }else {
+                          res.send(401, 'No se encontraron Alarmas');
+                        }
+                      }, function (error) {
+                        res.send('Alarma no encontrado');
+                      });
+                    } else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });   
+                } else {
+                  res.send(401, 'No se encontraron Extraviado');
+                }
               });
             }else {
               res.send(401, 'No se Eencontraron Extraviado');
@@ -103,6 +126,8 @@ exports.create1 = function (req, res) {
 exports.listPag1 = function (req, res) {
   var detalleExtraviado = Model.DetalleExtraviado.build();
   console.log('dentro de get /',req.body);
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -114,10 +139,31 @@ exports.listPag1 = function (req, res) {
         if (mensaje2) {
           detalleExtraviado.retrieveAll(req.params.id, function (detalleExtraviados) {
             if (detalleExtraviados) {
-              res.render('web/detalleExtraviado/success', { 
-                detalleExtraviados:detalleExtraviados,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      res.render('web/detalleExtraviado/success', { 
+                        detalleExtraviados:detalleExtraviados,
+                        mensajes: mensaje1,
+                        mensajeria: mensaje2,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
               });
             } else {
               res.send(401, 'No se encontraron Detalles');
@@ -143,6 +189,8 @@ exports.getForm2 = function (req, res) {
   var animal =Model.Animal.build();
   var detalleExtraviado = Model.DetalleExtraviado.build();
   var extraviadoId = req.params.extraviadoId;
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -155,14 +203,34 @@ exports.getForm2 = function (req, res) {
           animal.retrieveAll(function (animalQ) {
             console.log('animalQ',animalQ);
             if (animalQ) {
-                   // console.log('soy extraviado retrieveId',extraviadoId);
-                    res.render('web/detalleExtraviado/indexa', {
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      res.render('web/detalleExtraviado/indexa', {
                                     extraviadoJ:extraviadoId,
                                     detalleExtraviadoJ: detalleExtraviado,
                                     selectJ: animalQ,
                                     mensajes: mensaje1,
-                                    mensajeria: mensaje2
-                    });              
+                                    mensajeria: mensaje2,
+                                    alarmas1: alarma1,
+                                    alarmas2: alarma2
+                      }); 
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });             
             }else {
               res.send(401, 'No se Eencontraron Extraviado');
             }
@@ -250,6 +318,8 @@ exports.update = function (req, res) {
 exports.read = function (req, res) {
   var detalleExtraviado = Model.DetalleExtraviado.build();
   var animal = Model.Animal.build();
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -263,12 +333,33 @@ exports.read = function (req, res) {
             if (animal) {
               detalleExtraviado.retrieveById(req.params.detalleExtraviadoId, function (detalleExtraviado) {
                 if (detalleExtraviado) {
-                  res.render('web/detalleExtraviado/edit', {
-                              detalleExtraviado:detalleExtraviado,
-                              select: animal,
-                              mensajes: mensaje1,
-                              mensajeria: mensaje2
-                            });
+                  alarma.retriveCount(function (alarma1) { 
+                    console.log('alarma1', alarma1);
+                    if (alarma1) {     
+                      alarma.retrieveAll(function (alarma2) {
+                        console.log('alarma2', alarma2);
+                        if (alarma2) {  
+                          console.log(req.body);                          
+                          res.render('web/detalleExtraviado/edit', {
+                            detalleExtraviado:detalleExtraviado,
+                            select: animal,
+                            mensajes: mensaje1,
+                            mensajeria: mensaje2,
+                            alarmas1: alarma1,
+                            alarmas2: alarma2 
+                          });
+                        }else {
+                          res.send(401, 'No se encontraron Alarmas');
+                        }
+                      }, function (error) {
+                        res.send('Alarma no encontrado');
+                      });
+                    } else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
                 } else {
                   res.send(401, 'Detalle Extraviado no encontrado');
                 }

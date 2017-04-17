@@ -32,10 +32,40 @@ module.exports = function (sequelize, DataTypes) {
     },
     {
       instanceMethods: {
+        guardar: function(id, onSuccess, onError){
+          DetalleConsumo.findAll({
+            attributes:[[sequelize.fn('SUM', sequelize.col('cantidad')),'TOTAL']],
+            where: { ConsumoIdConsumo:id }
+          }).then(function (detalleConsumo){
+            console.log('dentro de update',detalleConsumo[0].dataValues['TOTAL']);
+            Model.Consumo.update( { 
+             cantidadTotal: detalleConsumo[0].dataValues['TOTAL']
+            },{ where: { idConsumo: id } })
+            .then(onSuccess).catch(onError);
+            });
+        },
         retrieveAll: function (id, onSuccess, onError) {
           DetalleConsumo.findAll({
             include: [ Model.Animal , Model.Consumo ],
             where: { ConsumoIdConsumo:id }
+          })
+          .then(onSuccess).catch(onError);
+        },
+        retrieveByRp: function (id, onSuccess, onError) {
+          Model.Animal.find({ 
+            where:{ rpAnimal: id }
+          }).then(function (DetalleSalida) {
+            DetalleConsumo.findAll({
+              include: [ Model.Animal , Model.Consumo ],
+              where: { AnimalIdAnimal:DetalleSalida.idAnimal }
+            })
+            .then(onSuccess).catch(onError);
+          });
+        },
+        retrieveAnimal: function (id, onSuccess, onError) {
+          DetalleConsumo.findAll({
+            include: [ Model.Animal , Model.Consumo ],
+            where: { AnimalIdAnimal:id }
           })
           .then(onSuccess).catch(onError);
         },

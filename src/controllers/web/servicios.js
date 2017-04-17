@@ -13,6 +13,8 @@ var Model = require('../../models/jugando.js');
 exports.getForm = function (req, res) {
   var servicios = Model.Servicios.build();
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -21,10 +23,31 @@ exports.getForm = function (req, res) {
       mensaje.retrieveAll(function (mensaje2) {
         console.log('mensaje2', mensaje2);
         if (mensaje2) {
-          res.render('web/servicios/index',{
-            servicios: servicios,
-            mensajes: mensaje1,
-            mensajeria: mensaje2
+          alarma.retriveCount(function (alarma1) { 
+            console.log('alarma1', alarma1);
+            if (alarma1) {     
+              alarma.retrieveAll(function (alarma2) {
+                console.log('alarma2', alarma2);
+                if (alarma2) {  
+                  console.log(req.body);                  
+                  res.render('web/servicios/index',{
+                    servicios: servicios,
+                    mensajes: mensaje1,
+                    mensajeria: mensaje2,
+                    alarmas1: alarma1,
+                    alarmas2: alarma2
+                  });
+                }else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });
+            } else {
+              res.send(401, 'No se encontraron Alarmas');
+            }
+          }, function (error) {
+            res.send('Alarma no encontrado');
           });
         }else {
           res.send(401, 'No se encontraron Mensajes');
@@ -61,6 +84,8 @@ exports.create = function (req, res) {
 exports.listPag = function (req, res) {
   var servicio = Model.Servicios.build();
   console.log(req.body);
+  //************************************
+  var alarma = Model.Alarma.build();
    //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -72,11 +97,32 @@ exports.listPag = function (req, res) {
         if (mensaje2) { 
           servicio.retrieveAll(function (result) {
             if (result) {
-              res.render('web/servicios/success', { 
-                service: result,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
-              });
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);                  
+                      res.render('web/servicios/success', { 
+                        service: result,
+                        mensajes: mensaje1,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2,
+                        mensajeria: mensaje2
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });              
             } else {
               res.send(401, 'No se encontraron Proveedores');
             }
@@ -123,6 +169,8 @@ exports.update = function (req, res) {
 exports.read = function (req, res) {
   var servicios = Model.Servicios.build();
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -134,11 +182,32 @@ exports.read = function (req, res) {
           servicios.retrieveById(req.params.serviciosId, function (serviciosoq) {
             if (serviciosoq) {
               console.log('dentro de editar:*****************');
-              res.render('web/servicios/edit', {
-                servicios:serviciosoq,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
-              });
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);                  
+                      res.render('web/servicios/edit', {
+                        servicios:serviciosoq,
+                        mensajes: mensaje1,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2,
+                        mensajeria: mensaje2
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });              
             } else {
               res.send(401, 'Servicios no encontrado');
             }

@@ -14,6 +14,8 @@ exports.getForm = function (req, res) {
   var traslado = Model.Traslado.build();
   var ciudad = Model.Ciudad.build();
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -31,13 +33,34 @@ exports.getForm = function (req, res) {
                 empleado.retrieveAll(function (empleadoQ) {
                 //console.log('empleadoQ',empleadoQ);
                 if (empleadoQ) {
-                  res.render('web/traslado/index', {
-                    trasladoJ: traslado,            
-                    selectJ: ciudadQ,
-                    selectk: empleadoQ,
-                    selectN: facturaCompraq,
-                    mensajes: mensaje1,
-                    mensajeria: mensaje2
+                  alarma.retriveCount(function (alarma1) { 
+                    console.log('alarma1', alarma1);
+                    if (alarma1) {     
+                      alarma.retrieveAll(function (alarma2) {
+                        console.log('alarma2', alarma2);
+                        if (alarma2) {  
+                          console.log(req.body);                  
+                          res.render('web/traslado/index', {
+                            trasladoJ: traslado,            
+                            selectJ: ciudadQ,
+                            selectk: empleadoQ,
+                            selectN: facturaCompraq,
+                            mensajes: mensaje1,
+                            alarmas1: alarma1,
+                            alarmas2: alarma2,
+                            mensajeria: mensaje2
+                          });
+                         }else {
+                          res.send(401, 'No se encontraron Alarmas');
+                        }
+                      }, function (error) {
+                        res.send('Alarma no encontrado');
+                      });
+                    } else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
                   });
                 }
                 },function (error) {
@@ -98,6 +121,8 @@ exports.listPag = function (req, res) {
   var traslado =Model.Traslado.build();
   console.log('request body',req.body);
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -107,12 +132,33 @@ exports.listPag = function (req, res) {
         console.log('mensaje2', mensaje2);
         if (mensaje2) {  
           traslado.retrieveAll(function (traslado) {
-            if (traslado) {      
-              res.render('web/traslado/success', { 
-                traslado: traslado,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
-              });
+            if (traslado) {    
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);                    
+                      res.render('web/traslado/success', { 
+                        traslado: traslado,
+                        mensajes: mensaje1,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2,
+                        mensajeria: mensaje2
+                      });
+                     }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });              
               console.log('soy traslado retrieveAll',traslado);
             } else {
               res.send(401, 'No se encontraron Traslados');
@@ -167,6 +213,8 @@ exports.read = function (req, res) {
   var empleado = Model.Empleado.build();
   var facturaCompra = Model.FacturaCompra.build();
   var ciudad =Model.Ciudad.build();
+  //************************************
+  var alarma = Model.Alarma.build();
   ciudad.retrieveAll(function (ciudad) {
     if (ciudad) {
       facturaCompra.retrieveAll(function (facturaCompra) {
@@ -175,12 +223,33 @@ exports.read = function (req, res) {
               if (empleado) {
                   traslado.retrieveById(req.params.trasladoId, function (traslado) {
                   if (traslado) {
-                    res.render('web/traslado/edit', {
-                          traslado:traslado,
-                          select: ciudad,
-                          selectJ: empleado,
-                          selectN: facturaCompra
-                    });
+                    alarma.retriveCount(function (alarma1) { 
+                      console.log('alarma1', alarma1);
+                      if (alarma1) {     
+                        alarma.retrieveAll(function (alarma2) {
+                          console.log('alarma2', alarma2);
+                          if (alarma2) {  
+                            console.log(req.body);                  
+                            res.render('web/traslado/edit', {
+                                  traslado:traslado,
+                                  select: ciudad,
+                                  selectJ: empleado,
+                                  alarmas1: alarma1,
+                                  alarmas2: alarma2,
+                                  selectN: facturaCompra
+                            });
+                           }else {
+                            res.send(401, 'No se encontraron Alarmas');
+                          }
+                        }, function (error) {
+                          res.send('Alarma no encontrado');
+                        });
+                      } else {
+                        res.send(401, 'No se encontraron Alarmas');
+                      }
+                    }, function (error) {
+                      res.send('Alarma no encontrado');
+                    });                    
                   } else {
                     res.send(401, 'Traslado no encontrado');
                   }
@@ -212,11 +281,34 @@ exports.read = function (req, res) {
 
 exports.readId = function (req, res) {
   var traslado = Model.Traslado.build();
+  //************************************
+  var alarma = Model.Alarma.build();
   traslado.retrieveVerId(req.params.id, function (trasladoQ) {
     if (trasladoQ) {
-      res.render('web/detalleTraslado/success', {
-                  traslado:trasladoQ
+      alarma.retriveCount(function (alarma1) { 
+        console.log('alarma1', alarma1);
+        if (alarma1) {     
+          alarma.retrieveAll(function (alarma2) {
+            console.log('alarma2', alarma2);
+            if (alarma2) {  
+              console.log(req.body);
+              res.render('web/detalleTraslado/success', {
+                  traslado:trasladoQ,
+                  alarmas1: alarma1,
+                  alarmas2: alarma2,
                 });
+             }else {
+              res.send(401, 'No se encontraron Alarmas');
+            }
+          }, function (error) {
+            res.send('Alarma no encontrado');
+          });
+        } else {
+          res.send(401, 'No se encontraron Alarmas');
+        }
+      }, function (error) {
+        res.send('Alarma no encontrado');
+      });      
     } else {
       res.send(401, 'arTraslado no encontrado');
     }

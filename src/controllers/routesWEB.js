@@ -3,10 +3,12 @@ var RoutesWEB = express.Router();
 
 /*controlador web*/
 var animal = require('./web/animal');
+var alarma = require('./web/alarma');
 var ciudad = require('./web/ciudad');
 var cliente = require('./web/cliente');
 var departamento = require('./web/departamento');
 var empleado = require('./web/empleado');
+var herramienta = require('./web/herramienta');
 var insumo = require('./web/insumo');
 var nivel = require('./web/nivel');
 var proveedor = require('./web/proveedor');
@@ -253,6 +255,13 @@ RoutesWEB.put('/facturaVenta/:facturaVentaId', facturaVenta.update);
 RoutesWEB.delete('/facturaVenta/:facturaVentaId', facturaVenta.delete);
 RoutesWEB.get('/facturaVenta/:id', facturaVenta.readId);
 
+RoutesWEB.get('/herramienta/cargar', herramienta.getForm);
+RoutesWEB.get('/herramienta/', herramienta.listPag);
+RoutesWEB.post('/herramienta/cargar', herramienta.create);
+RoutesWEB.get('/herramienta/:herramientaId', herramienta.read);
+RoutesWEB.put('/herramienta/:herramientaId', herramienta.update);
+RoutesWEB.delete('/herramienta/:herramientaId', herramienta.delete);
+
 RoutesWEB.get('/ingresoAnimal/cargar', ingresoAnimal.getForm);
 RoutesWEB.get('/ingresoAnimal/', ingresoAnimal.listPag);
 RoutesWEB.post('/ingresoAnimal/add', ingresoAnimal.create);
@@ -370,6 +379,9 @@ RoutesWEB.post('/signup/ver', login.signUpPost);
 // 404 not found
 //RoutesWEB.use(login.notFound404);
 /*************************************************/
+RoutesWEB.get('/alarma/', alarma.listPag);
+RoutesWEB.post('/alarma/cargar', alarma.create);
+RoutesWEB.delete('/alarma/:alarmaId', alarma.delete);
 /*************************************************/
 RoutesWEB.get('/mensaje/', mensaje.listPag);
 RoutesWEB.post('/mensaje/cargar', mensaje.create);

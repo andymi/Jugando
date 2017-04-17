@@ -70,10 +70,10 @@ module.exports = function (sequelize, DataTypes) {
             where: { idAnimal: animalId } }, { raw: true })
           .then(onSuccess).catch(onError);
         },
-        retrieveByTag: function (idlector, onSuccess, onError) {
+        retrieveByRp: function (rp, onSuccess, onError) {
           Animal.find( {
-            attributes: ['idAnimal'], 
-            where: { numeroTag: idlector } }, { raw: true })
+            include: [ Model.Raza ], 
+            where: { rpAnimal: rp } }, { raw: true })
           .then(onSuccess).catch(onError);
         },
         add: function (onSuccess, onError) {

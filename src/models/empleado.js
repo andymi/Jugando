@@ -67,8 +67,18 @@ module.exports = function (sequelize, DataTypes) {
             where: { idEmpleado: empleadoId } }, { raw: true } )
           .then(onSuccess).catch(onError);
         },
+        retrieveByCodigo: function (codigo, onSuccess, onError) {
+          Empleado.find( { 
+            attributes:['idEmpleado'],
+            where: { codigoLlave: codigo } }, { raw: true } )
+          .then(onSuccess).catch(onError);
+        },
         retrieveByEmpleado: function (empleado, onSuccess, onError) {
           Empleado.find( { where: { nombreEmpleado: empleado} }, { raw: true })
+          .then(onSuccess).catch(onError);
+        },
+        retrieveByCedula: function (empleado, onSuccess, onError) {
+          Empleado.find( { where: { cedulaEmpleado: empleado} }, { raw: true })
           .then(onSuccess).catch(onError);
         },
         add: function (onSuccess, onError) {

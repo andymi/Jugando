@@ -52,6 +52,8 @@ exports.getForm1 =  function (req, res) {
   //var animal = Model.Animal.build();
   var detalleSanitacion = Model.DetalleSanitacion.build();
   var sanitacion = Model.Sanitacion.build();
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -64,21 +66,41 @@ exports.getForm1 =  function (req, res) {
             //animal.retrieveAll(function (animalQ) {
             //console.log('animalQ',animalQ);
             //if (animalQ) {
-              sanitacion.retrieveId(function (sanitacion) {
-                  if (sanitacion) {
-                    serialport.write(buffer3);  
-                  
-                    console.log('soy sanitacion retrieveId',sanitacion);
-                    res.render('web/detalleSanitacion/index', {
-                                    sanitacionJ:sanitacion,
-                                    detalleSanitacionJ: detalleSanitacion,
-                                    mensajes: mensaje1,
-                                    mensajeria: mensaje2
-                    });   
-                  } else {
-                    res.send(401, 'No se encontraron Sanitaciones');
-                  }
+          alarma.retriveCount(function (alarma1) { 
+            console.log('alarma1', alarma1);
+            if (alarma1) {     
+              alarma.retrieveAll(function (alarma2) {
+                console.log('alarma2', alarma2);
+                if (alarma2) {  
+                  console.log(req.body);
+                  sanitacion.retrieveId(function (sanitacion) {
+                      if (sanitacion) {
+                        serialport.write(buffer3);  
+                        console.log('soy sanitacion retrieveId',sanitacion);
+                        res.render('web/detalleSanitacion/index', {
+                                        sanitacionJ:sanitacion,
+                                        detalleSanitacionJ: detalleSanitacion,
+                                        mensajes: mensaje1,
+                                        mensajeria: mensaje2,
+                                        alarmas1: alarma1,
+                                        alarmas2: alarma2
+                        });   
+                      } else {
+                        res.send(401, 'No se encontraron Sanitaciones');
+                      }
+                  });
+                }else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
               });
+            } else {
+              res.send(401, 'No se encontraron Alarmas');
+            }
+          }, function (error) {
+            res.send('Alarma no encontrado');
+          });
             /*}else {
               res.send(401, 'No se Eencontraron Sanitaciones');
             }
@@ -133,6 +155,8 @@ exports.create1 = function (req, res) {
 exports.listPag1 = function (req, res) {
   var detalleSanitacion =Model.DetalleSanitacion.build();
   console.log('dentro de get /',req.body);
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -144,10 +168,31 @@ exports.listPag1 = function (req, res) {
         if (mensaje2) {  
           detalleSanitacion.retrieveAll(req.params.id, function (detalleSanitaciones) {
             if (detalleSanitaciones) {
-              res.render('web/detalleSanitacion/success', { 
-                detalleSanitaciones:detalleSanitaciones,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      res.render('web/detalleSanitacion/success', { 
+                        detalleSanitaciones:detalleSanitaciones,
+                        mensajes: mensaje1,
+                        mensajeria: mensaje2,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
               });
             } else {
               res.send(401, 'No se encontraron Detalles');
@@ -175,6 +220,8 @@ exports.getForm2 = function (req, res) {
   var animal = Model.Animal.build();
   var detalleSanitacion = Model.DetalleSanitacion.build();
   var sanitacionId = req.params.sanitacionId;
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -188,13 +235,34 @@ exports.getForm2 = function (req, res) {
             console.log('animalQ',animalQ);
             if (animalQ) {
               console.log('soy sanitacionId',sanitacionId);
-              res.render('web/detalleSanitacion/indexa', {
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      res.render('web/detalleSanitacion/indexa', {
                               sanitacionJ:sanitacionId,
                               detalleSanitacionJ: detalleSanitacion,
                               mensajes: mensaje1,
                               mensajeria: mensaje2,
-                              selectJ: animalQ
-              });    
+                              selectJ: animalQ,
+                              alarmas1: alarma1,
+                              alarmas2: alarma2
+                      }); 
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });   
             }else {
               res.send(401, 'No se Eencontraron Sanitaciones');
             }
@@ -271,6 +339,8 @@ exports.update =  function (req, res) {
 exports.read = function (req, res) {
   var detalleSanitacion = Model.DetalleSanitacion.build();
   var animal =Model.Animal.build();
+  //************************************ 
+  var alarma = Model.Alarma.build();
    //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -284,12 +354,33 @@ exports.read = function (req, res) {
             if (animal) { 
               detalleSanitacion.retrieveById(req.params.detalleSanitacionId, function (detalleSanitacion) {
                 if (detalleSanitacion) {
-                  res.render('web/detalleSanitacion/edit', {
+                  alarma.retriveCount(function (alarma1) { 
+                    console.log('alarma1', alarma1);
+                    if (alarma1) {     
+                      alarma.retrieveAll(function (alarma2) {
+                        console.log('alarma2', alarma2);
+                        if (alarma2) {  
+                          console.log(req.body);
+                          res.render('web/detalleSanitacion/edit', {
                               detalleSanitacion:detalleSanitacion,
                               select: animal,
                               mensajes: mensaje1,
-                              mensajeria: mensaje2
-                            });
+                              mensajeria: mensaje2,
+                              alarmas1: alarma1,
+                              alarmas2: alarma2
+                          });
+                        }else {
+                          res.send(401, 'No se encontraron Alarmas');
+                        }
+                      }, function (error) {
+                        res.send('Alarma no encontrado');
+                      });
+                    } else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
                 } else {
                   res.send(401, 'Detalle Sanitacion no encontrado');
                 }
@@ -340,6 +431,8 @@ exports.getFormV1 = function (req, res) {
   var detalleVacunacion = Model.DetalleVacunacion.build();
   var vacunacion = Model.Vacunacion.build();
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -351,20 +444,41 @@ exports.getFormV1 = function (req, res) {
             /*animal.retrieveAll(function (animalQ) {
             console.log('animalQ',animalQ);
             if (animalQ) {*/
-              vacunacion.retrieveId(function (vacunacionQ) {
-                  if (vacunacionQ) {   
-                    serialport.write(buffer3);    
-                    console.log('soy Vacunacion retrieveId',vacunacionQ);
-                    res.render('web/detalleVacunacion/index', {
-                                    vacunacionJ:vacunacionQ,
-                                    detalleVacunacionJ: detalleVacunacion,
-                                    mensajes: mensaje1,
-                                    mensajeria: mensaje2
-                    });    
-                  } else {
-                    res.send(401, 'No se encontraron Pesajes');
-                  }
+          alarma.retriveCount(function (alarma1) { 
+            console.log('alarma1', alarma1);
+            if (alarma1) {     
+              alarma.retrieveAll(function (alarma2) {
+                console.log('alarma2', alarma2);
+                if (alarma2) {  
+                  console.log(req.body);
+                    vacunacion.retrieveId(function (vacunacionQ) {
+                      if (vacunacionQ) {   
+                        serialport.write(buffer3);    
+                        console.log('soy Vacunacion retrieveId',vacunacionQ);
+                        res.render('web/detalleVacunacion/index', {
+                                        vacunacionJ:vacunacionQ,
+                                        detalleVacunacionJ: detalleVacunacion,
+                                        mensajes: mensaje1,
+                                        mensajeria: mensaje2,
+                                        alarmas1: alarma1,
+                                        alarmas2: alarma2
+                        });    
+                      } else {
+                        res.send(401, 'No se encontraron Pesajes');
+                      }
+                    });
+                }else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
               });
+            } else {
+              res.send(401, 'No se encontraron Alarmas');
+            }
+          }, function (error) {
+            res.send('Alarma no encontrado');
+          });
             /*}else {
               res.send(401, 'No se Eencontraron Pesajes');
             }
@@ -423,6 +537,8 @@ exports.listPagV1 = function (req, res) {
   var detalleVacunacion = Model.DetalleVacunacion.build();
   console.log('dentro de get /',req.body);
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -433,10 +549,31 @@ exports.listPagV1 = function (req, res) {
         if (mensaje2) {
           detalleVacunacion.retrieveAll(req.params.id, function (detalleVacunacion) {
             if (detalleVacunacion) {
-              res.render('web/detalleVacunacion/success', { 
-                detalleVacunaciones:detalleVacunacion,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      res.render('web/detalleVacunacion/success', { 
+                        detalleVacunaciones:detalleVacunacion,
+                        mensajes: mensaje1,
+                        mensajeria: mensaje2,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2                            
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
               });
             } else {
               res.send(401, 'No se encontraron Detalles');
@@ -462,6 +599,8 @@ exports.getFormV2 = function (req, res) {
   var animal = Model.Animal.build();
   var detalleVacunacion = Model.DetalleVacunacion.build();
   var vacunacionId = req.params.vacunacionId;
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -474,14 +613,35 @@ exports.getFormV2 = function (req, res) {
           animal.retrieveAll(function (animalQ) {
             console.log('animalQ',animalQ);
             if (animalQ) {
-                    console.log('soy vacunacionId',vacunacionId);
-                    res.render('web/detalleVacunacion/indexa', {
-                                    vacunacionJ:vacunacionId,
-                                    detalleVacunacionJ: detalleVacunacion,
-                                    mensajes: mensaje1,
-                                    selectJ: animalQ,
-                                    mensajeria: mensaje2
-                    });    
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      console.log('soy vacunacionId',vacunacionId);
+                      res.render('web/detalleVacunacion/indexa', {
+                                      vacunacionJ:vacunacionId,
+                                      detalleVacunacionJ: detalleVacunacion,
+                                      mensajes: mensaje1,
+                                      selectJ: animalQ,
+                                      mensajeria: mensaje2,
+                                      alarmas1: alarma1,
+                                      alarmas2: alarma2
+                      }); 
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });   
             }else {
               res.send(401, 'No se Encontraron Animales');
             }
@@ -559,6 +719,8 @@ exports.updateV = function (req, res) {
 exports.readV = function (req, res) {
   var detalleVacunacion = Model.DetalleVacunacion.build();
   var animal = Model.Animal.build();
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -572,12 +734,33 @@ exports.readV = function (req, res) {
             if (animal) {
               detalleVacunacion.retrieveById(req.params.detalleVacunacionId, function (detalleVacunacion) {
                 if (detalleVacunacion) {
-                  res.render('web/detalleVacunacion/edit', {
+                  alarma.retriveCount(function (alarma1) { 
+                    console.log('alarma1', alarma1);
+                    if (alarma1) {     
+                      alarma.retrieveAll(function (alarma2) {
+                        console.log('alarma2', alarma2);
+                        if (alarma2) {  
+                          console.log(req.body);
+                          res.render('web/detalleVacunacion/edit', {
                               detalleVacunacion:detalleVacunacion,
                               select: animal,
                               mensajes: mensaje1,
-                              mensajeria: mensaje2
-                            });
+                              mensajeria: mensaje2,
+                              alarmas1: alarma1,
+                              alarmas2: alarma2
+                          });
+                        }else {
+                          res.send(401, 'No se encontraron Alarmas');
+                        }
+                      }, function (error) {
+                        res.send('Alarma no encontrado');
+                      });
+                    } else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
                 } else {
                   res.send(401, 'Detalle Vacunacion no encontrado');
                 }
@@ -627,6 +810,8 @@ exports.getForm1T = function (req, res) {
   //var animal = Model.Animal.build();
   var detalleTraslado = Model.DetalleTraslado.build();
   var notaTraslado = Model.Traslado.build();
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -639,20 +824,41 @@ exports.getForm1T = function (req, res) {
               /*animal.retrieveAll(function (animalQ) {
               console.log('animalQ',animalQ);
               if (animalQ) {*/
-              notaTraslado.retrieveId(function (notaTrasladoQ) {
-                  if (notaTrasladoQ) { 
-                  serialport.write(buffer3);     
-                    console.log('soy notaTraslado retrieveId',notaTrasladoQ);
-                    res.render('web/detalleTraslado/index', {
-                                    notaTrasladoJ:notaTrasladoQ,
-                                    detalleTrasladoJ: detalleTraslado,
-                                    mensajes: mensaje1,
-                                    mensajeria: mensaje2
-                    });    
-                  } else {
-                    res.send(401, 'No se encontraron nota Traslado');
-                  }
+          alarma.retriveCount(function (alarma1) { 
+            console.log('alarma1', alarma1);
+            if (alarma1) {     
+              alarma.retrieveAll(function (alarma2) {
+                console.log('alarma2', alarma2);
+                if (alarma2) {  
+                  console.log(req.body);
+                  notaTraslado.retrieveId(function (notaTrasladoQ) {
+                    if (notaTrasladoQ) { 
+                    serialport.write(buffer3);     
+                      console.log('soy notaTraslado retrieveId',notaTrasladoQ);
+                      res.render('web/detalleTraslado/index', {
+                                      notaTrasladoJ:notaTrasladoQ,
+                                      detalleTrasladoJ: detalleTraslado,
+                                      mensajes: mensaje1,
+                                      mensajeria: mensaje2,
+                                      alarmas1: alarma1,
+                                      alarmas2: alarma2
+                      });    
+                    } else {
+                      res.send(401, 'No se encontraron nota Traslado');
+                    }
+                  });
+                }else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
               });
+            } else {
+              res.send(401, 'No se encontraron Alarmas');
+            }
+          }, function (error) {
+            res.send('Alarma no encontrado');
+          });
             /*}else {
               res.send(401, 'No se Eencontraron nota Traslado');
             }
@@ -699,6 +905,8 @@ exports.create1T = function (req, res) {
 exports.readIdT = function (req, res) {
   var detalleTraslado = Model.DetalleTraslado.build();
   console.log('dentro de get /',req.body);
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -710,10 +918,31 @@ exports.readIdT = function (req, res) {
         if (mensaje2) {
           detalleTraslado.retrieveAll(req.params.id, function (detalleTraslados) {
             if (detalleTraslados) {
-              res.render('web/detalleTraslado/success', { 
-                detalleTraslados:detalleTraslados,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      res.render('web/detalleTraslado/success', { 
+                        detalleTraslados:detalleTraslados,
+                        mensajes: mensaje1,
+                        mensajeria: mensaje2,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2
+                      });
+                     }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
               });
             } else {
               res.send(401, 'No se encontraron Detalles');
@@ -739,6 +968,8 @@ exports.getForm2T = function (req, res) {
   var animal = Model.Animal.build();
   var detalleTraslado = Model.DetalleTraslado.build();
   var trasladoId = req.params.trasladoId;
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -751,14 +982,35 @@ exports.getForm2T = function (req, res) {
           animal.retrieveAll(function (animalQ) {
             console.log('animalQ',animalQ);
             if (animalQ) {
-                    console.log('soy notaTraslado retrieveId',trasladoId);
-                    res.render('web/detalleTraslado/indexa', {
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      console.log('soy notaTraslado retrieveId',trasladoId);
+                      res.render('web/detalleTraslado/indexa', {
                                     trasladoJ:trasladoId,
                                     detalleTrasladoJ: detalleTraslado,
                                     selectJ: animalQ,
                                     mensajes: mensaje1,
-                                    mensajeria: mensaje2
-                    });   
+                                    mensajeria: mensaje2,
+                                    alarmas1: alarma1,
+                                    alarmas2: alarma2
+                      }); 
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });  
             }else {
               res.send(401, 'No se Eencontraron nota Traslado');
             }
@@ -827,6 +1079,8 @@ exports.updateT = function (req, res) {
 exports.readT = function (req, res) {
   var detalleTraslado = Model.DetalleTraslado.build();
   var animal = Model.Animal.build();
+  //************************************ 
+  var alarma = Model.Alarma.build();
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
@@ -840,12 +1094,33 @@ exports.readT = function (req, res) {
             if (animal) {
               detalleTraslado.retrieveById(req.params.detalleTrasladoId, function (detalleTraslado) {
                 if (detalleTraslado) {
-                  res.render('web/detalleTraslado/edit', {
-                              detalleTraslado:detalleTraslado,
-                              select: animal,
-                              mensajes: mensaje1,
-                              mensajeria: mensaje2
-                            });
+                  alarma.retriveCount(function (alarma1) { 
+                    console.log('alarma1', alarma1);
+                    if (alarma1) {     
+                      alarma.retrieveAll(function (alarma2) {
+                        console.log('alarma2', alarma2);
+                        if (alarma2) {  
+                          console.log(req.body);
+                          res.render('web/detalleTraslado/edit', {
+                            detalleTraslado:detalleTraslado,
+                            select: animal,
+                            mensajes: mensaje1,
+                            mensajeria: mensaje2,
+                            alarmas1: alarma1,
+                            alarmas2: alarma2
+                          });
+                        }else {
+                          res.send(401, 'No se encontraron Alarmas');
+                        }
+                      }, function (error) {
+                        res.send('Alarma no encontrado');
+                      });
+                    } else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
                 } else {
                   res.send(401, 'Detalle Traslado Animal no encontrado');
                 }

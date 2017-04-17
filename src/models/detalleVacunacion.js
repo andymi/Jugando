@@ -50,6 +50,24 @@ module.exports = function (sequelize, DataTypes) {
            } )
           .then(onSuccess).catch(onError);
         },
+        retrieveAnimal: function (id, onSuccess, onError) {
+          DetalleVacunacion.findAll( {
+            include: [ Model.Animal , Model.Vacunacion],
+            where: { AnimalIdAnimal:id }
+           } )
+          .then(onSuccess).catch(onError);
+        },
+        retrieveByRp: function (id, onSuccess, onError) {
+          Model.Animal.find({ 
+            where:{ rpAnimal: id }
+          }).then(function (DetalleSalida) {
+            DetalleVacunacion.findAll( {
+              include: [ Model.Animal , Model.Vacunacion],
+              where: { AnimalIdAnimal:DetalleSalida.idAnimal }
+             } )
+            .then(onSuccess).catch(onError);
+          });
+        },
         retrieveId: function (onSuccess, onError) {
           DetalleVacunacion.findAll( {
             attributes: ['idDetalleVacunacion'],

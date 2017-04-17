@@ -30,6 +30,24 @@ module.exports = function (sequelize, DataTypes) {
           })
           .then(onSuccess).catch(onError);
         },
+        retrieveByRp: function (id, onSuccess, onError) {
+          Model.Animal.find({ 
+            where:{ rpAnimal: id }
+          }).then(function (DetalleSanitacions) {
+            DetalleSanitacion.findAll({
+              include: [ Model.Animal , Model.Sanitacion ],
+              where: { AnimalIdAnimal:DetalleSanitacions.idAnimal}
+            })
+            .then(onSuccess).catch(onError);
+          });
+        },
+        retrieveAnimal: function (id, onSuccess, onError) {
+          DetalleSanitacion.findAll({
+            include: [ Model.Animal , Model.Sanitacion ],
+            where: { AnimalIdAnimal:id }
+          })
+          .then(onSuccess).catch(onError);
+        },
         retriveCount: function(id, onSuccess, onError){
           DetalleSanitacion.findAndCountAll({
             include: [ Model.Animal , Model.Sanitacion ],

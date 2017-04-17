@@ -41,6 +41,24 @@ module.exports = function (sequelize, DataTypes) {
           })
           .then(onSuccess).catch(onError);
         },
+
+        retrieveByRp: function (id, onSuccess, onError) {
+          Model.Animal.find({ 
+            where:{ rpAnimal: id }
+          }).then(function (DetalleSalida) {
+            DetalleSalidaAnimal.findAll({
+              include: [ Model.Animal , Model.SalidaAnimal ],
+              where: { AnimalIdAnimal: DetalleSalida.idAnimal }
+            }).then(onSuccess).catch(onError);
+          });
+        },
+        retrieveAnimal: function (id, onSuccess, onError) {
+          DetalleSalidaAnimal.findAll({
+            include: [ Model.Animal , Model.SalidaAnimal ],
+            where: { AnimalIdAnimal:id }
+          })
+          .then(onSuccess).catch(onError);
+        },
         retrieveById: function (idDetalleSAS, onSuccess, onError) {
           DetalleSalidaAnimal.find( {
             include: [ Model.Animal ],

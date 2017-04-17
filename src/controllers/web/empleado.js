@@ -12,6 +12,8 @@ exports.getForm = function (req, res) {
   var empleado = Model.Empleado.build();
   var ciudad = Model.Ciudad.build();
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -23,12 +25,33 @@ exports.getForm = function (req, res) {
           ciudad.retrieveAll(function (ciudadQ) {
             console.log('ciudadQ',ciudadQ);
             if (ciudadQ) {
-                res.render('web/empleado/index',{
-                    selectJ: ciudadQ,
-                    empleado: empleado,
-                    mensajes: mensaje1,
-                    mensajeria: mensaje2
-                });
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);
+                      res.render('web/empleado/index',{
+                          selectJ: ciudadQ,
+                          empleado: empleado,
+                          mensajes: mensaje1,
+                          mensajeria: mensaje2,
+                          alarmas1: alarma1,
+                          alarmas2: alarma2
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
+              });              
             }
           }, function (error) {
             res.send('Usuario no encontrado');
@@ -77,6 +100,8 @@ exports.listPag = function (req, res) {
   var empleado = Model.Empleado.build();
   console.log(req.body);
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -87,10 +112,31 @@ exports.listPag = function (req, res) {
         if (mensaje2) {  
           empleado.retrieveAll(function (empleados) {
             if (empleados) {
-              res.render('web/empleado/success', { 
-                empleados: empleados,
-                mensajes: mensaje1,
-                mensajeria: mensaje2
+              alarma.retriveCount(function (alarma1) { 
+                console.log('alarma1', alarma1);
+                if (alarma1) {     
+                  alarma.retrieveAll(function (alarma2) {
+                    console.log('alarma2', alarma2);
+                    if (alarma2) {  
+                      console.log(req.body);                  
+                      res.render('web/empleado/success', { 
+                        empleados: empleados,
+                        mensajes: mensaje1,
+                        mensajeria: mensaje2,
+                        alarmas1: alarma1,
+                        alarmas2: alarma2
+                      });
+                    }else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
+                } else {
+                  res.send(401, 'No se encontraron Alarmas');
+                }
+              }, function (error) {
+                res.send('Alarma no encontrado');
               });
             } else {
               res.send(401, 'No se encontraron Empleados');
@@ -146,6 +192,8 @@ exports.read = function (req, res) {
   console.log('editar:*****************');
   console.log(req.params);
   //************************************
+  var alarma = Model.Alarma.build();
+  //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -158,12 +206,33 @@ exports.read = function (req, res) {
             if (ciudad) {
               empleado.retrieveById(req.params.empleadoId, function (empleadooq) {
                 if (empleadooq) {
-                  res.render('web/empleado/edit', {
+                  alarma.retriveCount(function (alarma1) { 
+                    console.log('alarma1', alarma1);
+                    if (alarma1) {     
+                      alarma.retrieveAll(function (alarma2) {
+                        console.log('alarma2', alarma2);
+                        if (alarma2) {  
+                          console.log(req.body);
+                          res.render('web/empleado/edit', {
                               empleado:empleadooq,
                               select: ciudad,
                               mensajes: mensaje1,
-                              mensajeria: mensaje2
+                              mensajeria: mensaje2,
+                              alarmas1: alarma1,
+                              alarmas2: alarma2
                             });
+                        }else {
+                          res.send(401, 'No se encontraron Alarmas');
+                        }
+                      }, function (error) {
+                        res.send('Alarma no encontrado');
+                      });
+                    } else {
+                      res.send(401, 'No se encontraron Alarmas');
+                    }
+                  }, function (error) {
+                    res.send('Alarma no encontrado');
+                  });
                 } else {
                   res.send(401, 'arEmpleado no encontrado');
                 }
@@ -190,7 +259,7 @@ exports.read = function (req, res) {
     res.send('Mensaje no encontrado');
   });
 };
-
+            
 // DELETE /empleado/empleadoId
 // Borra el empleadoId
 exports.delete = function (req, res) {

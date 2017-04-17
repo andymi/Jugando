@@ -6,7 +6,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 
-require('jsreport')({ httpPort: 2000 }).init();
 
 var config = require('./config/config');
 /**********empezamos a declarar nuestro controlador****************/
@@ -15,7 +14,6 @@ var reportes = require('./controllers/web/reportes');
 var routesAPI = require('./controllers/routesAPI');
 var routesWEB = require('./controllers/routesWEB');
 var app = express();
-
 
 /**
  * Configuración y seteo de Express
@@ -115,5 +113,6 @@ app.use(function (err, req, res, next) {
     error: {}
   });
 });
+
 
 module.exports = app;
