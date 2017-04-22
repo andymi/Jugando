@@ -14,6 +14,7 @@ var reportes = require('./controllers/web/reportes');
 var routesAPI = require('./controllers/routesAPI');
 var routesWEB = require('./controllers/routesWEB');
 var app = express();
+var session = require('express-session');
 
 /**
  * Configuración y seteo de Express
@@ -40,6 +41,11 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({
+    secret: '2C44-4D44-WppQ38S',
+    resave: false,
+    saveUninitialized: true
+}));
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 

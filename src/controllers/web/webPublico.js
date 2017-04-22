@@ -324,7 +324,13 @@ router.get('/liberar', function (req, res) {
 });
 /***************************************************************************/
 router.get('/', function (req, res) {
-  res.render('publico/home/indexa.jade');
+  req.session.destroy(function(err) {
+    if(err) {
+      console.log(err);
+    } else {
+      res.render('publico/home/indexa.jade');
+    }
+  });  
 });
 router.get('/reportes', function (req, res) {
   //************************************
@@ -422,6 +428,9 @@ router.get('/principal', function (req, res) {
   var ventas = Model.FacturaVenta.build();
   //************************************
   var alarma = Model.Alarma.build();
+  if(!req.session.user){
+    res.send(401,"No está logueado/a");              
+  }
   
   leerCantidadMinima();
   leerHerramienta();

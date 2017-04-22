@@ -21,6 +21,7 @@ exports.signIn = function(req, res) {
       console.log('pase este 2');
       if (usuarios) {
         console.log('pase este 3');
+        req.session.user = usuarios;
         res.redirect('/principal');
       } else {
          res.render('web/login/signin', {errorMessage: 'Email o Password invalido'});
