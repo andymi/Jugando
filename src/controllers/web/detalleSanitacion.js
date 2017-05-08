@@ -57,6 +57,9 @@ exports.getForm1 =  function (req, res) {
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
+  if(!req.session.user){
+    res.render('web/index/404.jade');              
+  }
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
     if (mensaje1) {     
@@ -77,13 +80,19 @@ exports.getForm1 =  function (req, res) {
                       if (sanitacion) {
                         serialport.write(buffer3);  
                         console.log('soy sanitacion retrieveId',sanitacion);
+                        var usuario = req.session.user.usuario;
+                        var pass = req.session.user.pass;
+                        var fechaCreacion = req.session.user.fechaCreacion; 
                         res.render('web/detalleSanitacion/index', {
                                         sanitacionJ:sanitacion,
                                         detalleSanitacionJ: detalleSanitacion,
                                         mensajes: mensaje1,
                                         mensajeria: mensaje2,
                                         alarmas1: alarma1,
-                                        alarmas2: alarma2
+                                        alarmas2: alarma2,
+                                        usuarios: usuario,
+                                        passs: pass,
+                                        fechaCreacions: fechaCreacion
                         });   
                       } else {
                         res.send(401, 'No se encontraron Sanitaciones');
@@ -160,6 +169,9 @@ exports.listPag1 = function (req, res) {
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
+  if(!req.session.user){
+    res.render('web/index/404.jade');              
+  }
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
     if (mensaje1) {     
@@ -175,12 +187,18 @@ exports.listPag1 = function (req, res) {
                     console.log('alarma2', alarma2);
                     if (alarma2) {  
                       console.log(req.body);
+                      var usuario = req.session.user.usuario;
+                      var pass = req.session.user.pass;
+                      var fechaCreacion = req.session.user.fechaCreacion; 
                       res.render('web/detalleSanitacion/success', { 
                         detalleSanitaciones:detalleSanitaciones,
                         mensajes: mensaje1,
                         mensajeria: mensaje2,
                         alarmas1: alarma1,
-                        alarmas2: alarma2
+                        alarmas2: alarma2,
+                        usuarios: usuario,
+                        passs: pass,
+                        fechaCreacions: fechaCreacion
                       });
                     }else {
                       res.send(401, 'No se encontraron Alarmas');
@@ -225,6 +243,9 @@ exports.getForm2 = function (req, res) {
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
+  if(!req.session.user){
+    res.render('web/index/404.jade');             
+  }
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
     if (mensaje1) {     
@@ -242,6 +263,9 @@ exports.getForm2 = function (req, res) {
                     console.log('alarma2', alarma2);
                     if (alarma2) {  
                       console.log(req.body);
+                      var usuario = req.session.user.usuario;
+                      var pass = req.session.user.pass;
+                      var fechaCreacion = req.session.user.fechaCreacion; 
                       res.render('web/detalleSanitacion/indexa', {
                               sanitacionJ:sanitacionId,
                               detalleSanitacionJ: detalleSanitacion,
@@ -249,7 +273,10 @@ exports.getForm2 = function (req, res) {
                               mensajeria: mensaje2,
                               selectJ: animalQ,
                               alarmas1: alarma1,
-                              alarmas2: alarma2
+                              alarmas2: alarma2,
+                              usuarios: usuario,
+                              passs: pass,
+                              fechaCreacions: fechaCreacion
                       }); 
                     }else {
                       res.send(401, 'No se encontraron Alarmas');
@@ -344,6 +371,9 @@ exports.read = function (req, res) {
    //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
+  if(!req.session.user){
+    res.render('web/index/404.jade');             
+  }
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
     if (mensaje1) {     
@@ -361,13 +391,19 @@ exports.read = function (req, res) {
                         console.log('alarma2', alarma2);
                         if (alarma2) {  
                           console.log(req.body);
+                          var usuario = req.session.user.usuario;
+                          var pass = req.session.user.pass;
+                          var fechaCreacion = req.session.user.fechaCreacion; 
                           res.render('web/detalleSanitacion/edit', {
                               detalleSanitacion:detalleSanitacion,
                               select: animal,
                               mensajes: mensaje1,
                               mensajeria: mensaje2,
                               alarmas1: alarma1,
-                              alarmas2: alarma2
+                              alarmas2: alarma2,
+                              usuarios: usuario,
+                              passs: pass,
+                              fechaCreacions: fechaCreacion
                           });
                         }else {
                           res.send(401, 'No se encontraron Alarmas');
@@ -435,6 +471,9 @@ exports.getFormV1 = function (req, res) {
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
+  if(!req.session.user){
+    res.render('web/index/404.jade');             
+  }
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
     if (mensaje1) {     
@@ -455,13 +494,19 @@ exports.getFormV1 = function (req, res) {
                       if (vacunacionQ) {   
                         serialport.write(buffer3);    
                         console.log('soy Vacunacion retrieveId',vacunacionQ);
+                        var usuario = req.session.user.usuario;
+                        var pass = req.session.user.pass;
+                        var fechaCreacion = req.session.user.fechaCreacion; 
                         res.render('web/detalleVacunacion/index', {
                                         vacunacionJ:vacunacionQ,
                                         detalleVacunacionJ: detalleVacunacion,
                                         mensajes: mensaje1,
                                         mensajeria: mensaje2,
                                         alarmas1: alarma1,
-                                        alarmas2: alarma2
+                                        alarmas2: alarma2,
+                                        usuarios: usuario,
+                                        passs: pass,
+                                        fechaCreacions: fechaCreacion
                         });    
                       } else {
                         res.send(401, 'No se encontraron Pesajes');
@@ -541,6 +586,9 @@ exports.listPagV1 = function (req, res) {
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
+  if(!req.session.user){
+    res.render('web/index/404.jade');              
+  }
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
     if (mensaje1) {     
@@ -556,12 +604,18 @@ exports.listPagV1 = function (req, res) {
                     console.log('alarma2', alarma2);
                     if (alarma2) {  
                       console.log(req.body);
+                      var usuario = req.session.user.usuario;
+                      var pass = req.session.user.pass;
+                      var fechaCreacion = req.session.user.fechaCreacion; 
                       res.render('web/detalleVacunacion/success', { 
                         detalleVacunaciones:detalleVacunacion,
                         mensajes: mensaje1,
                         mensajeria: mensaje2,
                         alarmas1: alarma1,
-                        alarmas2: alarma2                            
+                        alarmas2: alarma2,
+                        usuarios: usuario,
+                        passs: pass,
+                        fechaCreacions: fechaCreacion                          
                       });
                     }else {
                       res.send(401, 'No se encontraron Alarmas');
@@ -604,6 +658,9 @@ exports.getFormV2 = function (req, res) {
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
+  if(!req.session.user){
+    res.render('web/index/404.jade');              
+  }
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
     if (mensaje1) {     
@@ -621,6 +678,9 @@ exports.getFormV2 = function (req, res) {
                     if (alarma2) {  
                       console.log(req.body);
                       console.log('soy vacunacionId',vacunacionId);
+                      var usuario = req.session.user.usuario;
+                      var pass = req.session.user.pass;
+                      var fechaCreacion = req.session.user.fechaCreacion; 
                       res.render('web/detalleVacunacion/indexa', {
                                       vacunacionJ:vacunacionId,
                                       detalleVacunacionJ: detalleVacunacion,
@@ -628,7 +688,10 @@ exports.getFormV2 = function (req, res) {
                                       selectJ: animalQ,
                                       mensajeria: mensaje2,
                                       alarmas1: alarma1,
-                                      alarmas2: alarma2
+                                      alarmas2: alarma2,
+                                      usuarios: usuario,
+                                      passs: pass,
+                                      fechaCreacions: fechaCreacion
                       }); 
                     }else {
                       res.send(401, 'No se encontraron Alarmas');
@@ -722,6 +785,9 @@ exports.readV = function (req, res) {
   //************************************ 
   var alarma = Model.Alarma.build();
   //************************************
+  if(!req.session.user){
+    res.render('web/index/404.jade');              
+  }
   var mensaje = Model.Mensaje.build();
   //************************************
   mensaje.retriveCount(function (mensaje1) { 
@@ -741,13 +807,19 @@ exports.readV = function (req, res) {
                         console.log('alarma2', alarma2);
                         if (alarma2) {  
                           console.log(req.body);
+                          var usuario = req.session.user.usuario;
+                          var pass = req.session.user.pass;
+                          var fechaCreacion = req.session.user.fechaCreacion; 
                           res.render('web/detalleVacunacion/edit', {
                               detalleVacunacion:detalleVacunacion,
                               select: animal,
                               mensajes: mensaje1,
                               mensajeria: mensaje2,
                               alarmas1: alarma1,
-                              alarmas2: alarma2
+                              alarmas2: alarma2,
+                              usuarios: usuario,
+                              passs: pass,
+                              fechaCreacions: fechaCreacion
                           });
                         }else {
                           res.send(401, 'No se encontraron Alarmas');
@@ -815,6 +887,9 @@ exports.getForm1T = function (req, res) {
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
+  if(!req.session.user){
+    res.render('web/index/404.jade');             
+  }
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
     if (mensaje1) {     
@@ -835,13 +910,19 @@ exports.getForm1T = function (req, res) {
                     if (notaTrasladoQ) { 
                     serialport.write(buffer3);     
                       console.log('soy notaTraslado retrieveId',notaTrasladoQ);
+                      var usuario = req.session.user.usuario;
+                      var pass = req.session.user.pass;
+                      var fechaCreacion = req.session.user.fechaCreacion; 
                       res.render('web/detalleTraslado/index', {
                                       notaTrasladoJ:notaTrasladoQ,
                                       detalleTrasladoJ: detalleTraslado,
                                       mensajes: mensaje1,
                                       mensajeria: mensaje2,
                                       alarmas1: alarma1,
-                                      alarmas2: alarma2
+                                      alarmas2: alarma2,
+                                      usuarios: usuario,
+                                      passs: pass,
+                                      fechaCreacions: fechaCreacion
                       });    
                     } else {
                       res.send(401, 'No se encontraron nota Traslado');
@@ -910,6 +991,9 @@ exports.readIdT = function (req, res) {
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
+  if(!req.session.user){
+    res.render('web/index/404.jade');              
+  }
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
     if (mensaje1) {     
@@ -925,12 +1009,18 @@ exports.readIdT = function (req, res) {
                     console.log('alarma2', alarma2);
                     if (alarma2) {  
                       console.log(req.body);
+                      var usuario = req.session.user.usuario;
+                      var pass = req.session.user.pass;
+                      var fechaCreacion = req.session.user.fechaCreacion; 
                       res.render('web/detalleTraslado/success', { 
                         detalleTraslados:detalleTraslados,
                         mensajes: mensaje1,
                         mensajeria: mensaje2,
                         alarmas1: alarma1,
-                        alarmas2: alarma2
+                        alarmas2: alarma2,
+                        usuarios: usuario,
+                        passs: pass,
+                        fechaCreacions: fechaCreacion
                       });
                      }else {
                       res.send(401, 'No se encontraron Alarmas');
@@ -973,6 +1063,9 @@ exports.getForm2T = function (req, res) {
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
+  if(!req.session.user){
+    res.render('web/index/404.jade');              
+  }
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
     if (mensaje1) {     
@@ -990,6 +1083,9 @@ exports.getForm2T = function (req, res) {
                     if (alarma2) {  
                       console.log(req.body);
                       console.log('soy notaTraslado retrieveId',trasladoId);
+                      var usuario = req.session.user.usuario;
+                      var pass = req.session.user.pass;
+                      var fechaCreacion = req.session.user.fechaCreacion; 
                       res.render('web/detalleTraslado/indexa', {
                                     trasladoJ:trasladoId,
                                     detalleTrasladoJ: detalleTraslado,
@@ -997,7 +1093,10 @@ exports.getForm2T = function (req, res) {
                                     mensajes: mensaje1,
                                     mensajeria: mensaje2,
                                     alarmas1: alarma1,
-                                    alarmas2: alarma2
+                                    alarmas2: alarma2,
+                                    usuarios: usuario,
+                                    passs: pass,
+                                    fechaCreacions: fechaCreacion
                       }); 
                     }else {
                       res.send(401, 'No se encontraron Alarmas');
@@ -1084,6 +1183,9 @@ exports.readT = function (req, res) {
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
+  if(!req.session.user){
+    res.render('web/index/404.jade');              
+  }
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
     if (mensaje1) {     
@@ -1101,13 +1203,19 @@ exports.readT = function (req, res) {
                         console.log('alarma2', alarma2);
                         if (alarma2) {  
                           console.log(req.body);
+                          var usuario = req.session.user.usuario;
+                          var pass = req.session.user.pass;
+                          var fechaCreacion = req.session.user.fechaCreacion; 
                           res.render('web/detalleTraslado/edit', {
                             detalleTraslado:detalleTraslado,
                             select: animal,
                             mensajes: mensaje1,
                             mensajeria: mensaje2,
                             alarmas1: alarma1,
-                            alarmas2: alarma2
+                            alarmas2: alarma2,
+                            usuarios: usuario,
+                            passs: pass,
+                            fechaCreacions: fechaCreacion
                           });
                         }else {
                           res.send(401, 'No se encontraron Alarmas');

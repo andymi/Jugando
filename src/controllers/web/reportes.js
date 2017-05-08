@@ -34,7 +34,9 @@ var ingresoC = Model.IngresoCorral.build();
 var traslado = Model.Traslado.build();
 var detalleIngresoAnimal = Model.DetalleIngresoAnimal.build();
 var detalleSalidaAnimal = Model.DetalleSalidaAnimal.build();
-
+var detalleCompra = Model.DetalleCompra.build();
+var detalleVenta = Model.DetalleVenta.build();
+var detalleTraslado = Model.DetalleTraslado.build();
 //listado completo 
 /******************************imprimir listado de animales*************************************************/
 router.get('/animal', function (req, res) {  
@@ -3519,5 +3521,824 @@ router.get('/ingresoC/:empleadoId', function (req, res) {
     res.send('Ingreso Empleado no encontrado');
   });
 });
+/******************************imprimir registro de compras de animales*************************************************/
+router.get('/compraA/:compraId', function (req, res) {  
+  detalleCompra.retrieveByNumAni(req.params.compraId, function (animales) {
+    if (animales) {
+      var pdf = new PDFDocument({
+        size: 'LEGAL', 
+          info: {
+          Title: 'Registro de compras de Animales',
+          Author: 'AndyFor',
+          CreationDate: new Date().toJSON().slice(0,10)
+        }
+      });
+          
+      pdf.font('Times-Roman', 8)
+         .moveUp(2.0)
+         .text('Fecha de Impresión:' + ' '+ new Date().toJSON().slice(0,10), {
+           align: 'right'
+      });
 
+      pdf.image('C:/Users/andru/Documents/Jugando/Jugando/src/public/img/logos.png', 75, 60, {
+        width: 75
+      });
+
+
+      pdf.font('Times-Roman', 20)
+         .moveDown(0.5)
+         .text('GANADERA BONANZA', {
+           align: 'center'
+         });
+      pdf.font('Times-Roman', 10)
+         .moveDown(0.5)
+         .text('14 de Mayo entre Félix Bogado y Estero Bellaco', {
+           width: 412,
+           align: 'center',
+           indent: 30,
+           height: 300,
+         });
+      pdf.font('Times-Roman', 10)
+         .text('San Ignacio Misiones, Paraguay', {
+           width: 412,
+           align: 'center',
+           indent: 30,
+           height: 300,
+         });
+      pdf.font('Times-Roman', 10)
+         .text('Tel.:0985- 387789, Email:bonanzacomercial@hotmail.com', {
+           width: 412,
+           align: 'center',
+           indent: 30,
+           height: 300,
+         });
+      pdf.font('Times-Roman', 15)
+         .moveDown(1.0)
+         .text('Registro de compras de Animal', {
+           width: 412,
+           align: 'center',
+           indent: 30,
+           height: 300,
+           underline: true
+         });
+      pdf.font('Times-Roman', 11)
+         .moveDown(0.8)
+         .text('Fecha:');
+
+      pdf.font('Times-Roman', 10)
+         .moveUp()
+         .text(animales[0].FacturaCompra.fechaCompra, {
+          align: 'left',
+          indent: 100
+      });
+
+      pdf.font('Times-Roman', 11)
+         .text('Hora:');
+
+      pdf.font('Times-Roman', 10)
+         .moveUp()
+         .text(animales[0].FacturaCompra.horaCompra, {
+          align: 'left',
+          indent: 100
+      });
+
+      pdf.font('Times-Roman', 11)
+       .text('Monto:'); 
+
+      pdf.font('Times-Roman', 10)
+         .moveUp()
+         .text(animales[0].FacturaCompra.totalCompra, {
+          align: 'left',
+          indent: 100
+      });
+
+      pdf.font('Times-Roman', 11)
+       .text('Condición:');
+    
+      pdf.font('Times-Roman', 10)
+         .moveUp()
+         .text(animales[0].FacturaCompra.condicionCompra, {
+          align: 'left',
+          indent: 100
+      });
+
+      pdf.font('Times-Roman', 11)
+       .text('Forma de Pago:'); 
+
+      pdf.font('Times-Roman', 10)
+         .moveUp()
+         .text(animales[0].FacturaCompra.formaPago, {
+          align: 'left',
+          indent: 100
+      });
+
+      pdf.font('Times-Roman', 11)
+       .text('Nº de la Compra:');
+    
+      pdf.font('Times-Roman', 10)
+         .moveUp()
+         .text(animales[0].FacturaCompra.numeroCompra, {
+          align: 'left',
+          indent: 100
+      });
+
+      pdf.font('Times-Roman', 11)
+         .text('Cantidad Total:');
+         
+      pdf.font('Times-Roman', 10)
+         .moveUp()
+         .text(animales[0].FacturaCompra.cantidadTotalCompra, {
+          align: 'left',
+          indent: 100
+      });
+
+        for (var i in animales) {
+          console.log('id-------------', animales);
+          pdf.font('Times-Roman', 15)
+           .text('----------------------------------------------------------------------------------');
+          
+          pdf.font('Times-Roman', 11)
+           .text('Descripción:');
+           
+          pdf.font('Times-Roman', 10)
+             .moveUp()
+             .text(animales[i].descripcionCompra, {
+              align: 'left',
+              indent: 100
+          });
+
+          pdf.font('Times-Roman', 11)
+             .text('Cantidad:');
+             
+          pdf.font('Times-Roman', 10)
+             .moveUp()
+             .text(animales[i].cantidadCompra, {
+              align: 'left',
+              indent: 100
+          });
+
+          pdf.font('Times-Roman', 11)
+           .text('Precio Individual:');
+           
+          pdf.font('Times-Roman', 10)
+             .moveUp()
+             .text(animales[i].precioCompra, {
+              align: 'left',
+              indent: 100
+          });
+
+        }
+      // Stream contents to a file
+      pdf.pipe(res);
+
+      // Close PDF and write file.
+      pdf.end();
+
+    }
+  }, function (error) {
+    res.send('Compra no encontrado');
+  });
+});
+/******************************imprimir registro de compras de insumos*************************************************/
+router.get('/compraI/:compraId', function (req, res) {  
+  detalleCompra.retrieveByNumInsu(req.params.compraId, function (animales) {
+    if (animales) {
+      var pdf = new PDFDocument({
+        size: 'LEGAL', 
+          info: {
+          Title: 'Registro de compras de Insumos',
+          Author: 'AndyFor',
+          CreationDate: new Date().toJSON().slice(0,10)
+        }
+      });
+          
+      pdf.font('Times-Roman', 8)
+         .moveUp(2.0)
+         .text('Fecha de Impresión:' + ' '+ new Date().toJSON().slice(0,10), {
+           align: 'right'
+      });
+
+      pdf.image('C:/Users/andru/Documents/Jugando/Jugando/src/public/img/logos.png', 75, 60, {
+        width: 75
+      });
+
+
+      pdf.font('Times-Roman', 20)
+         .moveDown(0.5)
+         .text('GANADERA BONANZA', {
+           align: 'center'
+         });
+      pdf.font('Times-Roman', 10)
+         .moveDown(0.5)
+         .text('14 de Mayo entre Félix Bogado y Estero Bellaco', {
+           width: 412,
+           align: 'center',
+           indent: 30,
+           height: 300,
+         });
+      pdf.font('Times-Roman', 10)
+         .text('San Ignacio Misiones, Paraguay', {
+           width: 412,
+           align: 'center',
+           indent: 30,
+           height: 300,
+         });
+      pdf.font('Times-Roman', 10)
+         .text('Tel.:0985- 387789, Email:bonanzacomercial@hotmail.com', {
+           width: 412,
+           align: 'center',
+           indent: 30,
+           height: 300,
+         });
+      pdf.font('Times-Roman', 15)
+         .moveDown(1.0)
+         .text('Registro de compras de Insumos', {
+           width: 412,
+           align: 'center',
+           indent: 30,
+           height: 300,
+           underline: true
+         });
+      pdf.font('Times-Roman', 11)
+         .moveDown(0.8)
+         .text('Fecha:');
+
+      pdf.font('Times-Roman', 10)
+         .moveUp()
+         .text(animales[0].FacturaCompra.fechaCompra, {
+          align: 'left',
+          indent: 100
+      });
+
+      pdf.font('Times-Roman', 11)
+         .text('Hora:');
+
+      pdf.font('Times-Roman', 10)
+         .moveUp()
+         .text(animales[0].FacturaCompra.horaCompra, {
+          align: 'left',
+          indent: 100
+      });
+
+      pdf.font('Times-Roman', 11)
+       .text('Monto:'); 
+
+      pdf.font('Times-Roman', 10)
+         .moveUp()
+         .text(animales[0].FacturaCompra.totalCompra, {
+          align: 'left',
+          indent: 100
+      });
+
+      pdf.font('Times-Roman', 11)
+       .text('Condición:');
+    
+      pdf.font('Times-Roman', 10)
+         .moveUp()
+         .text(animales[0].FacturaCompra.condicionCompra, {
+          align: 'left',
+          indent: 100
+      });
+
+      pdf.font('Times-Roman', 11)
+       .text('Forma de Pago:'); 
+
+      pdf.font('Times-Roman', 10)
+         .moveUp()
+         .text(animales[0].FacturaCompra.formaPago, {
+          align: 'left',
+          indent: 100
+      });
+
+      pdf.font('Times-Roman', 11)
+       .text('Nº de la Compra:');
+    
+      pdf.font('Times-Roman', 10)
+         .moveUp()
+         .text(animales[0].FacturaCompra.numeroCompra, {
+          align: 'left',
+          indent: 100
+      });
+
+        for (var i in animales) {
+          console.log('id-------------', animales);
+          pdf.font('Times-Roman', 15)
+           .text('----------------------------------------------------------------------------------');
+          
+          pdf.font('Times-Roman', 11)
+           .text('Descripción:');
+           
+          pdf.font('Times-Roman', 10)
+             .moveUp()
+             .text(animales[i].Insumo.nombreInsumo, {
+              align: 'left',
+              indent: 100
+          });
+
+          pdf.font('Times-Roman', 11)
+             .text('Cantidad:');
+             
+          pdf.font('Times-Roman', 10)
+             .moveUp()
+             .text(animales[i].cantidadCompra, {
+              align: 'left',
+              indent: 100
+          });
+
+          pdf.font('Times-Roman', 11)
+           .text('Precio Individual:');
+           
+          pdf.font('Times-Roman', 10)
+             .moveUp()
+             .text(animales[i].precioCompra, {
+              align: 'left',
+              indent: 100
+          });
+
+        }
+      // Stream contents to a file
+      pdf.pipe(res);
+
+      // Close PDF and write file.
+      pdf.end();
+
+    }
+  }, function (error) {
+    res.send('Compra no encontrado');
+  });
+});
+/******************************imprimir registro de compras de Servicios*************************************************/
+router.get('/compraS/:compraId', function (req, res) {  
+  detalleCompra.retrieveByNumServi(req.params.compraId, function (animales) {
+    if (animales) {
+      var pdf = new PDFDocument({
+        size: 'LEGAL', 
+          info: {
+          Title: 'Registro de compras de Servicios',
+          Author: 'AndyFor',
+          CreationDate: new Date().toJSON().slice(0,10)
+        }
+      });
+          
+      pdf.font('Times-Roman', 8)
+         .moveUp(2.0)
+         .text('Fecha de Impresión:' + ' '+ new Date().toJSON().slice(0,10), {
+           align: 'right'
+      });
+
+      pdf.image('C:/Users/andru/Documents/Jugando/Jugando/src/public/img/logos.png', 75, 60, {
+        width: 75
+      });
+
+
+      pdf.font('Times-Roman', 20)
+         .moveDown(0.5)
+         .text('GANADERA BONANZA', {
+           align: 'center'
+         });
+      pdf.font('Times-Roman', 10)
+         .moveDown(0.5)
+         .text('14 de Mayo entre Félix Bogado y Estero Bellaco', {
+           width: 412,
+           align: 'center',
+           indent: 30,
+           height: 300,
+         });
+      pdf.font('Times-Roman', 10)
+         .text('San Ignacio Misiones, Paraguay', {
+           width: 412,
+           align: 'center',
+           indent: 30,
+           height: 300,
+         });
+      pdf.font('Times-Roman', 10)
+         .text('Tel.:0985- 387789, Email:bonanzacomercial@hotmail.com', {
+           width: 412,
+           align: 'center',
+           indent: 30,
+           height: 300,
+         });
+      pdf.font('Times-Roman', 15)
+         .moveDown(1.0)
+         .text('Registro de compras de Servicios', {
+           width: 412,
+           align: 'center',
+           indent: 30,
+           height: 300,
+           underline: true
+         });
+      pdf.font('Times-Roman', 11)
+         .moveDown(0.8)
+         .text('Fecha:');
+
+      pdf.font('Times-Roman', 10)
+         .moveUp()
+         .text(animales[0].FacturaCompra.fechaCompra, {
+          align: 'left',
+          indent: 100
+      });
+
+      pdf.font('Times-Roman', 11)
+         .text('Hora:');
+
+      pdf.font('Times-Roman', 10)
+         .moveUp()
+         .text(animales[0].FacturaCompra.horaCompra, {
+          align: 'left',
+          indent: 100
+      });
+
+      pdf.font('Times-Roman', 11)
+       .text('Monto:'); 
+
+      pdf.font('Times-Roman', 10)
+         .moveUp()
+         .text(animales[0].FacturaCompra.totalCompra, {
+          align: 'left',
+          indent: 100
+      });
+
+      pdf.font('Times-Roman', 11)
+       .text('Condición:');
+    
+      pdf.font('Times-Roman', 10)
+         .moveUp()
+         .text(animales[0].FacturaCompra.condicionCompra, {
+          align: 'left',
+          indent: 100
+      });
+
+      pdf.font('Times-Roman', 11)
+       .text('Forma de Pago:'); 
+
+      pdf.font('Times-Roman', 10)
+         .moveUp()
+         .text(animales[0].FacturaCompra.formaPago, {
+          align: 'left',
+          indent: 100
+      });
+
+      pdf.font('Times-Roman', 11)
+       .text('Nº de la Compra:');
+    
+      pdf.font('Times-Roman', 10)
+         .moveUp()
+         .text(animales[0].FacturaCompra.numeroCompra, {
+          align: 'left',
+          indent: 100
+      });
+
+        for (var i in animales) {
+          console.log('id-------------', animales);
+          pdf.font('Times-Roman', 15)
+           .text('----------------------------------------------------------------------------------');
+          
+          pdf.font('Times-Roman', 11)
+           .text('Descripción:');
+           
+          pdf.font('Times-Roman', 10)
+             .moveUp()
+             .text(animales[i].Servicio.servicios, {
+              align: 'left',
+              indent: 100
+          });
+
+          pdf.font('Times-Roman', 11)
+             .text('Cantidad:');
+             
+          pdf.font('Times-Roman', 10)
+             .moveUp()
+             .text(animales[i].cantidadCompra, {
+              align: 'left',
+              indent: 100
+          });
+
+          pdf.font('Times-Roman', 11)
+           .text('Precio Individual:');
+           
+          pdf.font('Times-Roman', 10)
+             .moveUp()
+             .text(animales[i].precioCompra, {
+              align: 'left',
+              indent: 100
+          });
+
+        }
+      // Stream contents to a file
+      pdf.pipe(res);
+
+      // Close PDF and write file.
+      pdf.end();
+
+    }
+  }, function (error) {
+    res.send('Compra no encontrado');
+  });
+});
+/******************************imprimir registro de ventas de animales*************************************************/
+router.get('/ventasAnimal/:ventaId', function (req, res) {  
+  detalleVenta.retrieveByNumAni(req.params.ventaId, function (animales) {
+    if (animales) {
+      var pdf = new PDFDocument({
+        size: 'LEGAL', 
+          info: {
+          Title: 'Registro de ventas de Animales',
+          Author: 'AndyFor',
+          CreationDate: new Date().toJSON().slice(0,10)
+        }
+      });
+          
+      pdf.font('Times-Roman', 8)
+         .moveUp(2.0)
+         .text('Fecha de Impresión:' + ' '+ new Date().toJSON().slice(0,10), {
+           align: 'right'
+      });
+
+      pdf.image('C:/Users/andru/Documents/Jugando/Jugando/src/public/img/logos.png', 75, 60, {
+        width: 75
+      });
+
+
+      pdf.font('Times-Roman', 20)
+         .moveDown(0.5)
+         .text('GANADERA BONANZA', {
+           align: 'center'
+         });
+      pdf.font('Times-Roman', 10)
+         .moveDown(0.5)
+         .text('14 de Mayo entre Félix Bogado y Estero Bellaco', {
+           width: 412,
+           align: 'center',
+           indent: 30,
+           height: 300,
+         });
+      pdf.font('Times-Roman', 10)
+         .text('San Ignacio Misiones, Paraguay', {
+           width: 412,
+           align: 'center',
+           indent: 30,
+           height: 300,
+         });
+      pdf.font('Times-Roman', 10)
+         .text('Tel.:0985- 387789, Email:bonanzacomercial@hotmail.com', {
+           width: 412,
+           align: 'center',
+           indent: 30,
+           height: 300,
+         });
+      pdf.font('Times-Roman', 15)
+         .moveDown(1.0)
+         .text('Registro de ventas de Animales', {
+           width: 412,
+           align: 'center',
+           indent: 30,
+           height: 300,
+           underline: true
+         });
+      pdf.font('Times-Roman', 11)
+         .moveDown(0.8)
+         .text('Fecha:');
+
+      pdf.font('Times-Roman', 10)
+         .moveUp()
+         .text(animales[0].FacturaVentum.fechaVenta, {
+          align: 'left',
+          indent: 100
+      });
+
+      pdf.font('Times-Roman', 11)
+         .text('Hora:');
+
+      pdf.font('Times-Roman', 10)
+         .moveUp()
+         .text(animales[0].FacturaVentum.horaVenta, {
+          align: 'left',
+          indent: 100
+      });
+
+      pdf.font('Times-Roman', 11)
+       .text('Monto:'); 
+
+      pdf.font('Times-Roman', 10)
+         .moveUp()
+         .text(animales[0].FacturaVentum.totalVenta, {
+          align: 'left',
+          indent: 100
+      });
+
+      pdf.font('Times-Roman', 11)
+       .text('Condición:');
+    
+      pdf.font('Times-Roman', 10)
+         .moveUp()
+         .text(animales[0].FacturaVentum.condicionVenta, {
+          align: 'left',
+          indent: 100
+      });
+
+      pdf.font('Times-Roman', 11)
+       .text('Forma de Cobro:'); 
+
+      pdf.font('Times-Roman', 10)
+         .moveUp()
+         .text(animales[0].FacturaVentum.formaCobro, {
+          align: 'left',
+          indent: 100
+      });
+
+      pdf.font('Times-Roman', 11)
+       .text('Nº de la Venta:');
+    
+      pdf.font('Times-Roman', 10)
+         .moveUp()
+         .text(animales[0].FacturaVentum.numeroVenta, {
+          align: 'left',
+          indent: 100
+      });
+
+      pdf.font('Times-Roman', 11)
+         .text('Cantidad Total:');
+         
+      pdf.font('Times-Roman', 10)
+         .moveUp()
+         .text(animales[0].FacturaVentum.cantidadTotalVenta, {
+          align: 'left',
+          indent: 100
+      });
+
+        for (var i in animales) {
+          console.log('id-------------', animales);
+          pdf.font('Times-Roman', 15)
+           .text('----------------------------------------------------------------------------------');
+          
+          pdf.font('Times-Roman', 11)
+           .text('Descripción:');
+           
+          pdf.font('Times-Roman', 10)
+             .moveUp()
+             .text(animales[i].descripcionVenta, {
+              align: 'left',
+              indent: 100
+          });
+
+          pdf.font('Times-Roman', 11)
+             .text('Cantidad:');
+             
+          pdf.font('Times-Roman', 10)
+             .moveUp()
+             .text(animales[i].cantidadVenta, {
+              align: 'left',
+              indent: 100
+          });
+
+          pdf.font('Times-Roman', 11)
+           .text('Precio Individual:');
+           
+          pdf.font('Times-Roman', 10)
+             .moveUp()
+             .text(animales[i].precioVenta, {
+              align: 'left',
+              indent: 100
+          });
+
+        }
+      // Stream contents to a file
+      pdf.pipe(res);
+
+      // Close PDF and write file.
+      pdf.end();
+
+    }
+  }, function (error) {
+    res.send('Venta no encontrado');
+  });
+});
+/******************************imprimir registro de ventas de animales*************************************************/
+router.get('/trasladoAnimal/:trasladoId', function (req, res) {  
+  detalleTraslado.retrieveAnimal(req.params.trasladoId, function (animales) {
+    if (animales) {
+      var pdf = new PDFDocument({
+        size: 'LEGAL', 
+          info: {
+          Title: 'Registro de traslado de Animales',
+          Author: 'AndyFor',
+          CreationDate: new Date().toJSON().slice(0,10)
+        }
+      });
+          
+      pdf.font('Times-Roman', 8)
+         .moveUp(2.0)
+         .text('Fecha de Impresión:' + ' '+ new Date().toJSON().slice(0,10), {
+           align: 'right'
+      });
+
+      pdf.image('C:/Users/andru/Documents/Jugando/Jugando/src/public/img/logos.png', 75, 60, {
+        width: 75
+      });
+
+
+      pdf.font('Times-Roman', 20)
+         .moveDown(0.5)
+         .text('GANADERA BONANZA', {
+           align: 'center'
+         });
+      pdf.font('Times-Roman', 10)
+         .moveDown(0.5)
+         .text('14 de Mayo entre Félix Bogado y Estero Bellaco', {
+           width: 412,
+           align: 'center',
+           indent: 30,
+           height: 300,
+         });
+      pdf.font('Times-Roman', 10)
+         .text('San Ignacio Misiones, Paraguay', {
+           width: 412,
+           align: 'center',
+           indent: 30,
+           height: 300,
+         });
+      pdf.font('Times-Roman', 10)
+         .text('Tel.:0985- 387789, Email:bonanzacomercial@hotmail.com', {
+           width: 412,
+           align: 'center',
+           indent: 30,
+           height: 300,
+         });
+      pdf.font('Times-Roman', 15)
+         .moveDown(1.0)
+         .text('Registro de traslado de Animales', {
+           width: 412,
+           align: 'center',
+           indent: 30,
+           height: 300,
+           underline: true
+         });
+      pdf.font('Times-Roman', 11)
+         .moveDown(0.8)
+         .text('Fecha:');
+
+      pdf.font('Times-Roman', 10)
+         .moveUp()
+         .text(animales[0].Traslado.fechaTraslado, {
+          align: 'left',
+          indent: 100
+      });
+
+      pdf.font('Times-Roman', 11)
+         .text('Nº de RUA:');
+
+      pdf.font('Times-Roman', 10)
+         .moveUp()
+         .text(animales[0].Traslado.numeroRUA, {
+          align: 'left',
+          indent: 100
+      });
+
+      pdf.font('Times-Roman', 11)
+       .text('Marca del Auto:'); 
+
+      pdf.font('Times-Roman', 10)
+         .moveUp()
+         .text(animales[0].Traslado.marcaAuto, {
+          align: 'left',
+          indent: 100
+      });
+
+        for (var i in animales) {
+          console.log('id-------------', animales);
+          console.log('id animal', animales[i].Animal);
+          pdf.font('Times-Roman', 15)
+           .text('----------------------------------------------------------------------------------');
+          
+          pdf.font('Times-Roman', 11)
+           .text('Descripción:');
+           
+          pdf.font('Times-Roman', 10)
+             .moveUp()
+             .text(animales[i].descripcion, {
+              align: 'left',
+              indent: 100
+          });
+
+          pdf.font('Times-Roman', 11)
+             .text('Rp Animal:');
+             
+          pdf.font('Times-Roman', 10)
+             .moveUp()
+             .text(animales[i].Animal.rpAnimal, {
+              align: 'left',
+              indent: 100
+          });
+        }
+      // Stream contents to a file
+      pdf.pipe(res);
+
+      // Close PDF and write file.
+      pdf.end();
+
+    }
+  }, function (error) {
+    res.send('Traslado no encontrado');
+  });
+});
 module.exports = router;

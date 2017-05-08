@@ -84,6 +84,18 @@ module.exports = function (sequelize, DataTypes) {
           })
           .then(onSuccess).catch(onError);
         },
+        retrieveByNumAni: function (id, onSuccess, onError) {
+          Model.FacturaVenta.find({ 
+            where:{ numeroVenta: id }
+          }).then(function (venta) {
+
+            DetalleVenta.findAll({
+              include: [ Model.FacturaVenta],
+              where: { FacturaVentaIdVenta:venta.idVenta }
+            })
+            .then(onSuccess).catch(onError);
+          });
+        },
         retrieveById: function (detalleVentaId, onSuccess, onError) {
           DetalleVenta.find( {
             where: { idDetalleVenta:detalleVentaId }

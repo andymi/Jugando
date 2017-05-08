@@ -1,29 +1,52 @@
 extends ../../layout 
 block content
-  br
-  br
-  div(class="container-fluid")
-    form(action='/web/ingresoCorral/cargar' method="POST")
-     div(class="form-group")
-      label(for="fechaIngreso") Fecha de Ingreso
-      input(type="text" class="form-control" id="fechaIngreso" name='fechaIngreso' value='ingresoCorral.fechaIngreso' placeholder="Ingrese la Raza")
-
-     div(class="form-group")
-      label(for="horaIngreso") Hora de Ingreso
-      input(type="text"  class="form-control" id="horaIngreso" name='horaIngreso' value='ingresoCorral.horaIngreso' placeholder="Ingrese el Peso") 
-
-     div(class="form-group")
-      label(for="observacionIngreso") Observacion
-      input(type="text" class="form-control" id="observacionIngreso" name='observacionIngreso' value='ingresoCorral.observacionIngreso' placeholder="Ingrese el RP")
-
-     div(class="form-group")
-        label(class="control-label col-sm-2" for="email") Empleado: 
-        div(class="col-sm-10")  
-          select(name='selectJ')
-            option(value="-1" selected) Seleccione Empleado
-            -for(var j=0; j < selectJ.length; j++) {
-              option(value="#{selectJ[j].idEmpleado}") #{selectJ[j].nombreEmpleado}
-            -}   
-
-     button(type="submit" value="submit") Submit
+  div(class="content-wrapper")
+    section(class="content-header")
+      h1 Ingreso de Animales al Corral
+      ol(class="breadcrumb")
+        li
+          a(href="#")
+            i(class="fa fa-dashboard") Registros
+        li(class="active") Agregar Ingreso
+    section(class="content")
+      div(class="row")  
+        div(class="col-md-12") 
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Ingreso del Personal           
+            form(class="form-horizontal" action='/web/ingresoCorral/cargar' method="POST")
+              div(class="box-body")
+                div(class="form-group")
+                    label(class="col-sm-4 control-label" for="fechaIngreso") Fecha de Ingreso 
+                    div(class="col-sm-8")  
+                      div(class="input-group date")
+                        div(class="input-group-addon")
+                          i(class="fa fa-calendar")  
+                        input(type="text"  class="form-control pull-right" id="datepicker" name='fechaIngreso' required)
+                div(class="form-group")  
+                    label(class="col-sm-4 control-label" for="horaIngreso") Hora de Ingreso
+                    div(class="col-sm-8")
+                      div(class="bootstrap-timepicker")
+                        div(class="input-group")
+                          div(class="input-group-addon")
+                            i(class="fa fa-clock-o")
+                          input(type="text" class="form-control timepicker" name='horaIngreso' required) 
+                div(class="form-group")
+                  label(class="control-label col-sm-4" for="email") Empleado 
+                  div(class="col-sm-8")  
+                    select(id="selectJ" name='selectJ' class="btn btn-default select2")
+                      option(value="-1" disabled="disabled" selected) Seleccione una opción
+                      -for(var j=0; j < selectJ.length; j++) {
+                        option(value="#{selectJ[j].idEmpleado}") #{selectJ[j].nombreEmpleado}
+                      -}    
+                div(class="form-group") 
+                  label(class="col-sm-4 control-label" for="observacionIngreso") Observación
+                  div(class="col-sm-8")
+                    input(type="text"  class="form-control" id="observacionIngreso" name='observacionIngreso' placeholder="Ingrese la Observación")
+              div(class="box-footer")
+                div(class="btn-group pull-right")
+                  button(type="submit" href="javascript:void(0);" class="btn btn-success") Guardar
+                    i(class="fa fa-save") 
+                  a(href="/web/ingresoCorral" class="btn btn-default") Cancelar
+                    i(class="fa fa-remove")
   

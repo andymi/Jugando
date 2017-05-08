@@ -59,6 +59,27 @@ function reporteVacunacion(){
   console.log("---------------------------------",sum);
   window.location=sum;
 }
+function reporteCompraAni(){
+  var i = "/reportes/compraA/";
+  var j = document.getElementById("compraAnimal").value;
+  var sum = i+j;
+  console.log("---------------------------------",sum);
+  window.location=sum;
+}
+function reporteVentaAni(){
+  var i = "/reportes/ventasAnimal/";
+  var j = document.getElementById("ventaAnimal").value;
+  var sum = i+j;
+  console.log("---------------------------------",sum);
+  window.location=sum;
+}
+function reporteTraslado(){
+  var i = "/reportes/trasladoAnimal/";
+  var j = document.getElementById("trasladoAnimal").value;
+  var sum = i+j;
+  console.log("---------------------------------",sum);
+  window.location=sum;
+}
 function reporteIngreso(){
   var i = "/reportes/ingresoA/";
   var j = document.getElementById("ingresoAnimal").value;
@@ -76,6 +97,20 @@ function reporteSalida(){
 function reporteAcceso(){
   var i = "/reportes/ingresoC/";
   var j = document.getElementById("ingresoEmple").value;
+  var sum = i+j;
+  console.log("---------------------------------",sum);
+  window.location=sum;
+}
+function reporteCompraInsu(){
+  var i = "/reportes/compraI/";
+  var j = document.getElementById("compraInsumo").value;
+  var sum = i+j;
+  console.log("---------------------------------",sum);
+  window.location=sum;
+}
+function reporteCompraServi(){
+  var i = "/reportes/compraS/";
+  var j = document.getElementById("compraServi").value;
   var sum = i+j;
   console.log("---------------------------------",sum);
   window.location=sum;

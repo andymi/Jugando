@@ -1,0 +1,27 @@
+extends ../../layout 
+block content
+  div(class="content-wrapper")
+    section(class="content")
+      div(class="row")
+        div(class="col-md-6")
+          div(class="box box-success")
+            div(class="box-header with-border")
+              h3(class="box-title") Perfil del Usuario
+              
+            div(class="box-body box-profile")
+              img(class="profile-user-img img-responsive img-circle" src="../img/user10-160x160.png" alt="User profile picture")
+              p(class="profile-username text-center")=usuarios
+
+              p(class="text-muted text-center") Usuario del Sistema
+
+              ul(class="list-group list-group-unbordered")
+                li(class="list-group-item")
+                  b Usuario
+                  a(class="pull-right")=usuarios
+                li(class="list-group-item")
+                  b Contraseña
+                  a(class="pull-right")=passs
+                li(class="list-group-item")
+                  b Fecha de Creación
+                  a(class="pull-right")=fechaCreacions
+              

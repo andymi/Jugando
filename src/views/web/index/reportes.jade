@@ -74,6 +74,42 @@ block content
         div(class="col-md-3")
           div(class="box box-warning") 
             div(class="box-header with-border") 
+              h3(class="box-title") Compra de Animales
+              div(class="box-tools pull-right") 
+                button(class="btn btn-box-tool" data-widget="collapse")
+                  i(class="fa fa-minus")
+            div(class="box-body") 
+              div(class="input-group")
+                input(id="compraAnimal" name="compraAnimal" type="text" placeholder="Ingrese el Nº de Compra" class="form-control")
+                span(class="input-group-btn")
+                  button(onClick="reporteCompraAni();" type="button" class="btn btn-warning btn-flat") Listo
+        div(class="col-md-3")
+          div(class="box box-warning") 
+            div(class="box-header with-border") 
+              h3(class="box-title") Venta de Animales
+              div(class="box-tools pull-right") 
+                button(class="btn btn-box-tool" data-widget="collapse")
+                  i(class="fa fa-minus")
+            div(class="box-body") 
+              div(class="input-group")
+                input(id="ventaAnimal" name="ventaAnimal" type="text" placeholder="Ingrese el Nº de Venta" class="form-control")
+                span(class="input-group-btn")
+                  button(onClick="reporteVentaAni();" type="button" class="btn btn-warning btn-flat") Listo
+        div(class="col-md-3")
+          div(class="box box-warning") 
+            div(class="box-header with-border") 
+              h3(class="box-title") Traslado de Animales
+              div(class="box-tools pull-right") 
+                button(class="btn btn-box-tool" data-widget="collapse")
+                  i(class="fa fa-minus")
+            div(class="box-body") 
+              div(class="input-group")
+                input(id="trasladoAnimal" name="trasladoAnimal" type="text" placeholder="Ingrese el Nº de Traslado" class="form-control")
+                span(class="input-group-btn")
+                  button(onClick="reporteTraslado();" type="button" class="btn btn-warning btn-flat") Listo
+        div(class="col-md-3")
+          div(class="box box-warning") 
+            div(class="box-header with-border") 
               h3(class="box-title") Ingreso al corral del Animal
               div(class="box-tools pull-right") 
                 button(class="btn btn-box-tool" data-widget="collapse")
@@ -107,6 +143,30 @@ block content
                 input(id="ingresoEmple" name="ingresoEmple" type="text" placeholder="Ingrese el Nombre" class="form-control")
                 span(class="input-group-btn")
                   button(onClick="reporteAcceso();" type="button" class="btn btn-warning btn-flat") Listo
+        div(class="col-md-3")
+          div(class="box box-warning") 
+            div(class="box-header with-border") 
+              h3(class="box-title") Compra de Insumos
+              div(class="box-tools pull-right") 
+                button(class="btn btn-box-tool" data-widget="collapse")
+                  i(class="fa fa-minus")
+            div(class="box-body") 
+              div(class="input-group")
+                input(id="compraInsumo" name="compraInsumo" type="text" placeholder="Ingrese el Nº de Compra" class="form-control")
+                span(class="input-group-btn")
+                  button(onClick="reporteCompraInsu();" type="button" class="btn btn-warning btn-flat") Listo
+        div(class="col-md-3")
+          div(class="box box-warning") 
+            div(class="box-header with-border") 
+              h3(class="box-title") Compra de Servicios
+              div(class="box-tools pull-right") 
+                button(class="btn btn-box-tool" data-widget="collapse")
+                  i(class="fa fa-minus")
+            div(class="box-body") 
+              div(class="input-group")
+                input(id="compraServi" name="compraServi" type="text" placeholder="Ingrese el Nº de Compra" class="form-control")
+                span(class="input-group-btn")
+                  button(onClick="reporteCompraServi();" type="button" class="btn btn-warning btn-flat") Listo
     section(class="content")
       div(class="row")
         div(class="col-md-12")

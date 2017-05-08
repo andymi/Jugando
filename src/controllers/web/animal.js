@@ -18,6 +18,9 @@ exports.getForm = function (req, res) {
   //************************************
   var alarma = Model.Alarma.build();
   //************************************
+  if(!req.session.user){
+    res.render('web/index/404.jade');               
+  }
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
     if (mensaje1) {     
@@ -37,13 +40,19 @@ exports.getForm = function (req, res) {
                   raza.retrieveAll(function (razaQ) {
                     console.log('razaQ',razaQ);
                     if (razaQ) {
+                      var usuario = req.session.user.usuario;
+                      var pass = req.session.user.pass;
+                      var fechaCreacion = req.session.user.fechaCreacion;
                         res.render('web/animal/index',{
                             animal: animal,
                             selectJ:razaQ,
                             alarmas1: alarma1,
                             alarmas2: alarma2,
                             mensajes: mensaje1,
-                            mensajeria: mensaje2                            
+                            mensajeria: mensaje2,
+                            usuarios: usuario,
+                            passs: pass,
+                            fechaCreacions: fechaCreacion                            
                         });
                     }
                   }, function (error) {
@@ -125,6 +134,9 @@ exports.listPag = function (req, res) {
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
+  if(!req.session.user){
+    res.render('web/index/404.jade');               
+  }
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
     if (mensaje1) {     
@@ -141,12 +153,18 @@ exports.listPag = function (req, res) {
                   console.log(req.body);
                   animal.retrieveAll(function (animales) {
                     if (animales) {
+                      var usuario = req.session.user.usuario;
+                      var pass = req.session.user.pass;
+                      var fechaCreacion = req.session.user.fechaCreacion;
                       res.render('web/animal/success', { 
                         animales: animales,
                         mensajes: mensaje1,
                         mensajeria: mensaje2,
                         alarmas1: alarma1,
-                        alarmas2: alarma2                            
+                        alarmas2: alarma2,
+                        usuarios: usuario,
+                        passs: pass,
+                        fechaCreacions: fechaCreacion                            
                       });
                     } else {
                       res.send(401, 'No se encontraron Animales');
@@ -241,6 +259,9 @@ exports.read = function (req, res) {
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
+  if(!req.session.user){
+    res.render('web/index/404.jade');               
+  }
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
     if (mensaje1) {     
@@ -259,13 +280,19 @@ exports.read = function (req, res) {
                       animal.retrieveById(req.params.animalId, function (animaloq) {
                         if (animaloq) {
                           console.log('dentro de editar:*****************');
+                          var usuario = req.session.user.usuario;
+                          var pass = req.session.user.pass;
+                          var fechaCreacion = req.session.user.fechaCreacion;
                           res.render('web/animal/edit', {
                                   animal:animaloq,
                                   select: raza,
                                   mensajes: mensaje1,
                                   mensajeria: mensaje2,
                                   alarmas1: alarma1,
-                                  alarmas2: alarma2     
+                                  alarmas2: alarma2,
+                                  usuarios: usuario,
+                                  passs: pass,
+                                  fechaCreacions: fechaCreacion     
                           });
                         } else {
                            console.log('dentro de else:*****************');

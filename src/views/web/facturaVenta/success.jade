@@ -33,7 +33,6 @@ block content
                       th(class="text-center") Monto Total de la Venta 
                       th(class="text-center") Cliente
                       th(class="text-center") Ver Detalle
-                      th(class="text-center") Imprimir Venta
                       th(class="text-center") Eliminar Registro
                   
                   tbody
@@ -54,12 +53,6 @@ block content
                             p(data-placement="top" data-toggle="tooltip" title="Ver Detalle")
                               button(type="button" class="btn btn-success") 
                                 i(class="fa fa-eye")
-
-                        td(class="text-center")
-                          a(href="/reportes/venta/#{facturaVentas.idVenta}" class="btn btn-success" role="button")
-                            p(data-placement="top" data-toggle="tooltip" title="Imprimir Venta")
-                              button(type="button" class="btn btn-success")
-                                i(class="fa fa-print")
 
                         form(id="topicForm" method="post" action="/web/facturaVenta/#{facturaVentas.idVenta}")
                           input(type="hidden" name="_method" value="delete")

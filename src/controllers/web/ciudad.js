@@ -19,7 +19,9 @@ exports.getForm = function (req, res) {
   //************************************ 
   var alarma = Model.Alarma.build();
   //************************************
-  
+  if(!req.session.user){
+    res.render('web/index/404.jade');             
+  }
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
     if (mensaje1) {     
@@ -36,13 +38,19 @@ exports.getForm = function (req, res) {
                   departamento.retrieveAll(function (departamentoQ) {
                     console.log('departamentoQ',departamentoQ);
                     if (departamentoQ) {
+                      var usuario = req.session.user.usuario;
+                      var pass = req.session.user.pass;
+                      var fechaCreacion = req.session.user.fechaCreacion;
                         res.render('web/ciudad/index', {
                             ciudadJ: ciudad,
                             selectJ: departamentoQ,
                             mensajes: mensaje1,
                             mensajeria: mensaje2,
                             alarmas1: alarma1,
-                            alarmas2: alarma2
+                            alarmas2: alarma2,
+                            usuarios: usuario,
+                            passs: pass,
+                            fechaCreacions: fechaCreacion
                         });
                     }
                   }, function (error) {
@@ -101,6 +109,9 @@ exports.listPag = function (req, res) {
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
+  if(!req.session.user){
+    res.render('web/index/404.jade');            
+  }
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
     if (mensaje1) {     
@@ -116,12 +127,18 @@ exports.listPag = function (req, res) {
                   console.log(req.body);
                   ciudad.retrieveAll(function (ciudades) {
                     if (ciudades) {
+                      var usuario = req.session.user.usuario;
+                      var pass = req.session.user.pass;
+                      var fechaCreacion = req.session.user.fechaCreacion;
                       res.render('web/ciudad/success', { 
                         ciudades: ciudades,
                         mensajes: mensaje1,
                         mensajeria: mensaje2,
                         alarmas1: alarma1,
-                        alarmas2: alarma2
+                        alarmas2: alarma2,
+                        usuarios: usuario,
+                        passs: pass,
+                        fechaCreacions: fechaCreacion
                       });
                     } else {
                       res.send(401, 'No se encontraron Ciudades');
@@ -187,6 +204,9 @@ exports.read = function (req, res) {
   //************************************ 
   var alarma = Model.Alarma.build();
   //************************************
+  if(!req.session.user){
+    res.render('web/index/404.jade');           
+  }
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
     if (mensaje1) {     
@@ -204,13 +224,19 @@ exports.read = function (req, res) {
                       console.log(req.body);
                       ciudad.retrieveById(req.params.ciudadId, function (ciudadq) {
                         if (ciudadq) {
+                          var usuario = req.session.user.usuario;
+                          var pass = req.session.user.pass;
+                          var fechaCreacion = req.session.user.fechaCreacion;
                           res.render('web/ciudad/edit', {
                             ciudad:ciudadq,
                             select: departamento,
                             mensajes: mensaje1,
                             mensajeria: mensaje2,
                             alarmas1: alarma1,
-                            alarmas2: alarma2    
+                            alarmas2: alarma2,
+                            usuarios: usuario,
+                            passs: pass,
+                            fechaCreacions: fechaCreacion  
                           });
                         } else {
                           res.send(401, 'arCiudad no encontrado');

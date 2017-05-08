@@ -17,6 +17,9 @@ exports.getForm = function (req, res) {
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
+  if(!req.session.user){
+    res.render('web/index/404.jade');              
+  }
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
     if (mensaje1) {     
@@ -37,6 +40,9 @@ exports.getForm = function (req, res) {
                         if (vacunacion) {      
                           console.log('soy ************************** retrieveId',mensaje2);
                           console.log('soy -------------------------- retrieveId',mensaje1);
+                          var usuario = req.session.user.usuario;
+                          var pass = req.session.user.pass;
+                          var fechaCreacion = req.session.user.fechaCreacion; 
                           res.render('web/detalleVacunacionInsumo/index', {
                                           vacunacionJ:vacunacion,
                                           detalleVacunacionInsumoJ: detalleVacunacionInsumo,
@@ -44,7 +50,10 @@ exports.getForm = function (req, res) {
                                           mensajes: mensaje1,
                                           mensajeria: mensaje2,
                                           alarmas1: alarma1,
-                                          alarmas2: alarma2 
+                                          alarmas2: alarma2,
+                                          usuarios: usuario,
+                                          passs: pass,
+                                          fechaCreacions: fechaCreacion
                           });                            
                         } else {
                           res.send(401, 'No se encontraron Sanitaciones');
@@ -124,6 +133,9 @@ exports.listPag1 = function (req, res) {
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
+  if(!req.session.user){
+    res.render('web/index/404.jade');             
+  }
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
     if (mensaje1) {     
@@ -139,12 +151,18 @@ exports.listPag1 = function (req, res) {
                     console.log('alarma2', alarma2);
                     if (alarma2) {  
                       console.log(req.body);
+                      var usuario = req.session.user.usuario;
+                      var pass = req.session.user.pass;
+                      var fechaCreacion = req.session.user.fechaCreacion; 
                       res.render('web/detalleVacunacionInsumo/success', { 
                         detalleVacunaciones:detalleVacunaciones,
                         mensajes: mensaje1,
                         mensajeria: mensaje2,
                         alarmas1: alarma1,
-                        alarmas2: alarma2 
+                        alarmas2: alarma2,
+                        usuarios: usuario,
+                        passs: pass,
+                        fechaCreacions: fechaCreacion
                       });
                     }else {
                       res.send(401, 'No se encontraron Alarmas');
@@ -187,6 +205,9 @@ exports.getForm2 = function (req, res) {
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
+  if(!req.session.user){
+    res.render('web/index/404.jade');            
+  }
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
     if (mensaje1) {     
@@ -203,6 +224,9 @@ exports.getForm2 = function (req, res) {
                     console.log('alarma2', alarma2);
                     if (alarma2) {  
                       console.log(req.body);    
+                      var usuario = req.session.user.usuario;
+                      var pass = req.session.user.pass;
+                      var fechaCreacion = req.session.user.fechaCreacion; 
                       console.log('soy vacunacion retrieveId',vacunacionId);
                       res.render('web/detalleVacunacionInsumo/indexa', {
                                     vacunacionJ:vacunacionId,
@@ -211,7 +235,10 @@ exports.getForm2 = function (req, res) {
                                     mensajes: mensaje1,
                                     mensajeria: mensaje2,
                                     alarmas1: alarma1,
-                                    alarmas2: alarma2
+                                    alarmas2: alarma2,
+                                    usuarios: usuario,
+                                    passs: pass,
+                                    fechaCreacions: fechaCreacion
                       });   
                     }else {
                       res.send(401, 'No se encontraron Alarmas');
@@ -311,6 +338,9 @@ exports.read = function (req, res) {
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
+  if(!req.session.user){
+    res.render('web/index/404.jade');             
+  }
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
     if (mensaje1) {     
@@ -328,13 +358,19 @@ exports.read = function (req, res) {
                         console.log('alarma2', alarma2);
                         if (alarma2) {  
                           console.log(req.body);
+                          var usuario = req.session.user.usuario;
+                          var pass = req.session.user.pass;
+                          var fechaCreacion = req.session.user.fechaCreacion; 
                           res.render('web/detalleVacunacionInsumo/edit', {
                               detalleVacunacionInsumo:detalleVacunacionInsumo,
                               select: insumo,
                               mensajes: mensaje1,
                               mensajeria: mensaje2,
                               alarmas1: alarma1,
-                              alarmas2: alarma2
+                              alarmas2: alarma2,
+                              usuarios: usuario,
+                              passs: pass,
+                              fechaCreacions: fechaCreacion
                           });
                         }else {
                           res.send(401, 'No se encontraron Alarmas');

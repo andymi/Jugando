@@ -77,6 +77,45 @@ module.exports = function (sequelize, DataTypes) {
             .then(onSuccess).catch(onError);
             });
         },
+        retrieveByNumInsu: function (id, onSuccess, onError) {
+          Model.FacturaCompra.find({ 
+            where:{ numeroCompra: id }
+          }).then(function (compra) {
+
+            DetalleCompra.findAll({
+              include: [ Model.FacturaCompra, Model.Insumo],
+              where: { FacturaCompraIdCompra:compra.idCompra }
+            })
+            .then(onSuccess).catch(onError);
+
+          });
+        },
+        retrieveByNumAni: function (id, onSuccess, onError) {
+          Model.FacturaCompra.find({ 
+            where:{ numeroCompra: id }
+          }).then(function (compra) {
+
+            DetalleCompra.findAll({
+              include: [ Model.FacturaCompra],
+              where: { FacturaCompraIdCompra: compra.idCompra }
+            })
+            .then(onSuccess).catch(onError);
+
+          });
+        },
+        retrieveByNumServi: function (id, onSuccess, onError) {
+          Model.FacturaCompra.find({ 
+            where:{ numeroCompra: id }
+          }).then(function (compra) {
+
+            DetalleCompra.findAll({
+              include: [ Model.FacturaCompra, Model.Servicios],
+              where: { FacturaCompraIdCompra:compra.idCompra}
+            })
+            .then(onSuccess).catch(onError);
+            
+          });
+        },
         retrieveAll: function (id, onSuccess, onError) {
           DetalleCompra.findAll({
             include: [ Model.FacturaCompra, Model.Insumo],

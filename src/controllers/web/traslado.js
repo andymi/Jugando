@@ -18,6 +18,9 @@ exports.getForm = function (req, res) {
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
+  if(!req.session.user){
+    res.render('web/index/404.jade');              
+  }
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
     if (mensaje1) {     
@@ -39,7 +42,11 @@ exports.getForm = function (req, res) {
                       alarma.retrieveAll(function (alarma2) {
                         console.log('alarma2', alarma2);
                         if (alarma2) {  
-                          console.log(req.body);                  
+                          console.log(req.body); 
+                          var usuario = req.session.user.usuario;
+                          var pass = req.session.user.pass;
+                          var fechaCreacion = req.session.user.fechaCreacion;         
+                                   
                           res.render('web/traslado/index', {
                             trasladoJ: traslado,            
                             selectJ: ciudadQ,
@@ -48,7 +55,10 @@ exports.getForm = function (req, res) {
                             mensajes: mensaje1,
                             alarmas1: alarma1,
                             alarmas2: alarma2,
-                            mensajeria: mensaje2
+                            mensajeria: mensaje2,
+                            usuarios: usuario,
+                            passs: pass,
+                            fechaCreacions: fechaCreacion
                           });
                          }else {
                           res.send(401, 'No se encontraron Alarmas');
@@ -125,6 +135,9 @@ exports.listPag = function (req, res) {
   //************************************
   var mensaje = Model.Mensaje.build();
   //************************************
+  if(!req.session.user){
+    res.render('web/index/404.jade');              
+  }
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
     if (mensaje1) {     
@@ -139,13 +152,20 @@ exports.listPag = function (req, res) {
                   alarma.retrieveAll(function (alarma2) {
                     console.log('alarma2', alarma2);
                     if (alarma2) {  
-                      console.log(req.body);                    
+                      console.log(req.body);   
+                      var usuario = req.session.user.usuario;
+                      var pass = req.session.user.pass;
+                      var fechaCreacion = req.session.user.fechaCreacion;         
+                                   
                       res.render('web/traslado/success', { 
                         traslado: traslado,
                         mensajes: mensaje1,
                         alarmas1: alarma1,
                         alarmas2: alarma2,
-                        mensajeria: mensaje2
+                        mensajeria: mensaje2,
+                        usuarios: usuario,
+                        passs: pass,
+                        fechaCreacions: fechaCreacion
                       });
                      }else {
                       res.send(401, 'No se encontraron Alarmas');
@@ -214,6 +234,9 @@ exports.read = function (req, res) {
   var facturaCompra = Model.FacturaCompra.build();
   var ciudad =Model.Ciudad.build();
   //************************************
+  if(!req.session.user){
+    res.render('web/index/404.jade');             
+  }
   var alarma = Model.Alarma.build();
   ciudad.retrieveAll(function (ciudad) {
     if (ciudad) {
@@ -229,14 +252,21 @@ exports.read = function (req, res) {
                         alarma.retrieveAll(function (alarma2) {
                           console.log('alarma2', alarma2);
                           if (alarma2) {  
-                            console.log(req.body);                  
+                            console.log(req.body);  
+                            var usuario = req.session.user.usuario;
+                            var pass = req.session.user.pass;
+                            var fechaCreacion = req.session.user.fechaCreacion;         
+                                  
                             res.render('web/traslado/edit', {
                                   traslado:traslado,
                                   select: ciudad,
                                   selectJ: empleado,
                                   alarmas1: alarma1,
                                   alarmas2: alarma2,
-                                  selectN: facturaCompra
+                                  selectN: facturaCompra,
+                                  usuarios: usuario,
+                                  passs: pass,
+                                  fechaCreacions: fechaCreacion
                             });
                            }else {
                             res.send(401, 'No se encontraron Alarmas');
@@ -282,6 +312,9 @@ exports.read = function (req, res) {
 exports.readId = function (req, res) {
   var traslado = Model.Traslado.build();
   //************************************
+  if(!req.session.user){
+    res.render('web/index/404.jade');              
+  }
   var alarma = Model.Alarma.build();
   traslado.retrieveVerId(req.params.id, function (trasladoQ) {
     if (trasladoQ) {
@@ -292,10 +325,17 @@ exports.readId = function (req, res) {
             console.log('alarma2', alarma2);
             if (alarma2) {  
               console.log(req.body);
+              var usuario = req.session.user.usuario;
+              var pass = req.session.user.pass;
+              var fechaCreacion = req.session.user.fechaCreacion;         
+                  
               res.render('web/detalleTraslado/success', {
                   traslado:trasladoQ,
                   alarmas1: alarma1,
                   alarmas2: alarma2,
+                  usuarios: usuario,
+                  passs: pass,
+                  fechaCreacions: fechaCreacion
                 });
              }else {
               res.send(401, 'No se encontraron Alarmas');

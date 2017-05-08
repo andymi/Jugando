@@ -32,6 +32,19 @@ module.exports = function (sequelize, DataTypes) {
            } )
           .then(onSuccess).catch(onError);
         },
+        retrieveAnimal: function (id, onSuccess, onError) {
+           Model.Traslado.find({ 
+            where:{ numeroRUA: id }
+          }).then(function (traslado) {
+
+            DetalleTraslado.findAll( {
+              include: [ Model.Traslado, Model.Animal],
+              where: { TrasladoIdTraslado:traslado.idTraslado}
+             } )
+            .then(onSuccess).catch(onError);
+
+          });
+        },
         retrieveById: function (detalleTrasladoId, onSuccess, onError) {
           DetalleTraslado.find( {
             include: [ Model.Animal ],

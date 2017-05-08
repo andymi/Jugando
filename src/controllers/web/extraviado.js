@@ -4,18 +4,21 @@
 
 // Importar rutas
 // =============================================================================
-var Museo = require('../../models/jugando.js');
+var Model = require('../../models/jugando.js');
 
 /* Rutas que terminan en /extraviado
 // router.route('/extraviado') */
 exports.getForm = function (req, res) {
-  var empleado = Museo.Empleado.build();
-  var extraviado = Museo.Extraviado.build();
+  var empleado = Model.Empleado.build();
+  var extraviado = Model.Extraviado.build();
   //************************************
   var alarma = Model.Alarma.build();
   //************************************
-  var mensaje = Museo.Mensaje.build();
+  var mensaje = Model.Mensaje.build();
   //************************************
+  if(!req.session.user){
+    res.render('web/index/404.jade');             
+  }
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
     if (mensaje1) {     
@@ -32,13 +35,19 @@ exports.getForm = function (req, res) {
                     console.log('alarma2', alarma2);
                     if (alarma2) {  
                       console.log(req.body);
+                      var usuario = req.session.user.usuario;
+                      var pass = req.session.user.pass;
+                      var fechaCreacion = req.session.user.fechaCreacion; 
                       res.render('web/extraviado/index', {
                               extraviadoJ: extraviado,
                               selectJ: empleadoQ,
                               mensajes: mensaje1,
                               mensajeria: mensaje2,
                               alarmas1: alarma1,
-                              alarmas2: alarma2
+                              alarmas2: alarma2,
+                              usuarios: usuario,
+                              passs: pass,
+                              fechaCreacions: fechaCreacion
                       });
                     }else {
                       res.send(401, 'No se encontraron Alarmas');
@@ -80,7 +89,7 @@ exports.create = function (req, res) {
 
   console.log('paso ina**************************');
    
-  var index = Museo.Extraviado.build({
+  var index = Model.Extraviado.build({
     fechaExtraviado: fechaExtraviado,
     horaExtraviado: horaExtraviado,    
     lugarExtraviado: lugarExtraviado,
@@ -100,13 +109,16 @@ exports.create = function (req, res) {
 /* (trae todos los extraviado)
 // GET /extraviado */
 exports.listPag = function (req, res) {
-  var extraviado = Museo.Extraviado.build();
+  var extraviado = Model.Extraviado.build();
   console.log('request body',req.body);
   //************************************
   var alarma = Model.Alarma.build();
   //************************************
-  var mensaje = Museo.Mensaje.build();
+  var mensaje = Model.Mensaje.build();
   //************************************
+  if(!req.session.user){
+    res.render('web/index/404.jade');              
+  }
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
     if (mensaje1) {     
@@ -121,13 +133,19 @@ exports.listPag = function (req, res) {
                   alarma.retrieveAll(function (alarma2) {
                     console.log('alarma2', alarma2);
                     if (alarma2) {  
-                      console.log(req.body);  
+                      console.log(req.body);
+                      var usuario = req.session.user.usuario;
+                      var pass = req.session.user.pass;
+                      var fechaCreacion = req.session.user.fechaCreacion;   
                       res.render('web/extraviado/success', { 
                         extraviado: extraviado,
                         mensajes: mensaje1,
                         mensajeria: mensaje2,
                         alarmas1: alarma1,
-                        alarmas2: alarma2
+                        alarmas2: alarma2,
+                        usuarios: usuario,
+                        passs: pass,
+                        fechaCreacions: fechaCreacion
                       });
                       console.log('soy extraviado retrieveAll',extraviado);
                     }else {
@@ -143,7 +161,7 @@ exports.listPag = function (req, res) {
                 res.send('Alarma no encontrado');
               });              
             } else {
-              res.send(401, 'No se encontraron Pesajes');
+              res.send(401, 'No se encontraron Extraviado');
             }
           }, function (error) {
             res.send('Extraviado no encontrado');
@@ -168,7 +186,7 @@ exports.listPag = function (req, res) {
 // Actualiza extraviado */
 
 exports.update = function (req, res) {
-  var extraviado = Museo.Extraviado.build();
+  var extraviado = Model.Extraviado.build();
 
   extraviado.fechaExtraviado = req.body.fechaExtraviado;
   extraviado.horaExtraviado = req.body.horaExtraviado;
@@ -190,13 +208,16 @@ exports.update = function (req, res) {
 // GET /extraviado/:extraviadoId
 // Toma un extraviado por id
 exports.read = function (req, res) {
-  var extraviado = Museo.Extraviado.build();
-  var empleado = Museo.Empleado.build();
+  var extraviado = Model.Extraviado.build();
+  var empleado = Model.Empleado.build();
   //************************************
   var alarma = Model.Alarma.build();
   //************************************
-  var mensaje = Museo.Mensaje.build();
+  var mensaje = Model.Mensaje.build();
   //************************************
+  if(!req.session.user){
+    res.render('web/index/404.jade');              
+  }
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
     if (mensaje1) {     
@@ -214,13 +235,19 @@ exports.read = function (req, res) {
                         console.log('alarma2', alarma2);
                         if (alarma2) {  
                           console.log(req.body);
+                          var usuario = req.session.user.usuario;
+                          var pass = req.session.user.pass;
+                          var fechaCreacion = req.session.user.fechaCreacion; 
                           res.render('web/extraviado/edit', {
                               extraviado:extraviado,
                               select: empleado,
                               mensajes: mensaje1,
                               mensajeria: mensaje2,
                               alarmas1: alarma1,
-                              alarmas2: alarma2
+                              alarmas2: alarma2,
+                              usuarios: usuario,
+                              passs: pass,
+                              fechaCreacions: fechaCreacion
                             });
                         }else {
                           res.send(401, 'No se encontraron Alarmas');
@@ -262,12 +289,15 @@ exports.read = function (req, res) {
 };
 
 exports.readId = function (req, res) {
-  var extraviado = Museo.Extraviado.build();
+  var extraviado = Model.Extraviado.build();
   //************************************
   var alarma = Model.Alarma.build();
   //************************************
-  var mensaje = Museo.Mensaje.build();
+  var mensaje = Model.Mensaje.build();
   //************************************
+  if(!req.session.user){
+    res.render('web/index/404.jade');             
+  }
   mensaje.retriveCount(function (mensaje1) { 
     console.log('mensaje1', mensaje1);
     if (mensaje1) {     
@@ -283,12 +313,18 @@ exports.readId = function (req, res) {
                     console.log('alarma2', alarma2);
                     if (alarma2) {  
                       console.log(req.body);
+                      var usuario = req.session.user.usuario;
+                      var pass = req.session.user.pass;
+                      var fechaCreacion = req.session.user.fechaCreacion; 
                       res.render('web/detalleExtraviado/success', {
                           extraviado:extraviadoq,
                           mensajes: mensaje1,
                           mensajeria: mensaje2,
                           alarmas1: alarma1,
-                          alarmas2: alarma2
+                          alarmas2: alarma2,
+                          usuarios: usuario,
+                          passs: pass,
+                          fechaCreacions: fechaCreacion
                         });
                     }else {
                       res.send(401, 'No se encontraron Alarmas');
@@ -324,7 +360,7 @@ exports.readId = function (req, res) {
 // DELETE /extraviado/extraviadoId
 // Borra el extraviadoId
 exports.delete = function (req, res) {
-  var extraviado = Museo.Extraviado.build();
+  var extraviado = Model.Extraviado.build();
 
  extraviado.removeById(req.params.extraviadoId, function (extraviado) {
     if (extraviado) {

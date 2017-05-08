@@ -32,7 +32,6 @@ block content
                       th(class="text-center") Monto Total de la Compra         
                       th(class="text-center") Proveedor
                       th(class="text-center") Ver Detalle
-                      th(class="text-center") Imprimir Compra
                       th(class="text-center") Eliminar Registro
                   
                   tbody
@@ -52,12 +51,7 @@ block content
                             p(data-placement="top" data-toggle="tooltip" title="Ver Detalle")
                               button(type="button" class="btn btn-success")
                                 i(class="fa fa-eye") 
-                        td(class="text-center")
-                          a(href="/reportes/compra/#{facturaCompras.idCompra}" class="btn btn-success" role="button")
-                            p(data-placement="top" data-toggle="tooltip" title="Imprimir Compra")
-                              button(type="button" class="btn btn-success")
-                                i(class="fa fa-print")
-                              
+                             
                         form(id="topicForm" method="post" action="/web/facturaCompra/#{facturaCompras.idCompra}")
                           input(type="hidden" name="_method" value="delete")
                           input(type="hidden" name="idCompra" value='#{facturaCompras.idCompra}')               

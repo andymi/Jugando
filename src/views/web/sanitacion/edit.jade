@@ -42,11 +42,11 @@ block content
                   label(class="control-label col-sm-4" for="email") Empleado: 
                   div(class="col-sm-8") 
                     select(name="empleadoSele" class="btn btn-default select2")
-                      -for (var j=0; j < select.length; j++) {
-                        if sanitacion.EmpleadoIdEmpleado == select[j].idEmpleado 
-                         option(value="#{select[j].idEmpleado}" selected) #{select[j].nombreEmpleado} 
+                      -for (var j=0; j < selectJ.length; j++) {
+                        if sanitacion.EmpleadoIdEmpleado == selectJ[j].idEmpleado 
+                         option(value="#{selectJ[j].idEmpleado}" selected) #{selectJ[j].nombreEmpleado} 
                         else 
-                         option(value="#{select[j].idEmpleado}") #{select[j].nombreEmpleado}
+                         option(value="#{selectJ[j].idEmpleado}") #{selectJ[j].nombreEmpleado}
                       -}
                 div(class="form-group")
                   label(class="control-label col-sm-4" for="email") Proveedor: 
@@ -63,5 +63,5 @@ block content
                 div(class="btn-group pull-right")
                   button(type="submit" href="javascript:void(0);" class="btn btn-success") Editar Sanitación
                     i(class="fa fa-save") 
-                  a(href="/web/pesaje" class="btn btn-default") Cancelar
+                  a(href="/web/sanitacion" class="btn btn-default") Cancelar
                     i(class="fa fa-remove")
