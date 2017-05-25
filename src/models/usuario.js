@@ -67,6 +67,7 @@ module.exports = function (sequelize, DataTypes) {
           console.log('soy encripted', encripted);
           
           Usuario.find({
+            include: [ Model.Nivel],
             where: {
               usuario: usuario,
               $and: {pass: encripted} 

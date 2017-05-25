@@ -133,18 +133,8 @@ com.on('error', function(err){
 
 
 
+/****************************************************************************
 
-
-
-
-
-
-
-
-
-
-
-/*******************************************************************************
 var horaC="";
 var horasC="";
 var nivelC="";
@@ -342,58 +332,114 @@ router.get('/perfil', function (req, res) {
   if(!req.session.user){
     res.render('web/index/404.jade');            
   }
-  mensaje.retriveCount(function (mensaje1) { 
-    console.log('mensaje1', mensaje1);
-    if (mensaje1) {     
-      mensaje.retrieveAll(function (mensaje2) {
-        console.log('mensaje2', mensaje2);
-        if (mensaje2) {  
-          console.log(req.body);
-          alarma.retriveCount(function (alarma1) { 
-            console.log('alarma1', alarma1);
-            if (alarma1) {     
-              alarma.retrieveAll(function (alarma2) {
-                console.log('alarma2', alarma2);
-                if (alarma2) {  
-                  console.log(req.session.user);  
-                  var usuario = req.session.user.usuario;
-                  var pass = req.session.user.pass;
-                  var fechaCreacion = req.session.user.fechaCreacion;
-                  res.render('web/index/perfil.jade',{
-                    alarmas1: alarma1,
-                    alarmas2: alarma2,
-                    mensajes: mensaje1,
-                    mensajeria: mensaje2,
-                    usuarios: usuario,
-                    passs: pass,
-                    fechaCreacions: fechaCreacion
-                  });
-                }else {
-                  res.send(401, 'No se encontraron Alarmas');
-                }
-              }, function (error) {
-                res.send('Alarma no encontrado');
-              });
-            } else {
-              res.send(401, 'No se encontraron Alarmas');
-            }
-          }, function (error) {
-            res.send('Alarma no encontrado');
-          });
-          
-        }else {
-          res.send(401, 'No se encontraron Mensajes');
-        }
-      }, function (error) {
-        res.send('Mensaje no encontrado');
-      });
-    } else {
-      res.send(401, 'No se encontraron Mensajes');
-    }
-  }, function (error) {
-    res.send('Mensaje no encontrado');
-  });
-    
+  var nivelUsuario = req.session.user.Nivel['nivel'];
+  console.log('soy nivelUsuario', nivelUsuario);
+  if(nivelUsuario =='admin'){
+    mensaje.retriveCount(function (mensaje1) { 
+      console.log('mensaje1', mensaje1);
+      if (mensaje1) {     
+        mensaje.retrieveAll(function (mensaje2) {
+          console.log('mensaje2', mensaje2);
+          if (mensaje2) {  
+            console.log(req.body);
+            alarma.retriveCount(function (alarma1) { 
+              console.log('alarma1', alarma1);
+              if (alarma1) {     
+                alarma.retrieveAll(function (alarma2) {
+                  console.log('alarma2', alarma2);
+                  if (alarma2) {  
+                    console.log(req.session);  
+                    var usuario = req.session.user.usuario;
+                    var pass = req.session.user.pass;
+                    var fechaCreacion = req.session.user.fechaCreacion;
+                    res.render('web/index/perfil.jade',{
+                      alarmas1: alarma1,
+                      alarmas2: alarma2,
+                      mensajes: mensaje1,
+                      mensajeria: mensaje2,
+                      usuarios: usuario,
+                      passs: pass,
+                      fechaCreacions: fechaCreacion
+                    });
+                  }else {
+                    res.send(401, 'No se encontraron Alarmas');
+                  }
+                }, function (error) {
+                  res.send('Alarma no encontrado');
+                });
+              } else {
+                res.send(401, 'No se encontraron Alarmas');
+              }
+            }, function (error) {
+              res.send('Alarma no encontrado');
+            });
+            
+          }else {
+            res.send(401, 'No se encontraron Mensajes');
+          }
+        }, function (error) {
+          res.send('Mensaje no encontrado');
+        });
+      } else {
+        res.send(401, 'No se encontraron Mensajes');
+      }
+    }, function (error) {
+      res.send('Mensaje no encontrado');
+    });
+  } else{
+    mensaje.retriveCount(function (mensaje1) { 
+      console.log('mensaje1', mensaje1);
+      if (mensaje1) {     
+        mensaje.retrieveAll(function (mensaje2) {
+          console.log('mensaje2', mensaje2);
+          if (mensaje2) {  
+            console.log(req.body);
+
+            alarma.retriveCount(function (alarma1) { 
+              console.log('alarma1', alarma1);
+              if (alarma1) {     
+                alarma.retrieveAll(function (alarma2) {
+                  console.log('alarma2', alarma2);
+                  if (alarma2) {  
+                    console.log(req.body);
+                    var usuario = req.session.user.usuario;
+                    var pass = req.session.user.pass;
+                    var fechaCreacion = req.session.user.fechaCreacion;
+                    res.render('web/index/errores.jade',{
+                      alarmas1: alarma1,
+                      alarmas2: alarma2,
+                      mensajes: mensaje1,
+                      mensajeria: mensaje2,
+                      usuarios: usuario,
+                      passs: pass,
+                      fechaCreacions: fechaCreacion
+                    });
+                  }else {
+                    res.send(401, 'No se encontraron Alarmas');
+                  }
+                }, function (error) {
+                  res.send('Alarma no encontrado');
+                });
+              } else {
+                res.send(401, 'No se encontraron Alarmas');
+              }
+            }, function (error) {
+              res.send('Alarma no encontrado');
+            });
+            
+          }else {
+            res.send(401, 'No se encontraron Mensajes');
+          }
+        }, function (error) {
+          res.send('Mensaje no encontrado');
+        });
+      } else {
+        res.send(401, 'No se encontraron Mensajes');
+      }
+    }, function (error) {
+      res.send('Mensaje1 no encontrado');
+    });
+  }
 });
 /****************************************************************************/
 router.get('/reportes', function (req, res) {
@@ -405,59 +451,116 @@ router.get('/reportes', function (req, res) {
   if(!req.session.user){
     res.render('web/index/404.jade');               
   }
-  mensaje.retriveCount(function (mensaje1) { 
-    console.log('mensaje1', mensaje1);
-    if (mensaje1) {     
-      mensaje.retrieveAll(function (mensaje2) {
-        console.log('mensaje2', mensaje2);
-        if (mensaje2) {  
-          console.log(req.body);
+  var nivelUsuario = req.session.user.Nivel['nivel'];
+  console.log('soy nivelUsuario', nivelUsuario);
+  if(nivelUsuario =='admin'){
+    mensaje.retriveCount(function (mensaje1) { 
+      console.log('mensaje1', mensaje1);
+      if (mensaje1) {     
+        mensaje.retrieveAll(function (mensaje2) {
+          console.log('mensaje2', mensaje2);
+          if (mensaje2) {  
+            console.log(req.body);
 
-          alarma.retriveCount(function (alarma1) { 
-            console.log('alarma1', alarma1);
-            if (alarma1) {     
-              alarma.retrieveAll(function (alarma2) {
-                console.log('alarma2', alarma2);
-                if (alarma2) {  
-                  console.log(req.body);
-                  var usuario = req.session.user.usuario;
-                  var pass = req.session.user.pass;
-                  var fechaCreacion = req.session.user.fechaCreacion;
-                  
-                  res.render('web/index/reportes.jade',{
-                    alarmas1: alarma1,
-                    alarmas2: alarma2,
-                    mensajes: mensaje1,
-                    mensajeria: mensaje2,
-                    usuarios: usuario,
-                    passs: pass,
-                    fechaCreacions: fechaCreacion
-                  });
-                }else {
-                  res.send(401, 'No se encontraron Alarmas');
-                }
-              }, function (error) {
-                res.send('Alarma no encontrado');
-              });
-            } else {
-              res.send(401, 'No se encontraron Alarmas');
-            }
-          }, function (error) {
-            res.send('Alarma no encontrado');
-          });
-          
-        }else {
-          res.send(401, 'No se encontraron Mensajes');
-        }
-      }, function (error) {
-        res.send('Mensaje no encontrado');
-      });
-    } else {
-      res.send(401, 'No se encontraron Mensajes');
-    }
-  }, function (error) {
-    res.send('Mensaje1 no encontrado');
-  });
+            alarma.retriveCount(function (alarma1) { 
+              console.log('alarma1', alarma1);
+              if (alarma1) {     
+                alarma.retrieveAll(function (alarma2) {
+                  console.log('alarma2', alarma2);
+                  if (alarma2) {  
+                    console.log(req.body);
+                    var usuario = req.session.user.usuario;
+                    var pass = req.session.user.pass;
+                    var fechaCreacion = req.session.user.fechaCreacion;
+                    console.log('soy nivelUsuario', nivelUsuario);
+                    res.render('web/index/reportes.jade',{
+                      alarmas1: alarma1,
+                      alarmas2: alarma2,
+                      mensajes: mensaje1,
+                      mensajeria: mensaje2,
+                      usuarios: usuario,
+                      passs: pass,
+                      fechaCreacions: fechaCreacion
+                    });
+                  }else {
+                    res.send(401, 'No se encontraron Alarmas');
+                  }
+                }, function (error) {
+                  res.send('Alarma no encontrado');
+                });
+              } else {
+                res.send(401, 'No se encontraron Alarmas');
+              }
+            }, function (error) {
+              res.send('Alarma no encontrado');
+            });
+            
+          }else {
+            res.send(401, 'No se encontraron Mensajes');
+          }
+        }, function (error) {
+          res.send('Mensaje no encontrado');
+        });
+      } else {
+        res.send(401, 'No se encontraron Mensajes');
+      }
+    }, function (error) {
+      res.send('Mensaje1 no encontrado');
+    });
+  }else{
+    mensaje.retriveCount(function (mensaje1) { 
+      console.log('mensaje1', mensaje1);
+      if (mensaje1) {     
+        mensaje.retrieveAll(function (mensaje2) {
+          console.log('mensaje2', mensaje2);
+          if (mensaje2) {  
+            console.log(req.body);
+
+            alarma.retriveCount(function (alarma1) { 
+              console.log('alarma1', alarma1);
+              if (alarma1) {     
+                alarma.retrieveAll(function (alarma2) {
+                  console.log('alarma2', alarma2);
+                  if (alarma2) {  
+                    console.log(req.body);
+                    var usuario = req.session.user.usuario;
+                    var pass = req.session.user.pass;
+                    var fechaCreacion = req.session.user.fechaCreacion;
+                    res.render('web/index/errores.jade',{
+                      alarmas1: alarma1,
+                      alarmas2: alarma2,
+                      mensajes: mensaje1,
+                      mensajeria: mensaje2,
+                      usuarios: usuario,
+                      passs: pass,
+                      fechaCreacions: fechaCreacion
+                    });
+                  }else {
+                    res.send(401, 'No se encontraron Alarmas');
+                  }
+                }, function (error) {
+                  res.send('Alarma no encontrado');
+                });
+              } else {
+                res.send(401, 'No se encontraron Alarmas');
+              }
+            }, function (error) {
+              res.send('Alarma no encontrado');
+            });
+            
+          }else {
+            res.send(401, 'No se encontraron Mensajes');
+          }
+        }, function (error) {
+          res.send('Mensaje no encontrado');
+        });
+      } else {
+        res.send(401, 'No se encontraron Mensajes');
+      }
+    }, function (error) {
+      res.send('Mensaje1 no encontrado');
+    });
+  }
 });
 /*ruta para redireccionar al comedero donde al renderizar la pagina le paso la 
 variable enviar a una variable de la vista llamada horas
@@ -502,9 +605,11 @@ router.get('/principal', function (req, res) {
   var ventas = Model.FacturaVenta.build();
   //************************************
   var alarma = Model.Alarma.build();
-  if(!req.session.user){
-    res.render('web/index/404.jade');               
-  }
+  if(!req.session.user){     
+    console.log('dentro');                  
+    res.render('web/index/404.jade');
+  } 
+           
   leerCantidadMinima();
   leerHerramienta();
 
@@ -599,7 +704,7 @@ router.get('/principal', function (req, res) {
                                                                                                                         console.log('alarma2', alarma2);
                                                                                                                         if (alarma2) {  
                                                                                                                           console.log(req.body);
-                                                                                                                          console.log(req.session.user.usuario);
+                                                                                                                          console.log(req.session.user);
                                                                                                                           var usuario = req.session.user.usuario;
                                                                                                                           var pass = req.session.user.pass;
                                                                                                                           var fechaCreacion = req.session.user.fechaCreacion;

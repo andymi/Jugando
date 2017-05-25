@@ -19,64 +19,121 @@ exports.getForm = function (req, res) {
   if(!req.session.user){
     res.render('web/index/404.jade');             
   }
-  mensaje.retriveCount(function (mensaje1) { 
-    console.log('mensaje1', mensaje1);
-    if (mensaje1) {     
-      mensaje.retrieveAll(function (mensaje2) {
-        console.log('mensaje2', mensaje2);
-        if (mensaje2) { 
-          cliente.retrieveAll(function (clienteQ) {
-            console.log('clienteQ',clienteQ);
-            if (clienteQ) {
-              alarma.retriveCount(function (alarma1) { 
-                console.log('alarma1', alarma1);
-                if (alarma1) {     
-                  alarma.retrieveAll(function (alarma2) {
-                    console.log('alarma2', alarma2);
-                    if (alarma2) {  
-                      console.log(req.body);
-                      var usuario = req.session.user.usuario;
-                      var pass = req.session.user.pass;
-                      var fechaCreacion = req.session.user.fechaCreacion;
-                      res.render('web/facturaVenta/index', {
-                        facturaVentaJ: facturaVenta,
-                        selectJ: clienteQ,
-                        mensajes: mensaje1,
-                        alarmas1: alarma1,
-                        alarmas2: alarma2,
-                        mensajeria: mensaje2,
-                        usuarios: usuario,
-                        passs: pass,
-                        fechaCreacions: fechaCreacion
-                      });
-                    }else {
-                      res.send(401, 'No se encontraron Alarmas');
-                    }
-                  }, function (error) {
-                    res.send('Alarma no encontrado');
-                  });
-                } else {
-                  res.send(401, 'No se encontraron Alarmas');
-                }
-              }, function (error) {
-                res.send('Alarma no encontrado');
-              });              
-            }
-          },function (error) {
-            res.send('Factura Venta no encontrado');
-          }); 
-        }else {
-          res.send(401, 'No se encontraron Mensajes');
-        }
-      }, function (error) {
-        res.send('Mensaje no encontrado');
-      });
-    } else {
-      res.send(401, 'No se encontraron Mensajes');
-    }
-  }, function (error) {
-    res.send('Mensaje no encontrado');
-  });   
+  var nivelUsuario = req.session.user.Nivel['nivel'];
+  console.log('soy nivelUsuario', nivelUsuario);
+  if(nivelUsuario =='admin'){
+    mensaje.retriveCount(function (mensaje1) { 
+      console.log('mensaje1', mensaje1);
+      if (mensaje1) {     
+        mensaje.retrieveAll(function (mensaje2) {
+          console.log('mensaje2', mensaje2);
+          if (mensaje2) { 
+            cliente.retrieveAll(function (clienteQ) {
+              console.log('clienteQ',clienteQ);
+              if (clienteQ) {
+                alarma.retriveCount(function (alarma1) { 
+                  console.log('alarma1', alarma1);
+                  if (alarma1) {     
+                    alarma.retrieveAll(function (alarma2) {
+                      console.log('alarma2', alarma2);
+                      if (alarma2) {  
+                        console.log(req.body);
+                        var usuario = req.session.user.usuario;
+                        var pass = req.session.user.pass;
+                        var fechaCreacion = req.session.user.fechaCreacion;
+                        res.render('web/facturaVenta/index', {
+                          facturaVentaJ: facturaVenta,
+                          selectJ: clienteQ,
+                          mensajes: mensaje1,
+                          alarmas1: alarma1,
+                          alarmas2: alarma2,
+                          mensajeria: mensaje2,
+                          usuarios: usuario,
+                          passs: pass,
+                          fechaCreacions: fechaCreacion
+                        });
+                      }else {
+                        res.send(401, 'No se encontraron Alarmas');
+                      }
+                    }, function (error) {
+                      res.send('Alarma no encontrado');
+                    });
+                  } else {
+                    res.send(401, 'No se encontraron Alarmas');
+                  }
+                }, function (error) {
+                  res.send('Alarma no encontrado');
+                });              
+              }
+            },function (error) {
+              res.send('Factura Venta no encontrado');
+            }); 
+          }else {
+            res.send(401, 'No se encontraron Mensajes');
+          }
+        }, function (error) {
+          res.send('Mensaje no encontrado');
+        });
+      } else {
+        res.send(401, 'No se encontraron Mensajes');
+      }
+    }, function (error) {
+      res.send('Mensaje no encontrado');
+    }); 
+  }else{
+    mensaje.retriveCount(function (mensaje1) { 
+      console.log('mensaje1', mensaje1);
+      if (mensaje1) {     
+        mensaje.retrieveAll(function (mensaje2) {
+          console.log('mensaje2', mensaje2);
+          if (mensaje2) {  
+            console.log(req.body);
+
+            alarma.retriveCount(function (alarma1) { 
+              console.log('alarma1', alarma1);
+              if (alarma1) {     
+                alarma.retrieveAll(function (alarma2) {
+                  console.log('alarma2', alarma2);
+                  if (alarma2) {  
+                    console.log(req.body);
+                    var usuario = req.session.user.usuario;
+                    var pass = req.session.user.pass;
+                    var fechaCreacion = req.session.user.fechaCreacion;
+                    res.render('web/index/errores.jade',{
+                      alarmas1: alarma1,
+                      alarmas2: alarma2,
+                      mensajes: mensaje1,
+                      mensajeria: mensaje2,
+                      usuarios: usuario,
+                      passs: pass,
+                      fechaCreacions: fechaCreacion
+                    });
+                  }else {
+                    res.send(401, 'No se encontraron Alarmas');
+                  }
+                }, function (error) {
+                  res.send('Alarma no encontrado');
+                });
+              } else {
+                res.send(401, 'No se encontraron Alarmas');
+              }
+            }, function (error) {
+              res.send('Alarma no encontrado');
+            });
+            
+          }else {
+            res.send(401, 'No se encontraron Mensajes');
+          }
+        }, function (error) {
+          res.send('Mensaje no encontrado');
+        });
+      } else {
+        res.send(401, 'No se encontraron Mensajes');
+      }
+    }, function (error) {
+      res.send('Mensaje1 no encontrado');
+    });
+  }
 };
 // POST /facturaVenta
 exports.create = function (req, res) {
@@ -119,65 +176,122 @@ exports.listPag = function (req, res) {
   if(!req.session.user){
     res.render('web/index/404.jade');              
   }
-  mensaje.retriveCount(function (mensaje1) { 
-    console.log('mensaje1', mensaje1);
-    if (mensaje1) {     
-      mensaje.retrieveAll(function (mensaje2) {
-        console.log('mensaje2', mensaje2);
-        if (mensaje2) {  
-          facturaVenta.retrieveAll(function (facturaVenta) {
-            if (facturaVenta) {
-              alarma.retriveCount(function (alarma1) { 
-                console.log('alarma1', alarma1);
-                if (alarma1) {     
-                  alarma.retrieveAll(function (alarma2) {
-                    console.log('alarma2', alarma2);
-                    if (alarma2) {  
-                      console.log(req.body); 
-                      var usuario = req.session.user.usuario;
-                      var pass = req.session.user.pass;
-                      var fechaCreacion = req.session.user.fechaCreacion;                       
-                      res.render('web/facturaVenta/success', { 
-                        facturaVenta: facturaVenta,
-                        mensajes: mensaje1,
-                        alarmas1: alarma1,
-                        alarmas2: alarma2,
-                        mensajeria: mensaje2,
-                        usuarios: usuario,
-                        passs: pass,
-                        fechaCreacions: fechaCreacion
-                      });
-                    }else {
-                      res.send(401, 'No se encontraron Alarmas');
-                    }
-                  }, function (error) {
-                    res.send('Alarma no encontrado');
-                  });
-                } else {
-                  res.send(401, 'No se encontraron Alarmas');
-                }
-              }, function (error) {
-                res.send('Alarma no encontrado');
-              });              
-              console.log('soy facturaVenta retrieveAll',facturaVenta);
-            } else {
-              res.send(401, 'No se encontraron Pesajes');
-            }
-          }, function (error) {
-            res.send('FacturaVenta no encontrado');
-          });
-        }else {
-          res.send(401, 'No se encontraron Mensajes');
-        }
-      }, function (error) {
-        res.send('Mensaje no encontrado');
-      });
-    } else {
-      res.send(401, 'No se encontraron Mensajes');
-    }
-  }, function (error) {
-    res.send('Mensaje no encontrado');
-  });
+  var nivelUsuario = req.session.user.Nivel['nivel'];
+  console.log('soy nivelUsuario', nivelUsuario);
+  if(nivelUsuario =='admin'){
+    mensaje.retriveCount(function (mensaje1) { 
+      console.log('mensaje1', mensaje1);
+      if (mensaje1) {     
+        mensaje.retrieveAll(function (mensaje2) {
+          console.log('mensaje2', mensaje2);
+          if (mensaje2) {  
+            facturaVenta.retrieveAll(function (facturaVenta) {
+              if (facturaVenta) {
+                alarma.retriveCount(function (alarma1) { 
+                  console.log('alarma1', alarma1);
+                  if (alarma1) {     
+                    alarma.retrieveAll(function (alarma2) {
+                      console.log('alarma2', alarma2);
+                      if (alarma2) {  
+                        console.log(req.body); 
+                        var usuario = req.session.user.usuario;
+                        var pass = req.session.user.pass;
+                        var fechaCreacion = req.session.user.fechaCreacion;                       
+                        res.render('web/facturaVenta/success', { 
+                          facturaVenta: facturaVenta,
+                          mensajes: mensaje1,
+                          alarmas1: alarma1,
+                          alarmas2: alarma2,
+                          mensajeria: mensaje2,
+                          usuarios: usuario,
+                          passs: pass,
+                          fechaCreacions: fechaCreacion
+                        });
+                      }else {
+                        res.send(401, 'No se encontraron Alarmas');
+                      }
+                    }, function (error) {
+                      res.send('Alarma no encontrado');
+                    });
+                  } else {
+                    res.send(401, 'No se encontraron Alarmas');
+                  }
+                }, function (error) {
+                  res.send('Alarma no encontrado');
+                });              
+                console.log('soy facturaVenta retrieveAll',facturaVenta);
+              } else {
+                res.send(401, 'No se encontraron Pesajes');
+              }
+            }, function (error) {
+              res.send('FacturaVenta no encontrado');
+            });
+          }else {
+            res.send(401, 'No se encontraron Mensajes');
+          }
+        }, function (error) {
+          res.send('Mensaje no encontrado');
+        });
+      } else {
+        res.send(401, 'No se encontraron Mensajes');
+      }
+    }, function (error) {
+      res.send('Mensaje no encontrado');
+    });
+  }else{
+    mensaje.retriveCount(function (mensaje1) { 
+      console.log('mensaje1', mensaje1);
+      if (mensaje1) {     
+        mensaje.retrieveAll(function (mensaje2) {
+          console.log('mensaje2', mensaje2);
+          if (mensaje2) {  
+            console.log(req.body);
+
+            alarma.retriveCount(function (alarma1) { 
+              console.log('alarma1', alarma1);
+              if (alarma1) {     
+                alarma.retrieveAll(function (alarma2) {
+                  console.log('alarma2', alarma2);
+                  if (alarma2) {  
+                    console.log(req.body);
+                    var usuario = req.session.user.usuario;
+                    var pass = req.session.user.pass;
+                    var fechaCreacion = req.session.user.fechaCreacion;
+                    res.render('web/index/errores.jade',{
+                      alarmas1: alarma1,
+                      alarmas2: alarma2,
+                      mensajes: mensaje1,
+                      mensajeria: mensaje2,
+                      usuarios: usuario,
+                      passs: pass,
+                      fechaCreacions: fechaCreacion
+                    });
+                  }else {
+                    res.send(401, 'No se encontraron Alarmas');
+                  }
+                }, function (error) {
+                  res.send('Alarma no encontrado');
+                });
+              } else {
+                res.send(401, 'No se encontraron Alarmas');
+              }
+            }, function (error) {
+              res.send('Alarma no encontrado');
+            });
+            
+          }else {
+            res.send(401, 'No se encontraron Mensajes');
+          }
+        }, function (error) {
+          res.send('Mensaje no encontrado');
+        });
+      } else {
+        res.send(401, 'No se encontraron Mensajes');
+      }
+    }, function (error) {
+      res.send('Mensaje1 no encontrado');
+    });
+  }
 };
 
 /* Rutas que terminan en /facturaVenta/:facturaVentaId

@@ -391,7 +391,7 @@ RoutesWEB.get('/stock/', stock.listPag);
 RoutesWEB.get('/stock/animal', stock.listPag2);
 //RoutesWEB.get('/signout', login.signOut);
 // 404 not found
-//RoutesWEB.use(login.notFound404);
+
 /*************************************************/
 
 module.exports = RoutesWEB;

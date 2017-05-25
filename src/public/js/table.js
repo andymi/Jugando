@@ -9,6 +9,7 @@ $(function () {
       "autoWidth": false
     });
   });
+
 function descargarExcel(){
         //Creamos un Elemento Temporal en forma de enlace
         var tmpElemento = document.createElement('a');
