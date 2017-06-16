@@ -76,6 +76,11 @@ module.exports = function (sequelize, DataTypes) {
             where: { rpAnimal: rp } }, { raw: true })
           .then(onSuccess).catch(onError);
         },
+        retrieveByTag: function (tag, onSuccess, onError) {
+          Animal.find( {
+            where: { numeroTag: tag } }, { raw: true })
+          .then(onSuccess).catch(onError);
+        },
         add: function (onSuccess, onError) {
           var pesoInicial = this.pesoInicial;
           var rpAnimal = this.rpAnimal;

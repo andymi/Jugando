@@ -5,6 +5,68 @@
 // Importar rutas
 // =============================================================================
 var Model = require('../../models/jugando.js');
+/******************************************************************
+var idlector = "";
+var valor ="";
+var SerialPort = require('serialport');
+var serialport = new SerialPort("/COM12", {
+  baudRate: 115200
+});
+var buffer3 = new Buffer(6);
+buffer3[0] = 0xA0;   
+buffer3[1] = 0x04;  
+buffer3[2] = 0x01;  
+buffer3[3] = 0x89;   
+buffer3[4] = 0x01;
+buffer3[5] = 0xD1;
+
+serialport.on('data', function(data) {
+  var buff = new Buffer(data, 'utf8');   
+  var imprimir = buff.toString('hex');
+  var cmd = imprimir.charAt(3);
+  var enviar = imprimir.slice(14,-4); 
+  if(cmd == 3){
+    console.log('este es cmd********', cmd);
+    idlector = enviar.trim();
+    console.log('soy id del lector',idlector);
+    var animal = Model.Animal.build();
+    console.log('estoy adentro y tengo el id:',idlector);
+    animal.retrieveByTag(idlector, function (animales) {
+      if (animales) {
+        console.log(animales);          
+        valor = animales.idAnimal;
+        console.log('soy animalid--------',valor);
+      }else{
+        console.log("error");
+        serialport.write(buffer3); 
+      }
+    });
+  }else{
+    serialport.write(buffer3); 
+  }
+});
+serialport.on('error', function(err) {
+  console.log('Error: ', err.message);
+  serialport.write(buffer3); 
+});
+/*************configuración para la prueba del pesaje***********
+var SerialPort = require('serialport');
+var parsers = require('serialport').parsers;
+var port = new SerialPort("/COM12", {
+  baudRate: 9600,
+  parser: parsers.readline('\r\n')
+});
+function leerPeso(){
+  port.on('data', function(data) {
+    var imprimir = data.toString();
+    var valorPeso = imprimir.substring(9); 
+    var pesoP = "";
+    console.log('valor**************', valorPeso);   
+  });
+}
+port.on('error', function(err) {
+  console.log('Error: ', err.message);
+});
 
 /* Rutas que terminan en /detallePesaje
 // router.route('/detallePesaje') */
@@ -95,9 +157,10 @@ exports.getForm1 = function (req, res) {
 exports.create1 = function (req, res) {
   console.log(req.body);
   // bodyParser debe hacer la magia
-  var peso = req.body.peso;
+  leerPeso();
+  var peso = 286;
   var observacion = req.body.observacion;  
-  var AnimalIdAnimal = req.body.selectJ;
+  var AnimalIdAnimal = 15;
   var PesajeIdPesaje = req.body.id;
 
   var index = Model.DetallePesaje.build({

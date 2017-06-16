@@ -27,6 +27,7 @@ block content
                     tr(class="success")
                       th(class=" text-center") RP del Animal
                       th(class=" text-center") Cantidad
+                      th(class=" text-center") Sobra
                       th(class=" text-center") Observación
                       th(class="cell-stat text-center") Editar Registro
                       th(class="cell-stat text-center") Eliminar Registro
@@ -34,11 +35,9 @@ block content
                   tbody
                     for detalleConsumo in detalleConsumos
                       tr
-                        if detalleConsumo.Animal == null  
-                          td(class="text-center") sin Animal
-                        else 
-                          td(class="text-center")=detalleConsumo.Animal.rpAnimal  
-                        td(class="text-center")=detalleConsumo.cantidad       
+                        td(class="text-center")=detalleConsumo.AnimalIdAnimal  
+                        td(class="text-center")=detalleConsumo.cantidad
+                        td(class="text-center")=detalleConsumo.sobra      
                         td(class="text-center")=detalleConsumo.observacion             
                         td(class="text-center")
                           a(href="/web/detalleConsumo/editar/#{detalleConsumo.idDetalleConsumo}" class="btn btn-success" role="button")

@@ -28,6 +28,14 @@ module.exports = function (sequelize, DataTypes) {
         validate: {
           notEmpty: true
         }
+      },
+      sobra: {
+        type: DataTypes.STRING(50),
+        comment: 'sobra',
+        defaultValue: '0',
+        validate: {
+          notEmpty: true
+        }
       }
     },
     {
@@ -97,10 +105,21 @@ module.exports = function (sequelize, DataTypes) {
           var idDetalleConsumo = this.idDetalleConsumo;          
           var cantidad = this.cantidad;
           var observacion = this.observacion;
+          var sobra = this.sobra;
           var AnimalIdAnimal = this.AnimalIdAnimal;
           
           DetalleConsumo.update( { 
-            cantidad: cantidad, observacion: observacion, AnimalIdAnimal: AnimalIdAnimal
+            cantidad: cantidad, observacion: observacion, sobra: sobra, AnimalIdAnimal: AnimalIdAnimal
+          },{ where: { idDetalleConsumo: detalleConsumoId } })
+          .then(onSuccess).catch(onError);
+        },
+        updateById2: function (detalleConsumoId,sobra, onSuccess, onError) {
+          console.log('soy la sobraaaaa',sobra);
+          var idDetalleConsumo = this.idDetalleConsumo;          
+          var sobra = sobra;
+          
+          DetalleConsumo.update( { 
+            sobra: sobra
           },{ where: { idDetalleConsumo: detalleConsumoId } })
           .then(onSuccess).catch(onError);
         },

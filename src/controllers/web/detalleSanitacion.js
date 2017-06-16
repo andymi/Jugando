@@ -4,11 +4,11 @@
 // Importar rutas
 // =============================================================================
 var Model = require('../../models/jugando.js');
-
+/******************************************************************
 var idlector = "";
 var valor ="";
 var SerialPort = require('serialport');
-var serialport = new SerialPort("/COM13", {
+var serialport = new SerialPort("/COM12", {
   baudRate: 115200
 });
 var buffer3 = new Buffer(6);
@@ -37,6 +37,7 @@ serialport.on('data', function(data) {
         console.log('soy animalid--------',valor);
       }else{
         console.log("error");
+        serialport.write(buffer3); 
       }
     });
   }
@@ -78,7 +79,7 @@ exports.getForm1 =  function (req, res) {
                   console.log(req.body);
                   sanitacion.retrieveId(function (sanitacion) {
                       if (sanitacion) {
-                        serialport.write(buffer3);  
+                        serialport.write(buffer3); 
                         console.log('soy sanitacion retrieveId',sanitacion);
                         var usuario = req.session.user.usuario;
                         var pass = req.session.user.pass;
@@ -132,7 +133,7 @@ exports.getForm1 =  function (req, res) {
 // POST /detalleSanitacion
 exports.create1 = function (req, res) {
   var observacionSanitacion = req.body.observacionSanitacion; 
-  var AnimalIdAnimal = valor;
+  var AnimalIdAnimal = 15;
   var SanitacionIdSanitacion = req.body.id;
   console.log('soy AnimalIdAnimal--------',AnimalIdAnimal);
   

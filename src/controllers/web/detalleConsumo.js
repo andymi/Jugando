@@ -148,20 +148,20 @@ exports.listPag1 = function (req, res) {
     res.render('web/index/404.jade');              
   }
   mensaje.retriveCount(function (mensaje1) { 
-    console.log('mensaje1', mensaje1);
+    //console.log('mensaje1', mensaje1);
     if (mensaje1) {     
       mensaje.retrieveAll(function (mensaje2) {
-        console.log('mensaje2', mensaje2);
+        //console.log('mensaje2', mensaje2);
         if (mensaje2) { 
           detalleConsumo.retrieveAll(req.params.id, function (detalleConsumos) {
             if (detalleConsumos) {
               alarma.retriveCount(function (alarma1) { 
-                console.log('alarma1', alarma1);
+                //console.log('alarma1', alarma1);
                 if (alarma1) {     
                   alarma.retrieveAll(function (alarma2) {
-                    console.log('alarma2', alarma2);
+                    //console.log('alarma2', alarma2);
                     if (alarma2) {  
-                      console.log(req.body);
+                      console.log(detalleConsumos);
                       var usuario = req.session.user.usuario;
                       var pass = req.session.user.pass;
                       var fechaCreacion = req.session.user.fechaCreacion;
@@ -327,6 +327,7 @@ exports.update = function (req, res) {
   var detalleConsumo = Model.DetalleConsumo.build();
   detalleConsumo.cantidad = req.body.cantidad;
   detalleConsumo.observacion = req.body.observacion;
+  detalleConsumo.sobra = req.body.sobra;
   detalleConsumo.AnimalIdAnimal = req.body.animalSele;
   
   
